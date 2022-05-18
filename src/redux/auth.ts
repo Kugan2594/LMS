@@ -3,17 +3,17 @@ import { RootState } from "./store";
 // import type { RootState } from '../../app/store'
 
 // Define a type for the slice state
-interface CounterState {
+interface authState {
   isLoggedIn: boolean;
 }
 
 // Define the initial state using that type
-const initialState: CounterState = {
-  isLoggedIn: false,
+const initialState: authState = {
+  isLoggedIn: true,
 };
 
 export const counterSlice = createSlice({
-  name: "counter",
+  name: "auth",
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
@@ -30,6 +30,6 @@ export const counterSlice = createSlice({
 export const { logIn, logOut } = counterSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectCount = (state: RootState) => state.counter.value;
+export const selectCount = (state: RootState) => state.auth.isLoggedIn;
 
 export default counterSlice.reducer;
