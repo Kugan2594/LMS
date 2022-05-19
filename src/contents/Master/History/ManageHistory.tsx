@@ -1,10 +1,9 @@
-import { Card, CardContent, Container, Divider } from "@mui/material";
+import { Card, CardContent, Container, Divider, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import Tables from "src/components/atoms/Tables";
 import { Column } from "src/components/atoms/Tables/TableInterface";
-import { minWidth } from "@mui/system";
 import Modals from "src/components/atoms/Modals";
 import ViewHistory from "./ViewHistory";
 
@@ -66,7 +65,8 @@ function ManageHistory() {
 
   const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (value) => {
+    console.log(value);
     setOpen(true);
   };
 
@@ -117,6 +117,14 @@ function ManageHistory() {
       label: "Status",
       minWidth: 80,
     },
+    {
+      id: "action",
+      label: "Action",
+      minWidth: 40,
+      render: (value: any) => (
+        <Typography variant="inherit" onClick={()=>handleClickOpen(value)} color="blue" style={{cursor: "pointer"}} >Detail</Typography>
+        ),
+    }
   ];
   
   const [searchFields, setsearchFields] = useState({ name: "" });
@@ -134,8 +142,7 @@ function ManageHistory() {
           heading="History"
           name="Approval Status"
           subHeading="Master/History"
-          isButton={true}
-          onclickButton={handleClickOpen}
+          isButton={false}
         />
       </PageTitleWrapper>
       <Divider />
@@ -153,7 +160,7 @@ function ManageHistory() {
               pageSize={pagination.pageSize}
               searchFields={{}}
               onTableSearch={onTableSearch}
-            />
+          />
           </CardContent>
         </Card>
         <Modals

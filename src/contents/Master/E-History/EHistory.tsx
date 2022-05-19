@@ -1,10 +1,9 @@
-import { Card, CardContent, Container, Divider } from "@mui/material";
+import { Card, CardContent, Container, Divider, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import Tables from "src/components/atoms/Tables";
 import { Column } from "src/components/atoms/Tables/TableInterface";
-import { minWidth } from "@mui/system";
 
 let sampleData: any = [
   {
@@ -95,6 +94,14 @@ function EHistory() {
       label: "Status",
       minWidth: 80,
     },
+    {
+      id: "action",
+      label: "Action",
+      minWidth: 40,
+      render: (value: any) => (
+        <Typography variant="inherit" onClick={handleClickOpen} color="blue" style={{cursor: "pointer"}} >Detail</Typography>
+        ),
+    }
   ];
   
   const [searchFields, setsearchFields] = useState({ name: "" });
