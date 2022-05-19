@@ -29,10 +29,8 @@ import { Box } from "@mui/system";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import Checkbox from "../controlls/Checkbox";
 import Select from "../controlls/Select";
-// import Checkbox from "../controls/Checkbox";
-// import Select from "../controls/Select";
+import Checkbox from "../controlls/Checkbox";
 
 const useStyles: Function = makeStyles({
   table: {
@@ -82,7 +80,7 @@ const CusTableRow = styled(TableRow)(
 
 //   return searchObj;
 // }
-function Tables(props: any) {
+function Tables(props) {
   const classes = useStyles();
   const {
     columns,
@@ -103,8 +101,8 @@ function Tables(props: any) {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [dataSource, setdataSource] = React.useState([]);
 
-  const [isOpen, setisOpen] = React.useState<any>();
-  const [anchor, setAnchor] = React.useState<any>();
+  const [isOpen, setisOpen] = React.useState({});
+  const [anchor, setAnchor] = React.useState({});
   const [initSearchValues] = React.useState({ ...searchFields });
   const [searchValues, setsearchValues] = React.useState({
     ...searchFields,
@@ -135,7 +133,7 @@ function Tables(props: any) {
     setPage(0);
   };
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>, id: any) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>, id) => {
     setAnchor({
       [id]: event.currentTarget,
     });
@@ -147,7 +145,7 @@ function Tables(props: any) {
       ),
     });
   };
-  const handleClickSort = (id: any, sortDirction: any) => {
+  const handleClickSort = (id, sortDirction) => {
     setsortColumnId(id);
     setsortField({
       sortField: id,
@@ -165,7 +163,7 @@ function Tables(props: any) {
     // sortDirction === 'DESC' ? setsortStatus(false) : setsortStatus(true);
   };
 
-  const handleClose = (id: any) => {
+  const handleClose = (id) => {
     setAnchor({
       [id]: null,
     });
@@ -173,11 +171,11 @@ function Tables(props: any) {
       [id]: false,
     });
   };
-  const onChangePopover = (e: any) => {
+  const onChangePopover = (e) => {
     console.log(e);
     const { value, name } = e.target;
     console.log("search===>", value);
-    let serachData: any = searchFields;
+    let serachData: Object = searchFields;
     serachData[name] = value;
     setsearchValues({
       ...searchValues,
@@ -187,8 +185,8 @@ function Tables(props: any) {
     getTableSearchStatus(serachData);
   };
 
-  const onCloseField = (id: any) => {
-    let updateValue: any = searchValues;
+  const onCloseField = (id) => {
+    let updateValue: Object = searchValues;
     updateValue[id] = "";
     setsearchValues({
       ...searchValues,
@@ -198,8 +196,8 @@ function Tables(props: any) {
     getTableSearchStatus(updateValue);
     handleClose(id);
   };
-  const onClearField = (id: any) => {
-    let updateValue: any = searchValues;
+  const onClearField = (id) => {
+    let updateValue: Object = searchValues;
     updateValue[id] = "";
     setsearchValues({
       ...searchValues,
@@ -210,14 +208,14 @@ function Tables(props: any) {
     // handleClose(id);
   };
 
-  const getColumnSearchStatus = (id: any) => {
+  const getColumnSearchStatus = (id) => {
     let columnValue: string = searchValues[id];
 
     let searchStatus: boolean = columnValue !== "" ? true : false;
     return searchStatus;
   };
 
-  const getTableSearchStatus = (values: any) => {
+  const getTableSearchStatus = (values) => {
     let status: boolean = !isEqual(initSearchValues, values);
     setsearchStatus(status);
   };
@@ -254,7 +252,7 @@ function Tables(props: any) {
           <TableHead>
             <TableRow></TableRow>
             <TableRow>
-              {columns.map((column: any, index: any) => {
+              {columns.map((column, index) => {
                 return (
                   <TableCell
                     key={column.id}
@@ -400,7 +398,7 @@ function Tables(props: any) {
                                 name={column.id}
                                 label={column.label}
                                 value={searchValues[column.id]}
-                                onChange={(e: any) => onChangePopover(e)}
+                                onChange={(e) => onChangePopover(e)}
                               />
                             ) : column.searchFieldType === "select" ? (
                               <Select
@@ -408,9 +406,7 @@ function Tables(props: any) {
                                 name={column.id}
                                 label={column.label}
                                 value={searchValues[column.id]}
-                                onChange={(value: any) =>
-                                  onChangePopover(value)
-                                }
+                                onChange={(value) => onChangePopover(value)}
                                 options={column.selectOption}
                                 // error={errors.gender}
                               />
@@ -502,10 +498,10 @@ function Tables(props: any) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {dataSource.map((row: any) => {
+            {dataSource.map((row) => {
               return (
                 <CusTableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                  {columns.map((column: any, index: any) => {
+                  {columns.map((column, index) => {
                     const value = row[column.id];
                     return (
                       <TableCell
