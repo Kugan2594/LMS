@@ -1,7 +1,7 @@
 import { Suspense, lazy } from "react";
 import { PartialRouteObject } from "react-router";
 import ManageEmployee from "src/contents/Master/Employee/ManageEmployee";
-import ManageType from "src/contents/Master/LeaveType/ManageType";
+import ManageLeaveType from "src/contents/Master/LeaveType/ManageLeaveType";
 
 import SuspenseLoader from "../components/molecules/SuspenseLoader";
 import Dashboard from "../contents/Dashboard";
@@ -34,7 +34,7 @@ const PrivateRoute: PartialRouteObject[] = [
       },
       {
         path: "/leavetype",
-        element: <ManageType />,
+        element: <ManageLeaveType />,
       },
     ],
   },
