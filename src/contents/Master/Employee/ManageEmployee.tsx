@@ -25,6 +25,19 @@ function createData(data) {
     return convertData;
 }
 
+let mockData = [
+    {
+        id: 0,
+        name: "Ajith",
+        address: "Jaffna",
+    },
+    {
+        id: 1,
+        name: "Codesan",
+        address: "Jaffna",
+    },
+];
+
 function ManageEmployee() {
     const [pagination, setpagination] = useState({
         pageNumber: 0,
