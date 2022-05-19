@@ -7,6 +7,19 @@ import PageTitle from "src/components/organism/PageTitle";
 import { Column } from "../../../components/atoms/Tables/TableInterface";
 import AddEmployee from "./AddEmployee";
 
+let mockData = [
+  {
+    id: 0,
+    name: "Ajith",
+    address: "Jaffna",
+  },
+  {
+    id: 1,
+    name: "Codesan",
+    address: "Jaffna",
+  },
+];
+
 function ManageEmployee() {
   const [pagination, setpagination] = useState({
     pageNumber: 0,
@@ -61,7 +74,7 @@ function ManageEmployee() {
           <CardContent>
             <Tables
               columns={columns}
-              tableData={[]}
+              tableData={mockData}
               onChangePage={onChangePage}
               pageNumber={pagination.pageNumber}
               total={pagination.total}

@@ -11,6 +11,7 @@ import { IEmployee } from "./Employee.interface";
 let initialFValues: IEmployee = {
   id: 0,
   name: "",
+  address: "",
 };
 
 function AddEmployee() {
@@ -23,6 +24,13 @@ function AddEmployee() {
           ? ""
           : `License name ${FORM_VALIDATION.space}`
         : FORM_VALIDATION.required;
+
+    setErrors({
+      ...temp,
+    });
+
+    if (fieldValues === values)
+      return Object.values(temp).every((x) => x === "");
   };
 
   const {
@@ -53,6 +61,13 @@ function AddEmployee() {
           value={values.name}
           onChange={handleInputChange}
           error={errors.name}
+        />
+        <Input
+          name="address"
+          label="Address *"
+          value={values.address}
+          onChange={handleInputChange}
+          error={errors.address}
         />
 
         <Divider />
