@@ -33,6 +33,7 @@ export interface MenuItems {
 
 const masterMenuItems: MenuItem[] = [
   { name: "Employee", icon: GiRibbonMedal, link: "/master/employee" },
+  { name: "History", icon: GiRibbonMedal, link: "/master/history" }
 ];
 
 // if (!modulePermission(PERMISSION_NAME.role_permission).view) {

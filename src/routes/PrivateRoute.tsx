@@ -1,6 +1,7 @@
 import { Suspense, lazy } from "react";
 import { PartialRouteObject } from "react-router";
 import ManageEmployee from "src/contents/Master/Employee/ManageEmployee";
+import ManageHistory from "src/contents/Master/History/ManageHistory";
 
 import SuspenseLoader from "../components/molecules/SuspenseLoader";
 import Dashboard from "../contents/Dashboard";
@@ -31,6 +32,10 @@ const PrivateRoute: PartialRouteObject[] = [
         path: "/employee",
         element: <ManageEmployee />,
       },
+      {
+        path: "/history",
+        element: <ManageHistory />,
+      }
     ],
   },
 ];
