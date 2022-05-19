@@ -3,6 +3,7 @@ import { PartialRouteObject } from "react-router";
 import ManageEmployee from "src/contents/Master/Employee/ManageEmployee";
 import ManageHistory from "src/contents/Master/History/ManageHistory";
 import ManageType from "src/contents/Master/LeaveType/ManageType";
+import EHistory from "src/contents/Master/E-History/EHistory";
 
 import SuspenseLoader from "../components/molecules/SuspenseLoader";
 import Dashboard from "../contents/Dashboard";
@@ -40,6 +41,10 @@ const PrivateRoute: PartialRouteObject[] = [
       {
         path: "/leavetype",
         element: <ManageType />,
+      },
+      {
+        path: "/e-history",
+        element: <EHistory />,
       },
     ],
   },
