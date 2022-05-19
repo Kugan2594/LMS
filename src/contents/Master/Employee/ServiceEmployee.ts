@@ -2,15 +2,7 @@ import api from "src/services/AxiosService";
 
 const deleteEmployee = (id: number) => {
     return new Promise((resolve, reject) => {
-        api(
-            "delete",
-            "lm-web",
-            null,
-            "/leave-management/api/v1/employee",
-            "",
-            "",
-            id
-        )
+        api("delete", "lm-web", null, "/employee", "", "", id)
             .then((response: any) => {
                 resolve(response);
             })
@@ -26,7 +18,7 @@ const getAllEmployee = (pageNumber: number, pageSize: number) => {
             "get",
             "lm-web",
             null,
-            `/leave-management/api/v1/employeePagination?page=${pageNumber}&size=${pageSize}`,
+            `/employeePagination?page=${pageNumber}&size=${pageSize}`,
             "",
             "",
             ""
