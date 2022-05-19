@@ -1,86 +1,189 @@
 import { Card, CardContent, Container, Divider } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modals from "src/components/atoms/Modals";
 import Tables from "src/components/atoms/Tables";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import { Column } from "../../../components/atoms/Tables/TableInterface";
 import AddEmployee from "./AddEmployee";
+import { TableAction } from "src/components/atoms/Tables/TableAction";
+import { deleteEmployee, getAllEmployee } from "./ServiceEmployee";
+import { NOTIFICATION_TYPE } from "src/util/Notification";
+function createData(data) {
+    let convertData = data.map((post, index) => {
+        return {
+            id: post.id,
+            email: post.email,
+            firstName: post.firstName,
+            lastName: post.lastName,
+            address: post.address,
+            name: post.designation.name,
+            joinDate: post.joinDate,
+            location: post.companyLocation.location,
+        };
+    });
+    return convertData;
+}
 
 function ManageEmployee() {
-  const [pagination, setpagination] = useState({
-    pageNumber: 0,
-    pageSize: 10,
-    total: 0,
-  });
-  const [open, setOpen] = useState(false);
-  const [searchFields, setsearchFields] = useState({ name: "" });
-  const [sortField, setsortField] = React.useState({
-    sortField: "id",
-    direction: "DESC",
-  });
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+    const [pagination, setpagination] = useState({
+        pageNumber: 0,
+        pageSize: 10,
+        total: 0,
+    });
+    const [open, setOpen] = useState(false);
+    const [searchFields, setsearchFields] = useState({ name: "" });
+    const [sortField, setsortField] = React.useState({
+        sortField: "id",
+        direction: "DESC",
+    });
+    const [alert, setalert] = useState({
+        type: "",
+        mesg: "",
+    });
+    const [dataSource, setdataSource] = useState([]);
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const onChangePage = (pageNumber, pageSize) => {};
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const onChangePage = (pageNumber, pageSize) => {
+        if (pagination.pageSize !== pageSize) {
+            getAllEmployeeData(0, pageSize);
+        } else {
+            getAllEmployeeData(pageNumber, pageSize);
+        }
+    };
 
-  const onTableSearch = (values, sortField) => {};
-  const columns: Column[] = [
-    {
-      id: "name",
-      label: "Name",
-      minWidth: 180,
-    },
-    {
-      id: "address",
-      label: "Address",
-      minWidth: 180,
-    },
-  ];
+    useEffect(() => {
+        getAllEmployeeData(pagination.pageNumber, pagination.pageSize);
+    }, [pagination.pageNumber, pagination.pageSize]);
+    const getAllEmployeeData = (pageNumber, pageSize) => {
+        getAllEmployee(pageNumber, pageSize).then((res: any) => {
+            let data: [] = createData(res.results.Employee);
+            setpagination({
+                pageNumber: res.pagination.pageNumber,
+                pageSize: res.pagination.pageSize,
+                total: res.pagination.totalRecords,
+            });
+            setdataSource(data);
+        });
+    };
+    const deleteOnclick = (row) => {
+        deleteEmployee(row.id).then(
+            (res: any) => {
+                reloadTable(res);
+            },
+            (error) => {
+                console.log(error);
+                handleError(error);
+            }
+        );
+    };
 
-  return (
-    <div>
-      <PageTitleWrapper>
-        <PageTitle
-          heading="Employee"
-          name="Add Employee"
-          subHeading="Master/Employee"
-          isButton={true}
-          onclickButton={handleClickOpen}
-        />
-      </PageTitleWrapper>
-      <Divider />
-      <br />
+    const reloadTable = (res) => {
+        setalert({ type: NOTIFICATION_TYPE.success, mesg: res.message });
+        getAllEmployeeData(pagination.pageNumber, pagination.pageSize);
+    };
 
-      <Container maxWidth="lg">
-        <Card>
-          <CardContent>
-            <Tables
-              columns={columns}
-              tableData={[]}
-              onChangePage={onChangePage}
-              pageNumber={pagination.pageNumber}
-              total={pagination.total}
-              pageSize={pagination.pageSize}
-              searchFields={{}}
-              onTableSearch={onTableSearch}
-            />
-          </CardContent>
-        </Card>
-        <Modals
-          modalTitle="Add Employee"
-          modalWidth="25%"
-          open={open}
-          onClose={handleClose}
-          modalBody={<AddEmployee />}
-        />
-      </Container>
-    </div>
-  );
+    const handleError = (res) => {
+        setalert({
+            type: NOTIFICATION_TYPE.error,
+            mesg: res.status.validationFailures[0].message,
+        });
+    };
+
+    const onTableSearch = (values, sortField) => {};
+    const columns: Column[] = [
+        {
+            id: "firstName",
+            label: "FirstName",
+            minWidth: 120,
+        },
+        {
+            id: "lastName",
+            label: "LastName",
+            minWidth: 120,
+        },
+        {
+            id: "email",
+            label: "Email",
+            minWidth: 120,
+        },
+
+        {
+            id: "address",
+            label: "Address",
+            minWidth: 120,
+        },
+        {
+            id: "name",
+            label: "Designation",
+            minWidth: 120,
+        },
+        {
+            id: "joinDate",
+            label: "Appointed Date",
+            minWidth: 150,
+        },
+        {
+            id: "location",
+            label: "Office Location",
+            minWidth: 150,
+        },
+        {
+            id: "action",
+            label: "Action",
+            minWidth: 100,
+            fixed: "right",
+            align: "center",
+            render: (value: any) => (
+                <TableAction rowData={value} deleteOnclick={deleteOnclick} />
+            ),
+        },
+    ];
+
+    return (
+        <div>
+            <PageTitleWrapper>
+                <PageTitle
+                    heading="Employee"
+                    name="Add Employee"
+                    subHeading="Master/Employee"
+                    isButton={true}
+                    onclickButton={handleClickOpen}
+                />
+            </PageTitleWrapper>
+            <Divider />
+            <br />
+
+            <Container maxWidth="lg">
+                <Card>
+                    <CardContent>
+                        <Tables
+                            columns={columns}
+                            tableData={dataSource}
+                            onChangePage={onChangePage}
+                            pageNumber={pagination.pageNumber}
+                            total={pagination.total}
+                            pageSize={pagination.pageSize}
+                            searchFields={{}}
+                            onTableSearch={onTableSearch}
+                        />
+                    </CardContent>
+                </Card>
+                <Modals
+                    modalTitle="Add Employee"
+                    modalWidth="25%"
+                    open={open}
+                    onClose={handleClose}
+                    modalBody={<AddEmployee />}
+                />
+            </Container>
+        </div>
+    );
 }
 
 export default ManageEmployee;
