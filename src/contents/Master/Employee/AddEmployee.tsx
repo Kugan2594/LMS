@@ -1,13 +1,29 @@
+import { Divider, Grid } from "@mui/material";
 import React from "react";
+import Button from "src/components/atoms/controlls/Button";
+import Input from "src/components/atoms/controlls/Input";
 import { Form, useForm } from "src/components/atoms/Forms/useForm";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
+import { FORM_VALIDATION, spaceValidation } from "src/util/ValidationMeassage";
 import { IEmployee } from "./Employee.interface";
 
-let initialFValues: IEmployee = {};
+let initialFValues: IEmployee = {
+  id: 0,
+  name: "",
+};
 
 function AddEmployee() {
-  const validate = (fields = values) => {};
+  const validate = (fieldValues = values) => {
+    let temp: IEmployee = { ...errors };
+
+    if ("name" in fieldValues)
+      temp.name = fieldValues.name
+        ? spaceValidation.test(fieldValues.name)
+          ? ""
+          : `License name ${FORM_VALIDATION.space}`
+        : FORM_VALIDATION.required;
+  };
 
   const {
     values,
@@ -18,21 +34,46 @@ function AddEmployee() {
     resetForm,
   }: any = useForm(initialFValues, true, validate);
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("values", values);
+  };
 
   const onChangeFormValue = () => {};
-
+  const onReset = () => {
+    resetForm();
+  };
   const handleClickOpen = () => {};
   return (
     <div>
       <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
-        {/* <Input
-              name="name"
-              label="License Name *"
-              value={values.name}
-              onChange={handleInputChange}
-              error={errors.name}
-            /> */}
+        <Input
+          name="name"
+          label="Name *"
+          value={values.name}
+          onChange={handleInputChange}
+          error={errors.name}
+        />
+
+        <Divider />
+        <Grid
+          display="flex"
+          flexDirection="row"
+          justifyContent="flex-end"
+          container
+          style={{ padding: "8px" }}
+        >
+          <div>
+            <Button
+              size="small"
+              color="secondary"
+              text="Reset"
+              onClick={onReset}
+            />
+
+            <Button size="small" type="submit" text="Submit" />
+          </div>
+        </Grid>
       </Form>
     </div>
   );
