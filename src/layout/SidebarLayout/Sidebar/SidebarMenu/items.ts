@@ -32,10 +32,18 @@ export interface MenuItems {
 }
 
 const masterMenuItems: MenuItem[] = [
-  { name: "Employee", icon: GiRibbonMedal, link: "/master/employee" },
-  { name: "History", icon: GiRibbonMedal, link: "/master/history" },
-  { name: "E-History", icon: GiRibbonMedal, link: "/master/e-history" },
-  { name: "Type", icon: GiRibbonMedal, link: "/master/leavetype" },
+    { name: "Employee", icon: GiRibbonMedal, link: "/master/employee" },
+    { name: "Type", icon: GiRibbonMedal, link: "/master/leavetype" },
+    { name: "LeaveRequest", icon: GiRibbonMedal, link: "/master/leaveRequest" },
+    {
+        name: "In-Progress",
+        icon: GiRibbonMedal,
+        link: "/master/In-Progress",
+    },
+    { name: "Employee", icon: GiRibbonMedal, link: "/master/employee" },
+    { name: "History", icon: GiRibbonMedal, link: "/master/history" },
+    { name: "E-History", icon: GiRibbonMedal, link: "/master/e-history" },
+    { name: "Aloocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
 ];
 
 // if (!modulePermission(PERMISSION_NAME.role_permission).view) {
