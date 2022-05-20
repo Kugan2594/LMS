@@ -96,7 +96,7 @@ function EHistory() {
     },
     {
       id: "action",
-      label: "Action",
+      label: "",
       minWidth: 40,
       render: (value: any) => (
         <Typography variant="inherit" onClick={handleClickOpen} color="blue" style={{cursor: "pointer"}} >Detail</Typography>

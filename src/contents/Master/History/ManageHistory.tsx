@@ -123,7 +123,7 @@ function ManageHistory() {
     },
     {
       id: "action",
-      label: "Action",
+      label: "",
       minWidth: 40,
       render: (value) => (
         <Typography variant="inherit" onClick={()=>handleClickOpen(value)}
