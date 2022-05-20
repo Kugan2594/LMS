@@ -31,5 +31,30 @@ const getAllEmployee = (pageNumber: number, pageSize: number) => {
             });
     });
 };
+const createEmployee = (data: object) => {
+    return new Promise((resolve, reject) => {
+        api("post", "lm-web", null, `/employee`, "", data, "")
+            .then((response: any) => {
+                resolve(response);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
+const updateEmployee = (data: object) => {
+    let body: object = {
+        request: data,
+    };
+    return new Promise((resolve, reject) => {
+        api("put", "lm-web", null, `/employee`, "", body, "")
+            .then((response: any) => {
+                resolve(response);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
 
-export { deleteEmployee, getAllEmployee };
+export { deleteEmployee, getAllEmployee, createEmployee, updateEmployee };
