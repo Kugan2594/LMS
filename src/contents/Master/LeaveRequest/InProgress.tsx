@@ -1,4 +1,11 @@
-import { Button, Card, CardContent, Container, Divider } from "@mui/material";
+import {
+    Button,
+    Card,
+    CardContent,
+    Container,
+    Divider,
+    Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import Modals from "src/components/atoms/Modals";
 import Tables from "src/components/atoms/Tables";
@@ -7,6 +14,12 @@ import PageTitle from "src/components/organism/PageTitle";
 import { Column } from "../../../components/atoms/Tables/TableInterface";
 import AddEmployee from "../Employee/AddEmployee";
 import { ILeaveRequest } from "./LeaveRequest.interface";
+import { TableAction } from "src/components/atoms/Tables/TableAction";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 let mockData = [
     {
@@ -15,7 +28,7 @@ let mockData = [
         toDate: "05/18/2022",
         reason: "Foriegn Tour",
         days: 5,
-        status: "",
+        status: "Pending",
     },
     {
         leaveType: "Casual",
@@ -23,7 +36,7 @@ let mockData = [
         toDate: "05/18/2022",
         reason: "Personal",
         days: 5,
-        status: "",
+        status: "Pending",
     },
     {
         leaveType: "Maternity",
@@ -31,7 +44,7 @@ let mockData = [
         toDate: "05/18/2022",
         reason: "Maternity",
         days: 5,
-        status: "",
+        status: "Pending",
     },
 ];
 
@@ -47,7 +60,7 @@ function InProgress() {
         sortField: "id",
         direction: "DESC",
     });
-    const handleClickOpen = () => {
+    const handleClickOpen = (value) => {
         setOpen(true);
     };
 
@@ -57,6 +70,7 @@ function InProgress() {
     const onChangePage = (pageNumber, pageSize) => {};
 
     const onTableSearch = (values, sortField) => {};
+
     const columns: Column[] = [
         {
             id: "leaveType",
@@ -89,8 +103,19 @@ function InProgress() {
             minWidth: 180,
         },
         {
-            id: "cancel",
+            id: "field",
             label: "",
+            render: (value: any) => (
+                <Button
+                    variant="contained"
+                    size="small"
+                    onClick={() => {
+                        handleClickOpen(value);
+                    }}
+                >
+                    cancel
+                </Button>
+            ),
             minWidth: 180,
         },
     ];
@@ -117,13 +142,27 @@ function InProgress() {
                         />
                     </CardContent>
                 </Card>
-                <Modals
-                    modalTitle="Add Employee"
-                    modalWidth="25%"
-                    open={open}
-                    onClose={handleClose}
-                    modalBody={<AddEmployee />}
-                />
+                <div>
+                    <Button variant="outlined" onClick={handleClickOpen}>
+                        Open alert dialog
+                    </Button>
+                    <Dialog
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">
+                            {"Are you sure Do you want to cancel Request?"}
+                        </DialogTitle>
+                        <DialogActions>
+                            <Button onClick={handleClose}>No</Button>
+                            <Button onClick={handleClose} autoFocus>
+                                Yes
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                </div>
             </Container>
         </div>
     );

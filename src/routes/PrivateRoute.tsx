@@ -50,10 +50,6 @@ const PrivateRoute: PartialRouteObject[] = [
                 element: <ManageEmployee />,
             },
             {
-                path: "/history",
-                element: <ManageHistory />,
-            },
-            {
                 path: "/leavetype",
                 element: <ManageType />,
             },
