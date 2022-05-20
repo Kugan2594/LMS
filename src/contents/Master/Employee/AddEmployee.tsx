@@ -2,21 +2,21 @@ import React from "react";
 import { Form, useForm } from "src/components/atoms/Forms/useForm";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
-import { IEmployee } from "./Employee.interface";
+// import { IEmployee } from "./Employee.interface";
 
-let initialFValues: IEmployee = {};
+// let initialFValues: IEmployee = {};
 
 function AddEmployee() {
-  const validate = (fields = values) => {};
+  // const validate = (fields = values) => {};
 
-  const {
-    values,
-    setValues,
-    errors,
-    setErrors,
-    handleInputChange,
-    resetForm,
-  }: any = useForm(initialFValues, true, validate);
+  // const {
+  //   values,
+  //   setValues,
+  //   errors,
+  //   setErrors,
+  //   handleInputChange,
+  //   resetForm,
+  // }: any = useForm(initialFValues, true, validate);
 
   const handleSubmit = () => {};
 

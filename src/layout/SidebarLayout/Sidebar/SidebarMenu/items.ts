@@ -34,6 +34,7 @@ export interface MenuItems {
 const masterMenuItems: MenuItem[] = [
   { name: "Employee", icon: GiRibbonMedal, link: "/master/employee" },
   { name: "Type", icon: GiRibbonMedal, link: "/master/leavetype" },
+  { name: "Aloocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
 ];
 
 // if (!modulePermission(PERMISSION_NAME.role_permission).view) {

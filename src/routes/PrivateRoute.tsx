@@ -1,5 +1,6 @@
 import { Suspense, lazy } from "react";
 import { PartialRouteObject } from "react-router";
+import ManageAllocateDay from "src/contents/Master/AllocationDays/ManageAllocateDay";
 import ManageEmployee from "src/contents/Master/Employee/ManageEmployee";
 import ManageType from "src/contents/Master/LeaveType/ManageType";
 
@@ -35,6 +36,10 @@ const PrivateRoute: PartialRouteObject[] = [
       {
         path: "/leavetype",
         element: <ManageType />,
+      },
+      {
+        path: "/allocateday",
+        element: <ManageAllocateDay />,
       },
     ],
   },
