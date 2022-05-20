@@ -43,7 +43,6 @@ const masterMenuItems: MenuItem[] = [
     { name: "Employee", icon: GiRibbonMedal, link: "/master/employee" },
     { name: "History", icon: GiRibbonMedal, link: "/master/history" },
     { name: "E-History", icon: GiRibbonMedal, link: "/master/e-history" },
-    { name: "Type", icon: GiRibbonMedal, link: "/master/leavetype" },
     { name: "Aloocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
 ];
 
