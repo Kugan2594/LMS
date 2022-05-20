@@ -119,8 +119,7 @@ function EHistory() {
           heading="History"
           name=""
           subHeading="Master/History"
-          isButton={true}
-          onclickButton={handleClickOpen}
+          isButton={false}
         />
       </PageTitleWrapper>
       <Divider />

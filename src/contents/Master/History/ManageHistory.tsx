@@ -65,10 +65,14 @@ function ManageHistory() {
 
   const [open, setOpen] = useState(false);
 
+  const [modelDetails, setModelDetails] = useState({});
+
   const handleClickOpen = (value) => {
-    console.log(value);
     setOpen(true);
+    setModelDetails(value);
   };
+
+  console.log(modelDetails);
 
   const handleClose = () => {
     setOpen(false);
@@ -121,8 +125,9 @@ function ManageHistory() {
       id: "action",
       label: "Action",
       minWidth: 40,
-      render: (value: any) => (
-        <Typography variant="inherit" onClick={()=>handleClickOpen(value)} color="blue" style={{cursor: "pointer"}} >Detail</Typography>
+      render: (value) => (
+        <Typography variant="inherit" onClick={()=>handleClickOpen(value)}
+        color="blue" style={{cursor: "pointer"}} >Detail</Typography>
         ),
     }
   ];
@@ -140,7 +145,6 @@ function ManageHistory() {
       <PageTitleWrapper>
         <PageTitle
           heading="History"
-          name="Approval Status"
           subHeading="Master/History"
           isButton={false}
         />
@@ -168,7 +172,7 @@ function ManageHistory() {
           modalWidth="50%"
           open={open}
           onClose={handleClose}
-          modalBody={<ViewHistory />}
+          modalBody={<ViewHistory details={modelDetails} />}
         />
       </Container>
     </div>
