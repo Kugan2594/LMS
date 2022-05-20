@@ -1,10 +1,26 @@
 import { Card, CardContent, Container, Divider } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import Tables from "src/components/atoms/Tables";
 import { Column } from "src/components/atoms/Tables/TableInterface";
 import { minWidth } from "@mui/system";
+import { getAllEmployeeLeaveHistory } from "./ServiceEmployeeHistory";
+
+function createData(data) {
+  let convertData = data.map((post, index) => {
+      return {
+          id: post.id,
+          type: post.leaveRequest.employeeLeaveType.leaveType.type,
+          leaveDays: post.leaveRequest.leaveDays,
+          fromDate: post.leaveRequest.fromDate,
+          toDate: post.leaveRequest.toDate,
+          requestedDate: post.leaveRequest.requestedDate,
+          status: post.status.status
+      };
+  });
+  return convertData;
+}
 
 let sampleData: any = [
   {
@@ -64,9 +80,28 @@ function EHistory() {
   };
   const onChangePage = (pageNumber, pageSize) => {};
 
+  const [dataSource, setdataSource] = useState([]);
+
+
+  useEffect(() => {
+    getAllEmployeeLeaveHistoryData(pagination.pageNumber, pagination.pageSize);
+}, [pagination.pageNumber, pagination.pageSize]);
+const getAllEmployeeLeaveHistoryData = (pageNumber, pageSize) => {
+  getAllEmployeeLeaveHistory(pageNumber, pageSize).then((res: any) => {
+        let data: [] = createData(res.results.leaveHistory);
+        setpagination({
+            pageNumber: res.pagination.pageNumber,
+            pageSize: res.pagination.pageSize,
+            total: res.pagination.totalRecords,
+        });
+        setdataSource(data);
+    });
+};
+
+
   const columns: Column[] = [
     {
-      id: "leaveType",
+      id: "type",
       label: "Leave type",
       minWidth: 60,
     },
@@ -124,7 +159,7 @@ function EHistory() {
           <CardContent>
           <Tables
               columns={columns}
-              tableData={sampleData}
+              tableData={dataSource}
               onChangePage={onChangePage}
               pageNumber={pagination.pageNumber}
               total={pagination.total}
@@ -138,5 +173,6 @@ function EHistory() {
     </div>
   );
 }
+
 
 export default EHistory;
