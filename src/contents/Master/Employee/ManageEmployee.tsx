@@ -55,7 +55,10 @@ function ManageEmployee() {
         mesg: "",
     });
     const [dataSource, setdataSource] = useState([]);
+    const [action, setaction] = useState('add');
+    const [editData, seteditData] = useState({});
     const handleClickOpen = () => {
+        setaction('add'); 
         setOpen(true);
     };
 
@@ -98,8 +101,16 @@ function ManageEmployee() {
 
     const reloadTable = (res) => {
         setalert({ type: NOTIFICATION_TYPE.success, mesg: res.message });
+        setOpen(false);
         getAllEmployeeData(pagination.pageNumber, pagination.pageSize);
     };
+
+    const editOnclick = (row) => {
+        console.log(row);
+        setaction('edit');
+        seteditData(row);
+        setOpen(true);
+      };
 
     const handleError = (res) => {
         setalert({
@@ -153,7 +164,7 @@ function ManageEmployee() {
             fixed: "right",
             align: "center",
             render: (value: any) => (
-                <TableAction rowData={value} deleteOnclick={deleteOnclick} />
+                <TableAction rowData={value} deleteOnclick={deleteOnclick} editOnclick={editOnclick} />
             ),
         },
     ];
@@ -188,11 +199,14 @@ function ManageEmployee() {
                     </CardContent>
                 </Card>
                 <Modals
-                    modalTitle="Add Employee"
+                  modalTitle={action === 'edit' ? 'Edit Employee' : 'Add Employee'}
                     modalWidth="70%"
                     open={open}
                     onClose={handleClose}
-                    modalBody={<AddEmployee />}
+                    modalBody={<AddEmployee   reloadTable={reloadTable}
+                    action={action}
+                    editData={editData}
+                    handleError={handleError}/>}
                 />
             </Container>
         </div>

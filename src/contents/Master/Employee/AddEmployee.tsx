@@ -162,8 +162,49 @@ function AddEmployee(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("values", values);
-  };
+    const formData = new FormData();
+    if(validate){
+      if(action==='edit'){
+      formData.append('id',values.id);
+      formData.append('firstName',values.firstName);
+      formData.append('lastName',values.lastName);
+      formData.append('email',values.email);
+      formData.append('gender',values.gender);
+      formData.append('contactNo',values.contactNo);
+      formData.append('maritalStatus',values.maritalStatus);
+      formData.append('nationality',values.nationality);
+      formData.append('religion',values.religion);
+      formData.append('passportNo',values.passportNo);
+      formData.append('drivingLicenceNo',values.drivingLicenceNo);
+      formData.append('bloodGroup',values.bloodGroup);
+      formData.append('description',values.description);
+      formData.append('joinDate',values.joinDate);
+      formData.append('dateOfBirth',values.dateOfBirth);
+      formData.append('companyLocation',values.companyLocation);
+      formData.append('name',values.name);
+      formData.append('employmentType',values.employmentType);
+      formData.append('businessUnit',values.businessUnit);
 
+      updateEmployee(formData).then((res:any)=>{
+        console.log(res);
+        reloadTable(res);
+        setupdateStatus(true);
+        resetForm();
+
+      },
+      (error)=>{
+        console.log(error);
+        handleError(error);
+      }
+      )
+      }
+    }
+  };
+  useEffect(() => {
+    if (action === 'edit') {
+      setValues(editData);
+    }
+  }, [action, editData, setValues]);
   const onChangeFormValue = () => {};
   const onReset = () => {
     resetForm();
@@ -339,8 +380,8 @@ function AddEmployee(props) {
                   <Button
                     size="small"
                     type="submit"
-                    text="Submit"
-                    onClick={handleClose}
+                    text={action === 'edit' ? 'Update' : 'Submit'}
+                    disabled={action === 'edit' ? updateStatus : false}
                   />
                 </Box>
               </Form>
@@ -505,5 +546,7 @@ function AddEmployee(props) {
     </div>
   );
 }
+
+
 
 export default AddEmployee;
