@@ -18,17 +18,17 @@ import { HiUser } from "react-icons/hi";
 import { remove } from "lodash";
 
 export interface MenuItem {
-    id?: string;
-    link?: string;
-    icon?: any;
-    badge?: string;
-    items?: MenuItem[];
-    name: string;
+  id?: string;
+  link?: string;
+  icon?: any;
+  badge?: string;
+  items?: MenuItem[];
+  name: string;
 }
 
 export interface MenuItems {
-    items: MenuItem[];
-    heading: string;
+  items: MenuItem[];
+  heading: string;
 }
 
 const masterMenuItems: MenuItem[] = [
@@ -43,7 +43,7 @@ const masterMenuItems: MenuItem[] = [
     { name: "Employee", icon: GiRibbonMedal, link: "/master/employee" },
     { name: "History", icon: GiRibbonMedal, link: "/master/history" },
     { name: "E-History", icon: GiRibbonMedal, link: "/master/e-history" },
-    { name: "Type", icon: GiRibbonMedal, link: "/master/leavetype" },
+    { name: "Aloocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
 ];
 
 // if (!modulePermission(PERMISSION_NAME.role_permission).view) {
@@ -51,10 +51,10 @@ const masterMenuItems: MenuItem[] = [
 // }
 
 const menuItems: MenuItems[] = [
-    {
-        heading: "Master",
-        items: masterMenuItems,
-    },
+  {
+    heading: "Master",
+    items: masterMenuItems,
+  },
 ];
 
 export default menuItems;
