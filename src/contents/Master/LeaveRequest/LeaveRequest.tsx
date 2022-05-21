@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ILeaveRequest } from "./LeaveRequest.interface";
 import { FORM_VALIDATION, spaceValidation } from "src/util/ValidationMeassage";
 import { Form, useForm } from "src/components/atoms/Forms/useForm";
@@ -12,15 +12,45 @@ import { Card, Container } from "@mui/material";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import { number } from "prop-types";
+import { applyLeave, getAllEmployeesForDropDown, getAllLeaveTypeForDropDown } from "./ServiceLeaveRequest";
 
 let initialFValues: ILeaveRequest = {
     fromDate: "",
     toDate: "",
     reason: "",
     days: 0,
+    employeeId:0,
+    leaveTypeId:0,
+    id:0
 };
 
-function LeaveRequest() {
+const leaveType = [
+    {
+      id: 1,
+      title: 'CASUAL'
+    },
+    {
+      id: 2,
+      title: 'ANNUAL'
+    }
+  ];
+
+  const employee = [
+    {
+      id: 1,
+      title: 'CUDESON'
+    },
+    {
+      id: 2,
+      title: 'RUSHANTHAN'
+    }
+  ];
+
+function LeaveRequest(props) {
+    const [leaveTypeData, setleaveTypeData] = useState([]);
+    const [employeeData, setemployeeData] = useState([]);
+    const { reloadTable, action, editData, handleError } = props;
+    const [updateStatus, setupdateStatus] = useState(true);
     const validate = (fieldValues = values) => {
         let temp: ILeaveRequest = { ...errors };
 
@@ -60,15 +90,78 @@ function LeaveRequest() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("values", validate(), values);
+        let data: object = {
+            id: values.id,
+            leaveTypeId: values.leaveTypeId,
+            employeeId: values.employeeId,
+            days: values.days,
+            reason: values.reason,
+            toDate: values.toDate,
+            fromDate: values.fromDate,
+          };
+          const formData = new FormData(); 
+        formData.append('id', values.id);
+        formData.append('leaveTypeId', values.leaveTypeId);
+        formData.append('employeeId', values.employeeId);
+        formData.append('licenseId', values.licenseId);
+        formData.append('days', values.days);
+        formData.append('reason', values.reason);
+        formData.append('toDate', values.toDate);
+        formData.append('fromDate', values.fromDate);
+
+        console.log("lllllllllll"+data, formData);
+
+        applyLeave(formData).then(
+            (res: any) => {
+              console.log("leaveeeee"+res);
+              reloadTable(res);
+              resetForm();
+              onReset();
+            },
+            (error) => {
+              console.log(error);
+              handleError(error);
+            }
+          );
     };
 
-    const onChangeFormValue = () => {};
+    useEffect(() => {
+        getLeaveTypeSelectData();
+        getEmployeeSelectData();
+      },[action, editData, setValues]);
+
+      const getLeaveTypeSelectData = () => {
+        let data: any = [];
+        getAllLeaveTypeForDropDown().then((res: []) => {
+          res.map((post: any) => {
+            data.push({ id: post.id, title: post.type });
+            return null;
+          });
+          setleaveTypeData(data);
+        });
+      };
+
+      const getEmployeeSelectData = () => {
+        let data: any = [];
+        getAllEmployeesForDropDown().then((res: []) => {
+          res.map((post: any) => {
+            data.push({ id: post.id, title: post.lastName });
+            return null;
+          });
+          setemployeeData(data);
+        });
+      };
+
+      const onChangeFormValue = () => {
+        setupdateStatus(false);
+      };
+
     const onReset = () => {
         resetForm();
     };
     const handleClickOpen = () => {};
     return (
+        <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
         <div>
             <PageTitleWrapper>
                 <PageTitle
@@ -91,17 +184,12 @@ function LeaveRequest() {
                                 <Grid item xs={4}>
                                     {" "}
                                     <Select
-                                        name="employee"
+                                        name="employeeId"
                                         label="Employee *"
-                                        value={values.employee}
+                                        value={values.employeeId}
                                         onChange={handleInputChange}
                                         error={errors.employee}
-                                        options={[
-                                            {
-                                                id: "hjk",
-                                                title: "hjasjsdh",
-                                            },
-                                        ]}
+                                        options={employeeData}
                                     />
                                     <DatePicker
                                         name="fromDate"
@@ -113,25 +201,12 @@ function LeaveRequest() {
                                 </Grid>
                                 <Grid item xs={4}>
                                     <Select
-                                        name="leaveType"
-                                        label="LeaveType *"
-                                        value={values.leaveType}
+                                        name="leaveTypeId"
+                                        label="Leave Type *"
+                                        value={values.leaveTypeId}
                                         onChange={handleInputChange}
                                         error={errors.leaveType}
-                                        options={[
-                                            {
-                                                id: "1",
-                                                title: "Annual Leave",
-                                            },
-                                            {
-                                                id: "2",
-                                                title: "Casual Leave",
-                                            },
-                                            {
-                                                id: "3",
-                                                title: "Maternity Leave",
-                                            },
-                                        ]}
+                                        options={leaveTypeData}
                                     />
 
                                     <DatePicker
@@ -199,6 +274,7 @@ function LeaveRequest() {
                 </Card>
             </Container>
         </div>
+        </Form>
     );
 }
 
