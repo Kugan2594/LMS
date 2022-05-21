@@ -1,7 +1,10 @@
 import { Suspense, lazy } from "react";
 import { PartialRouteObject } from "react-router";
+import ManageAllocateDay from "src/contents/Master/AllocationDays/ManageAllocateDay";
 import ManageEmployee from "src/contents/Master/Employee/ManageEmployee";
 import ManageLeaveType from "src/contents/Master/LeaveType/ManageLeaveType";
+import ManageHistory from "src/contents/Master/History/ManageHistory";
+import EHistory from "src/contents/Master/E-History/EHistory";
 
 import SuspenseLoader from "../components/molecules/SuspenseLoader";
 import Dashboard from "../contents/Dashboard";
@@ -33,8 +36,21 @@ const PrivateRoute: PartialRouteObject[] = [
         element: <ManageEmployee />,
       },
       {
+        path: "/history",
+        element: <ManageHistory />,
+      },
+      {
         path: "/leavetype",
         element: <ManageLeaveType />,
+      },
+      {
+        path: "/e-history",
+        element: <EHistory />,
+      },
+      
+      {
+        path: "/allocateday",
+        element: <ManageAllocateDay />,
       },
     ],
   },
