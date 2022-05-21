@@ -1,10 +1,25 @@
 import { Card, CardContent, Container, Divider } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modals from "src/components/atoms/Modals";
 import Tables from "src/components/atoms/Tables";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
+import { NOTIFICATION_TYPE } from "src/util/Notification";
 import { Column } from "../../../components/atoms/Tables/TableInterface";
+import { getAllEmployee } from "../Employee/ServiceEmployee";
+import { getAllLeaveType } from "./serviceLeaveType";
+
+function createData(data) {
+  let convertData = data.map((post, index) => {
+      return {
+          id: post.id,
+          type: post.type,
+          noticePeriod: post.noticePeriod,
+          description: post.description
+      };
+  });
+  return convertData;
+}
 
 let mockData = [
   {
@@ -28,6 +43,47 @@ function ManageLeaveType() {
     total: 0,
   });
 
+  const [dataSource, setdataSource] = useState([]);
+
+  const [alert, setalert] = useState({
+    type: "",
+    mesg: "",
+});
+
+  const onChangePage = (pageNumber, pageSize) => {
+    if (pagination.pageSize !== pageSize) {
+      getAllLeaveTypeData(0, pageSize);
+    } else {
+      getAllLeaveTypeData(pageNumber, pageSize);
+    }
+};
+
+useEffect(() => {
+  getAllLeaveTypeData(pagination.pageNumber, pagination.pageSize);
+}, [pagination.pageNumber, pagination.pageSize]);
+const getAllLeaveTypeData = (pageNumber, pageSize) => {
+  getAllLeaveType(pageNumber, pageSize).then((res: any) => {
+      let data: [] = createData(res.results.Employee);
+      setpagination({
+          pageNumber: res.pagination.pageNumber,
+          pageSize: res.pagination.pageSize,
+          total: res.pagination.totalRecords,
+      });
+      setdataSource(data);
+  });
+};
+const reloadTable = (res) => {
+  setalert({ type: NOTIFICATION_TYPE.success, mesg: res.message });
+  getAllLeaveTypeData(pagination.pageNumber, pagination.pageSize);
+};
+
+const handleError = (res) => {
+  setalert({
+      type: NOTIFICATION_TYPE.error,
+      mesg: res.status.validationFailures[0].message,
+  });
+};
+
   // const [open, setOpen] = useState(false);
   // const [searchFields, setsearchFields] = useState({ type: "" });
   // const [sortField, setsortField] = React.useState({
@@ -41,7 +97,6 @@ function ManageLeaveType() {
   // const handleClose = () => {
   //   setOpen(false);
   // };
-  const onChangePage = (pageNumber, pageSize) => {};
 
   const onTableSearch = (values, sortField) => {};
   const columns: Column[] = [
@@ -81,7 +136,7 @@ function ManageLeaveType() {
           <CardContent>
             <Tables
               columns={columns}
-              tableData={mockData}
+              tableData={dataSource}
               onChangePage={onChangePage}
               pageNumber={pagination.pageNumber}
               total={pagination.total}
