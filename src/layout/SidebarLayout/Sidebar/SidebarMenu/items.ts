@@ -9,11 +9,13 @@ import { ReactNode } from "react";
 import { FaRoute } from "react-icons/fa";
 import { GiSteeringWheel, GiRibbonMedal } from "react-icons/gi";
 import { IoCarSportSharp } from "react-icons/io5";
+import { GrSend, GrWaypoint, GrWifi } from "react-icons/gr";
 import { IoSettingsSharp, IoAccessibilityOutline } from "react-icons/io5";
 import { MdGpsFixed, MdEmojiPeople, MdPersonalInjury } from "react-icons/md";
 import { ImOffice } from "react-icons/im";
 import { RiRouteFill } from "react-icons/ri";
 import { HiUser } from "react-icons/hi";
+import { HiStar } from "react-icons/hi";
 
 import { remove } from "lodash";
 
@@ -34,10 +36,14 @@ export interface MenuItems {
 const masterMenuItems: MenuItem[] = [
     { name: "Employee", icon: GiRibbonMedal, link: "/master/employee" },
     { name: "Type", icon: GiRibbonMedal, link: "/master/leavetype" },
-    { name: "LeaveRequest", icon: GiRibbonMedal, link: "/master/leaveRequest" },
+    {
+        name: "Leave Request",
+        icon: GrSend,
+        link: "/master/leaveRequest",
+    },
     {
         name: "In-Progress",
-        icon: GiRibbonMedal,
+        icon: HiStar,
         link: "/master/In-Progress",
     },
     { name: "History", icon: GiRibbonMedal, link: "/master/history" },

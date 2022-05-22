@@ -20,6 +20,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import LeaveRequest from "./LeaveRequest";
+import LeaveRequestForm from "./LeaveRequestForm";
 
 let mockData = [
     {
@@ -60,6 +62,13 @@ function InProgress() {
         sortField: "id",
         direction: "DESC",
     });
+    const [update, setUpdate] = useState(false);
+    const handleUpdate = (value) => {
+        setUpdate(true);
+    };
+    const handleUpdateClose = (value) => {
+        setUpdate(false);
+    };
     const handleClickOpen = (value) => {
         setOpen(true);
     };
@@ -75,39 +84,39 @@ function InProgress() {
         {
             id: "leaveType",
             label: "LeaveType",
-            minWidth: 180,
+            minWidth: 0,
         },
         {
             id: "fromDate",
             label: "FromDate",
-            minWidth: 180,
+            minWidth: 0,
         },
         {
             id: "toDate",
             label: "ToDate",
-            minWidth: 180,
+            minWidth: 0,
         },
         {
             id: "reason",
             label: "Reason",
-            minWidth: 180,
+            minWidth: 0,
         },
         {
             id: "days",
             label: "Days",
-            minWidth: 180,
+            minWidth: 0,
         },
         {
             id: "status",
             label: "Status",
-            minWidth: 180,
+            minWidth: 0,
         },
         {
-            id: "field",
+            id: "cancel",
             label: "",
             render: (value: any) => (
                 <Button
-                    variant="contained"
+                    variant="text"
                     size="small"
                     onClick={() => {
                         handleClickOpen(value);
@@ -116,7 +125,23 @@ function InProgress() {
                     cancel
                 </Button>
             ),
-            minWidth: 180,
+            minWidth: 0,
+        },
+        {
+            id: "update",
+            label: "",
+            render: (value: any) => (
+                <Button
+                    variant="text"
+                    size="small"
+                    onClick={() => {
+                        handleUpdate(value);
+                    }}
+                >
+                    Update
+                </Button>
+            ),
+            minWidth: 0,
         },
     ];
 
@@ -143,9 +168,6 @@ function InProgress() {
                     </CardContent>
                 </Card>
                 <div>
-                    <Button variant="outlined" onClick={handleClickOpen}>
-                        Open alert dialog
-                    </Button>
                     <Dialog
                         open={open}
                         onClose={handleClose}
@@ -163,6 +185,18 @@ function InProgress() {
                         </DialogActions>
                     </Dialog>
                 </div>
+                <Modals
+                    modalTitle="Update Leave Request"
+                    modalWidth="60%"
+                    open={update}
+                    onClose={handleUpdateClose}
+                    modalBody={
+                        <LeaveRequestForm
+                            isButton={true}
+                            isButtonThree={true}
+                        />
+                    }
+                />
             </Container>
         </div>
     );

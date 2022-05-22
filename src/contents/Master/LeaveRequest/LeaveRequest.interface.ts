@@ -7,6 +7,10 @@ interface ILeaveRequest {
     employee?: string;
     status?: "Approved" | "Reject" | "New";
     cancel?: any;
+    enableTitle?: boolean;
+    isButton?: boolean;
+    isButtonTwo?: boolean;
+    isButtonThree?: boolean;
 }
 
 export type { ILeaveRequest };
