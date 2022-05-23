@@ -1,5 +1,5 @@
 import { Card, CardContent, Container, Dialog, DialogContent, DialogContentText, DialogTitle, Divider, Typography } from "@mui/material";
-import React { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import Tables from "src/components/atoms/Tables";
