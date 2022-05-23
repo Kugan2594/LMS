@@ -6,7 +6,7 @@ const getAllEmployeeLeaveHistory = (pageNumber: number, pageSize: number) => {
             "get",
             "lm-web",
             null,
-            `/approvalStatus/employee/2?page=${pageNumber}&size=${pageSize}`,
+            `/approvalStatus/employee/1?page=${pageNumber}&size=${pageSize}`,
             "",
             "",
             ""
