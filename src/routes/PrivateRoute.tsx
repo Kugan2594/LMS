@@ -31,46 +31,36 @@ const PrivateRoute: PartialRouteObject[] = [
         children: [
             {
                 path: "/",
-                element: <Login />,
+                element: <Dashboard />,
             },
             {
-                path: "master",
-                element: <SidebarLayout />,
-                children: [
-                    {
-                        path: "/",
-                        element: <Dashboard />,
-                    },
-                    {
-                        path: "/employee",
-                        element: <ManageEmployee />,
-                    },
+                path: "/employee",
+                element: <ManageEmployee />,
+            },
 
-                    {
-                        path: "/leaveRequest",
-                        element: <LeaveRequest />,
-                    },
-                    {
-                        path: "/In-Progress",
-                        element: <InProgress />,
-                    },
-                    {
-                        path: "/leavetype",
-                        element: <ManageType />,
-                    },
-                    {
-                        path: "/e-history",
-                        element: <EHistory />,
-                    },
-                    {
-                        path: "/history",
-                        element: <ManageHistory />,
-                    },
-                    {
-                        path: "/allocateday",
-                        element: <ManageAllocateDay />,
-                    },
-                ],
+            {
+                path: "/leaveRequest",
+                element: <LeaveRequest />,
+            },
+            {
+                path: "/In-Progress",
+                element: <InProgress />,
+            },
+            {
+                path: "/leavetype",
+                element: <ManageType />,
+            },
+            {
+                path: "/e-history",
+                element: <EHistory />,
+            },
+            {
+                path: "/history",
+                element: <ManageHistory />,
+            },
+            {
+                path: "/allocateday",
+                element: <ManageAllocateDay />,
             },
         ],
     },

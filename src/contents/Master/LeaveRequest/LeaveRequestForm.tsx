@@ -162,7 +162,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
 
                             <Divider />
                             <Grid container>
-                                <Grid item xs={4}></Grid>
+                                <Grid item xs={6}></Grid>
                                 <Grid
                                     item
                                     xs={4}
@@ -204,7 +204,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
                                         )}
                                     </div>
                                 </Grid>
-                                <Grid item xs={4}></Grid>
+                                <Grid item xs={2}></Grid>
                             </Grid>
                         </Form>
                     </div>
