@@ -3,44 +3,80 @@ import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import DoughnutChart from "src/components/molecules/Charts/Doughnut";
 import "react-circular-progressbar/dist/styles.css";
-import Select from "react-select";
+import { useEffect, useState } from "react";
+import { getEmployeeleavetypeByEmployeeId } from "./ServiceAllocationDays";
+import { any, number } from "prop-types";
+import AutocompleteSelect from "src/components/atoms/controlls/AutocompleteSelect";
+
+function createData(data) {
+  let convertData = data.map((post, index) => {
+    return {
+      id: post.id,
+      firstName: post.employee.firstName,
+      lastName: post.employee.lastName,
+      type: post.leaveType.type,
+      allocatedDays: post.allocatedDays,
+      remainingDays: post.remainingDays,
+    };
+  });
+  return convertData;
+}
 
 const employeeList = [
   {
-    value: "Cudeson",
-    label: "Cudeson",
+    id: "Cudeson",
+    title: "Cudeson",
   },
   {
-    value: "Marujan",
-    label: "Marujan",
+    id: "Marujan",
+    title: "Marujan",
   },
   {
-    value: "Rushanthan",
-    label: "Rushanthan",
+    id: "Rushanthan",
+    title: "Rushanthan",
   },
   {
-    value: "Rishi",
-    label: "Rishi",
+    id: "Rishi",
+    title: "Rishi",
   },
   {
-    value: "Keerthana",
-    label: "Keerthana",
+    id: "Keerthana",
+    title: "Keerthana",
   },
   {
-    value: "Sajinthini",
-    label: "Sajinthini",
+    id: "Sajinthini",
+    title: "Sajinthini",
   },
   {
-    value: "Kuganesan",
-    label: "Kuganesan",
+    id: "Kuganesan",
+    title: "Kuganesan",
   },
   {
-    value: "Kuruparan",
-    label: "Kuruparan",
+    id: "Kuruparan",
+    title: "Kuruparan",
   },
 ];
 
 function ManageAllocateDay() {
+  const [updateStatus, setupdateStatus] = useState(true);
+
+  const onValueChange = (e) => {
+    setupdateStatus(false);
+    const { firstName, value } = e.target;
+    console.log("hit", firstName, value);
+  };
+
+  const [dataSource, setdataSource] = useState([]);
+
+  // useEffect(() => {
+  //   getEmployeeleavetypeByEmployeeIdData(employeeId: any);
+  // }, [employeeId: any]);
+  // const getEmployeeleavetypeByEmployeeIdData = (employeeId) => {
+  //   getEmployeeleavetypeByEmployeeId(employeeId).then((res: any) => {
+  //     let data: [] = createData(res.results.Employee);
+  //     setdataSource(data);
+  //   });
+  // };
   return (
     <div>
       <PageTitleWrapper>
@@ -59,7 +95,12 @@ function ManageAllocateDay() {
             <Grid container>
               <Grid item xs={12} md={3} lg={3}></Grid>
               <Grid item xs={12} md={6} lg={6}>
-                <Select options={employeeList} />
+                <AutocompleteSelect
+                  name="firstName"
+                  label="Employee Name"
+                  onValueChange={onValueChange}
+                  options={employeeList}
+                />
               </Grid>
               <Grid item xs={12} md={3} lg={3}></Grid>
             </Grid>
