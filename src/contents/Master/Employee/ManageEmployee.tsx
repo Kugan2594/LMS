@@ -9,6 +9,7 @@ import AddEmployee from "./AddEmployee";
 import { TableAction } from "src/components/atoms/Tables/TableAction";
 import { deleteEmployee, getAllEmployee } from "./ServiceEmployee";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
+import CustomizedNotification from 'src/util/CustomizedNotification';
 function createData(data) {
     let convertData = data.map((post, index) => {
         return {
@@ -19,24 +20,31 @@ function createData(data) {
             address: post.address,
             name: post.designation.name,
             joinDate: post.joinDate,
+            dateOfPermanency: post.dateOfPermanency,
             location: post.companyLocation.location,
+            description: post.description,
+            employmentType: post.employmentType,
+            businessUnit: post.businessUnit,
+            dateOfBirth: post.dateOfBirth,
+            contactNo: post.contactNo,
+            religon: post.religon,
+            gender: post.gender,
+            nic: post.nic,
+            maritalStatus: post.maritalStatus,
+            approverStatus: post.approverStatus,
+            nationality: post.nationality,
+            bloodGroup: post.bloodGroup,
+            drivingLicenceNo: post.drivingLicenceNo,
+            passportNo: post.passportNo,
+            designationId: post.designation.id,
+            companyLocationId: post.companyLocation.id
+
+
         };
     });
     return convertData;
 }
 
-let mockData = [
-    {
-        id: 0,
-        name: "Ajith",
-        address: "Jaffna",
-    },
-    {
-        id: 1,
-        name: "Codesan",
-        address: "Jaffna",
-    },
-];
 
 function ManageEmployee() {
     const [pagination, setpagination] = useState({
@@ -58,7 +66,7 @@ function ManageEmployee() {
     const [action, setaction] = useState('add');
     const [editData, seteditData] = useState({});
     const handleClickOpen = () => {
-        setaction('add'); 
+        setaction('add');
         setOpen(true);
     };
 
@@ -100,7 +108,9 @@ function ManageEmployee() {
     };
 
     const reloadTable = (res) => {
-        setalert({ type: NOTIFICATION_TYPE.success, mesg: res.message });
+        setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
+        console.log("//////////////////////////", res);
+
         setOpen(false);
         getAllEmployeeData(pagination.pageNumber, pagination.pageSize);
     };
@@ -110,16 +120,21 @@ function ManageEmployee() {
         setaction('edit');
         seteditData(row);
         setOpen(true);
-      };
+    };
 
     const handleError = (res) => {
         setalert({
             type: NOTIFICATION_TYPE.error,
-            mesg: res.status.validationFailures[0].message,
+            mesg: res.data.validationFailures[0].message,
         });
     };
-
-    const onTableSearch = (values, sortField) => {};
+    const handleAlertClose = () => {
+        setalert({
+            type: '',
+            mesg: ''
+        });
+    };
+    const onTableSearch = (values, sortField) => { };
     const columns: Column[] = [
         {
             id: "firstName",
@@ -157,6 +172,7 @@ function ManageEmployee() {
             label: "Office Location",
             minWidth: 150,
         },
+
         {
             id: "action",
             label: "Action",
@@ -199,16 +215,23 @@ function ManageEmployee() {
                     </CardContent>
                 </Card>
                 <Modals
-                  modalTitle={action === 'edit' ? 'Edit Employee' : 'Add Employee'}
+                    modalTitle={action === 'edit' ? 'Edit Employee' : 'Add Employee'}
                     modalWidth="70%"
                     open={open}
                     onClose={handleClose}
-                    modalBody={<AddEmployee   reloadTable={reloadTable}
-                    action={action}
-                    editData={editData}
-                    handleError={handleError}/>}
+                    modalBody={<AddEmployee reloadTable={reloadTable}
+                        action={action}
+                        editData={editData}
+                        handleError={handleError} />}
                 />
             </Container>
+            {alert.type.length > 0 ? (
+                <CustomizedNotification
+                    severity={alert.type}
+                    message={alert.mesg}
+                    handleAlertClose={handleAlertClose}
+                />
+            ) : null}
         </div>
     );
 }
