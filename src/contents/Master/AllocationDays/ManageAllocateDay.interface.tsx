@@ -1,9 +1,11 @@
 interface IEmployeeLeaveType {
     id?: number;
-    employeeId?: number;
-    leaveTypeId?: number;
-    allocatedDays?: number;
-    remainingDays?: number;
+    employeeId?: string;
+    firstName?: string;
+    lastName?: string;
+    type?: string;
+    allocatedDays?: string;
+    remainingDays?: string;
 }
 
 export type { IEmployeeLeaveType };
