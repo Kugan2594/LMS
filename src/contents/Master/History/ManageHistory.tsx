@@ -34,7 +34,7 @@ let sampleData: any = [
     status: "Rejected",
     approvers: [{names: "CudApp1", appStatus: "Approved"},
     {names: "CudApp2", appStatus: "Approved"},
-    {names: "CudApp3", appStatus: "Approved"},
+    {names: "CudApp3", appStatus: "Rejected"},
     {names: "CudApp4", appStatus: "Rejected"},],
   },
   {
@@ -190,14 +190,9 @@ function ManageHistory() {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-          <ViewHistory details={modelDetails} isEmployeeDetail={true} />
+          <ViewHistory details={modelDetails} isEmployeeDetail={true} isResponseButtons={true} cancel={handleClose} />
           </DialogContentText>
         </DialogContent>
-        <DialogActions sx={{margin: 2}}>
-          <Button variant="text" onClick={handleClose}>Cancel</Button>
-          <Button variant="outlined" onClick={handleClose}>Reject</Button>
-          <Button variant="contained" onClick={handleClose} autoFocus>Approve</Button>
-        </DialogActions>
       </Dialog>
         {/* <Modals
           modalTitle="Approval Status"

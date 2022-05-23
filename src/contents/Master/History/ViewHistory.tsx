@@ -1,5 +1,5 @@
-import { Divider, Grid, Typography } from "@mui/material";
-import React from "react";
+import { Divider, Grid, Typography, } from "@mui/material";
+import React, { useState } from "react";
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -17,23 +17,11 @@ import Button from '@mui/material/Button';
 
       const handleClickOpen = () => {};
 
-      const [activeStep, setActiveStep] = React.useState(0);
-      const [approved, setApproved] = React.useState(approvalStatus);
-    
-      const totalSteps = () => {
-        return steps.length;
-      };
-    
-      const approvedSteps = () => {
-        return approved.length;
-      };
-    
-      const allApproved = () => {
-        return approvedSteps() === totalSteps();
-      };
-    
+      const [approved, setApproved] = useState(approvalStatus);
+      const [activeStep, setActiveStep] = useState(approved.length);
+      
       const handleNext = () => {
-        const newActiveStep = approved.length + 1;
+        const newActiveStep = approved.length;
         setActiveStep(newActiveStep);
       };
     
@@ -47,6 +35,12 @@ import Button from '@mui/material/Button';
         setApproved(newApproved);
         handleNext();
       };
+
+      const [rejected, setRejected] = useState(false);
+
+      const handleReject = (steps) => {
+        setRejected(true);
+      }
     
       return (
         <Box sx={{ width: '600px' }}>
@@ -60,16 +54,33 @@ import Button from '@mui/material/Button';
             ))}
           </Stepper>
           <div>
-            { props.isEmployeeDetail && <div><Typography variant="h6">Employee ID: {details.employeeId} </Typography>
-            <Typography variant="h6">Name: {details.name} </Typography></div>}
-            <Typography variant="h6">Leave Type: {details.leaveType} </Typography>
-            <Typography variant="h6">Leave days: {details.leaveDays}</Typography>
-            <Typography variant="h6">From date: {details.fromDate}</Typography>
-            <Typography variant="h6">To date: {details.toDate}</Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+            <Box sx={{ textAlign: "right"}}>
+            { props.isEmployeeDetail && <div><Typography variant="h6">Employee ID:</Typography>
+            <Typography variant="h6">Name:</Typography></div>}
+            <Typography variant="h6">Leave Type:</Typography>
+            <Typography variant="h6">Leave days:</Typography>
+            <Typography variant="h6">From date:</Typography>
+            <Typography variant="h6">To date:</Typography>
+            <Typography variant="h6">Requested date:</Typography>
+            </Box>
+            </Grid>
+            <Grid item xs={6}>
+            { props.isEmployeeDetail && <div><Typography variant="h6" color="black">{details.employeeId}</Typography>
+            <Typography variant="h6" color="black">{details.name} </Typography></div>}
+            <Typography variant="h6" color="black">{details.leaveType}</Typography>
+            <Typography variant="h6" color="black">{details.leaveDays}</Typography>
+            <Typography variant="h6" color="black">{details.fromDate}</Typography>
+            <Typography variant="h6" color="black">{details.toDate}</Typography>
+            <Typography variant="h6" color="black">{details.requestedDate}</Typography>
+            </Grid></Grid>
               <React.Fragment>
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                   <Box sx={{ flex: '1 1 auto' }} />
-                  <Button onClick={handleApprove}>Approve</Button>
+                  <Button variant="text" sx={{margin: 0.5}} onClick={props.cancel}>Close</Button>
+                  { props.isResponseButtons && <div><Button variant="outlined" sx={{margin: 0.5}} onClick={() => handleReject(steps)}>Reject</Button>
+                  <Button variant="contained" sx={{margin: 0.5}} onClick={handleApprove}>Approve</Button></div>}
                 </Box>
               </React.Fragment>
           </div>
