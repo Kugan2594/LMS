@@ -177,7 +177,7 @@ function ManageEmployee() {
                     <CardContent>
                         <Tables
                             columns={columns}
-                            tableData={mockData}
+                            tableData={dataSource}
                             onChangePage={onChangePage}
                             pageNumber={pagination.pageNumber}
                             total={pagination.total}
