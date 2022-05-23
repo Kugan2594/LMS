@@ -6,7 +6,7 @@ import Tables from "src/components/atoms/Tables";
 import { Column } from "src/components/atoms/Tables/TableInterface";
 import { minWidth } from "@mui/system";
 import { getAllEmployeeLeaveHistory } from "./ServiceEmployeeHistory";
-
+import ViewHistory from "../History/ViewHistory";
 function createData(data) {
   let convertData = data.map((post, index) => {
       return {
@@ -21,7 +21,7 @@ function createData(data) {
   });
   return convertData;
 }
-import ViewHistory from "../History/ViewHistory";
+
 
 let sampleData: any = [
   {
