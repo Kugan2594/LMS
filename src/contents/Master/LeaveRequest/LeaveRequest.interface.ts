@@ -14,6 +14,11 @@ interface ILeaveRequest {
     isButton?: boolean;
     isButtonTwo?: boolean;
     isButtonThree?: boolean;
+    reloadTable?:any;
+    action?:any;
+    editData?:any;
+    handleError?:any;
+
 }
 
 export type { ILeaveRequest };

@@ -42,9 +42,6 @@ const getAllEmployeesForDropDown = () => {
   };
 
   const applyLeave = (data: object) => {
-    let body: object = {
-      request: data
-    };
     return new Promise((resolve, reject) => {
       api(
         'post', 
@@ -52,7 +49,7 @@ const getAllEmployeesForDropDown = () => {
         null,
         `/leaveApply`,
         null, 
-        body, 
+        data, 
         ''
     )
         .then((response: any) => {
