@@ -7,6 +7,7 @@ interface IEmployee {
   email?: string;
   gender?: string;
   contactNo?: string;
+  nic?: string;
   maritalStatus?: string;
   nationality?: string;
   religon?: string;
@@ -14,12 +15,13 @@ interface IEmployee {
   drivingLicenceNo?: string;
   bloodGroup?: string;
 
-  description?: string;
-    joinDate?: string;
-    companyLocation?: string;
-    name?: string;
-    employmentType?: string;
-    businessUnit?: string;
+  approverStatus?: boolean;
+  joinDate?: string;
+  dateOfPermanency?: string;
+  companyLocationId?: string | number;
+  designationId?: string | number;
+  employmentType?: string;
+  businessUnit?: string;
 }
 
 export type { IEmployee };
