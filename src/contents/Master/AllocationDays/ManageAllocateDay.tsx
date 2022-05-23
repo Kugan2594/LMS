@@ -144,11 +144,6 @@ function ManageAllocateDay() {
                       withGradient
                       title="annual"
                     />
-                    <CardContent>
-                      <Container>
-                        <h4>Leave Type</h4>
-                      </Container>
-                    </CardContent>
                   </Grid>
                 ))}
               </Grid>
