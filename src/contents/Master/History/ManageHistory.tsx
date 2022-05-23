@@ -1,10 +1,9 @@
-import { Card, CardContent, Container, Divider, Typography } from "@mui/material";
+import { Card, CardContent, Container, Divider, Typography, Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Button } from "@mui/material";
 import React, { useState } from "react";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import Tables from "src/components/atoms/Tables";
 import { Column } from "src/components/atoms/Tables/TableInterface";
-import Modals from "src/components/atoms/Modals";
 import ViewHistory from "./ViewHistory";
 
 
@@ -19,6 +18,9 @@ let sampleData: any = [
     toDate: "15/06/2022",
     requestedDate: "19/05/2022",
     status: "Approved",
+    approvers: [{names: "KugApp1", appStatus: "Approved"},
+    {names: "KugApp2", appStatus: "Approved"}, 
+    {names: "KugApp3", appStatus: "Approved"},],
   },
   {
     id: 2,
@@ -30,6 +32,10 @@ let sampleData: any = [
     toDate: "09/06/2022",
     requestedDate: "18/05/2022",
     status: "Rejected",
+    approvers: [{names: "CudApp1", appStatus: "Approved"},
+    {names: "CudApp2", appStatus: "Approved"},
+    {names: "CudApp3", appStatus: "Approved"},
+    {names: "CudApp4", appStatus: "Rejected"},],
   },
   {
     id: 3,
@@ -41,6 +47,9 @@ let sampleData: any = [
     toDate: "15/06/2022",
     requestedDate: "19/05/2022",
     status: "Approved",
+    approvers: [{names: "KugApp1", appStatus: "Approved"},
+    {names: "KugApp2", appStatus: "Approved"}, 
+    {names: "KugApp3", appStatus: "Approved"},],
   },
   {
     id: 4,
@@ -52,6 +61,10 @@ let sampleData: any = [
     toDate: "09/06/2022",
     requestedDate: "18/05/2022",
     status: "Rejected",
+    approvers: [{names: "CudApp1", appStatus: "Approved"},
+    {names: "CudApp2", appStatus: "Approved"},
+    {names: "CudApp3", appStatus: "Approved"},
+    {names: "CudApp4", appStatus: "Rejected"},],
   },
 ]
 
@@ -71,8 +84,6 @@ function ManageHistory() {
     setOpen(true);
     setModelDetails(value);
   };
-
-  console.log(modelDetails);
 
   const handleClose = () => {
     setOpen(false);
@@ -167,13 +178,34 @@ function ManageHistory() {
           />
           </CardContent>
         </Card>
-        <Modals
+        <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        maxWidth="md"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {""}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          <ViewHistory details={modelDetails} isEmployeeDetail={true} />
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{margin: 2}}>
+          <Button variant="text" onClick={handleClose}>Cancel</Button>
+          <Button variant="outlined" onClick={handleClose}>Reject</Button>
+          <Button variant="contained" onClick={handleClose} autoFocus>Approve</Button>
+        </DialogActions>
+      </Dialog>
+        {/* <Modals
           modalTitle="Approval Status"
           modalWidth="50%"
           open={open}
           onClose={handleClose}
           modalBody={<ViewHistory details={modelDetails} />}
-        />
+        /> */}
       </Container>
     </div>
   );
