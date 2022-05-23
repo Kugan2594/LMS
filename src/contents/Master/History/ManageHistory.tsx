@@ -10,10 +10,11 @@ import ViewHistory from "./ViewHistory";
 let sampleData: any = [
   {
     id: 1,
-    employeeId: "01",
-    name: "Kuganesan Kuganesan",
+    employeeId: 1,
+    employeeName: "Kuganesan Kuganesan",
     leaveType: "Annual",
-    leaveDays: "14",
+    leaveDays: 14,
+    reason: "Wedding",
     fromDate: "02/06/2022",
     toDate: "15/06/2022",
     requestedDate: "19/05/2022",
@@ -24,10 +25,11 @@ let sampleData: any = [
   },
   {
     id: 2,
-    employeeId: "02",
-    name: "Cudeson Cudeson",
+    employeeId: 2,
+    employeeName: "Cudeson Cudeson",
     leaveType: "Annual",
-    leaveDays: "7",
+    leaveDays: 7,
+    reason: "Wedding",
     fromDate: "02/06/2022",
     toDate: "09/06/2022",
     requestedDate: "18/05/2022",
@@ -39,10 +41,11 @@ let sampleData: any = [
   },
   {
     id: 3,
-    employeeId: "03",
-    name: "Kuganesan Kuganesan",
+    employeeId: 3,
+    employeeName: "Kuganesan Kuganesan",
     leaveType: "Annual",
-    leaveDays: "14",
+    leaveDays: 14,
+    reason: "Wedding",
     fromDate: "02/06/2022",
     toDate: "15/06/2022",
     requestedDate: "19/05/2022",
@@ -53,10 +56,11 @@ let sampleData: any = [
   },
   {
     id: 4,
-    employeeId: "04",
-    name: "Cudeson Cudeson",
+    employeeId: 4,
+    employeeName: "Cudeson Cudeson",
     leaveType: "Annual",
-    leaveDays: "7",
+    leaveDays: 7,
+    reason: "Wedding",
     fromDate: "02/06/2022",
     toDate: "09/06/2022",
     requestedDate: "18/05/2022",
@@ -78,11 +82,11 @@ function ManageHistory() {
 
   const [open, setOpen] = useState(false);
 
-  const [modelDetails, setModelDetails] = useState({});
+  const [leaveDetails, setLeaveDetails] = useState({});
 
   const handleClickOpen = (value) => {
     setOpen(true);
-    setModelDetails(value);
+    setLeaveDetails(value);
   };
 
   const handleClose = () => {
@@ -97,7 +101,7 @@ function ManageHistory() {
       minWidth: 45,
     },
     {
-      id: "name",
+      id: "employeeName",
       label: "Name",
       minWidth: 190,
     },
@@ -133,7 +137,7 @@ function ManageHistory() {
       minWidth: 80,
     },
     {
-      id: "action",
+      id: "details",
       label: "",
       minWidth: 40,
       render: (value) => (
@@ -190,17 +194,10 @@ function ManageHistory() {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-          <ViewHistory details={modelDetails} isEmployeeDetail={true} isResponseButtons={true} cancel={handleClose} />
+          <ViewHistory details={leaveDetails} isEmployeeDetail={true} isResponseButtons={false} cancel={handleClose} />
           </DialogContentText>
         </DialogContent>
       </Dialog>
-        {/* <Modals
-          modalTitle="Approval Status"
-          modalWidth="50%"
-          open={open}
-          onClose={handleClose}
-          modalBody={<ViewHistory details={modelDetails} />}
-        /> */}
       </Container>
     </div>
   );

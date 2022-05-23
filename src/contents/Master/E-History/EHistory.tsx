@@ -1,46 +1,73 @@
-import { Card, CardContent, Container, Divider, Typography } from "@mui/material";
+import { Card, CardContent, Container, Dialog, DialogContent, DialogContentText, DialogTitle, Divider, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import Tables from "src/components/atoms/Tables";
 import { Column } from "src/components/atoms/Tables/TableInterface";
+import ViewHistory from "../History/ViewHistory";
 
 let sampleData: any = [
   {
     id: 1,
+    employeeId: 1,
+    employeeName: "Kuganesan Kuganesan",
     leaveType: "Annual",
-    leaveDays: "14",
+    leaveDays: 14,
+    reason: "Wedding",
     fromDate: "02/06/2022",
     toDate: "15/06/2022",
     requestedDate: "19/05/2022",
     status: "Approved",
+    approvers: [{names: "KugApp1", appStatus: "Approved"},
+    {names: "KugApp2", appStatus: "Approved"}, 
+    {names: "KugApp3", appStatus: "Approved"},],
   },
   {
     id: 2,
-    leaveType: "Casual",
-    leaveDays: "7",
+    employeeId: 2,
+    employeeName: "Cudeson Cudeson",
+    leaveType: "Annual",
+    leaveDays: 7,
+    reason: "Wedding",
     fromDate: "02/06/2022",
     toDate: "09/06/2022",
     requestedDate: "18/05/2022",
     status: "Rejected",
+    approvers: [{names: "CudApp1", appStatus: "Approved"},
+    {names: "CudApp2", appStatus: "Approved"},
+    {names: "CudApp3", appStatus: "Rejected"},
+    {names: "CudApp4", appStatus: "Rejected"},],
   },
   {
     id: 3,
+    employeeId: 3,
+    employeeName: "Kuganesan Kuganesan",
     leaveType: "Annual",
-    leaveDays: "14",
+    leaveDays: 14,
+    reason: "Wedding",
     fromDate: "02/06/2022",
     toDate: "15/06/2022",
     requestedDate: "19/05/2022",
     status: "Approved",
+    approvers: [{names: "KugApp1", appStatus: "Approved"},
+    {names: "KugApp2", appStatus: "Approved"}, 
+    {names: "KugApp3", appStatus: "Approved"},],
   },
   {
     id: 4,
-    leaveType: "Casual",
-    leaveDays: "7",
+    employeeId: 4,
+    employeeName: "Cudeson Cudeson",
+    leaveType: "Annual",
+    leaveDays: 7,
+    reason: "Wedding",
     fromDate: "02/06/2022",
     toDate: "09/06/2022",
     requestedDate: "18/05/2022",
     status: "Rejected",
+    approvers: [{names: "CudApp1", appStatus: "Approved"},
+    {names: "CudApp2", appStatus: "Approved"},
+    {names: "CudApp3", appStatus: "Approved"},
+    {names: "CudApp4", appStatus: "Rejected"},],
   },
 ]
 
@@ -54,8 +81,11 @@ function EHistory() {
 
   const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
+  const [leaveDetails, setLeaveDetails] = useState({});
+
+  const handleClickOpen = (value) => {
     setOpen(true);
+    setLeaveDetails(value);
   };
 
   const handleClose = () => {
@@ -99,7 +129,8 @@ function EHistory() {
       label: "",
       minWidth: 40,
       render: (value: any) => (
-        <Typography variant="inherit" onClick={handleClickOpen} color="blue" style={{cursor: "pointer"}} >Detail</Typography>
+        <Typography variant="inherit" onClick={() => handleClickOpen(value)} 
+        color="blue" style={{cursor: "pointer"}} >Detail</Typography>
         ),
     }
   ];
@@ -140,6 +171,22 @@ function EHistory() {
             />
           </CardContent>
         </Card>
+        <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        maxWidth="md"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {""}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          <ViewHistory details={leaveDetails} isEmployeeDetail={false} isResponseButtons={false} cancel={handleClose} />
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
       </Container>
     </div>
   );

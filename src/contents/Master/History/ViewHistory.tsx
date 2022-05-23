@@ -6,6 +6,36 @@ import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
 import Button from '@mui/material/Button';
 
+interface IViewHistory {
+  employeeId?: number;
+  employeeName?: string;
+  leaveType?: string;
+  leaveDays?: number;
+  fromDate?: string;
+  toDate?: string;
+  reason?: string;
+  status?: string;
+  approvers?: any[];
+  cancel?: any;
+  isEmployeeDetail?: boolean;
+  isResponseButtons?: boolean;
+}
+
+let initialFValues: IViewHistory = {
+  employeeId: 0,
+  employeeName: "",
+  leaveType: "",
+  leaveDays: 0,
+  fromDate: "",
+  toDate: "",
+  reason: "",
+  status: "",
+  approvers: [],
+  isEmployeeDetail: true,
+  isResponseButtons: true,
+  
+};
+
     export default function ViewHistory(props) {
 
       const {details,name}=props;
@@ -63,16 +93,18 @@ import Button from '@mui/material/Button';
             <Typography variant="h6">Leave days:</Typography>
             <Typography variant="h6">From date:</Typography>
             <Typography variant="h6">To date:</Typography>
+            <Typography variant="h6">Reason:</Typography>
             <Typography variant="h6">Requested date:</Typography>
             </Box>
             </Grid>
             <Grid item xs={6}>
             { props.isEmployeeDetail && <div><Typography variant="h6" color="black">{details.employeeId}</Typography>
-            <Typography variant="h6" color="black">{details.name} </Typography></div>}
+            <Typography variant="h6" color="black">{details.employeeName} </Typography></div>}
             <Typography variant="h6" color="black">{details.leaveType}</Typography>
             <Typography variant="h6" color="black">{details.leaveDays}</Typography>
             <Typography variant="h6" color="black">{details.fromDate}</Typography>
             <Typography variant="h6" color="black">{details.toDate}</Typography>
+            <Typography variant="h6" color="black">{details.reason}</Typography>
             <Typography variant="h6" color="black">{details.requestedDate}</Typography>
             </Grid></Grid>
               <React.Fragment>
