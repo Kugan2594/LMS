@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import Button from "src/components/atoms/controlls/Button";
 import Input from "src/components/atoms/controlls/Input";
 import { Form, useForm } from "src/components/atoms/Forms/useForm";
-import { PageTitleWrapper } from "src/components/organism";
-import PageTitle from "src/components/organism/PageTitle";
 import {
   FORM_VALIDATION,
   spaceValidation,
@@ -12,15 +10,16 @@ import {
   EMAIL_VALIDATION,
 } from "src/util/ValidationMeassage";
 import { IEmployee } from "./Employee.interface";
-import Select from "@mui/material/Select";
+
 import DatePicker from "src/components/atoms/controlls/DatePicker";
-import { createEmployee, updateEmployee } from "./ServiceEmployee";
+import { createEmployee, updateEmployee, getAllCompanyLocationForDropDown, getAllDesignationForDropDown } from "./ServiceEmployee";
 import AutocompleteSelect from "src/components/atoms/controlls/AutocompleteSelect";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
+import PropTypes from 'prop-types';
 
 let initialFValues: IEmployee = {
   id: 0,
@@ -30,17 +29,19 @@ let initialFValues: IEmployee = {
   email: "",
   gender: "",
   contactNo: "",
+  nic: "",
   maritalStatus: "",
   nationality: "",
   religon: "",
   passportNo: "",
   drivingLicenceNo: "",
   bloodGroup: "",
-  description: "",
+  approverStatus: false,
   joinDate: "",
+  dateOfPermanency: "",
   dateOfBirth: "",
-  companyLocation: "",
-  name: "",
+  companyLocationId: 0,
+  designationId: 0,
   employmentType: "",
   businessUnit: "",
 };
@@ -53,44 +54,116 @@ const genderType = [
     id: "MALE",
     title: "MALE",
   },
+  {
+    id: "OTHER",
+    title: "OTHER",
+  },
 ];
 const nationalityType = [
   {
-    id: "FEMALE",
-    title: "FEMALE",
+    id: "Srilankan",
+    title: "Srilankan",
   },
   {
-    id: "MALE",
-    title: "MALE",
+    id: "Indian",
+    title: "Indian",
   },
 ];
-const designationtype = [
-  {
-    id: "SE",
-    title: "SE",
-  },
-  {
-    id: "QA",
-    title: "QA",
-  },
-];
+
 const employeementtype = [
   {
-    id: "SE",
-    title: "SE",
+    id: "Contract Basis",
+    title: "Contract Basis",
   },
   {
-    id: "QA",
-    title: "QA",
+    id: "Temporary",
+    title: "Temporary",
+  },
+  {
+    id: "Intern",
+    title: "Intern",
   },
 ];
+
+const maritalStatus = [
+  {
+    id: "Single",
+    title: "Single",
+  },
+  {
+    id: "Married",
+    title: "Married",
+  },
+];
+
+const bloodGroup = [
+  {
+    id: "A+",
+    title: "A+",
+  },
+  {
+    id: "A-",
+    title: "A-",
+  },
+  {
+    id: "B+",
+    title: "B+",
+  },
+  {
+    id: "B-",
+    title: "B-",
+  },
+  {
+    id: "AB+",
+    title: "AB+",
+  },
+  {
+    id: "AB-",
+    title: "AB-",
+  },
+  {
+    id: "O+",
+    title: "O+",
+  },
+  {
+    id: "O-",
+    title: "O-",
+  },
+];
+
+const religon = [
+  {
+    id: "Hindu",
+    title: "Hindu",
+  },
+  {
+    id: "RC",
+    title: "RC",
+  },
+  {
+    id: "NRC",
+    title: "NRC",
+  },
+  {
+    id: "Muslim",
+    title: "Muslim",
+  },
+  {
+    id: "Buddhist",
+    title: "Buddhist",
+  },
+];
+
 
 function AddEmployee(props) {
   const { reloadTable, action, editData, handleError } = props;
+  const [companyLocationData, setcompanyLocationData] = useState([]);
+  const [designationData, setdesignationData] = useState([]);
+
   const validate = (fieldValues = values) => {
     let temp: IEmployee = { ...errors };
 
-    if ("firstname" in fieldValues)
+    if ("firstName" in fieldValues)
       temp.firstName = fieldValues.firstName
         ? spaceValidation.test(fieldValues.firstName)
           ? ""
@@ -103,6 +176,33 @@ function AddEmployee(props) {
           ? ""
           : `LastName ${FORM_VALIDATION.space}`
         : FORM_VALIDATION.required;
+    if ("religon" in fieldValues)
+      temp.religon = fieldValues.religon
+        ? spaceValidation.test(fieldValues.religon)
+          ? ""
+          : `religon ${FORM_VALIDATION.space}`
+        : FORM_VALIDATION.required;
+
+    if ("nationality" in fieldValues)
+      temp.nationality = fieldValues.nationality
+        ? spaceValidation.test(fieldValues.nationality)
+          ? ""
+          : `nationality ${FORM_VALIDATION.space}`
+        : FORM_VALIDATION.required;
+
+    if ("gender" in fieldValues)
+      temp.gender = fieldValues.gender
+        ? spaceValidation.test(fieldValues.gender)
+          ? ""
+          : `gender ${FORM_VALIDATION.space}`
+        : FORM_VALIDATION.required;
+
+    if ("nic" in fieldValues)
+      temp.nic = fieldValues.nic
+        ? spaceValidation.test(fieldValues.nic)
+          ? ""
+          : `nic ${FORM_VALIDATION.space}`
+        : FORM_VALIDATION.required;
 
     if ("maritalStatus" in fieldValues)
       temp.maritalStatus = fieldValues.maritalStatus
@@ -110,6 +210,11 @@ function AddEmployee(props) {
           ? ""
           : `MaritalStatus ${FORM_VALIDATION.space}`
         : FORM_VALIDATION.required;
+
+    if ("dateOfPermanency" in fieldValues)
+      temp.dateOfPermanency = fieldValues.dateOfPermanency
+        ? ""
+        : "This field is required. ";
 
     if ("contactNo" in fieldValues)
       temp.contactNo = fieldValues.contactNo
@@ -136,11 +241,12 @@ function AddEmployee(props) {
         ? ""
         : "This field is required.";
     if ("companyLocation" in fieldValues)
-      temp.companyLocation = fieldValues.companyLocation
+      temp.companyLocationId = fieldValues.companyLocationId
         ? ""
         : "This field is required.";
     if ("name" in fieldValues)
-      temp.name = fieldValues.name ? "" : "This field is required.";
+      temp.designationId = fieldValues.designationId ? "" : "This field is required.";
+
 
     setErrors({
       ...temp,
@@ -161,10 +267,127 @@ function AddEmployee(props) {
   const [updateStatus, setupdateStatus] = useState(true);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("values", values);
+    console.log(values);
+    const formData = new FormData();
+    if (validate) {
+      if (action === "add") {
+        let data: object = {
+          firstName: values.firstName,
+          address: values.address,
+          lastName: values.lastName,
+          email: values.email,
+          gender: values.gender,
+          contactNo: values.contactNo,
+          nic: values.nic,
+          maritalStatus: values.maritalStatus,
+          nationality: values.nationality,
+          religon: values.religon,
+          passportNo: values.passportNo,
+          drivingLicenceNo: values.drivingLicenceNo,
+          bloodGroup: values.bloodGroup,
+          approverStatus: values.approverStatus,
+          joinDate: values.joinDate,
+          dateOfPermanency: values.dateOfPermanency,
+          dateOfBirth: values.dateOfBirth,
+          companyLocationId: values.companyLocationId,
+          designationId: values.designationId,
+          employmentType: values.employmentType,
+          businessUnit: values.businessUnit,
+        };
+        console.log(data);
+        createEmployee(data).then(
+          (res: any) => {
+            console.log(res);
+            reloadTable(res);
+            handleClose();
+            resetForm();
+          },
+          (error) => {
+            console.log(error);
+            // reloadTable(res);
+            handleClose();
+            handleError(error);
+          }
+        )
+      }
+      else {
+        const formData = new FormData();
+
+        let data: object = {
+          id: editData.id,
+          firstName: values.firstName,
+          address: values.address,
+          lastName: values.lastName,
+          email: values.email,
+          gender: values.gender,
+          contactNo: values.contactNo,
+          maritalStatus: values.maritalStatus,
+          nationality: values.nationality,
+          religon: values.religon,
+          passportNo: values.passportNo,
+          drivingLicenceNo: values.drivingLicenceNo,
+          bloodGroup: values.bloodGroup,
+          description: values.description,
+          joinDate: values.joinDate,
+          dateOfBirth: values.dateOfBirth,
+          companyLocationId: values.companyLocationId,
+          designationId: values.designationId,
+          employmentType: values.employmentType,
+          businessUnit: values.businessUnit,
+          dateOfPermanency: values.dateOfPermanency,
+        }
+
+
+        updateEmployee(data).then((res: any) => {
+          console.log(res);
+
+          reloadTable(res);
+          setupdateStatus(true);
+          resetForm();
+
+        },
+          (error) => {
+            console.log(error);
+            handleError(error);
+          }
+        )
+      }
+    }
+  };
+  useEffect(() => {
+    getCompanyLocationSelectData();
+    getDesignationSelectData();
+    if (action === 'edit') {
+      console.log({ editData });
+
+      setValues(editData);
+    }
+  }, [action, editData, setValues]);
+
+
+  const getCompanyLocationSelectData = () => {
+    let data: any = [];
+    getAllCompanyLocationForDropDown().then((res: []) => {
+      res.map((post: any) => {
+        data.push({ id: post.id, title: post.location });
+        return null;
+      });
+      setcompanyLocationData(data);
+
+    });
   };
 
-  const onChangeFormValue = () => {};
+  const getDesignationSelectData = () => {
+    let data: any = [];
+    getAllDesignationForDropDown().then((res: []) => {
+      res.map((post: any) => {
+        data.push({ id: post.id, title: post.name });
+        return null;
+      });
+      setdesignationData(data);
+    });
+  };
+  const onChangeFormValue = () => { setupdateStatus(false); };
   const onReset = () => {
     resetForm();
   };
@@ -179,8 +402,10 @@ function AddEmployee(props) {
   const onValueChange = (e) => {
     setupdateStatus(false);
     const { name, value } = e.target;
+
     console.log("hit", name, value);
   };
+
 
   const steps = ["Personal Details", "Employement Details"];
 
@@ -206,23 +431,12 @@ function AddEmployee(props) {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleSkip = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
 
   return (
     <div>
-      <Box sx={{ width: "100%" ,justifyContent: 'center'}}>
-        <Stepper sx={{  }} activeStep={activeStep}>
+      <Box sx={{ width: "100%", justifyContent: 'center' }}>
+        <Stepper sx={{}} activeStep={activeStep}>
           {steps.map((label, index) => {
             const stepProps: { completed?: boolean } = {};
             const labelProps: {
@@ -239,120 +453,10 @@ function AddEmployee(props) {
             );
           })}
         </Stepper>
-        {activeStep === steps.length - 1 ? (
+        {activeStep === steps.length - 2 ? (
           <React.Fragment>
             <Typography sx={{ mt: 2, mb: 1 }}>
-              <Form
-                onSubmit={handleSubmit}
-                onChangeFormValue={onChangeFormValue}
-              >
-                <Grid container>
-                  <Grid item xs={4}>
-                    <DatePicker
-                      name="joinDate"
-                      label="Appointed Date *"
-                      value={values.joinDate}
-                      onChange={handleInputChange}
-                      error={errors.joinDate}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <DatePicker
-                      name="dateOfPermanency"
-                      label="Date of Permanency *"
-                      value={values.dateOfPermanency}
-                      onChange={handleInputChange}
-                      error={errors.dateOfPermanency}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Input
-                      name="description"
-                      label="Description *"
-                      value={values.description}
-                      onChange={handleInputChange}
-                      error={errors.description}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <AutocompleteSelect
-                      name="name"
-                      label="Designation*"
-                      value={values.name ? values.name : ""}
-                      onChange={handleInputChange}
-                      onValueChange={onValueChange}
-                      options={designationtype}
-                      error={errors.name}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <AutocompleteSelect
-                      name="companyLocation"
-                      label="Office Location*"
-                      value={values.name ? values.name : ""}
-                      onChange={handleInputChange}
-                      onValueChange={onValueChange}
-                      options={designationtype}
-                      error={errors.name}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <AutocompleteSelect
-                      name="employmentType"
-                      label="Employment Type*"
-                      value={values.employmentType ? values.employmentType : ""}
-                      onChange={handleInputChange}
-                      onValueChange={onValueChange}
-                      options={employeementtype}
-                      error={errors.employmentType}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <AutocompleteSelect
-                      name="businessUnit"
-                      label="Business Unit*"
-                      value={values.businessUnit ? values.businessUnit : ""}
-                      onChange={handleInputChange}
-                      onValueChange={onValueChange}
-                      options={employeementtype}
-                      error={errors.employmentType}
-                    />
-                  </Grid>
-                  <Divider />
-                  <Grid
-                    display="flex"
-                    flexDirection="row"
-                    justifyContent="flex-end"
-                    container
-                    style={{ padding: "8px" }}
-                  ></Grid>
-                </Grid>
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                  <Box sx={{ flex: "1 1 auto" }} />
-                  <Button
-                    color="inherit"
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    text="Back"
-                  />
-
-                  <Button
-                    size="small"
-                    type="submit"
-                    text="Submit"
-                    onClick={handleClose}
-                  />
-                </Box>
-              </Form>
-            </Typography>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>
-              <Form
-                onSubmit={handleSubmit}
-                onChangeFormValue={onChangeFormValue}
-              >
+              <Form>
                 <Grid container>
                   {" "}
                   <Grid item xs={4}>
@@ -393,17 +497,17 @@ function AddEmployee(props) {
                   </Grid>
                   <Grid item xs={4}>
                     <DatePicker
-                      name="date"
-                      label="Date OF *"
-                      value={values.date}
+                      name="dateOfBirth"
+                      label="Date OF Birth*"
+                      value={values.dateOfBirth}
                       onChange={handleInputChange}
-                      error={errors.date}
+                      error={errors.dateOfBirth}
                     />
                   </Grid>
                   <Grid item xs={4}>
                     <Input
                       name="contactNo"
-                      label="ContactNo *"
+                      label="Contact No *"
                       value={values.contactNo}
                       onChange={handleInputChange}
                       error={errors.contactNo}
@@ -411,26 +515,39 @@ function AddEmployee(props) {
                   </Grid>
                   <Grid item xs={4}>
                     <Input
+                      name="nic"
+                      label="NIC No *"
+                      value={values.nic}
+                      onChange={handleInputChange}
+                      error={errors.nic}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <AutocompleteSelect
                       name="maritalStatus"
                       label="MaritalStatus *"
                       value={values.maritalStatus}
                       onChange={handleInputChange}
+                      onValueChange={onValueChange}
+                      options={maritalStatus}
                       error={errors.maritalStatus}
                     />
                   </Grid>
                   <Grid item xs={4}>
-                    <Input
+                    <AutocompleteSelect
                       name="religon"
                       label="Religon*"
                       value={values.religon}
                       onChange={handleInputChange}
+                      onValueChange={onValueChange}
+                      options={religon}
                       error={errors.religon}
                     />
                   </Grid>
                   <Grid item xs={4}>
                     <Input
                       name="passportNo"
-                      label="PassportNo*"
+                      label="Passport No"
                       value={values.passportNo}
                       onChange={handleInputChange}
                       error={errors.passportNo}
@@ -439,18 +556,20 @@ function AddEmployee(props) {
                   <Grid item xs={4}>
                     <Input
                       name="drivingLicenceNo"
-                      label="DrivingLicenceNo*"
+                      label="Driving Licence No"
                       value={values.drivingLicenceNo}
                       onChange={handleInputChange}
                       error={errors.drivingLicenceNo}
                     />
                   </Grid>
                   <Grid item xs={4}>
-                    <Input
+                    <AutocompleteSelect
                       name="bloodGroup"
-                      label="BloodGroup*"
+                      label="Blood Group"
                       value={values.bloodGroup}
                       onChange={handleInputChange}
+                      onValueChange={onValueChange}
+                      options={bloodGroup}
                       error={errors.bloodGroup}
                     />
                   </Grid>
@@ -500,10 +619,130 @@ function AddEmployee(props) {
               </Form>
             </Typography>
           </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <Typography sx={{ mt: 2, mb: 1 }}>
+              <Form
+                onSubmit={handleSubmit}
+                onChangeFormValue={onChangeFormValue}
+              >
+                <Grid container>
+                  <Grid item xs={4}>
+                    <DatePicker
+                      name="joinDate"
+                      label="Appointed Date *"
+                      value={values.joinDate}
+                      onChange={handleInputChange}
+                      error={errors.joinDate}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <DatePicker
+                      name="dateOfPermanency"
+                      label="Date of Permanency *"
+                      value={values.dateOfPermanency}
+                      onChange={handleInputChange}
+                      error={errors.dateOfPermanency}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Input
+                      name="approverStatus"
+                      label="approverStatus *"
+                      value={values.approverStatus}
+                      onChange={handleInputChange}
+                      error={errors.approverStatus}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <AutocompleteSelect
+                      name="designationId"
+                      label="Designation*"
+                      value={values.designationId}
+                      onChange={handleInputChange}
+                      options={designationData}
+                      error={errors.designationId}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <AutocompleteSelect
+                      name="companyLocationId"
+                      label="Office Location*"
+                      value={values.companyLocationId}
+                      onChange={handleInputChange}
+                      options={companyLocationData}
+                      error={errors.companyLocation}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <AutocompleteSelect
+                      name="employmentType"
+                      label="Employment Type*"
+                      value={values.employmentType ? values.employmentType : ""}
+                      onChange={handleInputChange}
+                      onValueChange={onValueChange}
+                      options={employeementtype}
+                      error={errors.employmentType}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <AutocompleteSelect
+                      name="businessUnit"
+                      label="Business Unit*"
+                      value={values.businessUnit ? values.businessUnit : ""}
+                      onChange={handleInputChange}
+                      onValueChange={onValueChange}
+                      options={employeementtype}
+                      error={errors.employmentType}
+                    />
+                  </Grid>
+                  <Divider />
+                  <Grid
+                    display="flex"
+                    flexDirection="row"
+                    justifyContent="flex-end"
+                    container
+                    style={{ padding: "8px" }}
+                  ></Grid>
+                </Grid>
+                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Box sx={{ flex: "1 1 auto" }} />
+                  <Button
+                    color="inherit"
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    text="Back"
+                  />
+                  {action !== "edit" && (
+                    <Button
+                      size="small"
+                      color="primary"
+                      text="Reset"
+                      onClick={onReset}
+                    />
+                  )}
+                  <Button
+                    size="small"
+                    type="submit"
+                    text={action === "edit" ? "Update" : "Submit"}
+                    disabled={action === "edit" ? updateStatus : false}
+                  />
+                </Box>
+              </Form>
+            </Typography>
+          </React.Fragment>
         )}
       </Box>
     </div>
   );
 }
 
+
+
+AddEmployee.propTypes = {
+  reloadTable: PropTypes.func,
+  handleError: PropTypes.func,
+  action: PropTypes.string,
+  editData: PropTypes.object
+};
 export default AddEmployee;

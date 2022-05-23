@@ -43,11 +43,8 @@ const createEmployee = (data: object) => {
     });
 };
 const updateEmployee = (data: object) => {
-    let body: object = {
-        request: data,
-    };
     return new Promise((resolve, reject) => {
-        api("put", "lm-web", null, `/employee`, "", body, "")
+        api("put", "lm-web", null, `/employee`, "", data, "")
             .then((response: any) => {
                 resolve(response);
             })
@@ -56,5 +53,46 @@ const updateEmployee = (data: object) => {
             });
     });
 };
+const getAllCompanyLocationForDropDown = () => {
+    return new Promise((resolve, reject) => {
+        api(
+            "get",
+            "lm-web",
+            null,
+            `/companyLocation`,
+            "",
+            "",
+            ""
+        )
+            .then((response: any) => {
+                resolve(response.data);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
 
-export { deleteEmployee, getAllEmployee, createEmployee, updateEmployee };
+
+const getAllDesignationForDropDown = () => {
+    return new Promise((resolve, reject) => {
+        api(
+            "get",
+            "lm-web",
+            null,
+            `/designation`,
+            "",
+            "",
+            ""
+        )
+            .then((response: any) => {
+                resolve(response.data);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
+
+
+export { deleteEmployee, getAllEmployee, createEmployee, updateEmployee, getAllDesignationForDropDown, getAllCompanyLocationForDropDown };
