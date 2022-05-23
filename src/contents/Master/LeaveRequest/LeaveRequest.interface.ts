@@ -2,6 +2,7 @@ interface ILeaveRequest {
     id?:number;
     employeeId?:number;
     leaveTypeId?: number;
+    leaveType?: string;
     fromDate?: string;
     toDate?: string;
     reason?: string;
@@ -9,6 +10,10 @@ interface ILeaveRequest {
     employee?: string;
     status?: "Approved" | "Reject" | "New";
     cancel?: any;
+    enableTitle?: boolean;
+    isButton?: boolean;
+    isButtonTwo?: boolean;
+    isButtonThree?: boolean;
 }
 
 export type { ILeaveRequest };
