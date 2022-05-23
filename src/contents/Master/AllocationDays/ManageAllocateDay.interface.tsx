@@ -1,6 +1,6 @@
 interface IEmployeeLeaveType {
     id?: number;
-    employeeId?: any;
+    employeeId?: string;
     firstName?: string;
     lastName?: string;
     type?: string;

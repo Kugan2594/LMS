@@ -11,12 +11,10 @@ import AutocompleteSelect from "src/components/atoms/controlls/AutocompleteSelec
 function createData(data) {
   let convertData = data.map((post, index) => {
     return {
-      id: post.id,
-      firstName: post.employee.firstName,
-      lastName: post.employee.lastName,
-      type: post.leaveType.type,
       allocatedDays: post.allocatedDays,
       remainingDays: post.remainingDays,
+      leaveType: post.leaveType.type,
+      employee: post.employee.firstName,
     };
   });
   return convertData;
@@ -59,24 +57,44 @@ const employeeList = [
 
 function ManageAllocateDay() {
   const [updateStatus, setupdateStatus] = useState(true);
+  const [employeeId, setemployeeId] = useState("");
+  const [erroremployee, seterroremployee] = useState("");
 
   const onValueChange = (e) => {
     setupdateStatus(false);
-    const { firstName, value } = e.target;
-    console.log("hit", firstName, value);
+    const { name, value } = e.target;
+    if (name === "employeeId") {
+      setemployeeId(value);
+      if (value !== "") {
+        seterroremployee("");
+      }
+    }
+    console.log("hit", name, value);
   };
 
   const [dataSource, setdataSource] = useState([]);
 
-  // useEffect(() => {
-  //   getEmployeeleavetypeByEmployeeIdData(employeeId: any);
-  // }, [employeeId: any]);
-  // const getEmployeeleavetypeByEmployeeIdData = (employeeId) => {
-  //   getEmployeeleavetypeByEmployeeId(employeeId).then((res: any) => {
-  //     let data: [] = createData(res.results.Employee);
-  //     setdataSource(data);
-  //   });
-  // };
+  useEffect(() => {
+    getEmployeeNameSelectData(2);
+  }, []);
+
+  const getEmployeeNameSelectData = (employeeId) => {
+    let data: any = [];
+    getEmployeeleavetypeByEmployeeId(employeeId).then(
+      (res: []) => {
+        res.map((post: any) => {
+          data.push({ id: post.id, title: post.employee });
+          return null;
+        });
+        setdataSource(data);
+      },
+      (error) => {
+        console.log(error);
+        setdataSource([]);
+      }
+    );
+  };
+
   return (
     <div>
       <PageTitleWrapper>
@@ -96,10 +114,11 @@ function ManageAllocateDay() {
               <Grid item xs={12} md={3} lg={3}></Grid>
               <Grid item xs={12} md={6} lg={6}>
                 <AutocompleteSelect
-                  name="firstName"
+                  name="employeeId"
                   label="Employee Name"
+                  value={employeeId}
                   onValueChange={onValueChange}
-                  options={employeeList}
+                  options={dataSource}
                 />
               </Grid>
               <Grid item xs={12} md={3} lg={3}></Grid>
