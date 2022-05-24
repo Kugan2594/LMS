@@ -12,9 +12,10 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import LeaveRequestForm from "./LeaveRequestForm";
 import ViewHistory from "../History/ViewHistory";
-import { getAllLeaveRequest } from "./ServiceLeaveRequest";
+import { getAllLeaveRequest, cancelLeaveRequest } from "./ServiceLeaveRequest";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import { TableAction } from "src/components/atoms/Tables/TableAction";
+import CustomizedNotification from "src/util/CustomizedNotification";
 
 function createData(data) {
   let convertData = data.map((post, index) => {
@@ -108,16 +109,23 @@ function InProgress() {
     getAllLeaveRequestData(pagination.pageNumber, pagination.pageSize);
   };
 
+  const handleError = (res) => {
+    setalert({
+      type: NOTIFICATION_TYPE.error,
+      mesg: res.data.validationFailures[0].message,
+    });
+  };
+
   const deleteOnclick = (row) => {
-    // deleteEmployee(row.id).then(
-    //   (res: any) => {
-    //     reloadTable(res);
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //     handleError(error);
-    //   }
-    // );
+    cancelLeaveRequest(row.id).then(
+      (res: any) => {
+        reloadTable(res);
+      },
+      (error) => {
+        console.log(error);
+        handleError(error);
+      }
+    );
   };
 
   const editOnclick = (row) => {
@@ -127,18 +135,25 @@ function InProgress() {
     // setOpen(true);
   };
 
+  const handleAlertClose = () => {
+    setalert({
+      type: "",
+      mesg: "",
+    });
+  };
+
   const onTableSearch = (values, sortField) => {};
 
   const columns: Column[] = [
     {
-        id: "firstName",
-        label: "FirstName",
-        minWidth: 0,
+      id: "firstName",
+      label: "FirstName",
+      minWidth: 0,
     },
     {
-        id: "lastName",
-        label: "LastName",
-        minWidth: 0,
+      id: "lastName",
+      label: "LastName",
+      minWidth: 0,
     },
     {
       id: "leaveType",
@@ -261,14 +276,14 @@ function InProgress() {
             </DialogContent>
           </Dialog>
         </div>
-        <Modals
-          modalTitle="Update Leave Request"
-          modalWidth="60%"
-          open={update}
-          onClose={handleUpdateClose}
-          modalBody={<LeaveRequestForm isButton={true} isButtonThree={true} />}
-        />
       </Container>
+      {alert.type.length > 0 ? (
+        <CustomizedNotification
+          severity={alert.type}
+          message={alert.mesg}
+          handleAlertClose={handleAlertClose}
+        />
+      ) : null}
     </div>
   );
 }

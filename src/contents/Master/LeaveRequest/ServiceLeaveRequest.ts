@@ -56,9 +56,22 @@ const getAllLeaveRequest = (pageNumber: number, pageSize: number) => {
   });
 };
 
+const cancelLeaveRequest = (id: number) => {
+  return new Promise((resolve, reject) => {
+      api("delete", "lm-web", null, "/leaveApply", "", "", id)
+          .then((response: any) => {
+              resolve(response);
+          })
+          .catch((error) => {
+              reject(error);
+          });
+  });
+};
+
 export {
   getAllLeaveTypeForDropDown,
   getAllEmployeesForDropDown,
   applyLeave,
   getAllLeaveRequest,
+  cancelLeaveRequest
 };

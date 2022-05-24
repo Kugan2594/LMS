@@ -120,10 +120,11 @@ function ManageAllocateDay() {
                     <Grid item xs={12} md={6} lg={3} key={index}>
                       <DoughnutChart
                         selectedValue={post.remainingDays}
-                        maxValue={post.allocatedDays}
+                        maxValue={post.allocatedDays === 0 ? 100 : post.allocatedDays}
                         radius={75}
                         activeStrokeColor="#0f4fff"
                         withGradient
+                        title="annual"
                       />
                       <CardContent>
                         <Grid item xs={12} md={12} lg={12} key={index}>
