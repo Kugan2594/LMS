@@ -12,7 +12,8 @@ import Login from "../contents/login/Login";
 import SidebarLayout from "../layout/SidebarLayout";
 import LeaveRequest from "src/contents/Master/LeaveRequest/LeaveRequest";
 import InProgress from "src/contents/Master/LeaveRequest/InProgress";
-import Task from "src/contents/Master/Tasks/Task";
+import Task from "src/contents/Master/Tasks/ManageTask";
+import ManageDesignations from "src/contents/Master/Designations/ManageDesignations";
 
 const Loader = (Component: any) => (props: any) =>
     (
@@ -66,6 +67,10 @@ const PrivateRoute: PartialRouteObject[] = [
             {
                 path: "/tasks",
                 element: <Task />,
+            },
+            {
+                path: "/designations",
+                element: <ManageDesignations />,
             },
         ],
     },

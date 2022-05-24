@@ -16,6 +16,7 @@ import { ImOffice } from "react-icons/im";
 import { RiRouteFill } from "react-icons/ri";
 import { HiUser } from "react-icons/hi";
 import { HiStar } from "react-icons/hi";
+import { IoLogoOctocat, IoMdDoneAll } from "react-icons/io";
 
 import { remove } from "lodash";
 
@@ -49,7 +50,8 @@ const masterMenuItems: MenuItem[] = [
     { name: "History", icon: GiRibbonMedal, link: "/master/history" },
     { name: "E-History", icon: GiRibbonMedal, link: "/master/e-history" },
     { name: "Aloocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
-    { name: "My Tasks", icon: GiRibbonMedal, link: "/master/tasks" },
+    { name: "My Tasks", icon: IoMdDoneAll, link: "/master/tasks" },
+    { name: "Designations", icon: IoLogoOctocat, link: "/master/designations" },
 ];
 
 // if (!modulePermission(PERMISSION_NAME.role_permission).view) {
