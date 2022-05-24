@@ -12,10 +12,15 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import LeaveRequestForm from "./LeaveRequestForm";
 import ViewHistory from "../History/ViewHistory";
-import { getAllLeaveRequest, cancelLeaveRequest } from "./ServiceLeaveRequest";
+import {
+  getAllLeaveRequest,
+  cancelLeaveRequest,
+  updateLeaveRequest,
+} from "./ServiceLeaveRequest";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import { TableAction } from "src/components/atoms/Tables/TableAction";
 import CustomizedNotification from "src/util/CustomizedNotification";
+import UpdateLeaveRequest from "./UpdateLeaveRequest";
 
 function createData(data) {
   let convertData = data.map((post, index) => {
@@ -47,6 +52,20 @@ function InProgress() {
     sortField: "id",
     direction: "DESC",
   });
+  const [alert, setalert] = useState({
+    type: "",
+    mesg: "",
+  });
+  const [dataSource, setdataSource] = useState([]);
+  const [action, setaction] = useState("add");
+  const [editData, seteditData] = useState({});
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   const [update, setUpdate] = useState(false);
   const handleUpdate = (value) => {
     setUpdate(true);
@@ -55,28 +74,31 @@ function InProgress() {
     setUpdate(false);
   };
 
+  const editOnclick = (row) => {
+    console.log(row);
+    setaction("edit");
+    seteditData(row);
+    setOpen(true);
+  };
+  const handleError = (res) => {
+    setalert({
+      type: NOTIFICATION_TYPE.error,
+      mesg: res.data.validationFailures[0].message,
+    });
+  };
+  const handleAlertClose = () => {
+    setalert({
+      type: "",
+      mesg: "",
+    });
+  };
+
   const [leaveDetails, setLeaveDetails] = useState({});
 
   const handleOpenLeaveDetails = (value) => {
     setOpenDetails(true);
     setLeaveDetails(value);
   };
-
-  const handleClickOpen = (value) => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setOpenDetails(false);
-  };
-
-  //   get all leave request with pagination
-  const [dataSource, setdataSource] = useState([]);
-  const [alert, setalert] = useState({
-    type: "",
-    mesg: "",
-  });
 
   const onChangePage = (pageNumber, pageSize) => {
     if (pagination.pageSize !== pageSize) {
@@ -109,13 +131,6 @@ function InProgress() {
     getAllLeaveRequestData(pagination.pageNumber, pagination.pageSize);
   };
 
-  const handleError = (res) => {
-    setalert({
-      type: NOTIFICATION_TYPE.error,
-      mesg: res.data.validationFailures[0].message,
-    });
-  };
-
   const deleteOnclick = (row) => {
     cancelLeaveRequest(row.id).then(
       (res: any) => {
@@ -126,20 +141,6 @@ function InProgress() {
         handleError(error);
       }
     );
-  };
-
-  const editOnclick = (row) => {
-    console.log(row);
-    // setaction("edit");
-    // seteditData(row);
-    // setOpen(true);
-  };
-
-  const handleAlertClose = () => {
-    setalert({
-      type: "",
-      mesg: "",
-    });
   };
 
   const onTableSearch = (values, sortField) => {};
@@ -216,7 +217,8 @@ function InProgress() {
         <PageTitle
           heading="Manage Leave Request"
           subHeading="Master/ManageLeaveRequest"
-          isButton={false}
+          isButton={true}
+          onclickButton={handleClickOpen}
         />
       </PageTitleWrapper>
       <Divider />
@@ -237,45 +239,23 @@ function InProgress() {
             />
           </CardContent>
         </Card>
-        <div>
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"Are you sure Do you want to cancel Request?"}
-            </DialogTitle>
-            <DialogActions>
-              <Button onClick={handleClose}>No</Button>
-              <Button onClick={handleClose} autoFocus>
-                Yes
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </div>
-        <div>
-          <Dialog
-            open={openDetails}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            maxWidth="md"
-          >
-            <DialogTitle id="alert-dialog-title">{""}</DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                <ViewHistory
-                  details={leaveDetails}
-                  isEmployeeDetail={false}
-                  isResponseButtons={false}
-                  cancel={handleClose}
-                />
-              </DialogContentText>
-            </DialogContent>
-          </Dialog>
-        </div>
+
+        <Modals
+          modalTitle={
+            action === "edit" ? "Edit LeaveRequest" : "Add LeaveRequest"
+          }
+          modalWidth="60%"
+          open={open}
+          onClose={handleClose}
+          modalBody={
+            <UpdateLeaveRequest
+              reloadTable={reloadTable}
+              action={action}
+              editData={editData}
+              handleError={handleError}
+            />
+          }
+        />
       </Container>
       {alert.type.length > 0 ? (
         <CustomizedNotification
