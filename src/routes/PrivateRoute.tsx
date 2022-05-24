@@ -13,6 +13,7 @@ import SidebarLayout from "../layout/SidebarLayout";
 import LeaveRequest from "src/contents/Master/LeaveRequest/LeaveRequest";
 import InProgress from "src/contents/Master/LeaveRequest/InProgress";
 import ManageCompanyLocation from "src/contents/Master/CompanyLocation/ManageCompanyLocation";
+import Task from "src/contents/Master/Tasks/Task";
 
 const Loader = (Component: any) => (props: any) =>
     (
@@ -66,6 +67,10 @@ const PrivateRoute: PartialRouteObject[] = [
             {
                 path: "/companyLocation",
                 element: <ManageCompanyLocation />,
+            },
+            {
+                path: "/tasks",
+                element: <Task />,
             },
         ],
     },
