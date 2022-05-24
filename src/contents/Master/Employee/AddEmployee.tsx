@@ -25,6 +25,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
+import Checkbox from "src/components/atoms/controlls/Checkbox";
 
 let initialFValues: IEmployee = {
   id: 0,
@@ -638,6 +639,7 @@ function AddEmployee(props) {
               <Form
                 onSubmit={handleSubmit}
                 onChangeFormValue={onChangeFormValue}
+
               >
                 <Grid container>
                   <Grid item xs={4}>
@@ -658,23 +660,17 @@ function AddEmployee(props) {
                       error={errors.dateOfPermanency}
                     />
                   </Grid>
-                  <Grid item xs={4}>
-                    <Input
-                      name="approverStatus"
-                      label="approverStatus *"
-                      value={values.approverStatus}
-                      onChange={handleInputChange}
-                      error={errors.approverStatus}
-                    />
-                  </Grid>
+                  
                   <Grid item xs={4}>
                     <AutocompleteSelect
                       name="designationId"
                       label="Designation*"
                       value={values.designationId}
                       onChange={handleInputChange}
+                      onValueChange={onValueChange}
                       options={designationData}
                       error={errors.designationId}
+
                     />
                   </Grid>
                   <Grid item xs={4}>
@@ -708,6 +704,15 @@ function AddEmployee(props) {
                       options={employeementtype}
                       error={errors.employmentType}
                     />
+                  </Grid>
+                  <Grid item xs={4}>
+                    
+                    <Checkbox
+                        name="approverStatus"
+                        label="Approver Status"
+                        value={values.approverStatus}
+                        onChange={handleInputChange}
+                      />
                   </Grid>
                   <Divider />
                   <Grid

@@ -13,6 +13,7 @@ import SidebarLayout from "../layout/SidebarLayout";
 import ManageEmployeeApprover from "src/contents/Master/EmployeeApprover/ManageEmployeeApprover";
 import LeaveRequest from "src/contents/Master/LeaveRequest/LeaveRequest";
 import InProgress from "src/contents/Master/LeaveRequest/InProgress";
+import ManageCompanyLocation from "src/contents/Master/CompanyLocation/ManageCompanyLocation";
 import Task from "src/contents/Master/Tasks/Task";
 const Loader = (Component: any) => (props: any) =>
 (
@@ -62,6 +63,10 @@ const PrivateRoute: PartialRouteObject[] = [
             {
                 path: "/allocateday",
                 element: <ManageAllocateDay />,
+            },
+            {
+                path: "/companyLocation",
+                element: <ManageCompanyLocation />,
             },
             {
                 path: "/tasks",
