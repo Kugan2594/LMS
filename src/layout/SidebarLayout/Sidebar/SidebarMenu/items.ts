@@ -35,7 +35,7 @@ export interface MenuItems {
 
 const masterMenuItems: MenuItem[] = [
   { name: "Employee", icon: GiRibbonMedal, link: "/master/employee" },
-  { name: "Type", icon: GiRibbonMedal, link: "/master/leavetype" },
+{ name: "Leave Type", icon: GiRibbonMedal, link: "/master/leavetype" },
   {
     name: "Leave Request",
     icon: GrSend,
@@ -57,6 +57,7 @@ const masterMenuItems: MenuItem[] = [
     icon: HiStar,
     link: "/master/In-Progress",
   },
+  { name: "Employee Approver", icon: GiRibbonMedal, link: "/master/employee/approver" },
 ];
 
 // if (!modulePermission(PERMISSION_NAME.role_permission).view) {
