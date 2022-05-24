@@ -19,7 +19,8 @@ let sampleData: any = [
     toDate: "15/06/2022",
     requestedDate: "19/05/2022",
     status: "Approved",
-    approvers: [{names: "KugApp1", appStatus: "Approved"},
+    approvers: [
+    {names: "KugApp1", appStatus: "Approved"},
     {names: "KugApp2", appStatus: "Approved"}, 
     {names: "KugApp3", appStatus: "Approved"},],
   },
@@ -34,10 +35,11 @@ let sampleData: any = [
     toDate: "09/06/2022",
     requestedDate: "18/05/2022",
     status: "Rejected",
-    approvers: [{names: "CudApp1", appStatus: "Approved"},
-    {names: "CudApp2", appStatus: "Approved"},
-    {names: "CudApp3", appStatus: "Rejected"},
-    {names: "CudApp4", appStatus: "Rejected"},],
+    approvers: [
+    {names: "CudApp1", appStatus: "Approved"},
+    {names: "CudApp2", appStatus: "Rejected"},
+    {names: "CudApp3", appStatus: "Pending"},
+    {names: "CudApp4", appStatus: "Pending"},],
   },
   {
     id: 3,
@@ -50,7 +52,8 @@ let sampleData: any = [
     toDate: "15/06/2022",
     requestedDate: "19/05/2022",
     status: "Approved",
-    approvers: [{names: "KugApp1", appStatus: "Approved"},
+    approvers: [
+    {names: "KugApp1", appStatus: "Approved"},
     {names: "KugApp2", appStatus: "Approved"}, 
     {names: "KugApp3", appStatus: "Approved"},],
   },
@@ -65,10 +68,11 @@ let sampleData: any = [
     toDate: "09/06/2022",
     requestedDate: "18/05/2022",
     status: "Rejected",
-    approvers: [{names: "CudApp1", appStatus: "Approved"},
-    {names: "CudApp2", appStatus: "Approved"},
-    {names: "CudApp3", appStatus: "Approved"},
-    {names: "CudApp4", appStatus: "Rejected"},],
+    approvers: [
+        {names: "CudApp1", appStatus: "Approved"},
+        {names: "CudApp2", appStatus: "Approved"},
+        {names: "CudApp3", appStatus: "Pending"},
+        {names: "CudApp4", appStatus: "Pending"},],
   },
 ]
 
@@ -141,8 +145,7 @@ function ManageHistory() {
       label: "",
       minWidth: 40,
       render: (value) => (
-        <Typography variant="inherit" onClick={()=>handleClickOpen(value)}
-        color="blue" style={{cursor: "pointer"}} >Detail</Typography>
+        <Button variant="text" onClick={()=>handleClickOpen(value)}>Detail</Button>
         ),
     }
   ];
@@ -194,7 +197,7 @@ function ManageHistory() {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-          <ViewHistory details={leaveDetails} isEmployeeDetail={true} isResponseButtons={false} cancel={handleClose} />
+          <ViewHistory details={leaveDetails} isEmployeeDetail={false} isResponseButtons={false} cancel={handleClose} />
           </DialogContentText>
         </DialogContent>
       </Dialog>

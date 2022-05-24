@@ -261,8 +261,8 @@ function InProgress() {
               <DialogContentText id="alert-dialog-description">
                 <ViewHistory
                   details={leaveDetails}
-                  isEmployeeDetail={true}
-                  isResponseButtons={true}
+                  isEmployeeDetail={false}
+                  isResponseButtons={false}
                   cancel={handleClose}
                 />
               </DialogContentText>
