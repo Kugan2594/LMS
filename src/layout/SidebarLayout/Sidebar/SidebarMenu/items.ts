@@ -8,11 +8,15 @@
 import { ReactNode } from "react";
 import { FaRoute } from "react-icons/fa";
 import { GiSteeringWheel, GiRibbonMedal } from "react-icons/gi";
+import { GrHistory } from "react-icons/gr";
+import { CgUserList } from "react-icons/cg";
 import { IoCarSportSharp } from "react-icons/io5";
 import { GrSend, GrWaypoint, GrWifi } from "react-icons/gr";
+import { FaUserAlt, FaUserCheck } from "react-icons/fa";
 import { IoSettingsSharp, IoAccessibilityOutline } from "react-icons/io5";
 import { MdGpsFixed, MdEmojiPeople, MdPersonalInjury } from "react-icons/md";
 import { ImOffice } from "react-icons/im";
+import { FcLeave } from "react-icons/fc";
 import { RiRouteFill } from "react-icons/ri";
 import { HiUser } from "react-icons/hi";
 import { HiStar } from "react-icons/hi";
@@ -35,26 +39,28 @@ export interface MenuItems {
 }
 
 const masterMenuItems: MenuItem[] = [
-    { name: "Employee", icon: GiRibbonMedal, link: "/master/employee" },
-    { name: "Type", icon: GiRibbonMedal, link: "/master/leavetype" },
+    { name: "Employee", icon: FaUserAlt, link: "/master/employee" },
     {
         name: "Leave Request",
         icon: GrSend,
         link: "/master/leaveRequest",
     },
-    { name: "E-History", icon: GiRibbonMedal, link: "/master/e-history" },
-    { name: "My Tasks", icon: IoMdDoneAll, link: "/master/tasks" },
     { name: "Designations", icon: IoIosWoman, link: "/master/designations" },
-    { name: "Employee", icon: GiRibbonMedal, link: "/master/employee" },
     { name: "Leave Type", icon: GiRibbonMedal, link: "/master/leavetype" },
-    { name: "History", icon: GiRibbonMedal, link: "/master/history" },
     {
         name: "Company Location",
         icon: GiRibbonMedal,
         link: "/master/companyLocation",
     },
+    { name: "History", icon: GrHistory, link: "/master/history" },
+    { name: "E-History", icon: CgUserList, link: "/master/e-history" },
     { name: "Allocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
-
+    { name: "My Tasks", icon: FcLeave, link: "/master/tasks" },
+    {
+        name: "Company Location",
+        icon: ImOffice,
+        link: "/master/companyLocation",
+    },
     {
         name: "Manage Leave Request",
         icon: HiStar,
@@ -62,7 +68,7 @@ const masterMenuItems: MenuItem[] = [
     },
     {
         name: "Employee Approver",
-        icon: GiRibbonMedal,
+        icon: FaUserCheck,
         link: "/master/employee/approver",
     },
 ];
