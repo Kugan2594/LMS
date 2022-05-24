@@ -57,13 +57,25 @@ const getAllLeaveRequest = (pageNumber: number, pageSize: number) => {
 };
 const updateLeaveRequest = (data: object) => {
   return new Promise((resolve, reject) => {
-      api("put", "lm-web", null, `/leaveApply`, "", data, "")
-          .then((response: any) => {
-              resolve(response);
-          })
-          .catch((error) => {
-              reject(error);
-          });
+    api("put", "lm-web", null, `/leaveApply`, "", data, "")
+      .then((response: any) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+const cancelLeaveRequest = (id: number) => {
+  return new Promise((resolve, reject) => {
+    api("delete", "lm-web", null, "/leaveApply", "", "", id)
+      .then((response: any) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
   });
 };
 
@@ -72,5 +84,6 @@ export {
   getAllEmployeesForDropDown,
   applyLeave,
   getAllLeaveRequest,
-  updateLeaveRequest
+  updateLeaveRequest,
+  cancelLeaveRequest,
 };

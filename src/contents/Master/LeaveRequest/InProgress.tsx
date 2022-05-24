@@ -12,7 +12,11 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import LeaveRequestForm from "./LeaveRequestForm";
 import ViewHistory from "../History/ViewHistory";
-import { getAllLeaveRequest } from "./ServiceLeaveRequest";
+import {
+  getAllLeaveRequest,
+  cancelLeaveRequest,
+  updateLeaveRequest,
+} from "./ServiceLeaveRequest";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import { TableAction } from "src/components/atoms/Tables/TableAction";
 import CustomizedNotification from "src/util/CustomizedNotification";
@@ -128,15 +132,15 @@ function InProgress() {
   };
 
   const deleteOnclick = (row) => {
-    // deleteEmployee(row.id).then(
-    //   (res: any) => {
-    //     reloadTable(res);
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //     handleError(error);
-    //   }
-    // );
+    cancelLeaveRequest(row.id).then(
+      (res: any) => {
+        reloadTable(res);
+      },
+      (error) => {
+        console.log(error);
+        handleError(error);
+      }
+    );
   };
 
   const onTableSearch = (values, sortField) => {};

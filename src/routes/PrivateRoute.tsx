@@ -13,14 +13,15 @@ import SidebarLayout from "../layout/SidebarLayout";
 import ManageEmployeeApprover from "src/contents/Master/EmployeeApprover/ManageEmployeeApprover";
 import LeaveRequest from "src/contents/Master/LeaveRequest/LeaveRequest";
 import InProgress from "src/contents/Master/LeaveRequest/InProgress";
+import Task from "src/contents/Master/Tasks/ManageTask";
+import ManageDesignations from "src/contents/Master/Designations/ManageDesignations";
 import ManageCompanyLocation from "src/contents/Master/CompanyLocation/ManageCompanyLocation";
-import Task from "src/contents/Master/Tasks/Task";
 const Loader = (Component: any) => (props: any) =>
-(
-  <Suspense fallback={<SuspenseLoader />}>
-    <Component {...props} />
-  </Suspense>
-);
+    (
+        <Suspense fallback={<SuspenseLoader />}>
+            <Component {...props} />
+        </Suspense>
+    );
 
 const PrivateRoute: PartialRouteObject[] = [
     {
@@ -49,8 +50,8 @@ const PrivateRoute: PartialRouteObject[] = [
                 element: <InProgress />,
             },
             {
-              path: "/leavetype",
-              element: <ManageLeaveType />,
+                path: "/leavetype",
+                element: <ManageLeaveType />,
             },
             {
                 path: "/e-history",
@@ -73,8 +74,12 @@ const PrivateRoute: PartialRouteObject[] = [
                 element: <Task />,
             },
             {
-              path: "/employee/approver",
-              element: <ManageEmployeeApprover />,
+                path: "/designations",
+                element: <ManageDesignations />,
+            },
+            {
+                path: "/employee/approver",
+                element: <ManageEmployeeApprover />,
             },
         ],
     },
