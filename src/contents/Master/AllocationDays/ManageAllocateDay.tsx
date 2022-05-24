@@ -2,7 +2,6 @@ import { Card, CardContent, Container, Divider, Grid } from "@mui/material";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import DoughnutChart from "src/components/molecules/Charts/Doughnut";
-import "react-circular-progressbar/dist/styles.css";
 import { useEffect, useState } from "react";
 import {
   getEmployeeleavetypeByEmployeeId,
