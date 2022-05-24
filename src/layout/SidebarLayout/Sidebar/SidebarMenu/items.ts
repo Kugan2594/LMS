@@ -47,11 +47,6 @@ const masterMenuItems: MenuItem[] = [
     },
     { name: "Designations", icon: IoIosWoman, link: "/master/designations" },
     { name: "Leave Type", icon: GiRibbonMedal, link: "/master/leavetype" },
-    {
-        name: "Company Location",
-        icon: GiRibbonMedal,
-        link: "/master/companyLocation",
-    },
     { name: "History", icon: GrHistory, link: "/master/history" },
     { name: "E-History", icon: CgUserList, link: "/master/e-history" },
     { name: "Allocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
