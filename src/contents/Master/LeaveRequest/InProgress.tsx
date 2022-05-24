@@ -15,6 +15,8 @@ import ViewHistory from "../History/ViewHistory";
 import { getAllLeaveRequest } from "./ServiceLeaveRequest";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import { TableAction } from "src/components/atoms/Tables/TableAction";
+import CustomizedNotification from "src/util/CustomizedNotification";
+import UpdateLeaveRequest from "./UpdateLeaveRequest";
 
 function createData(data) {
   let convertData = data.map((post, index) => {
@@ -49,17 +51,17 @@ function InProgress() {
   const [alert, setalert] = useState({
     type: "",
     mesg: "",
-});
-const [dataSource, setdataSource] = useState([]);
-const [action, setaction] = useState('add');
-const [editData, seteditData] = useState({});
-const handleClickOpen = () => {
+  });
+  const [dataSource, setdataSource] = useState([]);
+  const [action, setaction] = useState("add");
+  const [editData, seteditData] = useState({});
+  const handleClickOpen = () => {
     setOpen(true);
-};
+  };
 
-const handleClose = () => {
+  const handleClose = () => {
     setOpen(false);
-};
+  };
   const [update, setUpdate] = useState(false);
   const handleUpdate = (value) => {
     setUpdate(true);
@@ -70,22 +72,22 @@ const handleClose = () => {
 
   const editOnclick = (row) => {
     console.log(row);
-    setaction('edit');
+    setaction("edit");
     seteditData(row);
     setOpen(true);
-};
-const handleError = (res) => {
-  setalert({
+  };
+  const handleError = (res) => {
+    setalert({
       type: NOTIFICATION_TYPE.error,
       mesg: res.data.validationFailures[0].message,
-  });
-};
-const handleAlertClose = () => {
-  setalert({
-      type: '',
-      mesg: ''
-  });
-};
+    });
+  };
+  const handleAlertClose = () => {
+    setalert({
+      type: "",
+      mesg: "",
+    });
+  };
 
   const [leaveDetails, setLeaveDetails] = useState({});
 
@@ -137,19 +139,18 @@ const handleAlertClose = () => {
     // );
   };
 
-
   const onTableSearch = (values, sortField) => {};
 
   const columns: Column[] = [
     {
-        id: "firstName",
-        label: "FirstName",
-        minWidth: 0,
+      id: "firstName",
+      label: "FirstName",
+      minWidth: 0,
     },
     {
-        id: "lastName",
-        label: "LastName",
-        minWidth: 0,
+      id: "lastName",
+      label: "LastName",
+      minWidth: 0,
     },
     {
       id: "leaveType",
@@ -214,7 +215,6 @@ const handleAlertClose = () => {
           subHeading="Master/ManageLeaveRequest"
           isButton={true}
           onclickButton={handleClickOpen}
-
         />
       </PageTitleWrapper>
       <Divider />
@@ -235,56 +235,31 @@ const handleAlertClose = () => {
             />
           </CardContent>
         </Card>
-        <div>
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"Are you sure Do you want to cancel Request?"}
-            </DialogTitle>
-            <DialogActions>
-              <Button onClick={handleClose}>No</Button>
-              <Button onClick={handleClose} autoFocus>
-                Yes
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </div>
-        <div>
-          <Dialog
-            open={openDetails}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            maxWidth="md"
-          >
-            <DialogTitle id="alert-dialog-title">{""}</DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                <ViewHistory
-                  details={leaveDetails}
-                  isEmployeeDetail={false}
-                  isResponseButtons={false}
-                  cancel={handleClose}
-                />
-              </DialogContentText>
-            </DialogContent>
-          </Dialog>
-        </div>
+
         <Modals
-          modalTitle={action === 'edit' ? 'Edit CompanyLocation' : 'Add CompanyLocation'}
+          modalTitle={
+            action === "edit" ? "Edit LeaveRequest" : "Add LeaveRequest"
+          }
           modalWidth="60%"
           open={open}
-                    onClose={handleClose}
-          modalBody={<LeaveRequestForm reloadTable={reloadTable}
-          action={action}
-          editData={editData}
-          handleError={handleError} />}
+          onClose={handleClose}
+          modalBody={
+            <UpdateLeaveRequest
+              reloadTable={reloadTable}
+              action={action}
+              editData={editData}
+              handleError={handleError}
+            />
+          }
         />
       </Container>
+      {alert.type.length > 0 ? (
+        <CustomizedNotification
+          severity={alert.type}
+          message={alert.mesg}
+          handleAlertClose={handleAlertClose}
+        />
+      ) : null}
     </div>
   );
 }
