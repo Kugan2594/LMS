@@ -217,7 +217,7 @@ function InProgress() {
         <PageTitle
           heading="Manage Leave Request"
           subHeading="Master/ManageLeaveRequest"
-          isButton={true}
+          isButton={false}
           onclickButton={handleClickOpen}
         />
       </PageTitleWrapper>
@@ -241,9 +241,7 @@ function InProgress() {
         </Card>
 
         <Modals
-          modalTitle={
-            action === "edit" ? "Edit LeaveRequest" : "Add LeaveRequest"
-          }
+          modalTitle="edit"
           modalWidth="60%"
           open={open}
           onClose={handleClose}
