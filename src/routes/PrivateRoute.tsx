@@ -11,7 +11,9 @@ import Dashboard from "../contents/Dashboard";
 import Login from "../contents/login/Login";
 import SidebarLayout from "../layout/SidebarLayout";
 import ManageEmployeeApprover from "src/contents/Master/EmployeeApprover/ManageEmployeeApprover";
-
+import LeaveRequest from "src/contents/Master/LeaveRequest/LeaveRequest";
+import InProgress from "src/contents/Master/LeaveRequest/InProgress";
+import Task from "src/contents/Master/Tasks/Task";
 const Loader = (Component: any) => (props: any) =>
 (
   <Suspense fallback={<SuspenseLoader />}>
@@ -20,45 +22,57 @@ const Loader = (Component: any) => (props: any) =>
 );
 
 const PrivateRoute: PartialRouteObject[] = [
-  {
-    path: "/",
-    element: <Login />,
-  },
-  {
-    path: "master",
-    element: <SidebarLayout />,
-    children: [
-      {
+    {
         path: "/",
-        element: <Dashboard />,
-      },
-      {
-        path: "/employee",
-        element: <ManageEmployee />,
-      },
-      {
-        path: "/history",
-        element: <ManageHistory />,
-      },
-      {
-        path: "/leavetype",
-        element: <ManageLeaveType />,
-      },
-      {
-        path: "/e-history",
-        element: <EHistory />,
-      },
+        element: <Login />,
+    },
+    {
+        path: "master",
+        element: <SidebarLayout />,
+        children: [
+            {
+                path: "/",
+                element: <Dashboard />,
+            },
+            {
+                path: "/employee",
+                element: <ManageEmployee />,
+            },
 
-      {
-        path: "/allocateday",
-        element: <ManageAllocateDay />,
-      },
-      {
-        path: "/employee/approver",
-        element: <ManageEmployeeApprover />,
-      },
-    ],
-  },
+            {
+                path: "/leaveRequest",
+                element: <LeaveRequest />,
+            },
+            {
+                path: "/In-Progress",
+                element: <InProgress />,
+            },
+            {
+              path: "/leavetype",
+              element: <ManageLeaveType />,
+            },
+            {
+                path: "/e-history",
+                element: <EHistory />,
+            },
+            {
+                path: "/history",
+                element: <ManageHistory />,
+            },
+            {
+                path: "/allocateday",
+                element: <ManageAllocateDay />,
+            },
+            {
+                path: "/tasks",
+                element: <Task />,
+            },
+            {
+              path: "/employee/approver",
+              element: <ManageEmployeeApprover />,
+            },
+        ],
+    },
 ];
 
 export default PrivateRoute;

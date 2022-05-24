@@ -8,17 +8,30 @@ import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import LoadingButton from "@mui/lab/LoadingButton";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { IconButton, InputAdornment } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
+let errStyle = {
+    color: "#ff1943",
+    fontSize: "12px",
+    marginLeft: "12px",
+    marginTop: "-8px",
+};
+
 export default function Login() {
+    let navigate = useNavigate();
     const [showPassword, setshowPassword] = React.useState(false);
+    const [emailError, setEmailError] = React.useState("");
+    const [passwordError, setPasswordError] = React.useState("");
+    const [loading, setloading] = React.useState(false);
 
     const handleClickShowPassword = () => {
         setshowPassword(!showPassword);
@@ -28,13 +41,35 @@ export default function Login() {
         event.preventDefault();
     };
 
+    const onChangeTextField = (e) => {
+        setEmailError("");
+    };
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+        let emailId = data.get("email").toString();
         console.log({
             email: data.get("email"),
             password: data.get("password"),
         });
+        if (data.get("email") === "") {
+            setEmailError("Email is required");
+        } else if (
+            data.get("email") !== "" &&
+            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(emailId)
+        ) {
+            setEmailError("Email is not valid");
+        } else if (data.get("email") !== "admin@gmail.com") {
+            setEmailError("Wrong Email!");
+        } else {
+            if (data.get("password") === "admin") {
+                setloading(true);
+                navigate("master");
+            } else {
+                setPasswordError("Wrong Password!");
+            }
+        }
     };
 
     return (
@@ -59,7 +94,7 @@ export default function Login() {
                         component="form"
                         onSubmit={handleSubmit}
                         noValidate
-                        sx={{ mt: 1 }}
+                        sx={{ mt: 1, paddingX: 5 }}
                     >
                         <TextField
                             margin="normal"
@@ -69,8 +104,11 @@ export default function Login() {
                             label="Email Address"
                             name="email"
                             autoComplete="email"
+                            onChange={onChangeTextField}
                             autoFocus
+                            error={emailError ? true : false}
                         />
+                        {emailError && <div style={errStyle}>{emailError}</div>}
                         <TextField
                             margin="normal"
                             required
@@ -104,16 +142,21 @@ export default function Login() {
                             }}
                             id="password"
                             autoComplete="current-password"
+                            error={passwordError ? true : false}
                         />
-                        <Button
+                        {passwordError && (
+                            <div style={errStyle}>{passwordError}</div>
+                        )}
+                        <LoadingButton
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                             color="primary"
+                            loading={loading}
                         >
                             Sign In
-                        </Button>
+                        </LoadingButton>
                         <Grid container>
                             <Grid item xs>
                                 <Link href="#" variant="body2">
