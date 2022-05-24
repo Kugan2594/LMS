@@ -1,58 +1,78 @@
-import { Card, CardContent, Container, Divider } from "@mui/material";
+import { Card, CardContent, Container, Divider, Typography, Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Button } from "@mui/material";
 import React, { useState } from "react";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import Tables from "src/components/atoms/Tables";
 import { Column } from "src/components/atoms/Tables/TableInterface";
-import { minWidth } from "@mui/system";
-import Modals from "src/components/atoms/Modals";
 import ViewHistory from "./ViewHistory";
 
 
 let sampleData: any = [
   {
     id: 1,
-    employeeId: "01",
-    name: "Kuganesan Kuganesan",
+    employeeId: 1,
+    employeeName: "Kuganesan Kuganesan",
     leaveType: "Annual",
-    leaveDays: "14",
+    leaveDays: 14,
+    reason: "Wedding",
     fromDate: "02/06/2022",
     toDate: "15/06/2022",
     requestedDate: "19/05/2022",
     status: "Approved",
+    approvers: [
+    {names: "KugApp1", appStatus: "Approved"},
+    {names: "KugApp2", appStatus: "Approved"}, 
+    {names: "KugApp3", appStatus: "Approved"},],
   },
   {
     id: 2,
-    employeeId: "02",
-    name: "Cudeson Cudeson",
+    employeeId: 2,
+    employeeName: "Cudeson Cudeson",
     leaveType: "Annual",
-    leaveDays: "7",
+    leaveDays: 7,
+    reason: "Wedding",
     fromDate: "02/06/2022",
     toDate: "09/06/2022",
     requestedDate: "18/05/2022",
     status: "Rejected",
+    approvers: [
+    {names: "CudApp1", appStatus: "Approved"},
+    {names: "CudApp2", appStatus: "Rejected"},
+    {names: "CudApp3", appStatus: "Pending"},
+    {names: "CudApp4", appStatus: "Pending"},],
   },
   {
     id: 3,
-    employeeId: "03",
-    name: "Kuganesan Kuganesan",
+    employeeId: 3,
+    employeeName: "Kuganesan Kuganesan",
     leaveType: "Annual",
-    leaveDays: "14",
+    leaveDays: 14,
+    reason: "Wedding",
     fromDate: "02/06/2022",
     toDate: "15/06/2022",
     requestedDate: "19/05/2022",
     status: "Approved",
+    approvers: [
+    {names: "KugApp1", appStatus: "Approved"},
+    {names: "KugApp2", appStatus: "Approved"}, 
+    {names: "KugApp3", appStatus: "Approved"},],
   },
   {
     id: 4,
-    employeeId: "04",
-    name: "Cudeson Cudeson",
+    employeeId: 4,
+    employeeName: "Cudeson Cudeson",
     leaveType: "Annual",
-    leaveDays: "7",
+    leaveDays: 7,
+    reason: "Wedding",
     fromDate: "02/06/2022",
     toDate: "09/06/2022",
     requestedDate: "18/05/2022",
     status: "Rejected",
+    approvers: [
+        {names: "CudApp1", appStatus: "Approved"},
+        {names: "CudApp2", appStatus: "Approved"},
+        {names: "CudApp3", appStatus: "Pending"},
+        {names: "CudApp4", appStatus: "Pending"},],
   },
 ]
 
@@ -66,8 +86,11 @@ function ManageHistory() {
 
   const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
+  const [leaveDetails, setLeaveDetails] = useState({});
+
+  const handleClickOpen = (value) => {
     setOpen(true);
+    setLeaveDetails(value);
   };
 
   const handleClose = () => {
@@ -82,7 +105,7 @@ function ManageHistory() {
       minWidth: 45,
     },
     {
-      id: "name",
+      id: "employeeName",
       label: "Name",
       minWidth: 190,
     },
@@ -117,6 +140,14 @@ function ManageHistory() {
       label: "Status",
       minWidth: 80,
     },
+    {
+      id: "details",
+      label: "",
+      minWidth: 40,
+      render: (value) => (
+        <Button variant="text" onClick={()=>handleClickOpen(value)}>Detail</Button>
+        ),
+    }
   ];
   
   const [searchFields, setsearchFields] = useState({ name: "" });
@@ -132,10 +163,8 @@ function ManageHistory() {
       <PageTitleWrapper>
         <PageTitle
           heading="History"
-          name="Approval Status"
           subHeading="Master/History"
-          isButton={true}
-          onclickButton={handleClickOpen}
+          isButton={false}
         />
       </PageTitleWrapper>
       <Divider />
@@ -153,16 +182,25 @@ function ManageHistory() {
               pageSize={pagination.pageSize}
               searchFields={{}}
               onTableSearch={onTableSearch}
-            />
+          />
           </CardContent>
         </Card>
-        <Modals
-          modalTitle="Approval Status"
-          modalWidth="50%"
-          open={open}
-          onClose={handleClose}
-          modalBody={<ViewHistory />}
-        />
+        <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        maxWidth="md"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {""}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          <ViewHistory details={leaveDetails} isEmployeeDetail={false} isResponseButtons={false} cancel={handleClose} />
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
       </Container>
     </div>
   );
