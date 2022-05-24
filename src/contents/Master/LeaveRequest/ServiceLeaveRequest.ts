@@ -1,64 +1,64 @@
 import api from "src/services/AxiosService";
 
 const getAllLeaveTypeForDropDown = () => {
-    return new Promise((resolve, reject) => {
-        api(
-            "get",
-            "lm-web",
-            null,
-            `/leaveType`,
-            "",
-            "",
-            ""
-        )
-            .then((response: any) => {
-                resolve(response.data);
-            })
-            .catch((error) => {
-                reject(error);
-            });
-    });
+  return new Promise((resolve, reject) => {
+    api("get", "lm-web", null, `/leaveType`, "", "", "")
+      .then((response: any) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 };
 
 const getAllEmployeesForDropDown = () => {
-    return new Promise((resolve, reject) => {
-        api(
-            "get",
-            "lm-web",
-            null,
-            `/employee`,
-            "",
-            "",
-            ""
-        )
+  return new Promise((resolve, reject) => {
+    api("get", "lm-web", null, `/employee`, "", "", "")
+      .then((response: any) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
 
-        .then((response: any) => {
-          resolve(response.data);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  };
+const applyLeave = (data: object) => {
+  return new Promise((resolve, reject) => {
+    api("post", "lm-web", null, `/leaveApply`, null, data, "")
+      .then((response: any) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
 
-  const applyLeave = (data: object) => {
-    return new Promise((resolve, reject) => {
-      api(
-        'post', 
-        'lm-web', 
-        null,
-        `/leaveApply`,
-        null, 
-        data, 
-        ''
+const getAllLeaveRequest = (pageNumber: number, pageSize: number) => {
+  return new Promise((resolve, reject) => {
+    api(
+      "get",
+      "lm-web",
+      null,
+      `/leaveApplyPagination?page=${pageNumber}&size=${pageSize}`,
+      "",
+      "",
+      ""
     )
-        .then((response: any) => {
-          resolve(response);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  };
+      .then((response: any) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
 
-export { getAllLeaveTypeForDropDown, getAllEmployeesForDropDown,applyLeave};
+export {
+  getAllLeaveTypeForDropDown,
+  getAllEmployeesForDropDown,
+  applyLeave,
+  getAllLeaveRequest,
+};
