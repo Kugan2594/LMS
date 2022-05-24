@@ -12,6 +12,7 @@ import Login from "../contents/login/Login";
 import SidebarLayout from "../layout/SidebarLayout";
 import LeaveRequest from "src/contents/Master/LeaveRequest/LeaveRequest";
 import InProgress from "src/contents/Master/LeaveRequest/InProgress";
+import Task from "src/contents/Master/Tasks/Task";
 
 const Loader = (Component: any) => (props: any) =>
     (
@@ -61,6 +62,10 @@ const PrivateRoute: PartialRouteObject[] = [
             {
                 path: "/allocateday",
                 element: <ManageAllocateDay />,
+            },
+            {
+                path: "/tasks",
+                element: <Task />,
             },
         ],
     },
