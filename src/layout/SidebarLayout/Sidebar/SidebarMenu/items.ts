@@ -16,7 +16,7 @@ import { FaUserAlt, FaUserCheck } from "react-icons/fa";
 import { IoSettingsSharp, IoAccessibilityOutline } from "react-icons/io5";
 import { MdGpsFixed, MdEmojiPeople, MdPersonalInjury } from "react-icons/md";
 import { ImOffice } from "react-icons/im";
-import { FcLeave } from "react-icons/fc";
+import { FcApproval, FcLeave, FcManager } from "react-icons/fc";
 import { RiRouteFill } from "react-icons/ri";
 import { HiUser } from "react-icons/hi";
 import { HiStar } from "react-icons/hi";
@@ -45,7 +45,7 @@ const masterMenuItems: MenuItem[] = [
         icon: GrSend,
         link: "/master/leaveRequest",
     },
-    { name: "Designations", icon: IoIosWoman, link: "/master/designations" },
+    { name: "Designations", icon: FcManager, link: "/master/designations" },
     { name: "Leave Type", icon: GiRibbonMedal, link: "/master/leavetype" },
     { name: "History", icon: GrHistory, link: "/master/history" },
     { name: "E-History", icon: CgUserList, link: "/master/e-history" },
@@ -58,7 +58,7 @@ const masterMenuItems: MenuItem[] = [
     },
     {
         name: "Manage Leave Request",
-        icon: HiStar,
+        icon: FcApproval,
         link: "/master/In-Progress",
     },
     {

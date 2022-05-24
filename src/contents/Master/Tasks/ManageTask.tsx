@@ -192,14 +192,16 @@ function Task() {
 
     return (
         <div>
+            <PageTitleWrapper>
+                <PageTitle
+                    heading="My Task"
+                    subHeading="Master/My Task"
+                    isButton={false}
+                />
+            </PageTitleWrapper>
             <Container maxWidth="lg">
                 <Card>
                     <CardContent>
-                        <PageTitleWrapper>
-                            <PageTitle heading="My Task" isButton={false} />
-                        </PageTitleWrapper>
-                        <Divider />
-
                         <Tables
                             columns={columns}
                             tableData={mockData}
