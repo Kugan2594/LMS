@@ -5,40 +5,19 @@ import Tables from "src/components/atoms/Tables";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import { Column } from "../../../components/atoms/Tables/TableInterface";
-import AddEmployee from "./AddEmployee";
+import AddCompanyLocation from "./AddCompanyLocation"
 import { TableAction } from "src/components/atoms/Tables/TableAction";
-import { deleteEmployee, getAllEmployee } from "./ServiceEmployee";
+import { deleteCompanyLocation, getAllCompanyLocation } from "./ServiceCompanyLocation";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from 'src/util/CustomizedNotification';
 function createData(data) {
     let convertData = data.map((post, index) => {
         return {
             id: post.id,
-            email: post.email,
-            firstName: post.firstName,
-            lastName: post.lastName,
-            address: post.address,
-            name: post.designation.name,
-            joinDate: post.joinDate,
-            dateOfPermanency: post.dateOfPermanency,
-            location: post.companyLocation.location,
-            description: post.description,
-            employmentType: post.employmentType,
-            businessUnit: post.businessUnit,
-            dateOfBirth: post.dateOfBirth,
-            contactNo: post.contactNo,
-            religon: post.religon,
-            gender: post.gender,
-            nic: post.nic,
-            maritalStatus: post.maritalStatus,
-            approverStatus: post.approverStatus,
-            nationality: post.nationality,
-            bloodGroup: post.bloodGroup,
-            drivingLicenceNo: post.drivingLicenceNo,
-            passportNo: post.passportNo,
-            designationId: post.designation.id,
-            companyLocationId: post.companyLocation.id
-
+            location: post.location,
+            createdAt:post.createdAt,
+            updatedAt:post.updatedAt
+            
 
         };
     });
@@ -46,12 +25,8 @@ function createData(data) {
 }
 
 
-function ManageEmployee() {
-    const [pagination, setpagination] = useState({
-        pageNumber: 0,
-        pageSize: 10,
-        total: 0,
-    });
+function ManageCompanyLocation() {
+    
     const [open, setOpen] = useState(false);
     const [searchFields, setsearchFields] = useState({ name: "" });
     const [sortField, setsortField] = React.useState({
@@ -73,30 +48,20 @@ function ManageEmployee() {
     const handleClose = () => {
         setOpen(false);
     };
-    const onChangePage = (pageNumber, pageSize) => {
-        if (pagination.pageSize !== pageSize) {
-            getAllEmployeeData(0, pageSize);
-        } else {
-            getAllEmployeeData(pageNumber, pageSize);
-        }
-    };
 
     useEffect(() => {
-        getAllEmployeeData(pagination.pageNumber, pagination.pageSize);
-    }, [pagination.pageNumber, pagination.pageSize]);
-    const getAllEmployeeData = (pageNumber, pageSize) => {
-        getAllEmployee(pageNumber, pageSize).then((res: any) => {
-            let data: [] = createData(res.results.Employee);
-            setpagination({
-                pageNumber: res.pagination.pageNumber,
-                pageSize: res.pagination.pageSize,
-                total: res.pagination.totalRecords,
-            });
+        getAllCompanyLocationData();
+    },[]);
+    const getAllCompanyLocationData = () => {
+        getAllCompanyLocation().then((res: any) => {
+            let data: [] = createData(res);
+           
             setdataSource(data);
         });
     };
+    
     const deleteOnclick = (row) => {
-        deleteEmployee(row.id).then(
+        deleteCompanyLocation(row.id).then(
             (res: any) => {
                 reloadTable(res);
             },
@@ -112,7 +77,7 @@ function ManageEmployee() {
         console.log("//////////////////////////", res);
 
         setOpen(false);
-        getAllEmployeeData(pagination.pageNumber, pagination.pageSize);
+        getAllCompanyLocationData();
     };
 
     const editOnclick = (row) => {
@@ -137,42 +102,22 @@ function ManageEmployee() {
     const onTableSearch = (values, sortField) => { };
     const columns: Column[] = [
         {
-            id: "firstName",
-            label: "FirstName",
-            minWidth: 120,
-        },
-        {
-            id: "lastName",
-            label: "LastName",
-            minWidth: 120,
-        },
-        {
-            id: "email",
-            label: "Email",
-            minWidth: 120,
-        },
-
-        {
-            id: "address",
-            label: "Address",
-            minWidth: 120,
-        },
-        {
-            id: "name",
-            label: "Designation",
-            minWidth: 120,
-        },
-        {
-            id: "joinDate",
-            label: "Appointed Date",
-            minWidth: 150,
-        },
-        {
             id: "location",
-            label: "Office Location",
-            minWidth: 150,
+            label: "Company Location",
+            minWidth: 120,
+        },
+        {
+            id: "createdAt",
+            label: "Create Date",
+            minWidth: 120,
+        },
+        {
+            id: "updatedAt",
+            label: "Update Date",
+            minWidth: 120,
         },
 
+        
         {
             id: "action",
             label: "Action",
@@ -189,9 +134,9 @@ function ManageEmployee() {
         <div>
             <PageTitleWrapper>
                 <PageTitle
-                    heading="Employee"
-                    name="Add Employee"
-                    subHeading="Master/Employee"
+                    heading="CompanyLocation"
+                    name="Add CompanyLocation"
+                    subHeading="Master/CompanyLocation"
                     isButton={true}
                     onclickButton={handleClickOpen}
                 />
@@ -205,21 +150,17 @@ function ManageEmployee() {
                         <Tables
                             columns={columns}
                             tableData={dataSource}
-                            onChangePage={onChangePage}
-                            pageNumber={pagination.pageNumber}
-                            total={pagination.total}
-                            pageSize={pagination.pageSize}
                             searchFields={{}}
                             onTableSearch={onTableSearch}
                         />
                     </CardContent>
                 </Card>
                 <Modals
-                    modalTitle={action === 'edit' ? 'Edit Employee' : 'Add Employee'}
-                    modalWidth="70%"
+                    modalTitle={action === 'edit' ? 'Edit CompanyLocation' : 'Add CompanyLocation'}
+                    modalWidth="40%"
                     open={open}
                     onClose={handleClose}
-                    modalBody={<AddEmployee reloadTable={reloadTable}
+                    modalBody={<AddCompanyLocation reloadTable={reloadTable}
                         action={action}
                         editData={editData}
                         handleError={handleError} />}
@@ -236,4 +177,4 @@ function ManageEmployee() {
     );
 }
 
-export default ManageEmployee;
+export default ManageCompanyLocation;
