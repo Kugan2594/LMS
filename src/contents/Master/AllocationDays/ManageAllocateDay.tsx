@@ -2,7 +2,6 @@ import { Card, CardContent, Container, Divider, Grid } from "@mui/material";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import DoughnutChart from "src/components/molecules/Charts/Doughnut";
-import "react-circular-progressbar/dist/styles.css";
 import { useEffect, useState } from "react";
 import {
   getEmployeeleavetypeByEmployeeId,
@@ -121,10 +120,11 @@ function ManageAllocateDay() {
                     <Grid item xs={12} md={6} lg={3} key={index}>
                       <DoughnutChart
                         selectedValue={post.remainingDays}
-                        maxValue={post.allocatedDays}
+                        maxValue={post.allocatedDays === 0 ? 100 : post.allocatedDays}
                         radius={75}
                         activeStrokeColor="#0f4fff"
                         withGradient
+                        title="annual"
                       />
                       <CardContent>
                         <Grid item xs={12} md={12} lg={12} key={index}>
