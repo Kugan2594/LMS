@@ -12,14 +12,20 @@ import {
 import { IEmployee } from "./Employee.interface";
 
 import DatePicker from "src/components/atoms/controlls/DatePicker";
-import { createEmployee, updateEmployee, getAllCompanyLocationForDropDown, getAllDesignationForDropDown } from "./ServiceEmployee";
+import {
+  createEmployee,
+  updateEmployee,
+  getAllCompanyLocationForDropDown,
+  getAllDesignationForDropDown,
+} from "./ServiceEmployee";
 import AutocompleteSelect from "src/components/atoms/controlls/AutocompleteSelect";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+import Checkbox from "src/components/atoms/controlls/Checkbox";
 
 let initialFValues: IEmployee = {
   id: 0,
@@ -154,7 +160,6 @@ const religon = [
   },
 ];
 
-
 function AddEmployee(props) {
   const { reloadTable, action, editData, handleError } = props;
   const [companyLocationData, setcompanyLocationData] = useState([]);
@@ -211,11 +216,6 @@ function AddEmployee(props) {
           : `MaritalStatus ${FORM_VALIDATION.space}`
         : FORM_VALIDATION.required;
 
-    if ("dateOfPermanency" in fieldValues)
-      temp.dateOfPermanency = fieldValues.dateOfPermanency
-        ? ""
-        : "This field is required. ";
-
     if ("contactNo" in fieldValues)
       temp.contactNo = fieldValues.contactNo
         ? PHONE_VALIDATION.test(fieldValues.contactNo)
@@ -233,20 +233,37 @@ function AddEmployee(props) {
             ? ""
             : `Address ${FORM_VALIDATION.space}`
           : FORM_VALIDATION.required;
-
-    if ("joinDate" in fieldValues)
-      temp.joinDate = fieldValues.joinDate ? "" : "This field is required.";
     if ("dateOfBirth" in fieldValues)
       temp.dateOfBirth = fieldValues.dateOfBirth
         ? ""
         : "This field is required.";
-    if ("companyLocation" in fieldValues)
+
+        setErrors({
+          ...temp,
+        });
+    
+        if (fieldValues === values)
+          return Object.values(temp).every((x) => x === "");
+      };
+
+        const validate1 = (fieldValues = values) => {
+          let temp: IEmployee = { ...errors };
+
+    if ("joinDate" in fieldValues)
+      temp.joinDate = fieldValues.joinDate ? "" : "This field is required.";
+
+    if ("companyLocationId" in fieldValues)
       temp.companyLocationId = fieldValues.companyLocationId
         ? ""
         : "This field is required.";
-    if ("name" in fieldValues)
-      temp.designationId = fieldValues.designationId ? "" : "This field is required.";
-
+    if ("designationId" in fieldValues)
+      temp.designationId = fieldValues.designationId
+        ? ""
+        : "This field is required.";
+    if ("dateOfPermanency" in fieldValues)
+      temp.dateOfPermanency = fieldValues.dateOfPermanency
+        ? ""
+        : "This field is required. ";
 
     setErrors({
       ...temp,
@@ -269,7 +286,7 @@ function AddEmployee(props) {
     e.preventDefault();
     console.log(values);
     const formData = new FormData();
-    if (validate) {
+    if (validate1()) {
       if (action === "add") {
         let data: object = {
           firstName: values.firstName,
@@ -308,9 +325,8 @@ function AddEmployee(props) {
             handleClose();
             handleError(error);
           }
-        )
-      }
-      else {
+        );
+      } else {
         const formData = new FormData();
 
         let data: object = {
@@ -335,35 +351,33 @@ function AddEmployee(props) {
           employmentType: values.employmentType,
           businessUnit: values.businessUnit,
           dateOfPermanency: values.dateOfPermanency,
-        }
+        };
 
+        updateEmployee(data).then(
+          (res: any) => {
+            console.log(res);
 
-        updateEmployee(data).then((res: any) => {
-          console.log(res);
-
-          reloadTable(res);
-          setupdateStatus(true);
-          resetForm();
-
-        },
+            reloadTable(res);
+            setupdateStatus(true);
+            resetForm();
+          },
           (error) => {
             console.log(error);
             handleError(error);
           }
-        )
+        );
       }
     }
   };
   useEffect(() => {
     getCompanyLocationSelectData();
     getDesignationSelectData();
-    if (action === 'edit') {
+    if (action === "edit") {
       console.log({ editData });
 
       setValues(editData);
     }
   }, [action, editData, setValues]);
-
 
   const getCompanyLocationSelectData = () => {
     let data: any = [];
@@ -373,7 +387,6 @@ function AddEmployee(props) {
         return null;
       });
       setcompanyLocationData(data);
-
     });
   };
 
@@ -387,7 +400,9 @@ function AddEmployee(props) {
       setdesignationData(data);
     });
   };
-  const onChangeFormValue = () => { setupdateStatus(false); };
+  const onChangeFormValue = () => {
+    setupdateStatus(false);
+  };
   const onReset = () => {
     resetForm();
   };
@@ -406,7 +421,6 @@ function AddEmployee(props) {
     console.log("hit", name, value);
   };
 
-
   const steps = ["Personal Details", "Employement Details"];
 
   const [activeStep, setActiveStep] = React.useState(0);
@@ -417,6 +431,7 @@ function AddEmployee(props) {
   };
 
   const handleNext = () => {
+    if(validate()){
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
@@ -425,17 +440,16 @@ function AddEmployee(props) {
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
+  }
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-
-
   return (
     <div>
-      <Box sx={{ width: "100%", justifyContent: 'center' }}>
+      <Box sx={{ width: "100%", justifyContent: "center" }}>
         <Stepper sx={{}} activeStep={activeStep}>
           {steps.map((label, index) => {
             const stepProps: { completed?: boolean } = {};
@@ -625,6 +639,7 @@ function AddEmployee(props) {
               <Form
                 onSubmit={handleSubmit}
                 onChangeFormValue={onChangeFormValue}
+
               >
                 <Grid container>
                   <Grid item xs={4}>
@@ -645,23 +660,17 @@ function AddEmployee(props) {
                       error={errors.dateOfPermanency}
                     />
                   </Grid>
-                  <Grid item xs={4}>
-                    <Input
-                      name="approverStatus"
-                      label="approverStatus *"
-                      value={values.approverStatus}
-                      onChange={handleInputChange}
-                      error={errors.approverStatus}
-                    />
-                  </Grid>
+                  
                   <Grid item xs={4}>
                     <AutocompleteSelect
                       name="designationId"
                       label="Designation*"
                       value={values.designationId}
                       onChange={handleInputChange}
+                      onValueChange={onValueChange}
                       options={designationData}
                       error={errors.designationId}
+
                     />
                   </Grid>
                   <Grid item xs={4}>
@@ -695,6 +704,15 @@ function AddEmployee(props) {
                       options={employeementtype}
                       error={errors.employmentType}
                     />
+                  </Grid>
+                  <Grid item xs={4}>
+                    
+                    <Checkbox
+                        name="approverStatus"
+                        label="Approver Status"
+                        value={values.approverStatus}
+                        onChange={handleInputChange}
+                      />
                   </Grid>
                   <Divider />
                   <Grid
@@ -737,12 +755,10 @@ function AddEmployee(props) {
   );
 }
 
-
-
 AddEmployee.propTypes = {
   reloadTable: PropTypes.func,
   handleError: PropTypes.func,
   action: PropTypes.string,
-  editData: PropTypes.object
+  editData: PropTypes.object,
 };
 export default AddEmployee;

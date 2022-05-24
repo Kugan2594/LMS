@@ -2,10 +2,11 @@ import { Card, CardContent, Container, Divider, Grid } from "@mui/material";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import DoughnutChart from "src/components/molecules/Charts/Doughnut";
-import "react-circular-progressbar/dist/styles.css";
 import { useEffect, useState } from "react";
-import { getEmployeeleavetypeByEmployeeId } from "./ServiceAllocationDays";
-import { any, number } from "prop-types";
+import {
+  getEmployeeleavetypeByEmployeeId,
+  getAllEmployee,
+} from "./ServiceAllocationDays";
 import AutocompleteSelect from "src/components/atoms/controlls/AutocompleteSelect";
 
 function createData(data) {
@@ -20,77 +21,57 @@ function createData(data) {
   return convertData;
 }
 
-const employeeList = [
-  {
-    id: "Cudeson",
-    title: "Cudeson",
-  },
-  {
-    id: "Marujan",
-    title: "Marujan",
-  },
-  {
-    id: "Rushanthan",
-    title: "Rushanthan",
-  },
-  {
-    id: "Rishi",
-    title: "Rishi",
-  },
-  {
-    id: "Keerthana",
-    title: "Keerthana",
-  },
-  {
-    id: "Sajinthini",
-    title: "Sajinthini",
-  },
-  {
-    id: "Kuganesan",
-    title: "Kuganesan",
-  },
-  {
-    id: "Kuruparan",
-    title: "Kuruparan",
-  },
-];
-
 function ManageAllocateDay() {
   const [updateStatus, setupdateStatus] = useState(true);
   const [employeeId, setemployeeId] = useState("");
-  const [erroremployee, seterroremployee] = useState("");
+  const [employeedata, setemployeedata] = useState([]);
+  const [employee, setemployee] = useState([]);
 
   const onValueChange = (e) => {
     setupdateStatus(false);
     const { name, value } = e.target;
-    if (name === "employeeId") {
+    if (name === "employee") {
       setemployeeId(value);
-      if (value !== "") {
-        seterroremployee("");
-      }
+      getEmployeeNameSelectData(value);
     }
-    console.log("hit", name, value);
   };
 
-  const [dataSource, setdataSource] = useState([]);
-
+  // get All Employee
   useEffect(() => {
-    getEmployeeNameSelectData(2);
+    getAllEmployeeData();
   }, []);
+
+  const getAllEmployeeData = () => {
+    let data: any = [];
+    getAllEmployee().then(
+      (res: []) => {
+        res.map((post: any) => {
+          data.push({ id: post.id, title: post.lastName });
+          return null;
+        });
+        setemployee(data);
+      },
+      (error) => {
+        setemployee([]);
+      }
+    );
+  };
+
+  // get by Employee Id
+  useEffect(() => {
+    getEmployeeNameSelectData(employeeId);
+  }, [employeeId]);
 
   const getEmployeeNameSelectData = (employeeId) => {
     let data: any = [];
+
     getEmployeeleavetypeByEmployeeId(employeeId).then(
       (res: []) => {
-        res.map((post: any) => {
-          data.push({ id: post.id, title: post.employee });
-          return null;
-        });
-        setdataSource(data);
+        data = createData(res);
+        setemployeedata(data);
       },
       (error) => {
-        console.log(error);
-        setdataSource([]);
+        setemployeedata([]);
       }
     );
   };
@@ -114,11 +95,11 @@ function ManageAllocateDay() {
               <Grid item xs={12} md={3} lg={3}></Grid>
               <Grid item xs={12} md={6} lg={6}>
                 <AutocompleteSelect
-                  name="employeeId"
+                  name="employee"
                   label="Employee Name"
                   value={employeeId}
                   onValueChange={onValueChange}
-                  options={dataSource}
+                  options={employee}
                 />
               </Grid>
               <Grid item xs={12} md={3} lg={3}></Grid>
@@ -134,18 +115,26 @@ function ManageAllocateDay() {
                 marginLeft={5}
                 marginTop={3}
               >
-                {Array.from(Array(4)).map((_, index) => (
-                  <Grid item xs={12} md={6} lg={3} key={index}>
-                    <DoughnutChart
-                      selectedValue={5}
-                      maxValue={15}
-                      radius={75}
-                      activeStrokeColor="#0f4fff"
-                      withGradient
-                      title="annual"
-                    />
-                  </Grid>
-                ))}
+                {employeedata.map((post, index) => {
+                  return (
+                    <Grid item xs={12} md={6} lg={3} key={index}>
+                      <DoughnutChart
+                        selectedValue={post.remainingDays}
+                        maxValue={post.allocatedDays}
+                        radius={75}
+                        activeStrokeColor="#0f4fff"
+                        withGradient
+                      />
+                      <CardContent>
+                        <Grid item xs={12} md={12} lg={12} key={index}>
+                          <h4>
+                            {post.leaveType} - [{post.allocatedDays}]
+                          </h4>
+                        </Grid>
+                      </CardContent>
+                    </Grid>
+                  );
+                })}
               </Grid>
             </Container>
           </CardContent>

@@ -16,7 +16,7 @@ import { ImOffice } from "react-icons/im";
 import { RiRouteFill } from "react-icons/ri";
 import { HiUser } from "react-icons/hi";
 import { HiStar } from "react-icons/hi";
-import { IoLogoOctocat, IoMdDoneAll } from "react-icons/io";
+import { IoIosWoman, IoLogoOctocat, IoMdDoneAll } from "react-icons/io";
 
 import { remove } from "lodash";
 
@@ -42,16 +42,29 @@ const masterMenuItems: MenuItem[] = [
         icon: GrSend,
         link: "/master/leaveRequest",
     },
+    { name: "E-History", icon: GiRibbonMedal, link: "/master/e-history" },
+    { name: "My Tasks", icon: IoMdDoneAll, link: "/master/tasks" },
+    { name: "Designations", icon: IoIosWoman, link: "/master/designations" },
+    { name: "Employee", icon: GiRibbonMedal, link: "/master/employee" },
+    { name: "Leave Type", icon: GiRibbonMedal, link: "/master/leavetype" },
+    { name: "History", icon: GiRibbonMedal, link: "/master/history" },
     {
-        name: "In-Progress",
+        name: "Company Location",
+        icon: GiRibbonMedal,
+        link: "/master/companyLocation",
+    },
+    { name: "Allocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
+
+    {
+        name: "Manage Leave Request",
         icon: HiStar,
         link: "/master/In-Progress",
     },
-    { name: "History", icon: GiRibbonMedal, link: "/master/history" },
-    { name: "E-History", icon: GiRibbonMedal, link: "/master/e-history" },
-    { name: "Aloocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
-    { name: "My Tasks", icon: IoMdDoneAll, link: "/master/tasks" },
-    { name: "Designations", icon: IoLogoOctocat, link: "/master/designations" },
+    {
+        name: "Employee Approver",
+        icon: GiRibbonMedal,
+        link: "/master/employee/approver",
+    },
 ];
 
 // if (!modulePermission(PERMISSION_NAME.role_permission).view) {
