@@ -63,7 +63,7 @@ useEffect(() => {
 }, [pagination.pageNumber, pagination.pageSize]);
 const getAllLeaveTypeData = (pageNumber, pageSize) => {
   getAllLeaveType(pageNumber, pageSize).then((res: any) => {
-      let data: [] = createData(res.results.Employee);
+      let data: [] = createData(res.results.LeaveType);
       setpagination({
           pageNumber: res.pagination.pageNumber,
           pageSize: res.pagination.pageSize,
@@ -84,19 +84,7 @@ const handleError = (res) => {
   });
 };
 
-  // const [open, setOpen] = useState(false);
-  // const [searchFields, setsearchFields] = useState({ type: "" });
-  // const [sortField, setsortField] = React.useState({
-  //   sortField: "id",
-  //   direction: "DESC",
-  // });
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
 
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
 
   const onTableSearch = (values, sortField) => {};
   const columns: Column[] = [
@@ -122,10 +110,9 @@ const handleError = (res) => {
       <PageTitleWrapper>
         <PageTitle
           heading="Leave Type"
-          // name="Add LeaveType"
           subHeading="Master/LeaveType"
           isButton={false}
-          // onclickButton={handleClickOpen}
+      
         />
       </PageTitleWrapper>
       <Divider />
@@ -146,13 +133,7 @@ const handleError = (res) => {
             />
           </CardContent>
         </Card>
-        {/* <Modals
-          modalTitle="Add LeaveType"
-          modalWidth="25%"
-          open={open}
-          onClose={handleClose}
-          modalBody={<AddEmployee />}
-        /> */}
+     
       </Container>
     </div>
   );

@@ -88,10 +88,11 @@ function ManageEmployeeApprover() {
         </Card>
         <Modals
           modalTitle="Add EmployeeApprover"
-          modalWidth="25%"
+          modalWidth="70%"
           open={open}
           onClose={handleClose}
-          modalBody={<AddEmployeeApprover/>}
+          modalBody={<AddEmployeeApprover reloadTable={()=>console.log()} handleError={()=>console.log()} />}
+
         />
       </Container>
     </div>

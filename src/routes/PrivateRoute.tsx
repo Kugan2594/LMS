@@ -10,13 +10,14 @@ import SuspenseLoader from "../components/molecules/SuspenseLoader";
 import Dashboard from "../contents/Dashboard";
 import Login from "../contents/login/Login";
 import SidebarLayout from "../layout/SidebarLayout";
+import ManageEmployeeApprover from "src/contents/Master/EmployeeApprover/ManageEmployeeApprover";
 
 const Loader = (Component: any) => (props: any) =>
-  (
-    <Suspense fallback={<SuspenseLoader />}>
-      <Component {...props} />
-    </Suspense>
-  );
+(
+  <Suspense fallback={<SuspenseLoader />}>
+    <Component {...props} />
+  </Suspense>
+);
 
 const PrivateRoute: PartialRouteObject[] = [
   {
@@ -47,10 +48,14 @@ const PrivateRoute: PartialRouteObject[] = [
         path: "/e-history",
         element: <EHistory />,
       },
-      
+
       {
         path: "/allocateday",
         element: <ManageAllocateDay />,
+      },
+      {
+        path: "/employee/approver",
+        element: <ManageEmployeeApprover />,
       },
     ],
   },

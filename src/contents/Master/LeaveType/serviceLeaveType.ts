@@ -6,7 +6,7 @@ const getAllLeaveType = (pageNumber: number, pageSize: number) => {
             "get",
             "lm-web",
             null,
-            `/employeePagination?page=${pageNumber}&size=${pageSize}`,
+            `/leaveTypePagination?page=${pageNumber}&size=${pageSize}`,
             "",
             "",
             ""
