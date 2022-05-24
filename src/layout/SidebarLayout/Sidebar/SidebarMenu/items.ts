@@ -20,36 +20,36 @@ import { HiStar } from "react-icons/hi";
 import { remove } from "lodash";
 
 export interface MenuItem {
-    id?: string;
-    link?: string;
-    icon?: any;
-    badge?: string;
-    items?: MenuItem[];
-    name: string;
+  id?: string;
+  link?: string;
+  icon?: any;
+  badge?: string;
+  items?: MenuItem[];
+  name: string;
 }
 
 export interface MenuItems {
-    items: MenuItem[];
-    heading: string;
+  items: MenuItem[];
+  heading: string;
 }
 
 const masterMenuItems: MenuItem[] = [
-    { name: "Employee", icon: GiRibbonMedal, link: "/master/employee" },
-    { name: "Type", icon: GiRibbonMedal, link: "/master/leavetype" },
-    {
-        name: "Leave Request",
-        icon: GrSend,
-        link: "/master/leaveRequest",
-    },
-    {
-        name: "In-Progress",
-        icon: HiStar,
-        link: "/master/In-Progress",
-    },
-    { name: "History", icon: GiRibbonMedal, link: "/master/history" },
-    { name: "E-History", icon: GiRibbonMedal, link: "/master/e-history" },
-    { name: "Allocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
-    { name: "My Tasks", icon: GiRibbonMedal, link: "/master/tasks" },
+  { name: "Employee", icon: GiRibbonMedal, link: "/master/employee" },
+  { name: "Type", icon: GiRibbonMedal, link: "/master/leavetype" },
+  {
+    name: "Leave Request",
+    icon: GrSend,
+    link: "/master/leaveRequest",
+  },
+  {
+    name: "Manage Leave Request",
+    icon: HiStar,
+    link: "/master/In-Progress",
+  },
+  { name: "History", icon: GiRibbonMedal, link: "/master/history" },
+  { name: "E-History", icon: GiRibbonMedal, link: "/master/e-history" },
+  { name: "Allocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
+  { name: "My Tasks", icon: GiRibbonMedal, link: "/master/tasks" },
 ];
 
 // if (!modulePermission(PERMISSION_NAME.role_permission).view) {
@@ -57,10 +57,10 @@ const masterMenuItems: MenuItem[] = [
 // }
 
 const menuItems: MenuItems[] = [
-    {
-        heading: "Master",
-        items: masterMenuItems,
-    },
+  {
+    heading: "Master",
+    items: masterMenuItems,
+  },
 ];
 
 export default menuItems;
