@@ -41,15 +41,22 @@ const masterMenuItems: MenuItem[] = [
     icon: GrSend,
     link: "/master/leaveRequest",
   },
+  
+  { name: "History", icon: GiRibbonMedal, link: "/master/history" },
+  { name: "E-History", icon: GiRibbonMedal, link: "/master/e-history" },
+  {
+    name: "Company Location",
+    icon: GiRibbonMedal,
+    link: "/master/companyLocation",
+  },
+  { name: "Allocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
+  { name: "My Tasks", icon: GiRibbonMedal, link: "/master/tasks" },
+  
   {
     name: "Manage Leave Request",
     icon: HiStar,
     link: "/master/In-Progress",
   },
-  { name: "History", icon: GiRibbonMedal, link: "/master/history" },
-  { name: "E-History", icon: GiRibbonMedal, link: "/master/e-history" },
-  { name: "Allocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
-  { name: "My Tasks", icon: GiRibbonMedal, link: "/master/tasks" },
 ];
 
 // if (!modulePermission(PERMISSION_NAME.role_permission).view) {
