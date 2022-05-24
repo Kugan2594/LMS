@@ -1,51 +1,22 @@
-import { Divider, Grid, Typography, } from "@mui/material";
+import { Grid, StepLabel, Typography, } from "@mui/material";
 import React, { useState } from "react";
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
-import StepButton from '@mui/material/StepButton';
 import Button from '@mui/material/Button';
-
-interface IViewHistory {
-  employeeId?: number;
-  employeeName?: string;
-  leaveType?: string;
-  leaveDays?: number;
-  fromDate?: string;
-  toDate?: string;
-  reason?: string;
-  status?: string;
-  approvers?: any[];
-  cancel?: any;
-  isEmployeeDetail?: boolean;
-  isResponseButtons?: boolean;
-}
-
-let initialFValues: IViewHistory = {
-  employeeId: 0,
-  employeeName: "",
-  leaveType: "",
-  leaveDays: 0,
-  fromDate: "",
-  toDate: "",
-  reason: "",
-  status: "",
-  approvers: [],
-  isEmployeeDetail: true,
-  isResponseButtons: true,
-  
-};
 
     export default function ViewHistory(props) {
 
-      const {details,name}=props;
+      const handleClickOpen = () => {};
+
+      const {details}=props;
 
       const steps = details.approvers.map((approversName) => (approversName.names));
 
+      const approvalStatusOriginal = details.approvers.filter((status) => status.appStatus != "Pending").map((approverStatus) => (approverStatus.appStatus));
+      
       const approvalStatus = details.approvers.filter((status) => status.appStatus == "Approved").map((filteredStatus) => 
       (filteredStatus.appStatus));
-
-      const handleClickOpen = () => {};
 
       const [approved, setApproved] = useState(approvalStatus);
       const [activeStep, setActiveStep] = useState(approved.length);
@@ -55,10 +26,6 @@ let initialFValues: IViewHistory = {
         setActiveStep(newActiveStep);
       };
     
-      const handleStep = (step: number) => () => {
-        setActiveStep(step);
-      };
-    
       const handleApprove = () => {
         const newApproved = approved;
         newApproved[activeStep] = true;
@@ -66,23 +33,35 @@ let initialFValues: IViewHistory = {
         handleNext();
       };
 
-      const [rejected, setRejected] = useState(false);
-
+      const [rejected, setRejected] = useState(approvalStatusOriginal);
+      
       const handleReject = (steps) => {
-        setRejected(true);
+        setRejected([...approved, "Rejected"]);
       }
+
+      const isStepFailed = (step: number) => {
+        return step === rejected.indexOf("Rejected");
+      };
     
       return (
         <Box sx={{ width: '600px' }}>
           <Stepper sx={{backgroundColor: "White"}} activeStep={activeStep} alternativeLabel>
-            {steps.map((label, index) => (
-              <Step key={label} completed={approved[index]}>
-                <StepButton color="inherit" onClick={handleStep(index)}>
-                  {label}
-                </StepButton>
-              </Step>
-            ))}
-          </Stepper>
+        {steps.map((label, index) => {
+          const labelProps: {
+            optional?: React.ReactNode;
+            error?: boolean;
+          } = {};
+          if (isStepFailed(index)) {
+            labelProps.error = true;
+          }
+
+          return (
+            <Step key={label} completed={approved[index]}>
+              <StepLabel {...labelProps}>{label}</StepLabel>
+            </Step>
+          );
+        })}
+      </Stepper>
           <div>
           <Grid container spacing={2}>
             <Grid item xs={6}>
