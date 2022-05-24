@@ -1,4 +1,4 @@
-import { Grid, StepLabel, Typography, } from "@mui/material";
+import { Grid, Input, StepLabel, TextField, Typography, } from "@mui/material";
 import React, { useState } from "react";
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -18,6 +18,13 @@ import Button from '@mui/material/Button';
       const approvalStatus = details.approvers.filter((status) => status.appStatus == "Approved").map((filteredStatus) => 
       (filteredStatus.appStatus));
 
+      const [value, setValue] = useState("");
+
+      const handleChange = (event) => {
+        setValue(event.target.value);
+        console.log(value);
+      };
+
       const [approved, setApproved] = useState(approvalStatus);
       const [activeStep, setActiveStep] = useState(approved.length);
       
@@ -26,7 +33,7 @@ import Button from '@mui/material/Button';
         setActiveStep(newActiveStep);
       };
     
-      const handleApprove = () => {
+      const handleApprove = (steps) => {
         const newApproved = approved;
         newApproved[activeStep] = true;
         setApproved(newApproved);
@@ -48,7 +55,6 @@ import Button from '@mui/material/Button';
           <Stepper sx={{backgroundColor: "White"}} activeStep={activeStep} alternativeLabel>
         {steps.map((label, index) => {
           const labelProps: {
-            optional?: React.ReactNode;
             error?: boolean;
           } = {};
           if (isStepFailed(index)) {
@@ -86,12 +92,25 @@ import Button from '@mui/material/Button';
             <Typography variant="h6" color="black">{details.reason}</Typography>
             <Typography variant="h6" color="black">{details.requestedDate}</Typography>
             </Grid></Grid>
+            { props.isResponseButtons &&
+            <Box sx={{ textAlign: "center", margin: "20px 0 0 0"}}>
+            <TextField
+              sx={{ width: "250px"}}
+              id="outlined-multiline-flexible"
+              label="Comment"
+              multiline
+              maxRows={2}
+              value={value}
+              onChange={handleChange}
+              />
+            </Box>}
+            
               <React.Fragment>
                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                   <Box sx={{ flex: '1 1 auto' }} />
-                  <Button variant="text" sx={{margin: 0.5}} onClick={props.cancel}>Close</Button>
+                  <Button variant="text" sx={{margin: 0.5}} onClick={props.close}>Close</Button>
                   { props.isResponseButtons && <div><Button variant="outlined" sx={{margin: 0.5}} onClick={() => handleReject(steps)}>Reject</Button>
-                  <Button variant="contained" sx={{margin: 0.5}} onClick={handleApprove}>Approve</Button></div>}
+                  <Button variant="contained" sx={{margin: 0.5}} onClick={() => handleApprove(steps)}>Approve</Button></div>}
                 </Box>
               </React.Fragment>
           </div>
