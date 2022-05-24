@@ -15,6 +15,9 @@ import PageTitle from "src/components/organism/PageTitle";
 import { number } from "prop-types";
 import { applyLeave, getAllEmployeesForDropDown, getAllLeaveTypeForDropDown } from "./ServiceLeaveRequest";
 import moment from 'moment';
+import PropTypes from 'prop-types';
+import { NOTIFICATION_TYPE } from "src/util/Notification";
+import CustomizedNotification from 'src/util/CustomizedNotification';
 
 let initialFValues: ILeaveRequest = {
     fromDate: "",
@@ -26,7 +29,8 @@ let initialFValues: ILeaveRequest = {
     isButtonThree: true,
     employeeId:0,
     leaveTypeId:0,
-    id:0
+    id:0,
+    reloadTable:"",
 };
 
 const leaveType = [
@@ -54,7 +58,7 @@ const leaveType = [
 function LeaveRequestForm(props: ILeaveRequest) {
     const [leaveTypeData, setleaveTypeData] = useState([]);
     const [employeeData, setemployeeData] = useState([]);
-    const { isButton, isButtonTwo, isButtonThree ,  reloadTable, action, editData, handleError } = props;
+    const { isButton, isButtonTwo, isButtonThree , action, editData } = props;
     const validate = (fieldValues = values) => {
         let temp: ILeaveRequest = { ...errors };
 
@@ -156,6 +160,29 @@ function LeaveRequestForm(props: ILeaveRequest) {
         resetForm();
     };
     const handleClickOpen = () => {};
+    
+    const handleAlertClose = () => {
+        setalert({
+            type: '',
+            mesg: ''
+        });
+    };
+
+    const [alert, setalert] = useState({
+        type: "",
+        mesg: "",
+    });
+
+    const handleError = (res) => {
+        setalert({
+            type: NOTIFICATION_TYPE.error,
+            mesg: res.data.validationFailures[0].message,
+        });
+    };
+
+    const reloadTable = (res) => {
+        setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
+    };
 
     return (
         <div>
@@ -276,8 +303,21 @@ function LeaveRequestForm(props: ILeaveRequest) {
                     </div>
                 </Card>
             </Container>
+            {alert.type.length > 0 ? (
+                <CustomizedNotification
+                    severity={alert.type}
+                    message={alert.mesg}
+                    handleAlertClose={handleAlertClose}
+                />
+            ) : null}
         </div>
     );
 }
+LeaveRequestForm.propTypes = {
+    reloadTable: PropTypes.func,
+    handleError: PropTypes.func,
+    action: PropTypes.string,
+    editData: PropTypes.object
+  };
 
 export default LeaveRequestForm;
