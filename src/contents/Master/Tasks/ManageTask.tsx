@@ -52,7 +52,7 @@ let mockData = [
             { names: "CudApp1", appStatus: "Approved" },
             { names: "CudApp2", appStatus: "Approved" },
             { names: "CudApp3", appStatus: "Rejected" },
-            { names: "CudApp4", appStatus: "Rejected" },
+            { names: "CudApp4", appStatus: "Pending" },
         ],
     },
     {
@@ -86,8 +86,8 @@ let mockData = [
         approvers: [
             { names: "CudApp1", appStatus: "Approved" },
             { names: "CudApp2", appStatus: "Approved" },
-            { names: "CudApp3", appStatus: "Approved" },
-            { names: "CudApp4", appStatus: "Rejected" },
+            { names: "CudApp3", appStatus: "Pending" },
+            { names: "CudApp4", appStatus: "Pending" },
         ],
     },
 ];
