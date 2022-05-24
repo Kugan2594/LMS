@@ -1,4 +1,7 @@
 interface ILeaveRequest {
+    id?:number;
+    employeeId?:number;
+    leaveTypeId?: number;
     leaveType?: string;
     fromDate?: string;
     toDate?: string;
@@ -11,6 +14,11 @@ interface ILeaveRequest {
     isButton?: boolean;
     isButtonTwo?: boolean;
     isButtonThree?: boolean;
+    reloadTable?:any;
+    action?:any;
+    editData?:any;
+    handleError?:any;
+
 }
 
 export type { ILeaveRequest };

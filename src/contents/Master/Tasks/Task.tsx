@@ -2,28 +2,23 @@ import {
     Button,
     Card,
     CardContent,
-    Container,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
     Divider,
-    Typography,
 } from "@mui/material";
+import { Container } from "@mui/system";
 import React, { useState } from "react";
 import Modals from "src/components/atoms/Modals";
 import Tables from "src/components/atoms/Tables";
+import { Column } from "src/components/atoms/Tables/TableInterface";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
-import { Column } from "../../../components/atoms/Tables/TableInterface";
-import AddEmployee from "../Employee/AddEmployee";
-import { ILeaveRequest } from "./LeaveRequest.interface";
-import { TableAction } from "src/components/atoms/Tables/TableAction";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import LeaveRequest from "./LeaveRequest";
-import LeaveRequestForm from "./LeaveRequestForm";
 import ViewHistory from "../History/ViewHistory";
-
+import InProgress from "../LeaveRequest/InProgress";
+import LeaveRequestForm from "../LeaveRequest/LeaveRequestForm";
 let mockData = [
     {
         id: 1,
@@ -97,7 +92,7 @@ let mockData = [
     },
 ];
 
-function InProgress() {
+function Task() {
     const [pagination, setpagination] = useState({
         pageNumber: 0,
         pageSize: 10,
@@ -139,6 +134,16 @@ function InProgress() {
     const onTableSearch = (values, sortField) => {};
 
     const columns: Column[] = [
+        {
+            id: "id",
+            label: "Id",
+            minWidth: 0,
+        },
+        {
+            id: "employeeName",
+            label: "Employee Name",
+            minWidth: 0,
+        },
         {
             id: "leaveType",
             label: "LeaveType",
@@ -183,38 +188,6 @@ function InProgress() {
                 </Button>
             ),
         },
-        {
-            id: "cancel",
-            label: "",
-            render: (value: any) => (
-                <Button
-                    variant="text"
-                    size="small"
-                    onClick={() => {
-                        handleClickOpen(value);
-                    }}
-                >
-                    Cancel
-                </Button>
-            ),
-            minWidth: 0,
-        },
-        {
-            id: "update",
-            label: "",
-            render: (value: any) => (
-                <Button
-                    variant="text"
-                    size="small"
-                    onClick={() => {
-                        handleUpdate(value);
-                    }}
-                >
-                    Update
-                </Button>
-            ),
-            minWidth: 0,
-        },
     ];
 
     return (
@@ -223,7 +196,7 @@ function InProgress() {
                 <Card>
                     <CardContent>
                         <PageTitleWrapper>
-                            <PageTitle heading="In progress" isButton={false} />
+                            <PageTitle heading="My Task" isButton={false} />
                         </PageTitleWrapper>
                         <Divider />
 
@@ -270,29 +243,17 @@ function InProgress() {
                             <DialogContentText id="alert-dialog-description">
                                 <ViewHistory
                                     details={leaveDetails}
-                                    isEmployeeDetail={false}
-                                    isResponseButtons={false}
+                                    isEmployeeDetail={true}
+                                    isResponseButtons={true}
                                     cancel={handleClose}
                                 />
                             </DialogContentText>
                         </DialogContent>
                     </Dialog>
                 </div>
-                <Modals
-                    modalTitle="Update Leave Request"
-                    modalWidth="60%"
-                    open={update}
-                    onClose={handleUpdateClose}
-                    modalBody={
-                        <LeaveRequestForm
-                            isButton={true}
-                            isButtonThree={true}
-                        />
-                    }
-                />
             </Container>
         </div>
     );
 }
 
-export default InProgress;
+export default Task;
