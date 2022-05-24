@@ -12,7 +12,7 @@ import { GrHistory } from "react-icons/gr";
 import {CgUserList } from "react-icons/cg";
 import { IoCarSportSharp } from "react-icons/io5";
 import { GrSend, GrWaypoint, GrWifi } from "react-icons/gr";
-import { FaUserAlt} from "react-icons/fa";
+import { FaUserAlt,FaUserCheck} from "react-icons/fa";
 import { IoSettingsSharp, IoAccessibilityOutline } from "react-icons/io5";
 import { MdGpsFixed, MdEmojiPeople, MdPersonalInjury } from "react-icons/md";
 import { ImOffice } from "react-icons/im";
@@ -39,7 +39,7 @@ export interface MenuItems {
 
 const masterMenuItems: MenuItem[] = [
     { name: "Employee", icon:FaUserAlt, link: "/master/employee" },
-    { name: "Type", icon: GiRibbonMedal, link: "/master/leavetype" },
+    { name: "Leave Type", icon: GiRibbonMedal, link: "/master/leavetype" },
     {
         name: "Leave Request",
         icon: GrSend,
@@ -52,8 +52,19 @@ const masterMenuItems: MenuItem[] = [
     },
     { name: "History", icon: GrHistory, link: "/master/history" },
     { name: "E-History", icon: CgUserList, link: "/master/e-history" },
-    { name: "Aloocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
+    { name: "Allocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
     { name: "My Tasks", icon: FcLeave, link: "/master/tasks" },
+    {
+        name: "Company Location",
+        icon: ImOffice,
+        link: "/master/companyLocation",
+      },
+      {
+        name: "Manage Leave Request",
+        icon: HiStar,
+        link: "/master/In-Progress",
+      },
+      { name: "Employee Approver", icon: FaUserCheck, link: "/master/employee/approver" },
 ];
 
 // if (!modulePermission(PERMISSION_NAME.role_permission).view) {
