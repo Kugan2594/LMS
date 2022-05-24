@@ -48,7 +48,7 @@ const masterMenuItems: MenuItem[] = [
     },
     { name: "History", icon: GiRibbonMedal, link: "/master/history" },
     { name: "E-History", icon: GiRibbonMedal, link: "/master/e-history" },
-    { name: "Aloocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
+    { name: "Allocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
     { name: "My Tasks", icon: GiRibbonMedal, link: "/master/tasks" },
 ];
 
