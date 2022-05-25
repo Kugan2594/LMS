@@ -78,18 +78,10 @@ function UpdateLeaveRequest(props) {
     let temp: ILeaveRequest = { ...errors };
 
     if ("fromDate" in fieldValues)
-      temp.fromDate = fieldValues.date
-        ? spaceValidation.test(fieldValues.date)
-          ? ""
-          : `Date ${FORM_VALIDATION.space}`
-        : FORM_VALIDATION.required;
+      temp.fromDate = fieldValues.fromDate ? "" : "This field is required.";
 
     if ("toDate" in fieldValues)
-      temp.toDate = fieldValues.date
-        ? spaceValidation.test(fieldValues.date)
-          ? ""
-          : `Date ${FORM_VALIDATION.space}`
-        : FORM_VALIDATION.required;
+      temp.toDate = fieldValues.toDate ? "" : "This field is required.";
 
     if ("employeeId" in fieldValues)
       temp.employeeId = fieldValues.employeeId ? "" : "This field is required.";
@@ -119,7 +111,7 @@ function UpdateLeaveRequest(props) {
     e.preventDefault();
     console.log(values);
     const formData = new FormData();
-    if (validate()) {
+    if (validate) {
       let data: object = {
         leaveTypeId: values.leaveTypeId,
         employeeId: values.employeeId,
@@ -234,23 +226,22 @@ function UpdateLeaveRequest(props) {
             <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
               <Grid container>
                 <Grid item xs={4}>
-                  <Select
+                  <AutocompleteSelect
                     name="employeeId"
                     label="Employee *"
                     value={values.employeeId}
                     onChange={handleInputChange}
-                    error={errors.employee}
+                    error={errors.employeeId}
                     options={employeeData}
                   />
                 </Grid>
                 <Grid item xs={4}>
-                  <Select
+                  <AutocompleteSelect
                     name="leaveTypeId"
                     label="LeaveType *"
                     value={values.leaveTypeId}
                     onChange={handleInputChange}
-                    onValueChange={onValueChange}
-                    error={errors.leaveType}
+                    error={errors.leaveTypeId}
                     options={leaveTypeData}
                   />
                 </Grid>
@@ -304,7 +295,7 @@ function UpdateLeaveRequest(props) {
               </Grid>
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                 <Box sx={{ flex: "1 1 auto" }} />
-                <Button color="inherit" text="Back" />
+
                 {action !== "edit" && (
                   <Button
                     size="small"
