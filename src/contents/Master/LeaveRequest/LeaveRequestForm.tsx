@@ -13,11 +13,15 @@ import { Card, Container } from "@mui/material";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import { number } from "prop-types";
-import { applyLeave, getAllEmployeesForDropDown, getAllLeaveTypeForDropDown } from "./ServiceLeaveRequest";
-import moment from 'moment';
-import PropTypes from 'prop-types';
+import {
+    applyLeave,
+    getAllEmployeesForDropDown,
+    getAllLeaveTypeForDropDown,
+} from "./ServiceLeaveRequest";
+import moment from "moment";
+import PropTypes from "prop-types";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
-import CustomizedNotification from 'src/util/CustomizedNotification';
+import CustomizedNotification from "src/util/CustomizedNotification";
 
 let initialFValues: ILeaveRequest = {
     fromDate: "",
@@ -27,53 +31,74 @@ let initialFValues: ILeaveRequest = {
     isButton: true,
     isButtonTwo: true,
     isButtonThree: true,
-    employeeId:0,
-    leaveTypeId:0,
-    id:0,
-    reloadTable:"",
+    employeeId: 0,
+    leaveTypeId: 0,
+    id: 0,
+    reloadTable: "",
 };
 
 const leaveType = [
     {
-      id: 1,
-      title: 'CASUAL'
+        id: 1,
+        title: "CASUAL",
     },
     {
-      id: 2,
-      title: 'ANNUAL'
-    }
-  ];
+        id: 2,
+        title: "ANNUAL",
+    },
+];
 
-  const employee = [
+const employee = [
     {
-      id: 1,
-      title: 'CUDESON'
+        id: 1,
+        title: "CUDESON",
     },
     {
-      id: 2,
-      title: 'RUSHANTHAN'
-    }
-  ];
+        id: 2,
+        title: "RUSHANTHAN",
+    },
+];
 
 function LeaveRequestForm(props: ILeaveRequest) {
     const [leaveTypeData, setleaveTypeData] = useState([]);
     const [employeeData, setemployeeData] = useState([]);
-    const { isButton, isButtonTwo, isButtonThree , action, editData } = props;
+    const { isButton, isButtonTwo, isButtonThree, action, editData } = props;
     const validate = (fieldValues = values) => {
         let temp: ILeaveRequest = { ...errors };
 
         if ("fromDate" in fieldValues)
-            temp.fromDate = fieldValues.date
+            temp.fromDate = fieldValues.fromDate
                 ? spaceValidation.test(fieldValues.date)
                     ? ""
                     : `Date ${FORM_VALIDATION.space}`
                 : FORM_VALIDATION.required;
 
-        setErrors({
-            ...temp,
-        });
         if ("toDate" in fieldValues)
-            temp.toDate = fieldValues.date
+            temp.toDate = fieldValues.toDate
+                ? spaceValidation.test(fieldValues.date)
+                    ? ""
+                    : `Date ${FORM_VALIDATION.space}`
+                : FORM_VALIDATION.required;
+        if ("employeeId" in fieldValues)
+            temp.employeeId = fieldValues.employeeId
+                ? spaceValidation.test(fieldValues.date)
+                    ? ""
+                    : `Date ${FORM_VALIDATION.space}`
+                : FORM_VALIDATION.required;
+        if ("reason" in fieldValues)
+            temp.toDate = fieldValues.reason
+                ? spaceValidation.test(fieldValues.date)
+                    ? ""
+                    : `Date ${FORM_VALIDATION.space}`
+                : FORM_VALIDATION.required;
+        if ("days" in fieldValues)
+            temp.days = fieldValues.days
+                ? spaceValidation.test(fieldValues.date)
+                    ? ""
+                    : `Date ${FORM_VALIDATION.space}`
+                : FORM_VALIDATION.required;
+        if ("leaveTypeId" in fieldValues)
+            temp.leaveTypeId = fieldValues.leaveTypeId
                 ? spaceValidation.test(fieldValues.date)
                     ? ""
                     : `Date ${FORM_VALIDATION.space}`
@@ -99,29 +124,29 @@ function LeaveRequestForm(props: ILeaveRequest) {
     useEffect(() => {
         getLeaveTypeSelectData();
         getEmployeeSelectData();
-      },[setValues]);
+    }, [setValues]);
 
-      const getLeaveTypeSelectData = () => {
+    const getLeaveTypeSelectData = () => {
         let data: any = [];
         getAllLeaveTypeForDropDown().then((res: []) => {
-          res.map((post: any) => {
-            data.push({ id: post.id, title: post.type });
-            return null;
-          });
-          setleaveTypeData(data);
+            res.map((post: any) => {
+                data.push({ id: post.id, title: post.type });
+                return null;
+            });
+            setleaveTypeData(data);
         });
-      };
+    };
 
-      const getEmployeeSelectData = () => {
+    const getEmployeeSelectData = () => {
         let data: any = [];
         getAllEmployeesForDropDown().then((res: []) => {
-          res.map((post: any) => {
-            data.push({ id: post.id, title: post.lastName });
-            return null;
-          });
-          setemployeeData(data);
+            res.map((post: any) => {
+                data.push({ id: post.id, title: post.lastName });
+                return null;
+            });
+            setemployeeData(data);
         });
-      };
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -132,27 +157,36 @@ function LeaveRequestForm(props: ILeaveRequest) {
             reason: values.reason,
             toDate: values.toDate,
             fromDate: values.fromDate,
-          };
-          const formData = new FormData(); 
-        formData.append('leaveTypeId', values.leaveTypeId);
-        formData.append('employeeId', values.employeeId);
-        formData.append('leaveDays', values.days);
-        formData.append('reason', values.reason);
-        formData.append('toDate', moment(values.toDate).format('YYYY-MM-DD HH:MM:SS.SSSS'));
-        formData.append('fromDate', moment(values.fromDate).format('YYYY-MM-DD HH:MM:SS.SSSS'));
-        formData.append('requestedDate', moment(values.requestedDate).format('YYYY-MM-DD HH:MM:SS.SSSS'));
+        };
+        const formData = new FormData();
+        formData.append("leaveTypeId", values.leaveTypeId);
+        formData.append("employeeId", values.employeeId);
+        formData.append("leaveDays", values.days);
+        formData.append("reason", values.reason);
+        formData.append(
+            "toDate",
+            moment(values.toDate).format("YYYY-MM-DD HH:MM:SS.SSSS")
+        );
+        formData.append(
+            "fromDate",
+            moment(values.fromDate).format("YYYY-MM-DD HH:MM:SS.SSSS")
+        );
+        formData.append(
+            "requestedDate",
+            moment(values.requestedDate).format("YYYY-MM-DD HH:MM:SS.SSSS")
+        );
 
         applyLeave(formData).then(
             (res: any) => {
-              reloadTable(res);
-              resetForm();
-              onReset();
+                reloadTable(res);
+                resetForm();
+                onReset();
             },
             (error) => {
-              console.log(error);
-              handleError(error);
+                console.log(error);
+                handleError(error);
             }
-          );
+        );
     };
 
     const onChangeFormValue = () => {};
@@ -160,11 +194,11 @@ function LeaveRequestForm(props: ILeaveRequest) {
         resetForm();
     };
     const handleClickOpen = () => {};
-    
+
     const handleAlertClose = () => {
         setalert({
-            type: '',
-            mesg: ''
+            type: "",
+            mesg: "",
         });
     };
 
@@ -191,14 +225,14 @@ function LeaveRequestForm(props: ILeaveRequest) {
                 <Card>
                     <div>
                         <br />
-                        <Divider />
+
                         <Form
                             onSubmit={handleSubmit}
                             onChangeFormValue={onChangeFormValue}
                         >
                             <Grid container>
                                 <Grid item xs={1}></Grid>
-                                <Grid item xs={5} marginTop={5}>
+                                <Grid item xs={5}>
                                     {" "}
                                     <Select
                                         name="employeeId"
@@ -223,7 +257,8 @@ function LeaveRequestForm(props: ILeaveRequest) {
                                         error={errors.reason}
                                     />
                                 </Grid>
-                                <Grid item xs={5} marginTop={5}>
+
+                                <Grid item xs={5}>
                                     <Select
                                         name="leaveTypeId"
                                         label="LeaveType *"
@@ -249,8 +284,6 @@ function LeaveRequestForm(props: ILeaveRequest) {
                                         type="number"
                                     />
                                 </Grid>
-
-                                <Grid item xs={1}></Grid>
                             </Grid>
 
                             <Divider />
@@ -317,7 +350,7 @@ LeaveRequestForm.propTypes = {
     reloadTable: PropTypes.func,
     handleError: PropTypes.func,
     action: PropTypes.string,
-    editData: PropTypes.object
-  };
+    editData: PropTypes.object,
+};
 
 export default LeaveRequestForm;

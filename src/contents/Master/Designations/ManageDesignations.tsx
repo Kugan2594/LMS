@@ -133,19 +133,18 @@ function ManageDesignations() {
 
     return (
         <div>
+            <PageTitleWrapper>
+                <PageTitle
+                    heading="Manage Designation"
+                    subHeading="Master/ Designation"
+                    isButton={true}
+                    name="Add Designation"
+                    onclickButton={handleClickOpen}
+                />
+            </PageTitleWrapper>
             <Container maxWidth="lg">
                 <Card>
                     <CardContent>
-                        <PageTitleWrapper>
-                            <PageTitle
-                                heading="Manage Designations"
-                                name="Add Designation"
-                                isButton={true}
-                                onclickButton={handleClickOpen}
-                            />
-                        </PageTitleWrapper>
-                        <Divider />
-
                         <Tables
                             columns={columns}
                             tableData={mockData}
