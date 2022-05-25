@@ -22,6 +22,7 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from "src/util/CustomizedNotification";
+import { Box } from "@mui/system";
 
 let initialFValues: ILeaveRequest = {
     fromDate: "",
@@ -68,35 +69,41 @@ function LeaveRequestForm(props: ILeaveRequest) {
 
         if ("fromDate" in fieldValues)
             temp.fromDate = fieldValues.fromDate
-                ? spaceValidation.test(fieldValues.date)
+                ? spaceValidation.test(fieldValues.fromDate)
                     ? ""
-                    : `Date ${FORM_VALIDATION.space}`
+                    : `fromDate ${FORM_VALIDATION.space}`
                 : FORM_VALIDATION.required;
 
         if ("toDate" in fieldValues)
             temp.toDate = fieldValues.toDate
-                ? spaceValidation.test(fieldValues.date)
+                ? spaceValidation.test(fieldValues.toDate)
                     ? ""
-                    : `Date ${FORM_VALIDATION.space}`
+                    : `toDate ${FORM_VALIDATION.space}`
                 : FORM_VALIDATION.required;
         if ("employeeId" in fieldValues)
             temp.employeeId = fieldValues.employeeId
-                ? spaceValidation.test(fieldValues.date)
+                ? spaceValidation.test(fieldValues.employeeId)
                     ? ""
-                    : `Date ${FORM_VALIDATION.space}`
+                    : `employeeId ${FORM_VALIDATION.space}`
                 : FORM_VALIDATION.required;
         if ("reason" in fieldValues)
-            temp.toDate = fieldValues.reason
-                ? spaceValidation.test(fieldValues.date)
+            temp.reason = fieldValues.reason
+                ? spaceValidation.test(fieldValues.reason)
                     ? ""
-                    : `Date ${FORM_VALIDATION.space}`
+                    : `reason ${FORM_VALIDATION.space}`
                 : FORM_VALIDATION.required;
-       
+
         if ("leaveTypeId" in fieldValues)
             temp.leaveTypeId = fieldValues.leaveTypeId
                 ? spaceValidation.test(fieldValues.date)
                     ? ""
-                    : `Date ${FORM_VALIDATION.space}`
+                    : `leaveTypeId ${FORM_VALIDATION.space}`
+                : FORM_VALIDATION.required;
+        if ("leaveDays" in fieldValues)
+            temp.leaveDays = fieldValues.leaveDays
+                ? spaceValidation.test(fieldValues.date)
+                    ? ""
+                    : `leaveDays ${FORM_VALIDATION.space}`
                 : FORM_VALIDATION.required;
 
         setErrors({
@@ -152,15 +159,25 @@ function LeaveRequestForm(props: ILeaveRequest) {
             reason: values.reason,
             toDate: values.toDate,
             fromDate: values.fromDate,
-          };
-          const formData = new FormData(); 
-        formData.append('leaveTypeId', values.leaveTypeId);
-        formData.append('employeeId', values.employeeId);
-        formData.append('leaveDays', values.leaveDays);
-        formData.append('reason', values.reason);
-        formData.append('toDate', moment(values.toDate).format('YYYY-MM-DD HH:MM:SS.SSSS'));
-        formData.append('fromDate', moment(values.fromDate).format('YYYY-MM-DD HH:MM:SS.SSSS'));
-        formData.append('requestedDate', moment(values.requestedDate).format('YYYY-MM-DD HH:MM:SS.SSSS'));
+        };
+        const formData = new FormData();
+        formData.append("leaveTypeId", values.leaveTypeId);
+        formData.append("employeeId", values.employeeId);
+        formData.append("leaveDays", values.leaveDays);
+        formData.append("reason", values.reason);
+        formData.append(
+            "toDate",
+            moment(values.toDate).format("YYYY-MM-DD HH:MM:SS.SSSS")
+        );
+        formData.append(
+            "fromDate",
+            moment(values.fromDate).format("YYYY-MM-DD HH:MM:SS.SSSS")
+        );
+        formData.append(
+            "requestedDate",
+            moment(values.requestedDate).format("YYYY-MM-DD HH:MM:SS.SSSS")
+        );
+        validate();
 
         applyLeave(formData).then(
             (res: any) => {
@@ -211,114 +228,118 @@ function LeaveRequestForm(props: ILeaveRequest) {
                 <Card>
                     <div>
                         <br />
+                        <Box sx={{ marginTop: 5 }}>
+                            <Form
+                                onSubmit={handleSubmit}
+                                onChangeFormValue={onChangeFormValue}
+                            >
+                                <Grid container>
+                                    <Grid item xs={1}></Grid>
+                                    <Grid item xs={5}>
+                                        {" "}
+                                        <Select
+                                            name="employeeId"
+                                            label="Employee *"
+                                            value={values.employeeId}
+                                            onChange={handleInputChange}
+                                            error={errors.employeeId}
+                                            options={employeeData}
+                                        />
+                                        <DatePicker
+                                            name="fromDate"
+                                            label="From Date *"
+                                            value={values.fromDate}
+                                            onChange={handleInputChange}
+                                            error={errors.fromDate}
+                                        />
+                                        <Box sx={{ marginTop: 2.5 }}>
+                                            <Input
+                                                name="reason"
+                                                label="Reason *"
+                                                value={values.reason}
+                                                onChange={handleInputChange}
+                                                error={errors.reason}
+                                            />
+                                        </Box>
+                                    </Grid>
 
-                        <Form
-                            onSubmit={handleSubmit}
-                            onChangeFormValue={onChangeFormValue}
-                        >
-                            <Grid container>
-                                <Grid item xs={1}></Grid>
-                                <Grid item xs={5}>
-                                    {" "}
-                                    <Select
-                                        name="employeeId"
-                                        label="Employee *"
-                                        value={values.employeeId}
-                                        onChange={handleInputChange}
-                                        error={errors.employee}
-                                        options={employeeData}
-                                    />
-                                    <DatePicker
-                                        name="fromDate"
-                                        label="From Date *"
-                                        value={values.fromDate}
-                                        onChange={handleInputChange}
-                                        error={errors.fromDate}
-                                    />
-                                    <Input
-                                        name="reason"
-                                        label="Reason *"
-                                        value={values.reason}
-                                        onChange={handleInputChange}
-                                        error={errors.reason}
-                                    />
+                                    <Grid item xs={5}>
+                                        <Select
+                                            name="leaveTypeId"
+                                            label="LeaveType *"
+                                            value={values.leaveTypeId}
+                                            onChange={handleInputChange}
+                                            error={errors.leaveTypeId}
+                                            options={leaveTypeData}
+                                        />
+
+                                        <DatePicker
+                                            name="toDate"
+                                            label="To Date *"
+                                            value={values.toDate}
+                                            onChange={handleInputChange}
+                                            error={errors.toDate}
+                                        />
+                                        <Box sx={{ marginTop: 2.5 }}>
+                                            <Input
+                                                name="leaveDays"
+                                                label="DAYS *"
+                                                value={values.leaveDays}
+                                                onChange={handleInputChange}
+                                                error={errors.leaveDays}
+                                                type="number"
+                                            />
+                                        </Box>
+                                    </Grid>
                                 </Grid>
 
-                                <Grid item xs={5}>
-                                    <Select
-                                        name="leaveTypeId"
-                                        label="LeaveType *"
-                                        value={values.leaveTypeId}
-                                        onChange={handleInputChange}
-                                        error={errors.leaveType}
-                                        options={leaveTypeData}
-                                    />
+                                <Grid container>
+                                    <Grid item xs={6}></Grid>
+                                    <Grid
+                                        item
+                                        xs={4}
+                                        display="flex"
+                                        flexDirection="row"
+                                        justifyContent="flex-end"
+                                        container
+                                        style={{ padding: "8px" }}
+                                    >
+                                        <div>
+                                            {isButton && (
+                                                <Button
+                                                    size="small"
+                                                    text="Reset"
+                                                    color="info"
+                                                    onClick={onReset}
+                                                />
+                                            )}
 
-                                    <DatePicker
-                                        name="toDate"
-                                        label="To Date *"
-                                        value={values.toDate}
-                                        onChange={handleInputChange}
-                                        error={errors.toDate}
-                                    />
-                                    <Input
-                                        name="leaveDays"
-                                        label="DAYS *"
-                                        value={values.leaveDays}
-                                        onChange={handleInputChange}
-                                        error={errors.leaveDays}
-                                        type="number"
-                                    />
+                                            {isButtonTwo && (
+                                                <Button
+                                                    onClick={() => {
+                                                        console.log("clicked");
+                                                    }}
+                                                    size="small"
+                                                    type="submit"
+                                                    text="Apply"
+                                                />
+                                            )}
+                                            {isButtonThree && (
+                                                <Button
+                                                    onClick={() => {
+                                                        console.log("clicked");
+                                                    }}
+                                                    size="small"
+                                                    type="submit"
+                                                    text="Update"
+                                                />
+                                            )}
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={2}></Grid>
                                 </Grid>
-                            </Grid>
-
-                            <Divider />
-                            <Grid container>
-                                <Grid item xs={6}></Grid>
-                                <Grid
-                                    item
-                                    xs={4}
-                                    display="flex"
-                                    flexDirection="row"
-                                    justifyContent="flex-end"
-                                    container
-                                    style={{ padding: "8px" }}
-                                >
-                                    <div>
-                                        {isButton && (
-                                            <Button
-                                                size="small"
-                                                text="Reset"
-                                                color="info"
-                                                onClick={onReset}
-                                            />
-                                        )}
-
-                                        {isButtonTwo && (
-                                            <Button
-                                                onClick={() => {
-                                                    console.log("clicked");
-                                                }}
-                                                size="small"
-                                                type="submit"
-                                                text="Apply"
-                                            />
-                                        )}
-                                        {isButtonThree && (
-                                            <Button
-                                                onClick={() => {
-                                                    console.log("clicked");
-                                                }}
-                                                size="small"
-                                                type="submit"
-                                                text="Update"
-                                            />
-                                        )}
-                                    </div>
-                                </Grid>
-                                <Grid item xs={2}></Grid>
-                            </Grid>
-                        </Form>
+                            </Form>
+                        </Box>
                     </div>
                 </Card>
             </Container>

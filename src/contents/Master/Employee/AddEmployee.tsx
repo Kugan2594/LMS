@@ -205,7 +205,7 @@ function AddEmployee(props) {
 
     if ("nic" in fieldValues)
       temp.nic = fieldValues.nic
-        ? spaceValidation.test(fieldValues.nic)
+        ? NIC_VALIDATION.test(fieldValues.nic)
           ? ""
           : `nic ${FORM_VALIDATION.space}`
         : FORM_VALIDATION.required;
@@ -647,7 +647,6 @@ function AddEmployee(props) {
               <Form
                 onSubmit={handleSubmit}
                 onChangeFormValue={onChangeFormValue}
-
               >
                 <Grid container>
                   <Grid item xs={4}>
@@ -678,7 +677,6 @@ function AddEmployee(props) {
                       onValueChange={onValueChange}
                       options={designationData}
                       error={errors.designationId}
-
                     />
                   </Grid>
                   <Grid item xs={4}>
@@ -714,7 +712,6 @@ function AddEmployee(props) {
                     />
                   </Grid>
                   <Grid item xs={4}>
-
                     <Checkbox
                       name="approverStatus"
                       label="Approver Status"
