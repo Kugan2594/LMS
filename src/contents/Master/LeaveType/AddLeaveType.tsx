@@ -1,0 +1,480 @@
+import { Divider, Grid } from "@mui/material";
+import { values } from "lodash";
+import React, { useEffect, useState } from "react";
+import Button from "src/components/atoms/controlls/Button";
+import Input from "src/components/atoms/controlls/Input";
+import { Form, useForm } from "src/components/atoms/Forms/useForm";
+import { ILeaveType } from './LeaveType.interface'
+import Checkbox from "src/components/atoms/controlls/Checkbox";
+import RadioGroup from "src/components/atoms/controlls/RadioGroup"
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import { createLeaveType, updateLeaveType } from "./serviceLeaveType"
+import FormControlLabel from '@mui/material/FormControlLabel';
+function AddLeaveType(props) {
+    const { reloadTable, action, editData, handleError } = props;
+    const [updateStatus, setupdateStatus] = useState(true);
+    const [add, setAdd] = useState(false);
+    // const [leaveDays, setleaveDays] = useState({});
+    const initialFValues: ILeaveType = {
+        id: 0,
+        description: "",
+        type: '',
+        noticePeriod: 0,
+        cancellationNoticePeriod: 0,
+        reginationNotified: false,
+        ableToCarryForward: false,
+        noticePeriodApplicable: false,
+        monthlyApplicable: false,
+        allocateDaysByAppointedDate: false,
+        allocatedDaysByExtraWorking: false,
+        minStretchDays: 0,
+        maxStretchDays: 0,
+        yearCompleted: false,
+        noOfDaysPeryear: 0,
+        noOfDays: 0,
+        startMonth: 0,
+        endMonth: 0,
+        days: 0
+    };
+
+    const validate = (fieldValues = values) => {
+        let temp: ILeaveType = { ...errors };
+        if ("type" in fieldValues)
+            temp.type = fieldValues.type ? "" : "This field is required.";
+        if (fieldValues === values)
+            return Object.values(temp).every((x) => x === "");
+    };
+
+    const {
+        values,
+        setValues,
+        errors,
+        setErrors,
+        handleInputChange,
+        resetForm
+    }: any = useForm(initialFValues, true, validate);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(values);
+        let leaveDays: object = [{
+            startMonth: values.startMonth,
+            endMonth: values.endMonth,
+            days: values.days
+        }]
+
+        if (validate()) {
+            let leaveDaysDurationSettingDto: []
+
+            if (action === 'add') {
+                let data: object = {
+
+                    description: values.description,
+                    type: values.type,
+                    noticePeriod: values.noticePeriod,
+                    cancellationNoticePeriod: values.cancellationNoticePeriod,
+                    reginationNotified: values.reginationNotified,
+                    ableToCarryForward: values.ableToCarryForward,
+                    noticePeriodApplicable: values.noticePeriodApplicable,
+                    minStretchDays: values.minStretchDays,
+                    maxStretchDays: values.maxStretchDays,
+                    yearCompleted: values.yearCompleted,
+                    noOfDaysPeryear: values.noOfDaysPeryear,
+                    noOfDays: values.noOfDays,
+                    leaveDaysDurationSettingDto: leaveDays
+                };
+                console.log({ data });
+                createLeaveType(data).then(
+                    (res: any) => {
+                        console.log(res);
+                        reloadTable(res);
+                        handleClose();
+                        resetForm();
+                    },
+                    (error) => {
+                        console.log(error);
+                        // reloadTable(res);
+                        handleClose();
+                        handleError(error);
+                    }
+                );
+            }
+            else {
+
+                let data: object = {
+
+                    description: values.description,
+                    type: values.type,
+                    noticePeriod: values.noticePeriod,
+                    cancellationNoticePeriod: values.cancellationNoticePeriod,
+                    reginationNotified: values.reginationNotified,
+                    ableToCarryForward: values.ableToCarryForward,
+                    noticePeriodApplicable: values.noticePeriodApplicable,
+                    minStretchDays: values.minStretchDays,
+                    maxStretchDays: values.maxStretchDays,
+                    yearCompleted: values.yearCompleted,
+                    noOfDaysPeryear: values.noOfDaysPeryear,
+                    noOfDays: values.noOfDays,
+                    startMonth: values.startMonth,
+                    endMonth: values.endMonth,
+                    days: values.days
+                };
+                updateLeaveType(data).then(
+                    (res: any) => {
+                        console.log(res);
+
+                        reloadTable(res);
+                        setupdateStatus(true);
+                        resetForm();
+                    },
+                    (error) => {
+                        console.log(error);
+                        handleError(error);
+                    }
+                );
+            }
+        }
+    }
+    const steps = ["Create New Leave Type", "Allocate Leave Days By Rules"];
+    const [open, setOpen] = useState(false);
+    const [activeStep, setActiveStep] = React.useState(0);
+    const [skipped, setSkipped] = React.useState(new Set<number>());
+    const onChangeFormValue = () => {
+        setupdateStatus(false);
+    };
+    const isStepSkipped = (step: number) => {
+        return skipped.has(step);
+    };
+    const handleNext = () => {
+        if (validate()) {
+            let newSkipped = skipped;
+            if (isStepSkipped(activeStep)) {
+                newSkipped = new Set(newSkipped.values());
+                newSkipped.delete(activeStep);
+            }
+
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+            setSkipped(newSkipped);
+        }
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const onReset = () => {
+        resetForm();
+    };
+    const handleBack = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    };
+
+    useEffect(() => {
+        if (action === "edit") {
+            console.log({ editData });
+            setValues(editData);
+        }
+    }, [action, editData, setValues]);
+    return (
+        <div>
+            <Box sx={{ width: "100%", justifyContent: "center" }}>
+                <Stepper sx={{}} activeStep={activeStep}>
+                    {steps.map((label, index) => {
+                        const stepProps: { completed?: boolean } = {};
+                        const labelProps: {
+                            optional?: React.ReactNode;
+                        } = {};
+
+                        if (isStepSkipped(index)) {
+                            stepProps.completed = false;
+                        }
+                        return (
+                            <Step key={label} {...stepProps}>
+                                <StepLabel {...labelProps}>{label}</StepLabel>
+                            </Step>
+                        );
+                    })}
+                </Stepper>
+                {activeStep === steps.length - 2 ? (
+                    <React.Fragment>
+                        <Typography sx={{ mt: 2, mb: 1 }}>
+                            <Form>
+                                <Divider
+                                    sx={{ marginBottom: 2, marginTop: 2, fontSize: 12, color: 'gray' }}
+                                >
+                                    Leave Types
+                                </Divider>
+                                <Grid container>
+                                    <Grid item xs={6}>
+                                        <Input
+                                            name="type"
+                                            label="Leave Type Name"
+                                            value={values.name}
+                                            onChange={handleInputChange}
+                                            error={errors.name}
+                                            tabIndex={0}
+                                            inputProps={{ tabIndex: '1' }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Input
+                                            name="description"
+                                            label="Description"
+                                            value={values.description}
+                                            onChange={handleInputChange}
+                                            error={errors.description}
+
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Input
+                                            name="noticePeriod"
+                                            label="Notice Perios"
+                                            value={values.noticePeriod}
+                                            onChange={handleInputChange}
+                                            error={errors.noticePeriod}
+                                            type="number"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Input
+                                            name="cancellationNoticePeriod"
+                                            label="Cancellation Notice Period"
+                                            value={values.cancellationNoticePeriod}
+                                            onChange={handleInputChange}
+                                            error={errors.cancellationNoticePeriod}
+                                            type="number"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Checkbox
+                                            name="reginationNotified"
+                                            label="Applicable in termination notice period"
+                                            value={values.reginationNotified}
+                                            onChange={handleInputChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Checkbox
+                                            name="ableToCarryForward"
+                                            label="Carry Forward to next year"
+                                            value={values.ableToCarryForward}
+                                            onChange={handleInputChange}
+                                        />
+                                    </Grid>
+                                    {values.ableToCarryForward && <Grid item xs={6}>
+                                        <Input
+                                            name="cancellationNoticePeriod"
+                                            label="Cancellation Notice Period"
+                                            value={values.cancellationNoticePeriod}
+                                            onChange={handleInputChange}
+                                            error={errors.cancellationNoticePeriod}
+                                            type="number"
+                                        />
+
+                                    </Grid>}
+                                    <Grid item xs={4}>
+                                        <Checkbox
+                                            name="noticePeriodApplicable"
+                                            label="Applicable Leave Days per request"
+                                            value={values.noticePeriodApplicable}
+                                            onChange={handleInputChange}
+                                        />
+                                    </Grid>
+                                    {values.noticePeriodApplicable && <Grid item xs={4}>
+                                        <Input
+                                            name="minStretchDays"
+                                            label="Minimum Days"
+                                            value={values.minStretchDays}
+                                            onChange={handleInputChange}
+                                            error={errors.minStretchDays}
+                                            type="number"
+                                        />
+
+                                    </Grid>
+
+                                    }
+                                    {values.noticePeriodApplicable && <Grid item xs={4}>
+                                        <Input
+                                            name="maxStretchDays"
+                                            label="Maximum Days"
+                                            value={values.maxStretchDays}
+                                            onChange={handleInputChange}
+                                            error={errors.maxStretchDays}
+                                            type="number"
+                                        />
+
+                                    </Grid>
+                                    }
+
+                                </Grid>
+                                <Divider />
+                                <Grid
+                                    display="flex"
+                                    flexDirection="row"
+                                    justifyContent="flex-end"
+                                    container
+                                    style={{ padding: "8px" }}
+                                ></Grid>
+                                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                                    <Box sx={{ flex: "1 1 auto" }} />
+                                    <Button
+                                        color="inherit"
+                                        disabled={activeStep === 0}
+                                        onClick={handleBack}
+                                        text="Back"
+                                    />
+
+                                    <Button onClick={handleNext} text="Next" />
+                                </Box>
+                            </Form>
+                        </Typography>
+                    </React.Fragment>
+                ) : (
+                    <React.Fragment>
+                        <Typography sx={{ mt: 2, mb: 1 }}>
+                            <Form
+                                onSubmit={handleSubmit}
+                                onChangeFormValue={onChangeFormValue}
+
+                            >      <Grid container>
+                                    {/* <Grid item xs={8}>
+                                        <Checkbox
+                                            name="allocatedDaysByExtraWorking"
+                                            label="Allocate leave days by extra working hours"
+                                            value={values.allocatedDaysByExtraWorking}
+                                            onChange={handleInputChange}
+                                        />
+                                    </Grid> */}
+
+                                    {/* <Grid item xs={8}>
+                                    <FormControlLabel   name="allocatedDaysByExtraWorking"   onChange={handleInputChange}  value={values.allocatedDaysByExtraWorking} control={<Radio />} label="Allocate leave days by extra working hours" />
+                                    </Grid> */}
+
+                                    <Grid item xs={8}>
+                                        <FormControlLabel name="yearCompleted" onChange={handleInputChange} value={values.yearCompleted} control={<Radio />} label="Allocated Leave Days Per Year" />
+
+
+                                    </Grid>
+
+                                    {values.yearCompleted && <Grid item xs={4}>
+                                        <Input
+                                            name="noOfDaysPeryear"
+                                            label="Maximum Days"
+                                            value={values.noOfDaysPeryear}
+                                            onChange={handleInputChange}
+                                            error={errors.noOfDaysPeryear}
+                                            type="number"
+                                        />
+                                    </Grid>}
+                                    <Divider
+                                        sx={{ marginBottom: 2, marginTop: 2, fontSize: 12, color: 'balck' }}
+                                    >
+                                        Leave allocation settings for newly appointed
+                                    </Divider>
+                                    <Grid item xs={8}>
+                                        <Checkbox
+                                            name="monthlyApplicable"
+                                            label="Allocate leave days by monthly earning"
+                                            value={values.monthlyApplicable}
+                                            onChange={handleInputChange}
+                                        />
+                                    </Grid>
+                                    {values.monthlyApplicable && <Grid item xs={4}>
+                                        <Input
+                                            name="noOfDays"
+                                            label="Maximum Days"
+                                            value={values.noOfDays}
+                                            onChange={handleInputChange}
+                                            error={errors.noOfDays}
+                                            type="number"
+                                        />
+                                    </Grid>}
+                                    <Grid item xs={12}>
+                                        <Checkbox
+                                            name="allocateDaysByAppointedDate"
+                                            label="Allocate leave days by appointed date"
+                                            value={values.allocateDaysByAppointedDate}
+                                            onChange={handleInputChange}
+                                        />
+                                    </Grid>
+                                    {values.allocateDaysByAppointedDate &&
+                                        <Grid container>
+                                            <Grid item xs={3}>
+                                                <FormLabel> Appointed month between</FormLabel>
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <FormLabel> from</FormLabel>
+                                                <Input
+                                                    name="startMonth"
+
+                                                    value={values.startMonth}
+                                                    onChange={handleInputChange}
+                                                    error={errors.startMonth}
+                                                    type="number"
+                                                />
+                                            </Grid>
+
+                                            <Grid item xs={3}>
+                                                <FormLabel> to</FormLabel>
+                                                <Input
+                                                    name="endMonth"
+                                                    value={values.endMonth}
+                                                    onChange={handleInputChange}
+                                                    error={errors.endMonth}
+                                                    type="number"
+                                                />
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <FormLabel> Allocated Days</FormLabel>
+                                                <Input
+                                                    name="days"
+                                                    value={values.days}
+                                                    onChange={handleInputChange}
+                                                    error={errors.days}
+                                                    type="number"
+                                                />
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <Button onClick={handleNext} text="Next" />
+                                            </Grid>
+                                        </Grid>}
+
+                                </Grid>
+
+                                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                                    <Box sx={{ flex: "1 1 auto" }} />
+                                    <Button
+                                        color="inherit"
+                                        disabled={activeStep === 0}
+                                        onClick={handleBack}
+                                        text="Back"
+                                    />
+                                    {action !== "edit" && (
+                                        <Button
+                                            size="small"
+                                            color="primary"
+                                            text="Reset"
+                                            onClick={onReset}
+                                        />
+                                    )}
+                                    <Button
+                                        size="small"
+                                        type="submit"
+                                        text={action === "edit" ? "Update" : "Submit"}
+                                        disabled={action === "edit" ? updateStatus : false}
+                                    />
+                                </Box>
+                            </Form>
+                        </Typography>
+                    </React.Fragment>
+                )}
+            </Box>
+        </div>
+    );
+}
+export default AddLeaveType;
