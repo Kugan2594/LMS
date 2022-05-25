@@ -231,7 +231,7 @@ function UpdateLeaveRequest(props) {
                     label="Employee *"
                     value={values.employeeId}
                     onChange={handleInputChange}
-                    error={errors.employee}
+                    error={errors.employeeId}
                     options={employeeData}
                   />
                 </Grid>
@@ -241,8 +241,7 @@ function UpdateLeaveRequest(props) {
                     label="LeaveType *"
                     value={values.leaveTypeId}
                     onChange={handleInputChange}
-                    onValueChange={onValueChange}
-                    error={errors.leaveType}
+                    error={errors.leaveTypeId}
                     options={leaveTypeData}
                   />
                 </Grid>
@@ -296,7 +295,7 @@ function UpdateLeaveRequest(props) {
               </Grid>
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                 <Box sx={{ flex: "1 1 auto" }} />
-                <Button color="inherit" text="Back" />
+
                 {action !== "edit" && (
                   <Button
                     size="small"

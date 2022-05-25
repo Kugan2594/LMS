@@ -20,4 +20,41 @@ const getAllLeaveType = (pageNumber: number, pageSize: number) => {
     });
 };
 
-export { getAllLeaveType };
+
+const deleteLeaveType = (id: number) => {
+    return new Promise((resolve, reject) => {
+        api("delete", "lm-web", null, "/leaveType", "", "", id)
+            .then((response: any) => {
+                resolve(response);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
+
+
+
+const createLeaveType = (data: object) => {
+    return new Promise((resolve, reject) => {
+        api("post", "lm-web", null, `/leaveType`, "", data, "")
+            .then((response: any) => {
+                resolve(response);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
+const updateLeaveType = (data: object) => {
+    return new Promise((resolve, reject) => {
+        api("put", "lm-web", null, `/leaveType`, "", data, "")
+            .then((response: any) => {
+                resolve(response);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
+export { getAllLeaveType, deleteLeaveType, createLeaveType, updateLeaveType };

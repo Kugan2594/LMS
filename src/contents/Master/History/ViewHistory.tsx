@@ -132,6 +132,7 @@ const getLeaveApproverStatusData = () => {
               <Typography variant="h6">To date:</Typography>
               <Typography variant="h6">Reason:</Typography>
               <Typography variant="h6">Requested date:</Typography>
+              <Typography variant="h6">Status:</Typography>
             </Box>
           </Grid>
           <Grid item xs={6}>
@@ -143,6 +144,7 @@ const getLeaveApproverStatusData = () => {
             <Typography variant="h6" color="black">{details.toDate}</Typography>
             <Typography variant="h6" color="black">{details.reason}</Typography>
             <Typography variant="h6" color="black">{details.requestedDate}</Typography>
+            <Typography variant="h6" color="black">{steps.length == approvalStatusOriginal.length || rejected.includes("Rejected") ? rejected[rejected.length - 1] : "Pending"}</Typography>
           </Grid></Grid>
         <React.Fragment>
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>

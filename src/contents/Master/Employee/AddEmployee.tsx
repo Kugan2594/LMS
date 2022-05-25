@@ -8,6 +8,7 @@ import {
   spaceValidation,
   PHONE_VALIDATION,
   EMAIL_VALIDATION,
+  NIC_VALIDATION
 } from "src/util/ValidationMeassage";
 import { IEmployee } from "./Employee.interface";
 
@@ -204,9 +205,16 @@ function AddEmployee(props) {
 
     if ("nic" in fieldValues)
       temp.nic = fieldValues.nic
-        ? spaceValidation.test(fieldValues.nic)
+        ? NIC_VALIDATION.test(fieldValues.nic)
           ? ""
           : `nic ${FORM_VALIDATION.space}`
+        : FORM_VALIDATION.required;
+
+    if ('nic' in fieldValues)
+      temp.nic = fieldValues.nic
+        ? NIC_VALIDATION.test(fieldValues.nic)
+          ? ''
+          : `nic ${FORM_VALIDATION.NicNumber}`
         : FORM_VALIDATION.required;
 
     if ("maritalStatus" in fieldValues)
@@ -238,16 +246,16 @@ function AddEmployee(props) {
         ? ""
         : "This field is required.";
 
-        setErrors({
-          ...temp,
-        });
-    
-        if (fieldValues === values)
-          return Object.values(temp).every((x) => x === "");
-      };
+    setErrors({
+      ...temp,
+    });
 
-        const validate1 = (fieldValues = values) => {
-          let temp: IEmployee = { ...errors };
+    if (fieldValues === values)
+      return Object.values(temp).every((x) => x === "");
+  };
+
+  const validate1 = (fieldValues = values) => {
+    let temp: IEmployee = { ...errors };
 
     if ("joinDate" in fieldValues)
       temp.joinDate = fieldValues.joinDate ? "" : "This field is required.";
@@ -431,16 +439,16 @@ function AddEmployee(props) {
   };
 
   const handleNext = () => {
-    if(validate()){
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
+    if (validate()) {
+      let newSkipped = skipped;
+      if (isStepSkipped(activeStep)) {
+        newSkipped = new Set(newSkipped.values());
+        newSkipped.delete(activeStep);
+      }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
-  }
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setSkipped(newSkipped);
+    }
   };
 
   const handleBack = () => {
@@ -639,7 +647,6 @@ function AddEmployee(props) {
               <Form
                 onSubmit={handleSubmit}
                 onChangeFormValue={onChangeFormValue}
-
               >
                 <Grid container>
                   <Grid item xs={4}>
@@ -660,7 +667,7 @@ function AddEmployee(props) {
                       error={errors.dateOfPermanency}
                     />
                   </Grid>
-                  
+
                   <Grid item xs={4}>
                     <AutocompleteSelect
                       name="designationId"
@@ -670,7 +677,6 @@ function AddEmployee(props) {
                       onValueChange={onValueChange}
                       options={designationData}
                       error={errors.designationId}
-
                     />
                   </Grid>
                   <Grid item xs={4}>
@@ -706,13 +712,12 @@ function AddEmployee(props) {
                     />
                   </Grid>
                   <Grid item xs={4}>
-                    
                     <Checkbox
-                        name="approverStatus"
-                        label="Approver Status"
-                        value={values.approverStatus}
-                        onChange={handleInputChange}
-                      />
+                      name="approverStatus"
+                      label="Approver Status"
+                      value={values.approverStatus}
+                      onChange={handleInputChange}
+                    />
                   </Grid>
                   <Divider />
                   <Grid
