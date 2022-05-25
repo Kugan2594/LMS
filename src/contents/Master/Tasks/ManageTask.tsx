@@ -10,15 +10,35 @@ import {
     Divider,
 } from "@mui/material";
 import { Container } from "@mui/system";
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import Modals from "src/components/atoms/Modals";
 import Tables from "src/components/atoms/Tables";
 import { Column } from "src/components/atoms/Tables/TableInterface";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
+import { getLeaveApproverStatus } from "../History/ServiceViewHistory";
 import ViewHistory from "../History/ViewHistory";
 import InProgress from "../LeaveRequest/InProgress";
 import LeaveRequestForm from "../LeaveRequest/LeaveRequestForm";
+import { getAllLeaveRequest } from "../LeaveRequest/ServiceLeaveRequest";
+
+function createData(data) {
+    let convertData = data.map((post, index) => {
+        return {
+            id : post.id,
+            employeeId:post.employeeId,
+            reason: post.reason,
+            fromDate: post.fromDate,
+            toDate: post.toDate,
+            leaveDays: post.leaveDays,
+            requestedDate: post.requestedDate,
+            leaveType: post.employeeLeaveType.leaveType.type,
+            firstName: post.employee.firstName,
+            lastName: post.employee.lastName,
+        };
+    });
+    return convertData;
+}
 let mockData = [
     {
         id: 1,
@@ -52,7 +72,7 @@ let mockData = [
             { names: "CudApp1", appStatus: "Approved" },
             { names: "CudApp2", appStatus: "Approved" },
             { names: "CudApp3", appStatus: "Rejected" },
-            { names: "CudApp4", appStatus: "Rejected" },
+            { names: "CudApp4", appStatus: "Pending" },
         ],
     },
     {
@@ -86,8 +106,8 @@ let mockData = [
         approvers: [
             { names: "CudApp1", appStatus: "Approved" },
             { names: "CudApp2", appStatus: "Approved" },
-            { names: "CudApp3", appStatus: "Approved" },
-            { names: "CudApp4", appStatus: "Rejected" },
+            { names: "CudApp3", appStatus: "Pending" },
+            { names: "CudApp4", appStatus: "Pending" },
         ],
     },
 ];
@@ -98,6 +118,8 @@ function Task() {
         pageSize: 10,
         total: 0,
     });
+    const [dataSource, setdataSource] = useState([]);
+    const [setLeaveRequestData] = useState([]);
     const [open, setOpen] = useState(false);
     const [openDetails, setOpenDetails] = useState(false);
     const [searchFields, setsearchFields] = useState({ name: "" });
@@ -116,6 +138,7 @@ function Task() {
     const [leaveDetails, setLeaveDetails] = useState({});
 
     const handleOpenLeaveDetails = (value) => {
+
         setOpenDetails(true);
         setLeaveDetails(value);
     };
@@ -129,9 +152,25 @@ function Task() {
         setOpenDetails(false);
     };
 
-    const onChangePage = (pageNumber, pageSize) => {};
+    const onChangePage = (pageNumber, pageSize) => { };
 
-    const onTableSearch = (values, sortField) => {};
+    const onTableSearch = (values, sortField) => { };
+
+
+    useEffect(() => {
+        getAllLeaveRequestData(pagination.pageNumber, pagination.pageSize);
+      }, [pagination.pageNumber, pagination.pageSize]);
+      const getAllLeaveRequestData = (pageNumber, pageSize) => {
+        getAllLeaveRequest(pageNumber, pageSize).then((res: any) => {
+          let data: [] = createData(res.results.LeaveRequest);
+          setpagination({
+            pageNumber: res.pagination.pageNumber,
+            pageSize: res.pagination.pageSize,
+            total: res.pagination.totalRecords,
+          });
+          setdataSource(data);
+        });
+      };
 
     const columns: Column[] = [
         {
@@ -140,7 +179,7 @@ function Task() {
             minWidth: 0,
         },
         {
-            id: "employeeName",
+            id: "lastName",
             label: "Employee Name",
             minWidth: 0,
         },
@@ -169,16 +208,16 @@ function Task() {
             label: "Days",
             minWidth: 0,
         },
-        {
-            id: "status",
-            label: "Status",
-            minWidth: 0,
-        },
+        // {
+        //     id: "status",
+        //     label: "Status",
+        //     minWidth: 0,
+        // },
         {
             id: "details",
             label: "",
             minWidth: 40,
-            render: (value) => (
+            render: (value: any) => (
                 <Button
                     variant="text"
                     size="small"
@@ -192,17 +231,19 @@ function Task() {
 
     return (
         <div>
+            <PageTitleWrapper>
+                <PageTitle
+                    heading="My Task"
+                    subHeading="Master/My Task"
+                    isButton={false}
+                />
+            </PageTitleWrapper>
             <Container maxWidth="lg">
                 <Card>
                     <CardContent>
-                        <PageTitleWrapper>
-                            <PageTitle heading="My Task" isButton={false} />
-                        </PageTitleWrapper>
-                        <Divider />
-
                         <Tables
                             columns={columns}
-                            tableData={mockData}
+                            tableData={dataSource}
                             onChangePage={onChangePage}
                             pageNumber={pagination.pageNumber}
                             total={pagination.total}

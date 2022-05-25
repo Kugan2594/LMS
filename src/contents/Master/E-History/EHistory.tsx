@@ -1,4 +1,4 @@
-import { Card, CardContent, Container, Dialog, DialogContent, DialogContentText, DialogTitle, Divider, Typography } from "@mui/material";
+import { Button, Card, CardContent, Container, Dialog, DialogContent, DialogContentText, DialogTitle, Divider, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
@@ -166,8 +166,7 @@ const getAllEmployeeLeaveHistoryData = (pageNumber, pageSize) => {
       label: "",
       minWidth: 40,
       render: (value: any) => (
-        <Typography variant="inherit" onClick={() => handleClickOpen(value)} 
-        color="blue" style={{cursor: "pointer"}} >Detail</Typography>
+        <Button variant="text" onClick={() => handleClickOpen(value)}>Detail</Button>
         ),
     }
   ];
