@@ -35,9 +35,10 @@ let activeBtnTwo = {
 };
 
 let initialFValues: IEmployeeApprover = {
-  id: 0,
-  name: "",
-  options: "employee name"
+  
+  employeeId:"",
+  id: 1,
+  options:""
 };
 
 function not(a: readonly object[], b: readonly object[]) {
@@ -98,9 +99,9 @@ function AddEmployeeApprover(props: any) {
   const onValueChange = (e) => {
     setupdateStatus(false);
     const { name, value } = e.target;
-    if (name === "employee") {
-      setEmployeeId(value);
-    }
+    // if (name === "employee") {
+    //   setEmployeeId(value);
+    // }
   };
 
   const getAllEmployeeData = () => {
@@ -403,7 +404,7 @@ console.log("hi");
               <Grid item xs={12} md={3} lg={3}></Grid>
               <Grid item xs={12} md={6} lg={6}>
                 <AutocompleteSelect
-                  name="employee"
+                  name="employeeId"
                   label="Employee Name"
                   value={values.employeeId}
                   onChange={(e)=>{
