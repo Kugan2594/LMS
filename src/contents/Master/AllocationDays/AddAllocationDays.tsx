@@ -17,7 +17,7 @@ import {
 let initialFValues: IEmployeeLeaveType = {
   id: 0,
   employeeId: 0,
-  leaveTypeId: 0,
+  leavetypeId: 0,
   allocatedDays: 0,
   remainingDays: 0,
 };
@@ -28,30 +28,30 @@ function AddAllocationDays(props) {
   const [leaveTypeData, setleaveTypeData] = useState([]);
   const [updateStatus, setupdateStatus] = useState(true);
   const [employeeId, setemployeeId] = useState("");
-  const [leaveTypeId, setleaveTypeId] = useState("");
+  const [leavetypeId, setleavetypeId] = useState("");
 
   const validate = (fieldValues = values) => {
     let temp: IEmployeeLeaveType = { ...errors };
 
-    if ("allocatedDays" in fieldValues)
-      temp.allocatedDays = fieldValues.allocatedDays
-        ? spaceValidation.test(fieldValues.allocatedDays)
-          ? ""
-          : `AllocatedDays ${FORM_VALIDATION.space}`
-        : FORM_VALIDATION.required;
+    // if ("allocatedDays" in fieldValues)
+    //   temp.allocatedDays = fieldValues.allocatedDays
+    //     ? spaceValidation.test(fieldValues.allocatedDays)
+    //       ? ""
+    //       : `AllocatedDays ${FORM_VALIDATION.space}`
+    //     : FORM_VALIDATION.required;
 
-    if ("remainingDays" in fieldValues)
-      temp.remainingDays = fieldValues.remainingDays
-        ? spaceValidation.test(fieldValues.remainingDays)
-          ? ""
-          : `RemainingDays ${FORM_VALIDATION.space}`
-        : FORM_VALIDATION.required;
+    // if ("remainingDays" in fieldValues)
+    //   temp.remainingDays = fieldValues.remainingDays
+    //     ? spaceValidation.test(fieldValues.remainingDays)
+    //       ? ""
+    //       : `RemainingDays ${FORM_VALIDATION.space}`
+    //     : FORM_VALIDATION.required;
 
     if ("employeeId" in fieldValues)
       temp.employeeId = fieldValues.employeeId ? "" : "This field is required.";
 
-    if ("leaveTypeId" in fieldValues)
-      temp.leaveTypeId = fieldValues.leaveTypeId
+    if ("leavetypeId" in fieldValues)
+      temp.leavetypeId = fieldValues.leavetypeId
         ? ""
         : "This field is required.";
 
@@ -92,7 +92,7 @@ function AddAllocationDays(props) {
           allocatedDays: values.allocatedDays,
           remainingDays: values.remainingDays,
           employeeId: values.employeeId,
-          leaveTypeId: values.leaveTypeId,
+          leavetypeId: values.leavetypeId,
         };
         console.log(data);
         createEmployeeLeaveType(data).then(
@@ -117,7 +117,7 @@ function AddAllocationDays(props) {
           allocatedDays: values.allocatedDays,
           remainingDays: values.remainingDays,
           employeeId: values.employeeId,
-          leaveTypeId: values.leaveTypeId,
+          leavetypeId: values.leavetypeId,
         };
 
         updateEmployeeLeaveType(data).then(
@@ -191,7 +191,7 @@ function AddAllocationDays(props) {
             <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
               <Grid container>
                 {" "}
-                <Grid item xs={4}>
+                <Grid item xs={12} md={6} lg={6}>
                   <AutocompleteSelect
                     name="employeeId"
                     label="Employee Name *"
@@ -202,18 +202,18 @@ function AddAllocationDays(props) {
                     error={errors.employeeId}
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={12} md={6} lg={6}>
                   <AutocompleteSelect
-                    name="leaveTypeId"
+                    name="leavetypeId"
                     label="leave Type *"
-                    value={values.leaveTypeId}
+                    value={values.leavetypeId}
                     onChange={handleInputChange}
                     onValueChange={onValueChange}
                     options={leaveTypeData}
-                    error={errors.leaveTypeId}
+                    error={errors.leavetypeId}
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={12} md={6} lg={6}>
                   <Input
                     name="allocatedDays"
                     label="Allocated Days *"
@@ -222,7 +222,7 @@ function AddAllocationDays(props) {
                     error={errors.allocatedDays}
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={12} md={6} lg={6}>
                   <Input
                     name="remainingDays"
                     label="Remaining Days *"
