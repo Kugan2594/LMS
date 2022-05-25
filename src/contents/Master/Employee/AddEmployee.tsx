@@ -8,7 +8,7 @@ import {
   spaceValidation,
   PHONE_VALIDATION,
   EMAIL_VALIDATION,
-  NIC_VALIDATION,
+  NIC_VALIDATION
 } from "src/util/ValidationMeassage";
 import { IEmployee } from "./Employee.interface";
 
@@ -208,6 +208,13 @@ function AddEmployee(props) {
         ? NIC_VALIDATION.test(fieldValues.nic)
           ? ""
           : `nic ${FORM_VALIDATION.space}`
+        : FORM_VALIDATION.required;
+
+    if ('nic' in fieldValues)
+      temp.nic = fieldValues.nic
+        ? NIC_VALIDATION.test(fieldValues.nic)
+          ? ''
+          : `nic ${FORM_VALIDATION.NicNumber}`
         : FORM_VALIDATION.required;
 
     if ("maritalStatus" in fieldValues)
