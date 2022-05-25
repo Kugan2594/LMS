@@ -52,11 +52,6 @@ const masterMenuItems: MenuItem[] = [
     { name: "Allocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
     { name: "My Tasks", icon: FcLeave, link: "/master/tasks" },
     {
-        name: "Company Location",
-        icon: ImOffice,
-        link: "/master/companyLocation",
-    },
-    {
         name: "Manage Leave Request",
         icon: HiStar,
         link: "/master/In-Progress",
