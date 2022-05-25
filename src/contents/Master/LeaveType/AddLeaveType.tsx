@@ -269,7 +269,7 @@ function AddLeaveType(props) {
                                     {values.ableToCarryForward && <Grid item xs={6}>
                                         <Input
                                             name="cancellationNoticePeriod"
-                                            label="Cancellation Notice Period"
+                                            label="Carry Forward Cancellation Month"
                                             value={values.cancellationNoticePeriod}
                                             onChange={handleInputChange}
                                             error={errors.cancellationNoticePeriod}
