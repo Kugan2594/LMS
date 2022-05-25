@@ -15,6 +15,7 @@ import Modals from "src/components/atoms/Modals";
 import { RiArrowRightSLine } from "react-icons/ri";
 import Button from 'src/components/atoms/controlls/Button';
 import AutocompleteSelect from "src/components/atoms/controlls/AutocompleteSelect";
+
 let disabledBtn = {
   border: '1px solid #00b761',
   width: '120px',
@@ -34,9 +35,10 @@ let activeBtnTwo = {
 };
 
 let initialFValues: IEmployeeApprover = {
-  id: 0,
-  name: "",
-  options: "employee name"
+  
+  employeeId:"",
+  id: 1,
+  options:""
 };
 
 function not(a: readonly object[], b: readonly object[]) {
@@ -97,9 +99,9 @@ function AddEmployeeApprover(props: any) {
   const onValueChange = (e) => {
     setupdateStatus(false);
     const { name, value } = e.target;
-    if (name === "employee") {
-      setEmployeeId(value);
-    }
+    // if (name === "employee") {
+    //   setEmployeeId(value);
+    // }
   };
 
   const getAllEmployeeData = () => {
@@ -402,9 +404,12 @@ console.log("hi");
               <Grid item xs={12} md={3} lg={3}></Grid>
               <Grid item xs={12} md={6} lg={6}>
                 <AutocompleteSelect
-                  name="employee"
+                  name="employeeId"
                   label="Employee Name"
                   value={values.employeeId}
+                  onChange={(e)=>{
+                    console.log({employeeData}); 
+                    handleInputChange(e)}}
                   onValueChange={onValueChange}
                   options={employeeData}
                 />
