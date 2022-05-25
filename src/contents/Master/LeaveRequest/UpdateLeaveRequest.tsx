@@ -226,7 +226,7 @@ function UpdateLeaveRequest(props) {
             <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
               <Grid container>
                 <Grid item xs={4}>
-                  <AutocompleteSelect
+                  <Select
                     name="employeeId"
                     label="Employee *"
                     value={values.employeeId}
@@ -236,7 +236,7 @@ function UpdateLeaveRequest(props) {
                   />
                 </Grid>
                 <Grid item xs={4}>
-                  <AutocompleteSelect
+                  <Select
                     name="leaveTypeId"
                     label="LeaveType *"
                     value={values.leaveTypeId}
