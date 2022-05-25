@@ -1,13 +1,11 @@
 interface ILeaveRequest {
-    id?: number;
-    employeeId?: number | string;
-    leaveTypeId?: number | string;
-    leaveType?: string;
+    id?:number;
+    employeeId?:string | number;
+    leaveTypeId?: string | number;
     fromDate?: string;
     toDate?: string;
     reason?: string;
-    days?: number | string;
-    employee?: string;
+    leaveDays?: number;   
     status?: "Approved" | "Reject" | "New";
     cancel?: any;
     enableTitle?: boolean;
