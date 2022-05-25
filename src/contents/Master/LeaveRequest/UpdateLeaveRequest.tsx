@@ -226,22 +226,22 @@ function UpdateLeaveRequest(props) {
             <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
               <Grid container>
                 <Grid item xs={4}>
-                  <Select
+                  <AutocompleteSelect
                     name="employeeId"
                     label="Employee *"
                     value={values.employeeId}
                     onChange={handleInputChange}
-                    error={errors.employee}
+                    error={errors.employeeId}
                     options={employeeData}
                   />
                 </Grid>
                 <Grid item xs={4}>
-                  <Select
+                  <AutocompleteSelect
                     name="leaveTypeId"
                     label="LeaveType *"
                     value={values.leaveTypeId}
                     onChange={handleInputChange}
-                    error={errors.leaveType}
+                    error={errors.leaveTypeId}
                     options={leaveTypeData}
                   />
                 </Grid>
@@ -294,23 +294,23 @@ function UpdateLeaveRequest(props) {
                 ></Grid>
               </Grid>
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                  <Box sx={{ flex: "1 1 auto" }} />
-                  
-                  {action !== "edit" && (
-                    <Button
-                      size="small"
-                      color="primary"
-                      text="Reset"
-                      onClick={onReset}
-                    />
-                  )}
+                <Box sx={{ flex: "1 1 auto" }} />
+
+                {action !== "edit" && (
                   <Button
                     size="small"
-                    type="submit"
-                    text={action === "edit" ? "Update" : "Submit"}
-                    disabled={action === "edit" ? updateStatus : false}
+                    color="primary"
+                    text="Reset"
+                    onClick={onReset}
                   />
-                </Box>
+                )}
+                <Button
+                  size="small"
+                  type="submit"
+                  text={action === "edit" ? "Update" : "Submit"}
+                  disabled={action === "edit" ? updateStatus : false}
+                />
+              </Box>
             </Form>
           </Typography>
         </React.Fragment>
