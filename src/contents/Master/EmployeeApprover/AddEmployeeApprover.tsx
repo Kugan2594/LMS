@@ -9,7 +9,7 @@ import PageTitle from "src/components/organism/PageTitle";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import { FORM_VALIDATION, spaceValidation } from "src/util/ValidationMeassage";
 import { IEmployeeApprover } from "./EmployeeApprover.interface";
-import { allocateApprover, DeallocateApprover, getApprovers } from "./serviceEmployeeApprover";
+import { allocateApprover, DeallocateApprover, getAllEmployee, getApprovers } from "./serviceEmployeeApprover";
 import { Button as TransferBtn } from '@mui/material';
 import Modals from "src/components/atoms/Modals";
 import { RiArrowRightSLine } from "react-icons/ri";
@@ -35,7 +35,8 @@ let activeBtnTwo = {
 
 let initialFValues: IEmployeeApprover = {
   id: 0,
-  name: ""
+  name: "",
+  options: "employee name"
 };
 
 function not(a: readonly object[], b: readonly object[]) {
@@ -51,9 +52,9 @@ function union(a: readonly object[], b: readonly object[]) {
 }
 
 function AddEmployeeApprover(props: any) {   
-
+  const { reloadTable, action, editData, handleError } = props;
   const [employeeId, setEmployeeId] = useState([]);
-  const [action, setaction] = useState(localStorage.getItem('action'));
+  const [employeeData, setEmployeeData] = useState([]);
   const [checked, setChecked] = React.useState<readonly object[]>([]);
   const [left, setLeft] = React.useState<readonly object[]>([]);
   const [right, setRight] = React.useState<readonly object[]>([]);
@@ -62,12 +63,13 @@ function AddEmployeeApprover(props: any) {
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
   const [approverData, setapproverData] = useState([]);
-  const { reloadTable, handleError } = props;
+
   const [open, setOpen] = useState(false); 
   let navigate = useNavigate();
   const [id, setId] = useState('');
   const [name, setName] = useState('');
-
+  const [updateStatus, setupdateStatus] = useState(true);
+  
   const [alert, setalert] = useState({
     type: '',
     msg: ''
@@ -92,8 +94,33 @@ function AddEmployeeApprover(props: any) {
     resetForm,
   }: any = useForm(initialFValues, true, validate);
 
+  const onValueChange = (e) => {
+    setupdateStatus(false);
+    const { name, value } = e.target;
+    if (name === "employee") {
+      setEmployeeId(value);
+    }
+  };
+
+  const getAllEmployeeData = () => {
+    let data: any = [];
+    getAllEmployee().then(
+      (res: []) => {
+        res.map((post: any) => {
+          console.log("////////////////////////",res);
+          data.push({ id: post.id, title: post.lastName });
+          return null;
+        });
+        setEmployeeData(data);
+      },
+      (error) => {
+        setEmployeeData([]);
+      }
+    );
+  };
 
   useEffect(() => {
+    
     console.log('action', action);
     if (action === 'edit') {
       let data = JSON.parse(localStorage.getItem('editData'));
@@ -102,6 +129,7 @@ function AddEmployeeApprover(props: any) {
     }
 
     getApproverData();
+    getAllEmployeeData();
   }, []);
 
 
@@ -134,26 +162,32 @@ function AddEmployeeApprover(props: any) {
     );
   };
 
-  const handleSubmit = () => {
-    let employeeApprover = [];
-    console.log('selectedLeft', selectedLeft);
-    console.log('selected======>>', selected);
-    selectedLeft.map((post: any) => {
-      employeeApprover.push({
-        id: post.id,
-        name: post.employee.firstName
-      });
-    });
+  const handleSubmit=async ()=>{
+    let id=[];
+    selectedLeft.map((post:any)=>{
+      id.push(post.id);
+    })
 
+    let data={
+      approverList:id,
+      employeeId:employeeId
+    }
     
-
-    let data = {
-      id:id,
-      name: name
-    };
-    console.log('name', data);
-    AddEmployeeApproverAssign(data,'right');
-  };
+    allocateApprover(data).then(
+      (res: any) => {
+        console.log(res);
+        reloadTable(res);
+        handleClose();
+        resetForm();
+      },
+      (error) => {
+        console.log(error);
+        handleClose();
+        handleError(error);
+      }
+    );
+console.log("hi");
+  }
 
   const handleSubmitLeft = (rightData) => {
     let name = [];
@@ -234,14 +268,7 @@ function AddEmployeeApprover(props: any) {
     handleInputChange(e);
   };
 
-  const onValueChange = (e) => {
-    const { name, value } = e.target;
-    console.log('e.target', e.target);
-
-    console.log('hit', name, value);
-  };
-
-    const handleToggle = (value: any) => () => {
+   const handleToggle = (value: any) => () => {
       const currentIndex = checked.indexOf(value);
       const newChecked = [...checked];
 
@@ -271,6 +298,7 @@ function AddEmployeeApprover(props: any) {
       console.log(right.concat(leftChecked));
       setRight(right.concat(leftChecked))
       setSelected(right.concat(leftChecked));
+      console.log(right.concat(leftChecked));
       setLeft(not(left, leftChecked));
       setChecked(not(checked, leftChecked));
     };
@@ -369,6 +397,21 @@ function AddEmployeeApprover(props: any) {
 
     return (
       <div>
+
+            <Grid container>
+              <Grid item xs={12} md={3} lg={3}></Grid>
+              <Grid item xs={12} md={6} lg={6}>
+                <AutocompleteSelect
+                  name="employee"
+                  label="Employee Name"
+                  value={values.employeeId}
+                  onValueChange={onValueChange}
+                  options={employeeData}
+                />
+              </Grid>
+              <Grid item xs={12} md={3} lg={3}></Grid>
+            </Grid>
+
         <Grid container spacing={2} justifyContent="center" alignItems="center">
           <Grid item>{customList('Approvers', left)}</Grid>
           <Grid item>
@@ -401,7 +444,7 @@ function AddEmployeeApprover(props: any) {
                   size="small"
                   type="submit"
                   text={'Submit'}
-                  onClick={handleSubmit}
+                  onClick={()=>handleSubmit()}
                 />
             </Grid>
           </Grid>
