@@ -22,6 +22,7 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from "src/util/CustomizedNotification";
+import { Box } from "@mui/system";
 
 let initialFValues: ILeaveRequest = {
     fromDate: "",
@@ -225,114 +226,118 @@ function LeaveRequestForm(props: ILeaveRequest) {
                 <Card>
                     <div>
                         <br />
+                        <Box sx={{ marginTop: 5 }}>
+                            <Form
+                                onSubmit={handleSubmit}
+                                onChangeFormValue={onChangeFormValue}
+                            >
+                                <Grid container>
+                                    <Grid item xs={1}></Grid>
+                                    <Grid item xs={5}>
+                                        {" "}
+                                        <Select
+                                            name="employeeId"
+                                            label="Employee *"
+                                            value={values.employeeId}
+                                            onChange={handleInputChange}
+                                            error={errors.employee}
+                                            options={employeeData}
+                                        />
+                                        <DatePicker
+                                            name="fromDate"
+                                            label="From Date *"
+                                            value={values.fromDate}
+                                            onChange={handleInputChange}
+                                            error={errors.fromDate}
+                                        />
+                                        <Box sx={{ marginTop: 2.5 }}>
+                                            <Input
+                                                name="reason"
+                                                label="Reason *"
+                                                value={values.reason}
+                                                onChange={handleInputChange}
+                                                error={errors.reason}
+                                            />
+                                        </Box>
+                                    </Grid>
 
-                        <Form
-                            onSubmit={handleSubmit}
-                            onChangeFormValue={onChangeFormValue}
-                        >
-                            <Grid container>
-                                <Grid item xs={1}></Grid>
-                                <Grid item xs={5}>
-                                    {" "}
-                                    <Select
-                                        name="employeeId"
-                                        label="Employee *"
-                                        value={values.employeeId}
-                                        onChange={handleInputChange}
-                                        error={errors.employee}
-                                        options={employeeData}
-                                    />
-                                    <DatePicker
-                                        name="fromDate"
-                                        label="From Date *"
-                                        value={values.fromDate}
-                                        onChange={handleInputChange}
-                                        error={errors.fromDate}
-                                    />
-                                    <Input
-                                        name="reason"
-                                        label="Reason *"
-                                        value={values.reason}
-                                        onChange={handleInputChange}
-                                        error={errors.reason}
-                                    />
+                                    <Grid item xs={5}>
+                                        <Select
+                                            name="leaveTypeId"
+                                            label="LeaveType *"
+                                            value={values.leaveTypeId}
+                                            onChange={handleInputChange}
+                                            error={errors.leaveType}
+                                            options={leaveTypeData}
+                                        />
+
+                                        <DatePicker
+                                            name="toDate"
+                                            label="To Date *"
+                                            value={values.toDate}
+                                            onChange={handleInputChange}
+                                            error={errors.toDate}
+                                        />
+                                        <Box sx={{ marginTop: 2.5 }}>
+                                            <Input
+                                                name="days"
+                                                label="DAYS *"
+                                                value={values.days}
+                                                onChange={handleInputChange}
+                                                error={errors.days}
+                                                type="number"
+                                            />
+                                        </Box>
+                                    </Grid>
                                 </Grid>
 
-                                <Grid item xs={5}>
-                                    <Select
-                                        name="leaveTypeId"
-                                        label="LeaveType *"
-                                        value={values.leaveTypeId}
-                                        onChange={handleInputChange}
-                                        error={errors.leaveType}
-                                        options={leaveTypeData}
-                                    />
+                                <Grid container>
+                                    <Grid item xs={6}></Grid>
+                                    <Grid
+                                        item
+                                        xs={4}
+                                        display="flex"
+                                        flexDirection="row"
+                                        justifyContent="flex-end"
+                                        container
+                                        style={{ padding: "8px" }}
+                                    >
+                                        <div>
+                                            {isButton && (
+                                                <Button
+                                                    size="small"
+                                                    text="Reset"
+                                                    color="info"
+                                                    onClick={onReset}
+                                                />
+                                            )}
 
-                                    <DatePicker
-                                        name="toDate"
-                                        label="To Date *"
-                                        value={values.toDate}
-                                        onChange={handleInputChange}
-                                        error={errors.toDate}
-                                    />
-                                    <Input
-                                        name="days"
-                                        label="DAYS *"
-                                        value={values.days}
-                                        onChange={handleInputChange}
-                                        error={errors.days}
-                                        type="number"
-                                    />
+                                            {isButtonTwo && (
+                                                <Button
+                                                    onClick={() => {
+                                                        console.log("clicked");
+                                                    }}
+                                                    size="small"
+                                                    type="submit"
+                                                    text="Apply"
+                                                />
+                                            )}
+                                            {isButtonThree && (
+                                                <Button
+                                                    onClick={() => {
+                                                        console.log("clicked");
+                                                    }}
+                                                    size="small"
+                                                    type="submit"
+                                                    text="Update"
+                                                />
+                                            )}
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={2}></Grid>
                                 </Grid>
-                            </Grid>
-
-                            <Divider />
-                            <Grid container>
-                                <Grid item xs={6}></Grid>
-                                <Grid
-                                    item
-                                    xs={4}
-                                    display="flex"
-                                    flexDirection="row"
-                                    justifyContent="flex-end"
-                                    container
-                                    style={{ padding: "8px" }}
-                                >
-                                    <div>
-                                        {isButton && (
-                                            <Button
-                                                size="small"
-                                                text="Reset"
-                                                color="info"
-                                                onClick={onReset}
-                                            />
-                                        )}
-
-                                        {isButtonTwo && (
-                                            <Button
-                                                onClick={() => {
-                                                    console.log("clicked");
-                                                }}
-                                                size="small"
-                                                type="submit"
-                                                text="Apply"
-                                            />
-                                        )}
-                                        {isButtonThree && (
-                                            <Button
-                                                onClick={() => {
-                                                    console.log("clicked");
-                                                }}
-                                                size="small"
-                                                type="submit"
-                                                text="Update"
-                                            />
-                                        )}
-                                    </div>
-                                </Grid>
-                                <Grid item xs={2}></Grid>
-                            </Grid>
-                        </Form>
+                            </Form>
+                        </Box>
                     </div>
                 </Card>
             </Container>
