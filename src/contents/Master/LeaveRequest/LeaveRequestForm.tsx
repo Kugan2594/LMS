@@ -71,33 +71,39 @@ function LeaveRequestForm(props: ILeaveRequest) {
             temp.fromDate = fieldValues.fromDate
                 ? spaceValidation.test(fieldValues.fromDate)
                     ? ""
-                    : `Date ${FORM_VALIDATION.space}`
+                    : `fromDate ${FORM_VALIDATION.space}`
                 : FORM_VALIDATION.required;
 
         if ("toDate" in fieldValues)
             temp.toDate = fieldValues.toDate
                 ? spaceValidation.test(fieldValues.toDate)
                     ? ""
-                    : `Date ${FORM_VALIDATION.space}`
+                    : `toDate ${FORM_VALIDATION.space}`
                 : FORM_VALIDATION.required;
         if ("employeeId" in fieldValues)
             temp.employeeId = fieldValues.employeeId
                 ? spaceValidation.test(fieldValues.employeeId)
                     ? ""
-                    : `Date ${FORM_VALIDATION.space}`
+                    : `employeeId ${FORM_VALIDATION.space}`
                 : FORM_VALIDATION.required;
         if ("reason" in fieldValues)
             temp.reason = fieldValues.reason
                 ? spaceValidation.test(fieldValues.reason)
                     ? ""
-                    : `Date ${FORM_VALIDATION.space}`
+                    : `reason ${FORM_VALIDATION.space}`
                 : FORM_VALIDATION.required;
 
         if ("leaveTypeId" in fieldValues)
             temp.leaveTypeId = fieldValues.leaveTypeId
-                ? spaceValidation.test(fieldValues.leaveTypeId)
+                ? spaceValidation.test(fieldValues.date)
                     ? ""
-                    : `Date ${FORM_VALIDATION.space}`
+                    : `leaveTypeId ${FORM_VALIDATION.space}`
+                : FORM_VALIDATION.required;
+        if ("leaveDays" in fieldValues)
+            temp.leaveDays = fieldValues.leaveDays
+                ? spaceValidation.test(fieldValues.date)
+                    ? ""
+                    : `leaveDays ${FORM_VALIDATION.space}`
                 : FORM_VALIDATION.required;
 
         setErrors({
@@ -171,6 +177,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
             "requestedDate",
             moment(values.requestedDate).format("YYYY-MM-DD HH:MM:SS.SSSS")
         );
+        validate();
 
         applyLeave(formData).then(
             (res: any) => {
@@ -235,7 +242,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
                                             label="Employee *"
                                             value={values.employeeId}
                                             onChange={handleInputChange}
-                                            error={errors.employee}
+                                            error={errors.employeeId}
                                             options={employeeData}
                                         />
                                         <DatePicker
@@ -262,7 +269,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
                                             label="LeaveType *"
                                             value={values.leaveTypeId}
                                             onChange={handleInputChange}
-                                            error={errors.leaveType}
+                                            error={errors.leaveTypeId}
                                             options={leaveTypeData}
                                         />
 
