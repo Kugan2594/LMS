@@ -28,7 +28,7 @@ let initialFValues: ILeaveRequest = {
     fromDate: "",
     toDate: "",
     reason: "",
-    days: 0,
+    leaveDays: 0,
     isButton: true,
     isButtonTwo: true,
     isButtonThree: true,
@@ -69,38 +69,33 @@ function LeaveRequestForm(props: ILeaveRequest) {
 
         if ("fromDate" in fieldValues)
             temp.fromDate = fieldValues.fromDate
-                ? spaceValidation.test(fieldValues.date)
+                ? spaceValidation.test(fieldValues.fromDate)
                     ? ""
                     : `Date ${FORM_VALIDATION.space}`
                 : FORM_VALIDATION.required;
 
         if ("toDate" in fieldValues)
             temp.toDate = fieldValues.toDate
-                ? spaceValidation.test(fieldValues.date)
+                ? spaceValidation.test(fieldValues.toDate)
                     ? ""
                     : `Date ${FORM_VALIDATION.space}`
                 : FORM_VALIDATION.required;
         if ("employeeId" in fieldValues)
             temp.employeeId = fieldValues.employeeId
-                ? spaceValidation.test(fieldValues.date)
+                ? spaceValidation.test(fieldValues.employeeId)
                     ? ""
                     : `Date ${FORM_VALIDATION.space}`
                 : FORM_VALIDATION.required;
         if ("reason" in fieldValues)
-            temp.toDate = fieldValues.reason
-                ? spaceValidation.test(fieldValues.date)
+            temp.reason = fieldValues.reason
+                ? spaceValidation.test(fieldValues.reason)
                     ? ""
                     : `Date ${FORM_VALIDATION.space}`
                 : FORM_VALIDATION.required;
-        if ("days" in fieldValues)
-            temp.days = fieldValues.days
-                ? spaceValidation.test(fieldValues.date)
-                    ? ""
-                    : `Date ${FORM_VALIDATION.space}`
-                : FORM_VALIDATION.required;
+
         if ("leaveTypeId" in fieldValues)
             temp.leaveTypeId = fieldValues.leaveTypeId
-                ? spaceValidation.test(fieldValues.date)
+                ? spaceValidation.test(fieldValues.leaveTypeId)
                     ? ""
                     : `Date ${FORM_VALIDATION.space}`
                 : FORM_VALIDATION.required;
@@ -154,7 +149,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
         let data: object = {
             leaveTypeId: values.leaveTypeId,
             employeeId: values.employeeId,
-            days: values.days,
+            leaveDays: values.leaveDays,
             reason: values.reason,
             toDate: values.toDate,
             fromDate: values.fromDate,
@@ -162,7 +157,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
         const formData = new FormData();
         formData.append("leaveTypeId", values.leaveTypeId);
         formData.append("employeeId", values.employeeId);
-        formData.append("leaveDays", values.days);
+        formData.append("leaveDays", values.leaveDays);
         formData.append("reason", values.reason);
         formData.append(
             "toDate",
@@ -280,11 +275,11 @@ function LeaveRequestForm(props: ILeaveRequest) {
                                         />
                                         <Box sx={{ marginTop: 2.5 }}>
                                             <Input
-                                                name="days"
+                                                name="leaveDays"
                                                 label="DAYS *"
-                                                value={values.days}
+                                                value={values.leaveDays}
                                                 onChange={handleInputChange}
-                                                error={errors.days}
+                                                error={errors.leaveDays}
                                                 type="number"
                                             />
                                         </Box>
