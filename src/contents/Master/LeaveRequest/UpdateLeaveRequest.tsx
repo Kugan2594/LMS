@@ -78,18 +78,10 @@ function UpdateLeaveRequest(props) {
     let temp: ILeaveRequest = { ...errors };
 
     if ("fromDate" in fieldValues)
-      temp.fromDate = fieldValues.date
-        ? spaceValidation.test(fieldValues.date)
-          ? ""
-          : `Date ${FORM_VALIDATION.space}`
-        : FORM_VALIDATION.required;
+      temp.fromDate = fieldValues.fromDate ? "" : "This field is required.";
 
     if ("toDate" in fieldValues)
-      temp.toDate = fieldValues.date
-        ? spaceValidation.test(fieldValues.date)
-          ? ""
-          : `Date ${FORM_VALIDATION.space}`
-        : FORM_VALIDATION.required;
+      temp.toDate = fieldValues.toDate ? "" : "This field is required.";
 
     if ("employeeId" in fieldValues)
       temp.employeeId = fieldValues.employeeId ? "" : "This field is required.";
@@ -119,7 +111,7 @@ function UpdateLeaveRequest(props) {
     e.preventDefault();
     console.log(values);
     const formData = new FormData();
-    if (validate()) {
+    if (validate) {
       let data: object = {
         leaveTypeId: values.leaveTypeId,
         employeeId: values.employeeId,
