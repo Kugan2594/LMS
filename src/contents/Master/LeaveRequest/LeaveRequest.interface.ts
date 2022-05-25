@@ -5,18 +5,17 @@ interface ILeaveRequest {
     fromDate?: string;
     toDate?: string;
     reason?: string;
-    leaveDays?: number;
+    leaveDays?: number;   
     status?: "Approved" | "Reject" | "New";
     cancel?: any;
     enableTitle?: boolean;
     isButton?: boolean;
     isButtonTwo?: boolean;
     isButtonThree?: boolean;
-    reloadTable?:any;
-    action?:any;
-    editData?:any;
-    handleError?:any;
-
+    reloadTable?: any;
+    action?: any;
+    editData?: any;
+    handleError?: any;
 }
 
 export type { ILeaveRequest };
