@@ -23,7 +23,7 @@ let initialFValues: ILeaveRequest = {
     fromDate: "",
     toDate: "",
     reason: "",
-    days: 0,
+    leaveDays: 0,
     isButton: true,
     isButtonTwo: true,
     isButtonThree: true,
@@ -128,7 +128,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
         let data: object = {
             leaveTypeId: values.leaveTypeId,
             employeeId: values.employeeId,
-            days: values.days,
+            leaveDays: values.leaveDays,
             reason: values.reason,
             toDate: values.toDate,
             fromDate: values.fromDate,
@@ -136,7 +136,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
           const formData = new FormData(); 
         formData.append('leaveTypeId', values.leaveTypeId);
         formData.append('employeeId', values.employeeId);
-        formData.append('leaveDays', values.days);
+        formData.append('leaveDays', values.leaveDays);
         formData.append('reason', values.reason);
         formData.append('toDate', moment(values.toDate).format('YYYY-MM-DD HH:MM:SS.SSSS'));
         formData.append('fromDate', moment(values.fromDate).format('YYYY-MM-DD HH:MM:SS.SSSS'));
@@ -241,11 +241,11 @@ function LeaveRequestForm(props: ILeaveRequest) {
                                         error={errors.toDate}
                                     />
                                     <Input
-                                        name="days"
+                                        name="leaveDays"
                                         label="DAYS *"
-                                        value={values.days}
+                                        value={values.leaveDays}
                                         onChange={handleInputChange}
-                                        error={errors.days}
+                                        error={errors.leaveDays}
                                         type="number"
                                     />
                                 </Grid>

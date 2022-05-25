@@ -35,10 +35,9 @@ let initialFValues: ILeaveRequest = {
   fromDate: "",
   toDate: "",
   reason: "",
-  isButton: true,
-  isButtonTwo: true,
-  isButtonThree: true,
-
+  leaveDays: 0,
+  employeeId: 0,
+  leaveTypeId: 0,
 };
 const leaveType = [
   {
@@ -85,9 +84,6 @@ function UpdateLeaveRequest(props) {
           : `Date ${FORM_VALIDATION.space}`
         : FORM_VALIDATION.required;
 
-    setErrors({
-      ...temp,
-    });
     if ("toDate" in fieldValues)
       temp.toDate = fieldValues.date
         ? spaceValidation.test(fieldValues.date)
@@ -95,6 +91,13 @@ function UpdateLeaveRequest(props) {
           : `Date ${FORM_VALIDATION.space}`
         : FORM_VALIDATION.required;
 
+    if ("employeeId" in fieldValues)
+      temp.employeeId = fieldValues.employeeId ? "" : "This field is required.";
+
+    if ("leaveTypeId" in fieldValues)
+      temp.leaveTypeId = fieldValues.leaveTypeId
+        ? ""
+        : "This field is required.";
     setErrors({
       ...temp,
     });
@@ -120,7 +123,7 @@ function UpdateLeaveRequest(props) {
       let data: object = {
         leaveTypeId: values.leaveTypeId,
         employeeId: values.employeeId,
-        days: values.days,
+        leaveDays: values.leaveDays,
         reason: values.reason,
         toDate: values.toDate,
         fromDate: values.fromDate,
@@ -128,7 +131,7 @@ function UpdateLeaveRequest(props) {
       const formData = new FormData();
       formData.append("leaveTypeId", values.leaveTypeId);
       formData.append("employeeId", values.employeeId);
-      formData.append("leaveDays", values.days);
+      formData.append("leaveDays", values.leaveDays);
       formData.append("reason", values.reason);
       formData.append(
         "toDate",
@@ -249,8 +252,6 @@ function UpdateLeaveRequest(props) {
                     onValueChange={onValueChange}
                     error={errors.leaveType}
                     options={leaveTypeData}
-
-
                   />
                 </Grid>
 
@@ -283,11 +284,11 @@ function UpdateLeaveRequest(props) {
                 </Grid>
                 <Grid item xs={4}>
                   <Input
-                    name="days"
+                    name="leaveDays"
                     label="DAYS *"
-                    value={values.days}
+                    value={values.leaveDays}
                     onChange={handleInputChange}
-                    error={errors.days}
+                    error={errors.leaveDays}
                     type="number"
                   />
                 </Grid>
