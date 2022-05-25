@@ -129,9 +129,9 @@ function Task() {
         setOpenDetails(false);
     };
 
-    const onChangePage = (pageNumber, pageSize) => {};
+    const onChangePage = (pageNumber, pageSize) => { };
 
-    const onTableSearch = (values, sortField) => {};
+    const onTableSearch = (values, sortField) => { };
 
     const columns: Column[] = [
         {
@@ -178,7 +178,7 @@ function Task() {
             id: "details",
             label: "",
             minWidth: 40,
-            render: (value) => (
+            render: (value: any) => (
                 <Button
                     variant="text"
                     size="small"
