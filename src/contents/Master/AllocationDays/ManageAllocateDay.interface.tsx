@@ -1,11 +1,12 @@
 interface IEmployeeLeaveType {
     id?: number;
-    employeeId?: string;
+    employeeId?:string | number;
+    leaveTypeId?: string | number;
     firstName?: string;
     lastName?: string;
     type?: string;
-    allocatedDays?: string;
-    remainingDays?: string;
+    allocatedDays?: string | number;
+    remainingDays?: string | number;
 }
 
 export type { IEmployeeLeaveType };
