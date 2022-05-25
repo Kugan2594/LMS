@@ -16,6 +16,8 @@ import { ImOffice } from "react-icons/im";
 import { RiRouteFill } from "react-icons/ri";
 import { HiUser } from "react-icons/hi";
 import { HiStar } from "react-icons/hi";
+import AlignVerticalTopIcon from '@mui/icons-material/AlignVerticalTop';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 import { remove } from "lodash";
 
@@ -35,7 +37,7 @@ export interface MenuItems {
 
 const masterMenuItems: MenuItem[] = [
   { name: "Employee", icon: GiRibbonMedal, link: "/master/employee" },
-{ name: "Leave Type", icon: GiRibbonMedal, link: "/master/leavetype" },
+{ name: "Leave Type", icon: AlignVerticalTopIcon, link: "/master/leavetype" },
   {
     name: "Leave Request",
     icon: GrSend,
@@ -57,7 +59,7 @@ const masterMenuItems: MenuItem[] = [
     icon: HiStar,
     link: "/master/In-Progress",
   },
-  { name: "Employee Approver", icon: GiRibbonMedal, link: "/master/employee/approver" },
+  { name: "Employee Approver", icon: ManageAccountsIcon, link: "/master/employee/approver" },
 ];
 
 // if (!modulePermission(PERMISSION_NAME.role_permission).view) {
