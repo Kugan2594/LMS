@@ -226,23 +226,22 @@ function UpdateLeaveRequest(props) {
             <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
               <Grid container>
                 <Grid item xs={4}>
-                  <Select
+                  <AutocompleteSelect
                     name="employeeId"
                     label="Employee *"
                     value={values.employeeId}
                     onChange={handleInputChange}
-                    error={errors.employee}
+                    error={errors.employeeId}
                     options={employeeData}
                   />
                 </Grid>
                 <Grid item xs={4}>
-                  <Select
+                  <AutocompleteSelect
                     name="leaveTypeId"
                     label="LeaveType *"
                     value={values.leaveTypeId}
                     onChange={handleInputChange}
-                    onValueChange={onValueChange}
-                    error={errors.leaveType}
+                    error={errors.leaveTypeId}
                     options={leaveTypeData}
                   />
                 </Grid>
@@ -296,7 +295,7 @@ function UpdateLeaveRequest(props) {
               </Grid>
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                 <Box sx={{ flex: "1 1 auto" }} />
-                <Button color="inherit" text="Back" />
+
                 {action !== "edit" && (
                   <Button
                     size="small"
