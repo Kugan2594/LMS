@@ -241,7 +241,6 @@ function UpdateLeaveRequest(props) {
                     label="LeaveType *"
                     value={values.leaveTypeId}
                     onChange={handleInputChange}
-                    onValueChange={onValueChange}
                     error={errors.leaveType}
                     options={leaveTypeData}
                   />
@@ -295,23 +294,23 @@ function UpdateLeaveRequest(props) {
                 ></Grid>
               </Grid>
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                <Box sx={{ flex: "1 1 auto" }} />
-                <Button color="inherit" text="Back" />
-                {action !== "edit" && (
+                  <Box sx={{ flex: "1 1 auto" }} />
+                  
+                  {action !== "edit" && (
+                    <Button
+                      size="small"
+                      color="primary"
+                      text="Reset"
+                      onClick={onReset}
+                    />
+                  )}
                   <Button
                     size="small"
-                    color="primary"
-                    text="Reset"
-                    onClick={onReset}
+                    type="submit"
+                    text={action === "edit" ? "Update" : "Submit"}
+                    disabled={action === "edit" ? updateStatus : false}
                   />
-                )}
-                <Button
-                  size="small"
-                  type="submit"
-                  text={action === "edit" ? "Update" : "Submit"}
-                  disabled={action === "edit" ? updateStatus : false}
-                />
-              </Box>
+                </Box>
             </Form>
           </Typography>
         </React.Fragment>
