@@ -12,7 +12,7 @@ import {
     Input,
     TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modals from "src/components/atoms/Modals";
 import Tables from "src/components/atoms/Tables";
 import { TableAction } from "src/components/atoms/Tables/TableAction";
@@ -22,25 +22,18 @@ import PageTitle from "src/components/organism/PageTitle";
 import ViewHistory from "../History/ViewHistory";
 import LeaveRequestForm from "../LeaveRequest/LeaveRequestForm";
 import AddDesignation from "./AddDesignation";
-
-let mockData = [
-    {
-        designationName: "Senior Software Engineer",
-        createdDate: "23-05-2022",
-        updatedDate: "23-05-2022",
-    },
-    {
-        designationName: "Software Engineer",
-        createdDate: "23-05-2022",
-        updatedDate: "23-05-2022",
-    },
-    {
-        designationName: "Associate Software Engineer",
-        createdDate: "23-05-2022",
-        updatedDate: "23-05-2022",
-    },
-];
-
+import { getAllDesignation, deleteDesignation } from './ServiceDesignation';
+import { NOTIFICATION_TYPE } from "src/util/Notification";
+import CustomizedNotification from 'src/util/CustomizedNotification';
+function createData(data) {
+    let convertData = data.map((post, index) => {
+        return {
+            id: post.id,
+            name: post.name
+        };
+    });
+    return convertData;
+}
 function ManageDesignations() {
     const [pagination, setpagination] = useState({
         pageNumber: 0,
@@ -48,38 +41,53 @@ function ManageDesignations() {
         total: 0,
     });
     const [open, setOpen] = useState(false);
+    const [editData, seteditData] = useState({});
     const [searchFields, setsearchFields] = useState({ name: "" });
     const [sortField, setsortField] = React.useState({
         sortField: "id",
         direction: "DESC",
     });
+    const [dataSource, setdataSource] = useState([]);
+    const onChangePage = (pageNumber, pageSize) => { };
+    const [alert, setalert] = useState({
+        type: "",
+        mesg: "",
+    });
+    const onTableSearch = (values, sortField) => { };
 
-    const onChangePage = (pageNumber, pageSize) => {};
 
-    const onTableSearch = (values, sortField) => {};
-    const deleteOnclick = () => {};
+    useEffect(() => {
+        getAllDesignationData(pagination.pageNumber, pagination.pageSize);
+    }, [pagination.pageNumber, pagination.pageSize]);
+    const getAllDesignationData = (pageNumber, pageSize) => {
+        getAllDesignation(pageNumber, pageSize).then((res: any) => {
+            let data: [] = createData(res.results.Designation);
+            setpagination({
+                pageNumber: res.pagination.pageNumber,
+                pageSize: res.pagination.pageSize,
+                total: res.pagination.totalRecords,
+            });
+            setdataSource(data);
+        });
+    };
 
+    const reloadTable = (res) => {
+        console.log("ppppppppppppppppp", res);
+        setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
+        setOpen(false);
+        getAllDesignationData(pagination.pageNumber, pagination.pageSize);
+    };
     const columns: Column[] = [
         {
-            id: "designationName",
+            id: "name",
             label: "Designation Name",
-            minWidth: 0,
-        },
-        {
-            id: "createdDate",
-            label: "Creataed Date",
-            minWidth: 0,
-        },
-        {
-            id: "updatedDate",
-            label: "Updated Date",
             minWidth: 0,
         },
         {
             id: "action",
             label: "Action",
-            minWidth: 0,
             fixed: "right",
+            minWidth: 0,
             align: "center",
             render: (value: any) => (
                 <TableAction
@@ -90,7 +98,9 @@ function ManageDesignations() {
             ),
         },
     ];
+    const [action, setaction] = useState('add');
     const handleClickOpen = (value) => {
+        setaction('add');
         setOpen(true);
     };
 
@@ -102,20 +112,34 @@ function ManageDesignations() {
         console.log(designation);
     };
 
-    const handleClose = (e) => {
-        setError(false);
-        if (designation === "") {
-            setError(true);
-        } else {
-            setOpen(false);
-            setDesignation("");
-        }
+    const handleClose = () => {
+        setOpen(false);
     };
-    const editOnclick = () => {
-        setUpdate(true);
+    const handleAlertClose = () => {
+        setalert({
+            type: '',
+            mesg: ''
+        });
+    };
+    const editOnclick = (row) => {
+        console.log(row);
+        setaction('edit');
+        seteditData(row);
+        setOpen(true);
     };
     const handleCancel = () => {
         setOpen(false);
+    };
+    const deleteOnclick = (row) => {
+        deleteDesignation(row.id).then(
+            (res: any) => {
+                reloadTable(res);
+            },
+            (error) => {
+                console.log(error);
+                handleError(error);
+            }
+        );
     };
 
     const handleClose1 = (e) => {
@@ -130,25 +154,29 @@ function ManageDesignations() {
     const handleCancel1 = () => {
         setUpdate(false);
     };
-
+    const handleError = (res) => {
+        setalert({
+            type: NOTIFICATION_TYPE.error,
+            mesg: res.data.validationFailures[0].message,
+        });
+    };
     return (
         <div>
+            <PageTitleWrapper>
+                <PageTitle
+                    heading="Manage Designation"
+                    subHeading="Master/ Designation"
+                    isButton={true}
+                    name="Add Designation"
+                    onclickButton={handleClickOpen}
+                />
+            </PageTitleWrapper>
             <Container maxWidth="lg">
                 <Card>
                     <CardContent>
-                        <PageTitleWrapper>
-                            <PageTitle
-                                heading="Manage Designations"
-                                name="Add Designation"
-                                isButton={true}
-                                onclickButton={handleClickOpen}
-                            />
-                        </PageTitleWrapper>
-                        <Divider />
-
                         <Tables
                             columns={columns}
-                            tableData={mockData}
+                            tableData={dataSource}
                             onChangePage={onChangePage}
                             pageNumber={pagination.pageNumber}
                             total={pagination.total}
@@ -158,63 +186,25 @@ function ManageDesignations() {
                         />
                     </CardContent>
                 </Card>
-                <div>
-                    <Dialog
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                    >
-                        <DialogTitle id="alert-dialog-title">
-                            Add Designation
-                        </DialogTitle>
-                        <DialogContent>
-                            <DialogContentText id="alert-dialog-description"></DialogContentText>
-                            <AddDesignation
-                                designationValue={designation}
-                                designationChange={onChangeHandler}
-                                error={error}
-                            />
-                        </DialogContent>
-                        <DialogActions>
-                            <Button type="submit" onClick={handleClose}>
-                                Add
-                            </Button>
-                            <Button onClick={handleCancel} autoFocus>
-                                Cancel
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
-                </div>
-                <div>
-                    <Dialog
-                        open={update}
-                        onClose={handleClose1}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                    >
-                        <DialogTitle id="alert-dialog-title">
-                            Update Designation
-                        </DialogTitle>
-                        <DialogContent>
-                            <DialogContentText id="alert-dialog-description"></DialogContentText>
-                            <AddDesignation
-                                designationValue={designation}
-                                designationChange={onChangeHandler}
-                                error={error}
-                            />
-                        </DialogContent>
-                        <DialogActions>
-                            <Button type="submit" onClick={handleClose1}>
-                                Add
-                            </Button>
-                            <Button onClick={handleCancel1} autoFocus>
-                                Cancel
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
-                </div>
+                <Modals
+                    modalTitle={action === 'edit' ? 'Edit Designation' : 'Add Designation'}
+                    modalWidth="50%"
+                    open={open}
+                    onClose={handleClose}
+                    modalBody={<AddDesignation reloadTable={reloadTable}
+                        action={action}
+                        editData={editData}
+                        handleError={handleError} />}
+                />
+
             </Container>
+            {alert.type.length > 0 ? (
+                <CustomizedNotification
+                    severity={alert.type}
+                    message={alert.mesg}
+                    handleAlertClose={handleAlertClose}
+                />
+            ) : null}
         </div>
     );
 }

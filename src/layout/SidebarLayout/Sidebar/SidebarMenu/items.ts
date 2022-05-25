@@ -25,43 +25,42 @@ import { IoIosWoman, IoLogoOctocat, IoMdDoneAll } from "react-icons/io";
 import { remove } from "lodash";
 
 export interface MenuItem {
-  id?: string;
-  link?: string;
-  icon?: any;
-  badge?: string;
-  items?: MenuItem[];
-  name: string;
+    id?: string;
+    link?: string;
+    icon?: any;
+    badge?: string;
+    items?: MenuItem[];
+    name: string;
 }
 
 export interface MenuItems {
-  items: MenuItem[];
-  heading: string;
+    items: MenuItem[];
+    heading: string;
 }
 
 const masterMenuItems: MenuItem[] = [
-  { name: "Employee", icon: FaUserAlt, link: "/master/employee" },
-  {
-    name: "Leave Request",
-    icon: GrSend,
-    link: "/master/leaveRequest",
-  },
-  { name: "Designations", icon: IoIosWoman, link: "/master/designations" },
-  { name: "Leave Type", icon: GiRibbonMedal, link: "/master/leavetype" },
-  { name: "History", icon: GrHistory, link: "/master/history" },
-  { name: "E-History", icon: CgUserList, link: "/master/e-history" },
-  { name: "Allocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
-  { name: "My Tasks", icon: FcLeave, link: "/master/tasks" },
-
-  {
-    name: "Manage Leave Request",
-    icon: HiStar,
-    link: "/master/In-Progress",
-  },
-  {
-    name: "Employee Approver",
-    icon: FaUserCheck,
-    link: "/master/employee/approver",
-  },
+    { name: "Employee", icon: FaUserAlt, link: "/master/employee" },
+    {
+        name: "Leave Request",
+        icon: GrSend,
+        link: "/master/leaveRequest",
+    },
+    { name: "Designations", icon: IoIosWoman, link: "/master/designations" },
+    { name: "Leave Type", icon: GiRibbonMedal, link: "/master/leavetype" },
+    { name: "History", icon: GrHistory, link: "/master/history" },
+    { name: "E-History", icon: CgUserList, link: "/master/e-history" },
+    { name: "Allocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
+    { name: "My Tasks", icon: FcLeave, link: "/master/tasks" },
+    {
+        name: "Manage Leave Request",
+        icon: HiStar,
+        link: "/master/In-Progress",
+    },
+    {
+        name: "Employee Approver",
+        icon: FaUserCheck,
+        link: "/master/employee/approver",
+    },
 ];
 
 // if (!modulePermission(PERMISSION_NAME.role_permission).view) {
@@ -69,10 +68,10 @@ const masterMenuItems: MenuItem[] = [
 // }
 
 const menuItems: MenuItems[] = [
-  {
-    heading: "Master",
-    items: masterMenuItems,
-  },
+    {
+        heading: "Master",
+        items: masterMenuItems,
+    },
 ];
 
 export default menuItems;

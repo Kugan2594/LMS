@@ -1,12 +1,12 @@
 import api from "src/services/AxiosService";
 
-const getAllLeaveType = (pageNumber: number, pageSize: number) => {
+const getAllDesignation = (pageNumber: number, pageSize: number) => {
     return new Promise((resolve, reject) => {
         api(
             "get",
             "lm-web",
             null,
-            `/leaveTypePagination?page=${pageNumber}&size=${pageSize}`,
+            `/designationPagination?page=${pageNumber}&size=${pageSize}`,
             "",
             "",
             ""
@@ -20,10 +20,20 @@ const getAllLeaveType = (pageNumber: number, pageSize: number) => {
     });
 };
 
-
-const deleteLeaveType = (id: number) => {
+const deleteDesignation = (id: number) => {
     return new Promise((resolve, reject) => {
-        api("delete", "lm-web", null, "/leaveType", "", "", id)
+        api("delete", "lm-web", null, "/designation", "", "", id)
+            .then((response: any) => {
+                resolve(response);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
+const updateDesignation = (data: object) => {
+    return new Promise((resolve, reject) => {
+        api("put", "lm-web", null, `/designation`, "", data, "")
             .then((response: any) => {
                 resolve(response);
             })
@@ -33,11 +43,9 @@ const deleteLeaveType = (id: number) => {
     });
 };
 
-
-
-const createLeaveType = (data: object) => {
+const createDesignation = (data: object) => {
     return new Promise((resolve, reject) => {
-        api("post", "lm-web", null, `/leaveType`, "", data, "")
+        api("post", "lm-web", null, `/designation`, "", data, "")
             .then((response: any) => {
                 resolve(response);
             })
@@ -46,15 +54,4 @@ const createLeaveType = (data: object) => {
             });
     });
 };
-const updateLeaveType = (data: object) => {
-    return new Promise((resolve, reject) => {
-        api("put", "lm-web", null, `/leaveType`, "", data, "")
-            .then((response: any) => {
-                resolve(response);
-            })
-            .catch((error) => {
-                reject(error);
-            });
-    });
-};
-export { getAllLeaveType, deleteLeaveType, createLeaveType, updateLeaveType };
+export { getAllDesignation, updateDesignation, deleteDesignation, createDesignation }

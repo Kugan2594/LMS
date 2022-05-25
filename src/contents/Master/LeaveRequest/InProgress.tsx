@@ -21,7 +21,6 @@ import { NOTIFICATION_TYPE } from "src/util/Notification";
 import { TableAction } from "src/components/atoms/Tables/TableAction";
 import CustomizedNotification from "src/util/CustomizedNotification";
 import UpdateLeaveRequest from "./UpdateLeaveRequest";
-
 function createData(data) {
   let convertData = data.map((post, index) => {
     return {
@@ -37,14 +36,12 @@ function createData(data) {
   });
   return convertData;
 }
-
 function InProgress() {
   const [pagination, setpagination] = useState({
     pageNumber: 0,
     pageSize: 10,
     total: 0,
   });
-
   const [open, setOpen] = useState(false);
   const [openDetails, setOpenDetails] = useState(false);
   const [searchFields, setsearchFields] = useState({ name: "" });
@@ -62,7 +59,6 @@ function InProgress() {
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -73,7 +69,6 @@ function InProgress() {
   const handleUpdateClose = (value) => {
     setUpdate(false);
   };
-
   const editOnclick = (row) => {
     console.log(row);
     setaction("edit");
@@ -92,14 +87,11 @@ function InProgress() {
       mesg: "",
     });
   };
-
   const [leaveDetails, setLeaveDetails] = useState({});
-
   const handleOpenLeaveDetails = (value) => {
     setOpenDetails(true);
     setLeaveDetails(value);
   };
-
   const onChangePage = (pageNumber, pageSize) => {
     if (pagination.pageSize !== pageSize) {
       getAllLeaveRequestData(0, pageSize);
@@ -107,7 +99,6 @@ function InProgress() {
       getAllLeaveRequestData(pageNumber, pageSize);
     }
   };
-
   useEffect(() => {
     getAllLeaveRequestData(pagination.pageNumber, pagination.pageSize);
   }, [pagination.pageNumber, pagination.pageSize]);
@@ -122,15 +113,12 @@ function InProgress() {
       setdataSource(data);
     });
   };
-
   const reloadTable = (res) => {
     setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
     console.log("//////////////////////////", res);
-
     setOpen(false);
     getAllLeaveRequestData(pagination.pageNumber, pagination.pageSize);
   };
-
   const deleteOnclick = (row) => {
     cancelLeaveRequest(row.id).then(
       (res: any) => {
@@ -142,9 +130,7 @@ function InProgress() {
       }
     );
   };
-
   const onTableSearch = (values, sortField) => {};
-
   const columns: Column[] = [
     {
       id: "firstName",
@@ -210,7 +196,6 @@ function InProgress() {
       ),
     },
   ];
-
   return (
     <div>
       <PageTitleWrapper>
@@ -223,7 +208,6 @@ function InProgress() {
       </PageTitleWrapper>
       <Divider />
       <br />
-
       <Container maxWidth="lg">
         <Card>
           <CardContent>
@@ -265,5 +249,4 @@ function InProgress() {
     </div>
   );
 }
-
 export default InProgress;

@@ -22,42 +22,41 @@ const getApprovers = (pageNumber: number, pageSize: number) => {
   });
 };
 
-const allocateApprover = (data: object) => {
-  let body: object = {
-    request: data
-  };
+const allocateApprover = (data: any) => {
+
+
   return new Promise((resolve, reject) => {
     api(
       'post',
       'lm-web',
       null,
-      `/employeeApprover`,
+      `/employeeapproverlist`,
       'token',
-      body,
+      data,
       ''
     )
       .then((response: any) => {
+        console.log(response);
         resolve(response);
       })
       .catch((error) => {
+        console.log(error);
         reject(error);
       });
   });
 };
 
 const DeallocateApprover = (data: object) => {
-  let body: object = {
-    request: data
-  };
+
 
   return new Promise((resolve, reject) => {
     api(
       'post',
-      'th-web',
+      'lm-web',
       null,
       `/`,
       'token',
-      body,
+      data,
       ''
     )
       .then((response: any) => {
@@ -69,9 +68,66 @@ const DeallocateApprover = (data: object) => {
   });
 
 }
+
+const getAllEmployeeApprover = (pageNumber: number, pageSize: number) => {
+  return new Promise((resolve, reject) => {
+      api(
+          "get",
+          "lm-web",
+          null,
+          `/employeeApproverPagination?page=${pageNumber}&size=${pageSize}`,
+          "",
+          "",
+          ""
+      )
+          .then((response: any) => {
+              resolve(response.data);
+          })
+          .catch((error) => {
+              reject(error);
+          });
+  });
+};
+
+const getAllEmployeesForDropDown = () => {
+  return new Promise((resolve, reject) => {
+    api("get", "lm-web", null, `/employee`, "", "", "")
+      .then((response: any) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+const getAllEmployee = () => {
+  return new Promise((resolve, reject) => {
+    api("get", "lm-web", null, `/employee`, "", "", "")
+      .then((response: any) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+const addEmployeeApprover = (data: object) => {
+  return new Promise((resolve, reject) => {
+    api("post", "lm-web", null, `/employeeapproverlist`, null, data, "")
+      .then((response: any) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 export {
 
-  getApprovers, allocateApprover, DeallocateApprover
+  getApprovers, allocateApprover, DeallocateApprover,getAllEmployeeApprover,getAllEmployeesForDropDown,addEmployeeApprover,getAllEmployee
 
 
 };

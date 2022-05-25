@@ -1,63 +1,197 @@
 import {
-    Card,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    Divider,
-    Grid,
-    TextField,
-    Button,
-    Input,
+  Card,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Divider,
+  Grid,
 } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import PropTypes from "prop-types";
+import Box from "@mui/material/Box";
 import { Container } from "@mui/system";
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import Button from "src/components/atoms/controlls/Button";
+import Input from "src/components/atoms/controlls/Input";
 import Select from "src/components/atoms/controlls/Select";
 import { Form, useForm } from "src/components/atoms/Forms/useForm";
 import { FORM_VALIDATION, spaceValidation } from "src/util/ValidationMeassage";
 import { IDesignations } from "./DesignationsInterface";
+import { updateDesignation, createDesignation } from './ServiceDesignation';
+let initialFValues: IDesignations = {
+  id: 0,
+  name: "",
+
+};
 
 function AddDesignation(props) {
-    const handleClickOpen = (value) => {
-        setOpen(true);
-    };
-    const [open, setOpen] = useState(false);
+  const { reloadTable, action, editData, handleError } = props;
+  const handleClickOpen = (value) => {
+    setOpen(true);
+  };
+  const [open, setOpen] = useState(false);
+  const [updateStatus, setupdateStatus] = useState(true);
+  const [designation, setDesignation] = useState("");
+  const [error, setError] = useState(false);
+  const onChangeHandler = (e) => {
+    props.designationChange(e.target.value);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(values);
+    const formData = new FormData();
+    if (validate()) {
+      if (action === "add") {
+        let data: object = {
+          name: values.name,
 
-    const [designation, setDesignation] = useState("");
-    const [error, setError] = useState(false);
-    const onChangeHandler = (e) => {
-        props.designationChange(e.target.value);
-    };
-    const handleClose = (e) => {
-        setError(false);
-        if (designation === "") {
-            setError(true);
-        } else {
-            setOpen(false);
-            setDesignation("");
-        }
-    };
-    const editOnclick = () => {
-        setOpen(true);
-    };
-    const handleCancel = () => {
-        setOpen(false);
-    };
-    return (
-        <div>
-            <TextField
-                id="designation-name-basic"
-                type="text"
-                variant="outlined"
-                value={props.designationValue}
-                error={props.error}
-                onChange={onChangeHandler}
-                sx={{ width: "200px" }}
-            />
-        </div>
-    );
+        };
+        console.log(data);
+        createDesignation(data).then(
+          (res: any) => {
+            console.log(res);
+            reloadTable(res);
+            handleClose();
+            resetForm();
+          },
+          (error) => {
+            console.log(error);
+            // reloadTable(res);
+            handleClose();
+            handleError(error);
+          }
+        );
+      } else {
+        const formData = new FormData();
+
+        let data: object = {
+          id: editData.id,
+          name: values.name,
+
+        };
+
+        updateDesignation(data).then(
+          (res: any) => {
+            console.log(res);
+
+            reloadTable(res);
+            setupdateStatus(true);
+            resetForm();
+          },
+          (error) => {
+            console.log(error);
+            handleError(error);
+          }
+        );
+      }
+    }
+  };
+
+
+  const validate = (fieldValues = values) => {
+    let temp: IDesignations = { ...errors };
+
+    if ("name" in fieldValues)
+      temp.name = fieldValues.name
+        ? spaceValidation.test(fieldValues.name)
+          ? ""
+          : `name ${FORM_VALIDATION.space}`
+        : FORM_VALIDATION.required;
+
+    setErrors({
+      ...temp,
+    });
+
+    if (fieldValues === values)
+      return Object.values(temp).every((x) => x === "");
+  };
+  const {
+    values,
+    setValues,
+    errors,
+    setErrors,
+    handleInputChange,
+    resetForm,
+  }: any = useForm(initialFValues, true, validate);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const onReset = () => {
+    resetForm();
+  };
+  const onChangeFormValue = () => {
+    setupdateStatus(false);
+  };
+  const editOnclick = () => {
+    setOpen(true);
+  };
+  const handleCancel = () => {
+    setOpen(false);
+  };
+  useEffect(() => {
+
+    if (action === "edit") {
+      console.log({ editData });
+
+      setValues(editData);
+    }
+  }, [action, editData, setValues]);
+  return (
+    <div>
+      <Box sx={{ width: "100%", justifyContent: "center" }}>
+
+        <React.Fragment>
+          <Typography sx={{ mt: 2, mb: 1 }}>
+            <Form
+              onSubmit={handleSubmit}
+              onChangeFormValue={onChangeFormValue}
+
+            >
+              <Grid container>
+                <Grid>
+                  <Input
+                    name="name"
+                    label="Designation Name *"
+                    value={values.name}
+                    onChange={handleInputChange}
+                    error={errors.name}
+                  />
+                </Grid>
+
+                <Divider />
+                <Grid
+                  display="flex"
+                  flexDirection="row"
+                  justifyContent="flex-end"
+                  container
+                  style={{ padding: "8px" }}
+                ></Grid>
+              </Grid>
+              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                <Box sx={{ flex: "1 1 auto" }} />
+
+                {action !== "edit" && (
+                  <Button
+                    size="small"
+                    color="primary"
+                    text="Reset"
+                    onClick={onReset}
+                  />
+                )}
+                <Button
+                  size="small"
+                  type="submit"
+                  text={action === "edit" ? "Update" : "Submit"}
+                  disabled={action === "edit" ? updateStatus : false}
+                />
+              </Box>
+            </Form>
+          </Typography>
+        </React.Fragment>
+      </Box>
+    </div>
+  );
 }
-
 export default AddDesignation;

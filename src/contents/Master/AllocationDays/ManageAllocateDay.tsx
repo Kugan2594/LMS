@@ -8,6 +8,10 @@ import {
   getAllEmployee,
 } from "./ServiceAllocationDays";
 import AutocompleteSelect from "src/components/atoms/controlls/AutocompleteSelect";
+import Modals from "src/components/atoms/Modals";
+import AddAllocationDays from "./AddAllocationDays";
+import { NOTIFICATION_TYPE } from "src/util/Notification";
+import CustomizedNotification from 'src/util/CustomizedNotification';
 
 function createData(data) {
   let convertData = data.map((post, index) => {
@@ -26,7 +30,52 @@ function ManageAllocateDay() {
   const [employeeId, setemployeeId] = useState("");
   const [employeedata, setemployeedata] = useState([]);
   const [employee, setemployee] = useState([]);
+  const [action, setaction] = useState("add");
+  const [open, setOpen] = useState(false);
+  const [editData, seteditData] = useState({});
 
+  const [alert, setalert] = useState({
+    type: "",
+    mesg: "",
+  });
+
+  const handleAlertClose = () => {
+    setalert({
+      type: '',
+      mesg: ''
+    });
+  };
+  const handleClickOpen = () => {
+    setaction("add");
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const reloadTable = (res) => {
+    setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
+    console.log("//////////////////////////", res);
+
+    setOpen(false);
+  };
+
+  const editOnclick = (row) => {
+    console.log(row);
+    setaction("edit");
+    seteditData(row);
+    setOpen(true);
+  };
+
+  const handleError = (res) => {
+    setalert({
+      type: NOTIFICATION_TYPE.error,
+      mesg: res.data.validationFailures[0].message,
+    });
+  };
+
+  // dropdown
   const onValueChange = (e) => {
     setupdateStatus(false);
     const { name, value } = e.target;
@@ -82,7 +131,9 @@ function ManageAllocateDay() {
         <PageTitle
           heading="Allocation Days"
           subHeading="Master/AllocateDay"
-          isButton={false}
+          name="Add Employee Allocation Day"
+          isButton={true}
+          onclickButton={handleClickOpen}
         />
       </PageTitleWrapper>
       <Divider />
@@ -120,7 +171,9 @@ function ManageAllocateDay() {
                     <Grid item xs={12} md={6} lg={3} key={index}>
                       <DoughnutChart
                         selectedValue={post.remainingDays}
-                        maxValue={post.allocatedDays === 0 ? 100 : post.allocatedDays}
+                        maxValue={
+                          post.allocatedDays === 0 ? 100 : post.allocatedDays
+                        }
                         radius={75}
                         activeStrokeColor="#0f4fff"
                         withGradient
@@ -138,9 +191,35 @@ function ManageAllocateDay() {
                 })}
               </Grid>
             </Container>
+            <br />
+            <Modals
+              modalTitle={
+                action === "edit"
+                  ? "Edit Employee Allocation Days"
+                  : "Add Employee Allocation Days"
+              }
+              modalWidth="70%"
+              open={open}
+              onClose={handleClose}
+              modalBody={
+                <AddAllocationDays
+                  reloadTable={reloadTable}
+                  action={action}
+                  editData={editData}
+                  handleError={handleError}
+                />
+              }
+            />
           </CardContent>
         </Card>
       </Container>
+      {alert.type.length > 0 ? (
+        <CustomizedNotification
+          severity={alert.type}
+          message={alert.mesg}
+          handleAlertClose={handleAlertClose}
+        />
+      ) : null}
     </div>
   );
 }
