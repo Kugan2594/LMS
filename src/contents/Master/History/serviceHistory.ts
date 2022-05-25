@@ -11,4 +11,25 @@ const updateApproverStatus = (data: object) => {
     });
 };
 
-export { updateApproverStatus };
+const getLeaveApproverStatus = () => {
+    return new Promise((resolve, reject) => {
+        api(
+          "get",
+          "lm-web",
+          null,
+          `/approvalStatus?employeeId=2&leaveRequestId=3`,
+          "",
+          "",
+          ""
+        )
+  
+        .then((response: any) => {
+          resolve(response.results.ApprovalLeaveHistory);
+      })
+      .catch((error) => {
+          reject(error);
+      });
+    });
+  };
+
+export { updateApproverStatus , getLeaveApproverStatus};

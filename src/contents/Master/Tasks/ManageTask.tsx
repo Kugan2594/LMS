@@ -16,7 +16,6 @@ import Tables from "src/components/atoms/Tables";
 import { Column } from "src/components/atoms/Tables/TableInterface";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
-import { getLeaveApproverStatus } from "../History/ServiceViewHistory";
 import ViewHistory from "../History/ViewHistory";
 import InProgress from "../LeaveRequest/InProgress";
 import LeaveRequestForm from "../LeaveRequest/LeaveRequestForm";
@@ -35,6 +34,11 @@ function createData(data) {
             leaveType: post.employeeLeaveType.leaveType.type,
             firstName: post.employee.firstName,
             lastName: post.employee.lastName,
+            approvers: [
+                { names: "KugApp1", appStatus: "Approved" },
+                { names: "KugApp2", appStatus: "Approved" },
+                { names: "KugApp3", appStatus: "Approved" },
+            ],
         };
     });
     return convertData;

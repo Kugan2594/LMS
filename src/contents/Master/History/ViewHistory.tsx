@@ -1,14 +1,32 @@
 import { Grid, StepLabel, Typography, } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import Button from '@mui/material/Button';
-import { updateApproverStatus } from "./serviceHistory"
+import { getLeaveApproverStatus, updateApproverStatus } from "./serviceHistory"
+
+function createData(data) {
+  let convertData = data.map((post, index) => {
+      return {
+          id : post.id,
+          employeeId:post.employeeId,
+          reason: post.reason,
+          fromDate: post.fromDate,
+          toDate: post.toDate,
+          leaveDays: post.leaveDays,
+          requestedDate: post.requestedDate,
+          leaveType: post.employeeLeaveType.leaveType.type,
+          firstName: post.employee.firstName,
+          lastName: post.employee.lastName,
+      };
+  });
+  return convertData;
+}
 
 
 export default function ViewHistory(props) {
-
+  const [dataSource, setdataSource] = useState([]);
   const handleClickOpen = () => { };
 
   const { details, isEmployeeDetails, isResponseButtons, cancel } = props;
@@ -47,6 +65,17 @@ export default function ViewHistory(props) {
       }
     );
   };
+
+  useEffect(() => {
+    getLeaveApproverStatusData();
+});
+
+const getLeaveApproverStatusData = () => {
+    getLeaveApproverStatus().then((res: any) => {
+        let value: [] = details(res.results.ApprovalLeaveHistory);
+        setdataSource(value);
+    });
+};
 
   const [rejected, setRejected] = useState(approvalStatusOriginal);
 
