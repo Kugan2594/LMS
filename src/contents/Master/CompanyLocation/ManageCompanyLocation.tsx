@@ -157,7 +157,7 @@ function ManageCompanyLocation() {
                 </Card>
                 <Modals
                     modalTitle={action === 'edit' ? 'Edit CompanyLocation' : 'Add CompanyLocation'}
-                    modalWidth="40%"
+                    modalWidth="20%"
                     open={open}
                     onClose={handleClose}
                     modalBody={<AddCompanyLocation reloadTable={reloadTable}

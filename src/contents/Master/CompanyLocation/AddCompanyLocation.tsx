@@ -159,7 +159,7 @@ function AddCompanyLocation(props) {
 
               >
                 <Grid container>
-                  <Grid item xl={12}>
+                  <Grid>
                   <Input
                       name="location"
                       label="Location *"

@@ -152,9 +152,9 @@ function Task() {
         setOpenDetails(false);
     };
 
-    const onChangePage = (pageNumber, pageSize) => {};
+    const onChangePage = (pageNumber, pageSize) => { };
 
-    const onTableSearch = (values, sortField) => {};
+    const onTableSearch = (values, sortField) => { };
 
 
     useEffect(() => {
@@ -217,7 +217,7 @@ function Task() {
             id: "details",
             label: "",
             minWidth: 40,
-            render: (value) => (
+            render: (value: any) => (
                 <Button
                     variant="text"
                     size="small"
@@ -231,14 +231,16 @@ function Task() {
 
     return (
         <div>
+            <PageTitleWrapper>
+                <PageTitle
+                    heading="My Task"
+                    subHeading="Master/My Task"
+                    isButton={false}
+                />
+            </PageTitleWrapper>
             <Container maxWidth="lg">
                 <Card>
                     <CardContent>
-                        <PageTitleWrapper>
-                            <PageTitle heading="My Task" isButton={false} />
-                        </PageTitleWrapper>
-                        <Divider />
-
                         <Tables
                             columns={columns}
                             tableData={dataSource}
