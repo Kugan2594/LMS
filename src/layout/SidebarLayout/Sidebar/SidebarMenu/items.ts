@@ -46,6 +46,8 @@ const masterMenuItems: MenuItem[] = [
         link: "/master/leaveRequest",
     },
     { name: "Designations", icon: IoIosWoman, link: "/master/designations" },
+    { name: "BusinessUnit", icon: IoIosWoman, link: "/master/businessUnit" },
+    { name: "Holidays", icon: IoIosWoman, link: "/master/holidays" },
     { name: "Leave Type", icon: GiRibbonMedal, link: "/master/leavetype" },
     { name: "History", icon: GrHistory, link: "/master/history" },
     { name: "E-History", icon: CgUserList, link: "/master/e-history" },
