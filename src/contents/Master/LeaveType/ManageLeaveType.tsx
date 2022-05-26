@@ -10,6 +10,7 @@ import { getAllEmployee } from "../Employee/ServiceEmployee";
 import { getAllLeaveType, deleteLeaveType } from "./serviceLeaveType";
 import { TableAction } from "src/components/atoms/Tables/TableAction";
 import AddLeaveType from "./AddLeaveType";
+import CustomizedNotification from 'src/util/CustomizedNotification';
 
 function createData(data) {
   let convertData = data.map((post, index) => {
@@ -36,7 +37,12 @@ function ManageLeaveType() {
     pageSize: 10,
     total: 0,
   });
-
+  const handleAlertClose = () => {
+    setalert({
+      type: '',
+      mesg: ''
+    });
+  };
   const [dataSource, setdataSource] = useState([]);
   const handleClickOpen = () => {
     setaction('add');
@@ -76,14 +82,14 @@ function ManageLeaveType() {
     });
   };
   const reloadTable = (res) => {
-    setalert({ type: NOTIFICATION_TYPE.success, mesg: res.message });
+    setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
     getAllLeaveTypeData(pagination.pageNumber, pagination.pageSize);
   };
 
   const handleError = (res) => {
     setalert({
       type: NOTIFICATION_TYPE.error,
-      mesg: res.status.validationFailures[0].message,
+      mesg: res.data.validationFailures[0].message,
     });
   };
   const deleteOnclick = (row) => {
@@ -168,6 +174,13 @@ function ManageLeaveType() {
             handleError={handleError} />}
         />
       </Container>
+      {alert.type.length > 0 ? (
+        <CustomizedNotification
+          severity={alert.type}
+          message={alert.mesg}
+          handleAlertClose={handleAlertClose}
+        />
+      ) : null}
     </div>
   );
 }
