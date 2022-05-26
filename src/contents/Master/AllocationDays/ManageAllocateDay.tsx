@@ -185,8 +185,9 @@ function ManageAllocateDay() {
                         maxValue={
                           post.allocatedDays === 0 ? 100 : post.allocatedDays
                         }
-                        radius={75}
-                        activeStrokeColor="#0f4fff"
+                        radius={80}
+                        strokeWidth={12}
+                        activeStrokeColor="#1a8cff"
                         withGradient
                         title="annual"
                       />
