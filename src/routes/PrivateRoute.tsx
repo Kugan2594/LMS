@@ -18,6 +18,7 @@ import ManageDesignations from "src/contents/Master/Designations/ManageDesignati
 import ManageHolidays from "src/contents/Master/Holidays/ManageHolidays";
 import ManageBusinessUnit from "src/contents/Master/BusinessUnit/ManageBusinessUnit";
 import ManageCompanyLocation from "src/contents/Master/CompanyLocation/ManageCompanyLocation";
+import ManageEmployementType from "src/contents/Master/EmployementType/ManageEmployementType";
 const Loader = (Component: any) => (props: any) =>
     (
         <Suspense fallback={<SuspenseLoader />}>
@@ -91,6 +92,10 @@ const PrivateRoute: PartialRouteObject[] = [
                 path: "/holidays",
                 element: <ManageHolidays />,
             },
+            {
+                path: "/employementType",
+                element: <ManageEmployementType />,
+            }
         ],
     },
 ];
