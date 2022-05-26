@@ -1,10 +1,11 @@
-import { Grid, StepLabel, Typography, } from "@mui/material";
+import { Grid, StepLabel, TextField, Typography, } from "@mui/material";
 import React, { useState } from "react";
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import Button from '@mui/material/Button';
 import { updateApproverStatus } from "./serviceHistory"
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 
 export default function ViewHistory(props) {
@@ -72,16 +73,30 @@ export default function ViewHistory(props) {
     return step === rejected.indexOf("Rejected");
   };
 
+  function RejectIcon() {
+    return (
+      <CloseRoundedIcon style={{color: "white", borderRadius: "50%", backgroundColor: "red"}} />
+    );
+  }
+
+  const [value, setValue] = React.useState("");
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+
   return (
-    <Box sx={{ width: '600px' }}>
+    <Box sx={{ width: '600px'}}>
       <Stepper sx={{ backgroundColor: "White" }} activeStep={activeStep} alternativeLabel>
         {steps.map((label, index) => {
           const labelProps: {
             optional?: React.ReactNode;
             error?: boolean;
+            StepIconComponent?: any;
           } = {};
           if (isStepFailed(index)) {
             labelProps.error = true;
+            labelProps.StepIconComponent= RejectIcon;
           }
 
           return (
@@ -92,31 +107,32 @@ export default function ViewHistory(props) {
         })}
       </Stepper>
       <div>
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <Box sx={{ textAlign: "right" }}>
-              {props.isEmployeeDetail && <div><Typography variant="h6">Employee ID:</Typography>
-                <Typography variant="h6">Name:</Typography></div>}
-              <Typography variant="h6">Leave Type:</Typography>
-              <Typography variant="h6">Leave days:</Typography>
-              <Typography variant="h6">From date:</Typography>
-              <Typography variant="h6">To date:</Typography>
-              <Typography variant="h6">Reason:</Typography>
-              <Typography variant="h6">Requested date:</Typography>
-              <Typography variant="h6">Status:</Typography>
+        <Grid container>
+          <Grid item xs={4}></Grid>
+            <Box>
+              {props.isEmployeeDetail && <div><Typography variant="subtitle1" display="inline">Employee ID</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "34px">{details.employeeId}</Typography></div>}
+              {props.isEmployeeDetail && <div><Typography variant="subtitle1" display="inline">Name</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "75px">{details.employeeName}</Typography></div>}
+              <div><Typography variant="subtitle1" display="inline">Leave Type</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "44px">{details.leaveType}</Typography></div>
+              <div><Typography variant="subtitle1" display="inline">Leave days</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "44px">{details.leaveDays}</Typography></div>
+              <div><Typography variant="subtitle1" display="inline">From date</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "48px">{details.fromDate}</Typography></div>
+              <div><Typography variant="subtitle1" display="inline">To date</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "66px">{details.toDate}</Typography></div>
+              <div><Typography variant="subtitle1" display="inline">Reason</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "68px">{details.reason}</Typography></div>
+              <div><Typography variant="subtitle1" display="inline">Requested date</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "15px">{details.requestedDate}</Typography></div>
+              <div><Typography variant="subtitle1" display="inline">Status</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "74px">{steps.length == approvalStatusOriginal.length || rejected.includes("Rejected") ? rejected[rejected.length - 1] : "Pending"}</Typography></div>
+              {rejected.includes("Rejected") && <div><Typography variant="subtitle1" display="inline">Comment</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "51px">{details.comment}</Typography></div>}
             </Box>
-          </Grid>
-          <Grid item xs={6}>
-            {props.isEmployeeDetail && <div><Typography variant="h6" color="black">{details.employeeId}</Typography>
-              <Typography variant="h6" color="black">{details.employeeName} </Typography></div>}
-            <Typography variant="h6" color="black">{details.leaveType}</Typography>
-            <Typography variant="h6" color="black">{details.leaveDays}</Typography>
-            <Typography variant="h6" color="black">{details.fromDate}</Typography>
-            <Typography variant="h6" color="black">{details.toDate}</Typography>
-            <Typography variant="h6" color="black">{details.reason}</Typography>
-            <Typography variant="h6" color="black">{details.requestedDate}</Typography>
-            <Typography variant="h6" color="black">{steps.length == approvalStatusOriginal.length || rejected.includes("Rejected") ? rejected[rejected.length - 1] : "Pending"}</Typography>
-          </Grid></Grid>
+            </Grid>
+          {props.isResponseButtons && <Box sx={{textAlign: "Center", margin: "15px 0 5px 0"}}>
+          <TextField sx={{width: "250px"}}
+          id="comment"
+          label="Comment"
+          multiline
+          maxRows={2}
+          value={value}
+          onChange={handleChange}
+        />
+        </Box>}
+          
         <React.Fragment>
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Box sx={{ flex: '1 1 auto' }} />
