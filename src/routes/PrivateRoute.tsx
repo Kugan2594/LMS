@@ -15,6 +15,8 @@ import LeaveRequest from "src/contents/Master/LeaveRequest/LeaveRequest";
 import InProgress from "src/contents/Master/LeaveRequest/InProgress";
 import Task from "src/contents/Master/Tasks/ManageTask";
 import ManageDesignations from "src/contents/Master/Designations/ManageDesignations";
+import ManageHolidays from "src/contents/Master/Holidays/ManageHolidays";
+import ManageBusinessUnit from "src/contents/Master/BusinessUnit/ManageBusinessUnit";
 import ManageCompanyLocation from "src/contents/Master/CompanyLocation/ManageCompanyLocation";
 import ManageEmployementType from "src/contents/Master/EmployementType/ManageEmployementType";
 const Loader = (Component: any) => (props: any) =>
@@ -83,9 +85,17 @@ const PrivateRoute: PartialRouteObject[] = [
                 element: <ManageEmployeeApprover />,
             },
             {
+                path: "/businessUnit",
+                element: <ManageBusinessUnit />,
+            },
+            {
+                path: "/holidays",
+                element: <ManageHolidays />,
+            },
+            {
                 path: "/employementType",
                 element: <ManageEmployementType />,
-            },
+            }
         ],
     },
 ];
