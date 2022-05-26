@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, Container, Divider } from "@mui/material";
+import { Button, Card, CardContent, Container, Divider, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Modals from "src/components/atoms/Modals";
 import Tables from "src/components/atoms/Tables";
@@ -36,7 +36,7 @@ function createData(data) {
   });
   return convertData;
 }
-function InProgress() {
+function InProgress(props) {
   const [pagination, setpagination] = useState({
     pageNumber: 0,
     pageSize: 10,
@@ -133,16 +133,6 @@ function InProgress() {
   const onTableSearch = (values, sortField) => {};
   const columns: Column[] = [
     {
-      id: "firstName",
-      label: "FirstName",
-      minWidth: 0,
-    },
-    {
-      id: "lastName",
-      label: "LastName",
-      minWidth: 0,
-    },
-    {
       id: "leaveType",
       label: "LeaveType",
       minWidth: 0,
@@ -198,18 +188,20 @@ function InProgress() {
   ];
   return (
     <div>
-      <PageTitleWrapper>
-        <PageTitle
-          heading="Manage Leave Request"
-          subHeading="Master/ManageLeaveRequest"
-          isButton={false}
-          onclickButton={handleClickOpen}
-        />
-      </PageTitleWrapper>
-      <Divider />
+      { props.isTitle && <div><PageTitleWrapper>
+                <PageTitle
+                    heading="InProgress Leave Requests"
+                    name="Approval Status"
+                    subHeading="Master"
+                    isButton={true}
+                    onclickButton={handleClickOpen}
+                />
+            </PageTitleWrapper>
+            <Divider /></div>}
       <br />
       <Container maxWidth="lg">
         <Card>
+        <Typography variant="h6" margin="10px 0 0 20px">InProgress leave requests</Typography>
           <CardContent>
             <Tables
               columns={columns}

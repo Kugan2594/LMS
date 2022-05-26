@@ -113,7 +113,7 @@ function Logo() {
           {/* <Tooltip title="Version 1.1.0" arrow placement="right">
             <VersionBadge>1.1</VersionBadge>
           </Tooltip> */}
-          <LogoText>LMS</LogoText>
+          <LogoText>LEAVE MANAGEMENT</LogoText>
         </LogoTextWrapper>
       </Hidden>
     </LogoWrapper>

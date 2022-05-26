@@ -111,7 +111,7 @@ export default function ViewHistory(props) {
           <Grid item xs={4}></Grid>
             <Box>
               {props.isEmployeeDetail && <div><Typography variant="subtitle1" display="inline">Employee ID</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "34px">{details.employeeId}</Typography></div>}
-              {props.isEmployeeDetail && <div><Typography variant="subtitle1" display="inline">Name</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "75px">{details.employeeName}</Typography></div>}
+              {props.isEmployeeDetail && <div><Typography variant="subtitle1" display="inline">Name</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "75px">{details.firstName}</Typography></div>}
               <div><Typography variant="subtitle1" display="inline">Leave Type</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "44px">{details.leaveType}</Typography></div>
               <div><Typography variant="subtitle1" display="inline">Leave days</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "44px">{details.leaveDays}</Typography></div>
               <div><Typography variant="subtitle1" display="inline">From date</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "48px">{details.fromDate}</Typography></div>

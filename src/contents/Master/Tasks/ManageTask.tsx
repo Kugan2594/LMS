@@ -8,6 +8,7 @@ import {
     DialogContentText,
     DialogTitle,
     Divider,
+    Typography,
 } from "@mui/material";
 import { Container } from "@mui/system";
 import React, { useState , useEffect } from "react";
@@ -34,6 +35,7 @@ function createData(data) {
             leaveType: post.employeeLeaveType.leaveType.type,
             firstName: post.employee.firstName,
             lastName: post.employee.lastName,
+            approvers: [],
         };
     });
     return convertData;
@@ -111,7 +113,7 @@ let mockData = [
     },
 ];
 
-function Task() {
+function Task(props) {
     const [pagination, setpagination] = useState({
         pageNumber: 0,
         pageSize: 10,
@@ -230,15 +232,16 @@ function Task() {
 
     return (
         <div>
-            <PageTitleWrapper>
+            {props.isTitle && <PageTitleWrapper>
                 <PageTitle
                     heading="My Task"
                     subHeading="Master/My Task"
                     isButton={false}
                 />
-            </PageTitleWrapper>
+            </PageTitleWrapper>}
             <Container maxWidth="lg">
                 <Card>
+                <Typography variant="h6" margin="10px 0 0 20px">My Tasks</Typography>
                     <CardContent>
                         <Tables
                             columns={columns}

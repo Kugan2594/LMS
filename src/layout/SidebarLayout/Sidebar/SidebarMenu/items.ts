@@ -21,6 +21,15 @@ import { RiRouteFill } from "react-icons/ri";
 import { HiUser } from "react-icons/hi";
 import { HiStar } from "react-icons/hi";
 import { IoIosWoman, IoLogoOctocat, IoMdDoneAll } from "react-icons/io";
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
+import WorkRoundedIcon from '@mui/icons-material/WorkRounded';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import FormatListBulletedRoundedIcon from '@mui/icons-material/FormatListBulletedRounded';
+import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
+import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
+import LocalPostOfficeRoundedIcon from '@mui/icons-material/LocalPostOfficeRounded';
+import DonutSmallRoundedIcon from '@mui/icons-material/DonutSmallRounded';
+import SafetyDividerRoundedIcon from '@mui/icons-material/SafetyDividerRounded';
 
 import { remove } from "lodash";
 
@@ -39,28 +48,16 @@ export interface MenuItems {
 }
 
 const masterMenuItems: MenuItem[] = [
-    { name: "Employee", icon: FaUserAlt, link: "/master/employee" },
-    {
-        name: "Leave Request",
-        icon: GrSend,
-        link: "/master/leaveRequest",
-    },
-    { name: "Designations", icon: IoIosWoman, link: "/master/designations" },
-    { name: "Leave Type", icon: GiRibbonMedal, link: "/master/leavetype" },
-    { name: "History", icon: GrHistory, link: "/master/history" },
-    { name: "E-History", icon: CgUserList, link: "/master/e-history" },
-    { name: "Allocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
-    { name: "My Tasks", icon: FcLeave, link: "/master/tasks" },
-    {
-        name: "Manage Leave Request",
-        icon: HiStar,
-        link: "/master/In-Progress",
-    },
-    {
-        name: "Employee Approver",
-        icon: FaUserCheck,
-        link: "/master/employee/approver",
-    },
+    { name: "Employees", icon: PersonRoundedIcon, link: "/master/employee" },
+    { name: "Designations", icon: WorkRoundedIcon, link: "/master/designations" },
+    { name: "Approver", icon: SafetyDividerRoundedIcon, link: "/master/employee/approver",},
+    { name: "Allocate Days", icon: DonutSmallRoundedIcon, link: "/master/allocateday" },
+    // { name: "Apply Leave", icon: SendRoundedIcon, link: "/master/leaveRequest",},
+    { name: "Leave Types", icon: FormatListBulletedRoundedIcon, link: "/master/leavetype" },
+    { name: "History", icon: HistoryRoundedIcon, link: "/master/history" },
+    { name: "E-History", icon: HistoryRoundedIcon, link: "/master/e-history" },
+    { name: "My Tasks", icon: TaskAltRoundedIcon, link: "/master/tasks" },
+    { name: "Leave Requests", icon: LocalPostOfficeRoundedIcon, link: "/master/In-Progress",},
 ];
 
 // if (!modulePermission(PERMISSION_NAME.role_permission).view) {

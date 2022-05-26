@@ -225,10 +225,10 @@ function LeaveRequestForm(props: ILeaveRequest) {
         <div>
             <br />
             <Container maxWidth="md">
-                <Card>
+               
                     <div>
                         <br />
-                        <Box sx={{ marginTop: 5 }}>
+                        <Box>
                             <Form
                                 onSubmit={handleSubmit}
                                 onChangeFormValue={onChangeFormValue}
@@ -341,7 +341,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
                             </Form>
                         </Box>
                     </div>
-                </Card>
+             
             </Container>
             {alert.type.length > 0 ? (
                 <CustomizedNotification
