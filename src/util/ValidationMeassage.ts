@@ -7,7 +7,9 @@ export const FORM_VALIDATION = {
   seatCount: 'is not valid.',
   NicNumber: 'is not valid.',
   price: 'Price is not valid.',
-  space: 'is not valid.'
+  space: 'is not valid.',
+  drivingLicenceNo: 'is not valid "X0000000X" or "X0000000"',
+  passportNo:'is not valid "X0000000"'
 };
 export const EMAIL_VALIDATION = /^[\w._-]+[+]?[\w._-]+@[\w.-]+\.[a-zA-Z]{2,6}$/;
 export const PHONE_VALIDATION =
@@ -18,3 +20,7 @@ export const spaceValidation = /^[^-\s]|-\s+$/;
 export const numberValidation = /^[0-9]+([.][0-9]+)?$/;
 export const numaricValidation = /^[0-9]+$/;
 export const prefixValidation = /^[A-Z]{3}$/;
+export const LICENCE_VALIDATION = /^([A-Z]{1}[0-9]{7}[A-Z]{1})|([A-Z]{1}[0-9]{7})$/;
+export const PASSPORT_VALIDATION = /^([A-Z]{1}[0-9]{7})$/;
+
+
