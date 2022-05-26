@@ -61,6 +61,8 @@ const masterMenuItems: MenuItem[] = [
         icon: FaUserCheck,
         link: "/master/employee/approver",
     },
+    { name: "Employement Type", icon: IoIosWoman, link: "/master/employementType" },
+    
 ];
 
 // if (!modulePermission(PERMISSION_NAME.role_permission).view) {
