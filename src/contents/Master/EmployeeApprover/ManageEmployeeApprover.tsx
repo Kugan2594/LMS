@@ -13,46 +13,14 @@ function createData(data) {
   let convertData = data.map((post, index) => {
       return {
           id: post.id,
-          name: post.employee.name,
+          name: post.employee.lastName,
           approverOrder: post.approverOrder,
-          approverId:post.id,
+          approverId:post.approver.id,
           employeeId: post.employee.id
       };
   });
   return convertData;
 }
-
-let mockData = [
-  {
-    id: 0,
-    name: "sajee",
-    approverOrder:1,
-    approverId:1,
-    employeeId:2
-  },
-  {
-    id: 1,
-    name: "sajee",
-    approverOrder:1,
-    approverId:1,
-    employeeId:2
-  },
-
-  {
-    id: 2,
-    name: "sajee",
-    approverOrder:1,
-    approverId:1,
-    employeeId:2
-  },
-  {
-    id: 3,
-    name: "sajee",
-    approverOrder:1,
-    approverId:1,
-    employeeId:2
-  },
-];
 
 function ManageEmployeeApprover() {
   const [pagination, setpagination] = useState({
@@ -97,7 +65,7 @@ function ManageEmployeeApprover() {
   }, [pagination.pageNumber, pagination.pageSize]);
   const getAllEmployeeApproverData = (pageNumber, pageSize) => {
     getAllEmployeeApprover(pageNumber, pageSize).then((res: any) => {
-        let data: [] = createData(res.results.LeaveType);
+        let data: [] = createData(res.results.EmployeeApprovers);
         setpagination({
             pageNumber: res.pagination.pageNumber,
             pageSize: res.pagination.pageSize,

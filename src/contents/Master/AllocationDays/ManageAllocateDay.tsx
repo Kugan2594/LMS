@@ -11,6 +11,7 @@ import AutocompleteSelect from "src/components/atoms/controlls/AutocompleteSelec
 import Modals from "src/components/atoms/Modals";
 import AddAllocationDays from "./AddAllocationDays";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
+import CustomizedNotification from 'src/util/CustomizedNotification';
 
 function createData(data) {
   let convertData = data.map((post, index) => {
@@ -38,6 +39,12 @@ function ManageAllocateDay() {
     mesg: "",
   });
 
+  const handleAlertClose = () => {
+    setalert({
+      type: '',
+      mesg: ''
+    });
+  };
   const handleClickOpen = () => {
     setaction("add");
     setOpen(true);
@@ -206,6 +213,13 @@ function ManageAllocateDay() {
           </CardContent>
         </Card>
       </Container>
+      {alert.type.length > 0 ? (
+        <CustomizedNotification
+          severity={alert.type}
+          message={alert.mesg}
+          handleAlertClose={handleAlertClose}
+        />
+      ) : null}
     </div>
   );
 }
