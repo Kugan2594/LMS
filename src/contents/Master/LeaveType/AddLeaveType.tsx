@@ -416,7 +416,55 @@ function AddLeaveType(props) {
                                             onChange={handleInputChange}
                                         />
                                     </Grid>
-                                    {values.allocateDaysByAppointedDate && values.leaveDaysDurationSettingDto &&
+                                    {action === "add" && values.allocateDaysByAppointedDate &&
+                                        inputFields.map((input, index) => {
+                                            return (
+                                                <div key={index}>
+                                                    <Grid container>
+                                                        <Grid item xs={3}>
+                                                            <FormLabel> Appointed month between</FormLabel>
+                                                        </Grid>
+                                                        <Grid item xs={2}>
+                                                            <FormLabel> from</FormLabel>
+                                                            <Input
+                                                                name="startMonth"
+
+                                                                value={input.startMonth}
+                                                                onChange={event => handleFormChange(index, event)}
+                                                                error={errors.startMonth}
+                                                                type="number"
+                                                            />
+                                                        </Grid>
+
+                                                        <Grid item xs={2}>
+                                                            <FormLabel> to</FormLabel>
+                                                            <Input
+                                                                name="endMonth"
+                                                                value={input.endMonth}
+                                                                onChange={event => handleFormChange(index, event)}
+                                                                error={errors.endMonth}
+                                                                type="number"
+                                                            />
+                                                        </Grid>
+                                                        <Grid item xs={2}>
+                                                            <FormLabel> Allocated Days</FormLabel>
+                                                            <Input
+                                                                name="days"
+                                                                value={input.days}
+                                                                onChange={event => handleFormChange(index, event)}
+                                                                error={errors.days}
+                                                                type="number"
+                                                            />
+                                                        </Grid>
+
+
+                                                    </Grid>
+
+                                                </div>
+                                            )
+                                        })}
+
+                                    {action === "edit" && values.allocateDaysByAppointedDate && values.leaveDaysDurationSettingDto &&
                                         values.leaveDaysDurationSettingDto.map((input, index) => {
                                             return (
                                                 <div key={index}>
