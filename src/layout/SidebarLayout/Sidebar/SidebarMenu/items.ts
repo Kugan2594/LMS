@@ -46,6 +46,8 @@ const masterMenuItems: MenuItem[] = [
         link: "/master/leaveRequest",
     },
     { name: "Designations", icon: IoIosWoman, link: "/master/designations" },
+    { name: "BusinessUnit", icon: IoIosWoman, link: "/master/businessUnit" },
+    { name: "Holidays", icon: IoIosWoman, link: "/master/holidays" },
     { name: "Leave Type", icon: GiRibbonMedal, link: "/master/leavetype" },
     { name: "History", icon: GrHistory, link: "/master/history" },
     { name: "E-History", icon: CgUserList, link: "/master/e-history" },
@@ -61,6 +63,8 @@ const masterMenuItems: MenuItem[] = [
         icon: FaUserCheck,
         link: "/master/employee/approver",
     },
+    { name: "Employement Type", icon: IoIosWoman, link: "/master/employementType" },
+    
 ];
 
 // if (!modulePermission(PERMISSION_NAME.role_permission).view) {

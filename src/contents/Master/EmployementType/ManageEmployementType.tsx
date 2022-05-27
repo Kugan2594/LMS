@@ -5,40 +5,21 @@ import Tables from "src/components/atoms/Tables";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import { Column } from "../../../components/atoms/Tables/TableInterface";
-import AddEmployee from "./AddEmployee";
 import { TableAction } from "src/components/atoms/Tables/TableAction";
-import { deleteEmployee, getAllEmployee } from "./ServiceEmployee";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from 'src/util/CustomizedNotification';
+import { deleteEmployementType, getAllEmployementType } from "./ServiceEmployementType";
+import AddEmployementType from "./AddEmployementType";
+
+
 function createData(data) {
     let convertData = data.map((post, index) => {
         return {
             id: post.id,
-            email: post.email,
-            firstName: post.firstName,
-            lastName: post.lastName,
-            address: post.address,
-            name: post.designation.name,
-            joinDate: post.joinDate,
-            dateOfPermanency: post.dateOfPermanency,
-            location: post.companyLocation.location,
-            description: post.description,
-            employmentType: post.employmentType,
-            businessUnit: post.businessUnit,
-            dateOfBirth: post.dateOfBirth,
-            contactNo: post.contactNo,
-            religon: post.religon,
-            gender: post.gender,
-            nic: post.nic,
-            maritalStatus: post.maritalStatus,
-            approverStatus: post.approverStatus,
-            nationality: post.nationality,
-            bloodGroup: post.bloodGroup,
-            drivingLicenceNo: post.drivingLicenceNo,
-            passportNo: post.passportNo,
-            designationId: post.designation.id,
-            companyLocationId: post.companyLocation.id
-
+            type: post.type,
+            createdAt:post.createdAt,
+            updatedAt:post.updatedAt
+            
 
         };
     });
@@ -46,12 +27,8 @@ function createData(data) {
 }
 
 
-function ManageEmployee() {
-    const [pagination, setpagination] = useState({
-        pageNumber: 0,
-        pageSize: 10,
-        total: 0,
-    });
+function ManageEmployementType() {
+    
     const [open, setOpen] = useState(false);
     const [searchFields, setsearchFields] = useState({ name: "" });
     const [sortField, setsortField] = React.useState({
@@ -65,6 +42,7 @@ function ManageEmployee() {
     const [dataSource, setdataSource] = useState([]);
     const [action, setaction] = useState('add');
     const [editData, seteditData] = useState({});
+
     const handleClickOpen = () => {
         setaction('add');
         setOpen(true);
@@ -73,30 +51,20 @@ function ManageEmployee() {
     const handleClose = () => {
         setOpen(false);
     };
-    const onChangePage = (pageNumber, pageSize) => {
-        if (pagination.pageSize !== pageSize) {
-            getAllEmployeeData(0, pageSize);
-        } else {
-            getAllEmployeeData(pageNumber, pageSize);
-        }
-    };
 
     useEffect(() => {
-        getAllEmployeeData(pagination.pageNumber, pagination.pageSize);
-    }, [pagination.pageNumber, pagination.pageSize]);
-    const getAllEmployeeData = (pageNumber, pageSize) => {
-        getAllEmployee(pageNumber, pageSize).then((res: any) => {
-            let data: [] = createData(res.results.Employee);
-            setpagination({
-                pageNumber: res.pagination.pageNumber,
-                pageSize: res.pagination.pageSize,
-                total: res.pagination.totalRecords,
-            });
+        getAllEmployementTypeData();
+    },[]);
+    const getAllEmployementTypeData = () => {
+        getAllEmployementType().then((res: any) => {
+            let data: [] = createData(res);
+           
             setdataSource(data);
         });
     };
+    
     const deleteOnclick = (row) => {
-        deleteEmployee(row.id).then(
+        deleteEmployementType(row.id).then(
             (res: any) => {
                 reloadTable(res);
             },
@@ -112,7 +80,7 @@ function ManageEmployee() {
         console.log("//////////////////////////", res);
 
         setOpen(false);
-        getAllEmployeeData(pagination.pageNumber, pagination.pageSize);
+        getAllEmployementTypeData();
     };
 
     const editOnclick = (row) => {
@@ -137,42 +105,22 @@ function ManageEmployee() {
     const onTableSearch = (values, sortField) => { };
     const columns: Column[] = [
         {
-            id: "firstName",
-            label: "FirstName",
+            id: "type",
+            label: "Employement Type",
             minWidth: 120,
         },
         {
-            id: "lastName",
-            label: "LastName",
+            id: "createdAt",
+            label: "Create Date",
             minWidth: 120,
         },
         {
-            id: "email",
-            label: "Email",
+            id: "updatedAt",
+            label: "Update Date",
             minWidth: 120,
         },
 
-        {
-            id: "address",
-            label: "Address",
-            minWidth: 120,
-        },
-        {
-            id: "name",
-            label: "Designation",
-            minWidth: 120,
-        },
-        {
-            id: "joinDate",
-            label: "Appointed Date",
-            minWidth: 150,
-        },
-        {
-            id: "location",
-            label: "Office Location",
-            minWidth: 150,
-        },
-
+        
         {
             id: "action",
             label: "Action",
@@ -189,9 +137,9 @@ function ManageEmployee() {
         <div>
             <PageTitleWrapper>
                 <PageTitle
-                    heading="Employee"
-                    name="Add Employee"
-                    subHeading="Master/Employee"
+                    heading="EmployementType"
+                    name="Add EmployementType"
+                    subHeading="Master/EmployementType"
                     isButton={true}
                     onclickButton={handleClickOpen}
                 />
@@ -205,27 +153,20 @@ function ManageEmployee() {
                         <Tables
                             columns={columns}
                             tableData={dataSource}
-                            onChangePage={onChangePage}
-                            pageNumber={pagination.pageNumber}
-                            total={pagination.total}
-                            pageSize={pagination.pageSize}
                             searchFields={{}}
                             onTableSearch={onTableSearch}
                         />
                     </CardContent>
                 </Card>
                 <Modals
-                    modalTitle={action === 'edit' ? 'Edit Employee' : 'Add Employee'}
-                    modalWidth="70%"
-                    modalHeigth="90%"
-
+                    modalTitle={action === 'edit' ? 'Edit EmployementType' : 'Add EmployementType'}
+                    modalWidth="20%"
                     open={open}
                     onClose={handleClose}
-                    modalBody={<AddEmployee reloadTable={reloadTable}
+                    modalBody={<AddEmployementType reloadTable={reloadTable}
                         action={action}
                         editData={editData}
-                        handleError={handleError}
-                        handleClose={handleClose} />}
+                        handleError={handleError} />}
                 />
             </Container>
             {alert.type.length > 0 ? (
@@ -239,4 +180,4 @@ function ManageEmployee() {
     );
 }
 
-export default ManageEmployee;
+export default ManageEmployementType;
