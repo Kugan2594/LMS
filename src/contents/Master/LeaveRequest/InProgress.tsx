@@ -24,6 +24,7 @@ import UpdateLeaveRequest from "./UpdateLeaveRequest";
 function createData(data) {
   let convertData = data.map((post, index) => {
     return {
+      id: post.id,
       reason: post.reason,
       fromDate: post.fromDate,
       toDate: post.toDate,
@@ -32,6 +33,10 @@ function createData(data) {
       leaveType: post.employeeLeaveType.leaveType.type,
       firstName: post.employee.firstName,
       lastName: post.employee.lastName,
+      leaveTypeId: post.employeeLeaveType.leaveType.id,
+      employeeId: post.employee.id,
+
+      
     };
   });
   return convertData;
@@ -57,6 +62,7 @@ function InProgress() {
   const [action, setaction] = useState("add");
   const [editData, seteditData] = useState({});
   const handleClickOpen = () => {
+    setaction('add');
     setOpen(true);
   };
   const handleClose = () => {

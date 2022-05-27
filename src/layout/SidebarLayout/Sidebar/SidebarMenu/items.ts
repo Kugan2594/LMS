@@ -53,6 +53,8 @@ const masterMenuItems: MenuItem[] = [
     { name: "E-History", icon: CgUserList, link: "/master/e-history" },
     { name: "Allocate Days", icon: GiRibbonMedal, link: "/master/allocateday" },
     { name: "My Tasks", icon: FcLeave, link: "/master/tasks" },
+    { name: "Company Location", icon: FcLeave, link: "/master/companyLocation" },
+
     {
         name: "Manage Leave Request",
         icon: HiStar,
