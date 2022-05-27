@@ -56,8 +56,12 @@ const masterMenuItems: MenuItem[] = [
     { name: "Leave Types", icon: FormatListBulletedRoundedIcon, link: "/master/leavetype" },
     { name: "History", icon: HistoryRoundedIcon, link: "/master/history" },
     { name: "E-History", icon: HistoryRoundedIcon, link: "/master/e-history" },
-    { name: "My Tasks", icon: TaskAltRoundedIcon, link: "/master/tasks" },
-    { name: "Leave Requests", icon: LocalPostOfficeRoundedIcon, link: "/master/In-Progress",},
+    // { name: "My Tasks", icon: TaskAltRoundedIcon, link: "/master/tasks" },
+    // { name: "Leave Requests", icon: LocalPostOfficeRoundedIcon, link: "/master/In-Progress",},
+    { name: "BusinessUnit", icon: IoIosWoman, link: "/master/businessUnit" },
+    { name: "Holidays", icon: IoIosWoman, link: "/master/holidays" },
+    { name: "Employement Type", icon: IoIosWoman, link: "/master/employementType" },
+    
 ];
 
 // if (!modulePermission(PERMISSION_NAME.role_permission).view) {
