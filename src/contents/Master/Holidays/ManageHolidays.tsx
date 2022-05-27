@@ -29,7 +29,10 @@ function createData(data) {
     let convertData = data.map((post, index) => {
         return {
             id: post.id,
-            name: post.name
+            name: post.name,
+            date: post.date,
+            description: post.description,
+
         };
     });
     return convertData;

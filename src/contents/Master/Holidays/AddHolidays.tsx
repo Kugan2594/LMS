@@ -45,6 +45,8 @@ function AddHolidays(props) {
       if (action === "add") {
         let data: object = {
           name: values.name,
+          date: values.date,
+          description: values.description,
 
         };
         console.log(data);
@@ -67,9 +69,9 @@ function AddHolidays(props) {
 
         let data: object = {
           id: editData.id,
-          name: values.name,
-          date: values.date,
-          description: values.description,
+          name: editData.name,
+          date: editData.date,
+          description: editData.description,
 
 
 
@@ -130,9 +132,7 @@ function AddHolidays(props) {
   const editOnclick = () => {
     setOpen(true);
   };
-  const handleCancel = () => {
-    setOpen(false);
-  };
+
   useEffect(() => {
 
     if (action === "edit") {
@@ -164,22 +164,17 @@ function AddHolidays(props) {
               <Grid item xs={8}>
 
                 <FormControl>
-      <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>
-      <RadioGroup
-        row
-        aria-labelledby="demo-row-radio-buttons-group-label"
-        name="row-radio-buttons-group"
-      >
-        <FormControlLabel value="full day" control={<Radio />} label="full day" />
-        <FormControlLabel value="half day" control={<Radio />} label="half day" />
-        <FormControlLabel
-          value="disabled"
-          disabled
-          control={<Radio />}
-          label="other"
-        />
-      </RadioGroup>
-    </FormControl>
+                  <FormLabel id="demo-row-radio-buttons-group-label">Half/Full Day</FormLabel>
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel value="half day" control={<Radio />} label="half day" />
+                    <FormControlLabel value="full day" control={<Radio />} label="full day" />
+
+                  </RadioGroup>
+                </FormControl>
               </Grid>
 
               <Grid item xs={8}>
@@ -215,7 +210,7 @@ function AddHolidays(props) {
                 label="Description"
                 multiline
                 rows={4}
-                defaultValue="Default Value"
+
               />
             </Box>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
