@@ -20,6 +20,8 @@ import {
   updateEmployee,
   getAllCompanyLocationForDropDown,
   getAllDesignationForDropDown,
+  getAllEmployementTypeForDropDown,
+  getAllBusinessUnitForDropDown,
 } from "./ServiceEmployee";
 import AutocompleteSelect from "src/components/atoms/controlls/AutocompleteSelect";
 import Box from "@mui/material/Box";
@@ -52,8 +54,8 @@ let initialFValues: IEmployee = {
   dateOfBirth: "",
   companyLocationId: 0,
   designationId: 0,
-  employmentType: "",
-  businessUnit: "",
+  employmentTypeId: "",
+  businessUnitId: "",
 };
 const genderType = [
   {
@@ -168,6 +170,8 @@ function AddEmployee(props) {
   const { reloadTable, action, editData, handleError,handleClose } = props;
   const [companyLocationData, setcompanyLocationData] = useState([]);
   const [designationData, setdesignationData] = useState([]);
+  const [employementTypeData, setemployementTypeData] = useState([]);
+  const [businessUnitData, setbusinessUnitData] = useState([]);
 
   const validate = (fieldValues = values) => {
     let temp: IEmployee = { ...errors };
@@ -339,8 +343,8 @@ function AddEmployee(props) {
           dateOfBirth: values.dateOfBirth,
           companyLocationId: values.companyLocationId,
           designationId: values.designationId,
-          employmentType: values.employmentType,
-          businessUnit: values.businessUnit,
+          employmentTypeId: values.employmentTypeId,
+          businessUnitId: values.businessUnitId,
         };
         console.log(data);
         createEmployee(data).then(
@@ -379,8 +383,8 @@ function AddEmployee(props) {
           dateOfBirth: values.dateOfBirth,
           companyLocationId: values.companyLocationId,
           designationId: values.designationId,
-          employmentType: values.employmentType,
-          businessUnit: values.businessUnit,
+          employmentTypeId: values.employmentTypeId,
+          businessUnitId: values.businessUnitId,
           dateOfPermanency: values.dateOfPermanency,
           nic: values.nic,
         };
@@ -404,6 +408,8 @@ function AddEmployee(props) {
   useEffect(() => {
     getCompanyLocationSelectData();
     getDesignationSelectData();
+    getEmployementTypeSelectData();
+    getBusinessUnitSelectData();
     if (action === "edit") {
       console.log({ editData });
 
@@ -419,6 +425,28 @@ function AddEmployee(props) {
         return null;
       });
       setcompanyLocationData(data);
+    });
+  };
+
+  const getEmployementTypeSelectData = () => {
+    let data: any = [];
+    getAllEmployementTypeForDropDown().then((res: []) => {
+      res.map((post: any) => {
+        data.push({ id: post.id, title: post.type });
+        return null;
+      });
+      setemployementTypeData(data);
+    });
+  };
+
+  const getBusinessUnitSelectData = () => {
+    let data: any = [];
+    getAllBusinessUnitForDropDown().then((res: []) => {
+      res.map((post: any) => {
+        data.push({ id: post.id, title: post.name });
+        return null;
+      });
+      setbusinessUnitData(data);
     });
   };
 
@@ -664,24 +692,24 @@ function AddEmployee(props) {
                 </Grid>
                 <Grid item xs={4}>
                   <AutocompleteSelect
-                    name="employmentType"
+                    name="employmentTypeId"
                     label="Employment Type*"
-                    value={values.employmentType ? values.employmentType : ""}
+                    value={values.employmentTypeId ? values.employmentTypeId : ""}
                     onChange={handleInputChange}
                     onValueChange={onValueChange}
-                    options={employeementtype}
-                    error={errors.employmentType}
+                    options={employementTypeData}
+                    error={errors.employmentTypeId}
                   />
                 </Grid>
                 <Grid item xs={4}>
                   <AutocompleteSelect
-                    name="businessUnit"
+                    name="businessUnitId"
                     label="Business Unit*"
-                    value={values.businessUnit ? values.businessUnit : ""}
+                    value={values.businessUnitId ? values.businessUnitId : ""}
                     onChange={handleInputChange}
                     onValueChange={onValueChange}
-                    options={employeementtype}
-                    error={errors.employmentType}
+                    options={businessUnitData}
+                    error={errors.businessUnitId}
                   />
                 </Grid>
                 <Grid item xs={4}>
