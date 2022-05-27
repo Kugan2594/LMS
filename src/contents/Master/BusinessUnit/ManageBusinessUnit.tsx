@@ -61,7 +61,7 @@ function ManageBusinessUnit() {
     }, [pagination.pageNumber, pagination.pageSize]);
     const getAllBusinessUnitData = (pageNumber, pageSize) => {
         getAllBusinessUnit(pageNumber, pageSize).then((res: any) => {
-            let data: [] = createData(res.results.Designation);
+            let data: [] = createData(res.results.Business_Unit);
             setpagination({
                 pageNumber: res.pagination.pageNumber,
                 pageSize: res.pagination.pageSize,
