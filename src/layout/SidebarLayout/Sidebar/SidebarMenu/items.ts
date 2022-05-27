@@ -66,8 +66,8 @@ const masterMenuItems: MenuItem[] = [
     icon: DonutSmallRoundedIcon,
     link: "/master/allocateday",
   },
-  { name: "History", icon: HistoryRoundedIcon, link: "/master/history" },
-  { name: "E-History", icon: HistoryRoundedIcon, link: "/master/e-history" },
+  // { name: "History", icon: HistoryRoundedIcon, link: "/master/history" },
+  { name: "History", icon: HistoryRoundedIcon, link: "/master/e-history" },
   // { name: "My Tasks", icon: TaskAltRoundedIcon, link: "/master/tasks" },
   // { name: "Leave Requests", icon: LocalPostOfficeRoundedIcon, link: "/master/In-Progress",},
   { name: "BusinessUnit", icon: IoIosWoman, link: "/master/businessUnit" },
@@ -77,6 +77,7 @@ const masterMenuItems: MenuItem[] = [
     icon: IoIosWoman,
     link: "/master/employementType",
   },
+  { name: "Company Location", icon: FcLeave, link: "/master/companyLocation" },
 ];
 
 // if (!modulePermission(PERMISSION_NAME.role_permission).view) {
