@@ -144,7 +144,7 @@ function ManageEmployeeApprover() {
         </Card>
         <Modals
           modalTitle="Add Employee Approver"
-          modalWidth="70%"
+          modalWidth="80%"
           open={open}
           onClose={handleClose}
           modalBody={<AddEmployeeApprover reloadTable={reloadTable} handleError={handleError} />}
