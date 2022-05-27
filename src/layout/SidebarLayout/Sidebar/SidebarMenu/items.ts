@@ -77,7 +77,7 @@ const masterMenuItems: MenuItem[] = [
     icon: IoIosWoman,
     link: "/master/employementType",
   },
-  { name: "Company Location", icon: FcLeave, link: "/master/companyLocation" },
+  { name: "Company Location", icon: IoIosWoman, link: "/master/companyLocation" },
 ];
 
 // if (!modulePermission(PERMISSION_NAME.role_permission).view) {
