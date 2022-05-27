@@ -86,6 +86,11 @@ const PrivateRoute: PartialRouteObject[] = [
                 path: "/employementType",
                 element: <ManageEmployementType />,
             },
+
+            {
+                path: "/leaveRequest",
+                element: <LeaveRequest />,
+            },
         ],
     },
 ];

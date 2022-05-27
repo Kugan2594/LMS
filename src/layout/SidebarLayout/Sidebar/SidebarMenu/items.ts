@@ -62,6 +62,12 @@ const masterMenuItems: MenuItem[] = [
         link: "/master/empApprover",
     },
     { name: "Employement Type", icon: IoIosWoman, link: "/master/employementType" },
+    {
+        name: "Lieu Request",
+        icon: GrSend,
+        link: "/master/lieuRequest",
+    },
+    
     
 ];
 
