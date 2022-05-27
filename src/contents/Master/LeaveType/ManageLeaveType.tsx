@@ -224,12 +224,13 @@ function ManageLeaveType() {
           modalTitle={action === 'edit' ? 'Edit leaveType' : 'Add LeaveType'}
           modalWidth="50%"
           open={open}
-          onClose={handleClose}
-
+          // onClose={handleClose}
+       
           modalBody={<AddLeaveType setLeaveDays={leaveallocate} reloadTable={reloadTable}
             action={action}
             editData={editData}
-            handleError={handleError} />}
+            handleError={handleError}
+            handleClose={handleClose} />}
         />
       </Container>
       {alert.type.length > 0 ? (
