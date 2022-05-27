@@ -2,8 +2,9 @@ import { type } from "os";
 
 interface IHolidays {
     id?: number,
-    name?: string,
     date?:string,
+    type?: string,
+    day?:boolean|string ,
     description?:string,
 
 }
