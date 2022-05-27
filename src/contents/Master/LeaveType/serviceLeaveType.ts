@@ -80,4 +80,18 @@ const updateLeaveType = (data: object) => {
             });
     });
 };
-export { getAllLeaveType, deleteLeaveType, createLeaveType, updateLeaveType, getGeneralSettingByLeaveType, getAllGeneralSetting };
+
+const getLeaveDaysDurationSetting = (id: number) => {
+    return new Promise((resolve, reject) => {
+        api("get", "lm-web", null, "/leavedays-durationby-leavetype-id", "", "", id)
+            .then((response: any) => {
+                resolve(response);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
+
+
+export { getAllLeaveType, deleteLeaveType, createLeaveType, updateLeaveType, getGeneralSettingByLeaveType, getAllGeneralSetting, getLeaveDaysDurationSetting };

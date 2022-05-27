@@ -1,4 +1,11 @@
-import { Button, Card, CardContent, Container, Divider } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Divider,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Modals from "src/components/atoms/Modals";
 import Tables from "src/components/atoms/Tables";
@@ -33,6 +40,7 @@ function createData(data) {
       leaveType: post.employeeLeaveType.leaveType.type,
       firstName: post.employee.firstName,
       lastName: post.employee.lastName,
+      approvers:[],
       leaveTypeId: post.employeeLeaveType.leaveType.id,
       employeeId: post.employee.id,
 
@@ -41,7 +49,7 @@ function createData(data) {
   });
   return convertData;
 }
-function InProgress() {
+function InProgress(props) {
   const [pagination, setpagination] = useState({
     pageNumber: 0,
     pageSize: 10,
@@ -67,6 +75,7 @@ function InProgress() {
   };
   const handleClose = () => {
     setOpen(false);
+    setOpenDetails(false);
   };
   const [update, setUpdate] = useState(false);
   const handleUpdate = (value) => {
@@ -139,16 +148,6 @@ function InProgress() {
   const onTableSearch = (values, sortField) => {};
   const columns: Column[] = [
     {
-      id: "firstName",
-      label: "FirstName",
-      minWidth: 0,
-    },
-    {
-      id: "lastName",
-      label: "LastName",
-      minWidth: 0,
-    },
-    {
       id: "leaveType",
       label: "LeaveType",
       minWidth: 0,
@@ -204,18 +203,26 @@ function InProgress() {
   ];
   return (
     <div>
-      <PageTitleWrapper>
-        <PageTitle
-          heading="Manage Leave Request"
-          subHeading="Master/ManageLeaveRequest"
-          isButton={false}
-          onclickButton={handleClickOpen}
-        />
-      </PageTitleWrapper>
-      <Divider />
+      {props.isTitle && (
+        <div>
+          <PageTitleWrapper>
+            <PageTitle
+              heading="InProgress Leave Requests"
+              name="Approval Status"
+              subHeading="Master"
+              isButton={true}
+              onclickButton={handleClickOpen}
+            />
+          </PageTitleWrapper>
+          <Divider />
+        </div>
+      )}
       <br />
       <Container maxWidth="lg">
         <Card>
+          <Typography variant="h6" margin="10px 0 0 20px" color="#1a8cff">
+            InProgress leave requests
+          </Typography>
           <CardContent>
             <Tables
               columns={columns}
@@ -229,6 +236,22 @@ function InProgress() {
             />
           </CardContent>
         </Card>
+        <Dialog
+        open={openDetails}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        maxWidth="md"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {""}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          <ViewHistory details={leaveDetails} isEmployeeDetail={false} isResponseButtons={false} cancel={handleClose} />
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
 
         <Modals
           modalTitle="edit"

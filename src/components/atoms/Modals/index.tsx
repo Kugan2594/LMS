@@ -46,7 +46,7 @@ function Modals(props: any) {
               style={{
                 paddingBottom: "0px",
                 maxHeight: "620px",
-                overflowY: "scroll",
+                // overflowY: "scroll",
               }}
             >
               {modalBody}

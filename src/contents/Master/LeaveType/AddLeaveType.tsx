@@ -17,7 +17,7 @@ import Radio from '@mui/material/Radio';
 import { createLeaveType, updateLeaveType } from "./serviceLeaveType"
 import FormControlLabel from '@mui/material/FormControlLabel';
 function AddLeaveType(props) {
-    const { reloadTable, action, editData, handleError } = props;
+    const { reloadTable, action, editData, handleError, setLeaveDays } = props;
     const [updateStatus, setupdateStatus] = useState(true);
     const [add, setAdd] = useState(false);
     const [inputFields, setInputFields] = useState([{ startMonth: 0, endMonth: 0, days: 0 }])
@@ -114,10 +114,9 @@ function AddLeaveType(props) {
                     yearCompleted: values.yearCompleted,
                     noOfDaysPeryear: values.noOfDaysPeryear,
                     noOfDays: values.noOfDays,
-                    startMonth: values.startMonth,
-                    endMonth: values.endMonth,
-                    days: values.days
+                    leaveDaysDurationSettingDto: values.leaveDaysDurationSettingDto
                 };
+                console.log({ data });
                 updateLeaveType(data).then(
                     (res: any) => {
                         console.log(res);
@@ -136,6 +135,7 @@ function AddLeaveType(props) {
     }
     const steps = ["Create New Leave Type", "Allocate Leave Days By Rules"];
     const [open, setOpen] = useState(false);
+
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set<number>());
     const onChangeFormValue = () => {
@@ -180,9 +180,15 @@ function AddLeaveType(props) {
     useEffect(() => {
         if (action === "edit") {
             console.log({ editData });
-            setValues(editData);
+            setValues({ ...editData, });
         }
+
+
     }, [action, editData, setValues]);
+
+
+
+
     return (
         <div>
             <Box sx={{ width: "100%", justifyContent: "center" }}>
@@ -410,8 +416,8 @@ function AddLeaveType(props) {
                                             onChange={handleInputChange}
                                         />
                                     </Grid>
-                                    {values.allocateDaysByAppointedDate &&
-                                        inputFields.map((input, index) => {
+                                    {values.allocateDaysByAppointedDate && values.leaveDaysDurationSettingDto &&
+                                        values.leaveDaysDurationSettingDto.map((input, index) => {
                                             return (
                                                 <div key={index}>
                                                     <Grid container>

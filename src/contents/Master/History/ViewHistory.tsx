@@ -33,12 +33,15 @@ export default function ViewHistory(props) {
 
   const { details, isEmployeeDetails, isResponseButtons, cancel } = props;
 
-  const steps = details.approvers.map((approversName) => (approversName.names));
+  const steps = details.approvers.map((approversName) => approversName.names);
 
-  const approvalStatusOriginal = details.approvers.filter((status) => status.appStatus != "Pending").map((approverStatus) => (approverStatus.appStatus));
+  const approvalStatusOriginal = details.approvers
+    .filter((status) => status.appStatus != "Pending")
+    .map((approverStatus) => approverStatus.appStatus);
 
-  const approvalStatus = details.approvers.filter((status) => status.appStatus == "Approved").map((filteredStatus) =>
-    (filteredStatus.appStatus));
+  const approvalStatus = details.approvers
+    .filter((status) => status.appStatus == "Approved")
+    .map((filteredStatus) => filteredStatus.appStatus);
 
   const [approved, setApproved] = useState(approvalStatus);
   const [activeStep, setActiveStep] = useState(approved.length);
@@ -55,8 +58,8 @@ export default function ViewHistory(props) {
     handleNext();
     let data: object = {
       id: details.id,
-      statusId: 2
-    }
+      statusId: 2,
+    };
     updateApproverStatus(data).then(
       (res: any) => {
         console.log(res);
@@ -86,8 +89,8 @@ const getLeaveApproverStatusData = () => {
 
     let data: object = {
       id: details.id,
-      statusId: 3
-    }
+      statusId: 3,
+    };
     updateApproverStatus(data).then(
       (res: any) => {
         console.log(res);
@@ -97,7 +100,7 @@ const getLeaveApproverStatusData = () => {
         // reloadTable(res);
       }
     );
-  }
+  };
 
   const isStepFailed = (step: number) => {
     return step === rejected.indexOf("Rejected");
@@ -105,7 +108,9 @@ const getLeaveApproverStatusData = () => {
 
   function RejectIcon() {
     return (
-      <CloseRoundedIcon style={{color: "white", borderRadius: "50%", backgroundColor: "red"}} />
+      <CloseRoundedIcon
+        style={{ color: "white", borderRadius: "50%", backgroundColor: "red" }}
+      />
     );
   }
 
@@ -116,8 +121,12 @@ const getLeaveApproverStatusData = () => {
   };
 
   return (
-    <Box sx={{ width: '600px'}}>
-      <Stepper sx={{ backgroundColor: "White" }} activeStep={activeStep} alternativeLabel>
+    <Box sx={{ width: "600px" }}>
+      <Stepper
+        sx={{ backgroundColor: "White" }}
+        activeStep={activeStep}
+        alternativeLabel
+      >
         {steps.map((label, index) => {
           const labelProps: {
             optional?: React.ReactNode;
@@ -126,7 +135,7 @@ const getLeaveApproverStatusData = () => {
           } = {};
           if (isStepFailed(index)) {
             labelProps.error = true;
-            labelProps.StepIconComponent= RejectIcon;
+            labelProps.StepIconComponent = RejectIcon;
           }
 
           return (
@@ -139,36 +148,186 @@ const getLeaveApproverStatusData = () => {
       <div>
         <Grid container>
           <Grid item xs={4}></Grid>
-            <Box>
-              {props.isEmployeeDetail && <div><Typography variant="subtitle1" display="inline">Employee ID</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "34px">{details.employeeId}</Typography></div>}
-              {props.isEmployeeDetail && <div><Typography variant="subtitle1" display="inline">Name</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "75px">{details.employeeName}</Typography></div>}
-              <div><Typography variant="subtitle1" display="inline">Leave Type</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "44px">{details.leaveType}</Typography></div>
-              <div><Typography variant="subtitle1" display="inline">Leave days</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "44px">{details.leaveDays}</Typography></div>
-              <div><Typography variant="subtitle1" display="inline">From date</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "48px">{details.fromDate}</Typography></div>
-              <div><Typography variant="subtitle1" display="inline">To date</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "66px">{details.toDate}</Typography></div>
-              <div><Typography variant="subtitle1" display="inline">Reason</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "68px">{details.reason}</Typography></div>
-              <div><Typography variant="subtitle1" display="inline">Requested date</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "15px">{details.requestedDate}</Typography></div>
-              <div><Typography variant="subtitle1" display="inline">Status</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "74px">{steps.length == approvalStatusOriginal.length || rejected.includes("Rejected") ? rejected[rejected.length - 1] : "Pending"}</Typography></div>
-              {rejected.includes("Rejected") && <div><Typography variant="subtitle1" display="inline">Comment</Typography><Typography variant="h6" color="black" display="inline" marginLeft= "51px">{details.comment}</Typography></div>}
-            </Box>
-            </Grid>
-          {props.isResponseButtons && <Box sx={{textAlign: "Center", margin: "15px 0 5px 0"}}>
-          <TextField sx={{width: "250px"}}
-          id="comment"
-          label="Comment"
-          multiline
-          maxRows={2}
-          value={value}
-          onChange={handleChange}
-        />
-        </Box>}
-          
+          <Box>
+            {props.isEmployeeDetail && (
+              <div>
+                <Typography variant="subtitle1" display="inline">
+                  Employee ID
+                </Typography>
+                <Typography
+                  variant="h6"
+                  color="black"
+                  display="inline"
+                  marginLeft="34px"
+                >
+                  {details.employeeId}
+                </Typography>
+              </div>
+            )}
+            {props.isEmployeeDetail && (
+              <div>
+                <Typography variant="subtitle1" display="inline">
+                  Name
+                </Typography>
+                <Typography
+                  variant="h6"
+                  color="black"
+                  display="inline"
+                  marginLeft="75px"
+                >
+                  {details.firstName}
+                </Typography>
+              </div>
+            )}
+            <div>
+              <Typography variant="subtitle1" display="inline">
+                Leave Type
+              </Typography>
+              <Typography
+                variant="h6"
+                color="black"
+                display="inline"
+                marginLeft="44px"
+              >
+                {details.leaveType}
+              </Typography>
+            </div>
+            <div>
+              <Typography variant="subtitle1" display="inline">
+                Leave days
+              </Typography>
+              <Typography
+                variant="h6"
+                color="black"
+                display="inline"
+                marginLeft="44px"
+              >
+                {details.leaveDays}
+              </Typography>
+            </div>
+            <div>
+              <Typography variant="subtitle1" display="inline">
+                From date
+              </Typography>
+              <Typography
+                variant="h6"
+                color="black"
+                display="inline"
+                marginLeft="48px"
+              >
+                {details.fromDate}
+              </Typography>
+            </div>
+            <div>
+              <Typography variant="subtitle1" display="inline">
+                To date
+              </Typography>
+              <Typography
+                variant="h6"
+                color="black"
+                display="inline"
+                marginLeft="66px"
+              >
+                {details.toDate}
+              </Typography>
+            </div>
+            <div>
+              <Typography variant="subtitle1" display="inline">
+                Reason
+              </Typography>
+              <Typography
+                variant="h6"
+                color="black"
+                display="inline"
+                marginLeft="68px"
+              >
+                {details.reason}
+              </Typography>
+            </div>
+            <div>
+              <Typography variant="subtitle1" display="inline">
+                Requested date
+              </Typography>
+              <Typography
+                variant="h6"
+                color="black"
+                display="inline"
+                marginLeft="15px"
+              >
+                {details.requestedDate}
+              </Typography>
+            </div>
+            <div>
+              <Typography variant="subtitle1" display="inline">
+                Status
+              </Typography>
+              <Typography
+                variant="h6"
+                color="black"
+                display="inline"
+                marginLeft="74px"
+              >
+                {steps.length == approvalStatusOriginal.length ||
+                rejected.includes("Rejected")
+                  ? rejected[rejected.length - 1]
+                  : "Pending"}
+              </Typography>
+            </div>
+            {rejected.includes("Rejected") && (
+              <div>
+                <Typography variant="subtitle1" display="inline">
+                  Comment
+                </Typography>
+                <Typography
+                  variant="h6"
+                  color="black"
+                  display="inline"
+                  marginLeft="51px"
+                >
+                  {details.comment}
+                </Typography>
+              </div>
+            )}
+          </Box>
+        </Grid>
+        {props.isResponseButtons && (
+          <Box sx={{ textAlign: "Center", margin: "15px 0 5px 0" }}>
+            <TextField
+              sx={{ width: "250px" }}
+              id="comment"
+              label="Comment"
+              multiline
+              maxRows={2}
+              value={value}
+              onChange={handleChange}
+            />
+          </Box>
+        )}
+
         <React.Fragment>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button variant="text" sx={{ margin: 0.5 }} onClick={props.cancel}>Close</Button>
-            {props.isResponseButtons && <div><Button variant="outlined" sx={{ margin: 0.5 }} onClick={() => handleReject(steps)}>Reject</Button>
-              <Button variant="contained" sx={{ margin: 0.5 }} onClick={handleApprove}>Approve</Button></div>}
+          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <Box sx={{ flex: "1 1 auto" }} />
+            <Button variant="text" sx={{ margin: 0.5 }} onClick={props.cancel}>
+              Close
+            </Button>
+            {props.isResponseButtons && (
+              <div>
+                <Button
+                  variant="outlined"
+                  sx={{ margin: 0.5 }}
+                  onClick={() => handleReject(steps)}
+                >
+                  Reject
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{ margin: 0.5 }}
+                  onClick={handleApprove}
+                >
+                  Approve
+                </Button>
+              </div>
+            )}
           </Box>
         </React.Fragment>
       </div>
