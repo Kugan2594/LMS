@@ -6,7 +6,7 @@ const getAllBusinessUnit = (pageNumber: number, pageSize: number) => {
             "get",
             "lm-web",
             null,
-            `/designationPagination?page=${pageNumber}&size=${pageSize}`,
+            `/businessUnitPagination?page=${pageNumber}&size=${pageSize}`,
             "",
             "",
             ""
@@ -22,7 +22,7 @@ const getAllBusinessUnit = (pageNumber: number, pageSize: number) => {
 
 const deleteBusinessUnit = (id: number) => {
     return new Promise((resolve, reject) => {
-        api("delete", "lm-web", null, "/designation", "", "", id)
+        api("delete", "lm-web", null, "/businessUnit", "", "", id)
             .then((response: any) => {
                 resolve(response);
             })
@@ -33,7 +33,7 @@ const deleteBusinessUnit = (id: number) => {
 };
 const updateBusinessUnit = (data: object) => {
     return new Promise((resolve, reject) => {
-        api("put", "lm-web", null, `/designation`, "", data, "")
+        api("put", "lm-web", null, `/businessUnit`, "", data, "")
             .then((response: any) => {
                 resolve(response);
             })
@@ -45,7 +45,7 @@ const updateBusinessUnit = (data: object) => {
 
 const createBusinessUnit = (data: object) => {
     return new Promise((resolve, reject) => {
-        api("post", "lm-web", null, `/designation`, "", data, "")
+        api("post", "lm-web", null, `/businessUnit`, "", data, "")
             .then((response: any) => {
                 resolve(response);
             })
