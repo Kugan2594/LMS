@@ -59,7 +59,7 @@ const masterMenuItems: MenuItem[] = [
     {
         name: "Employee Approver",
         icon: FaUserCheck,
-        link: "/master/employee/approver",
+        link: "/master/empApprover",
     },
     { name: "Employement Type", icon: IoIosWoman, link: "/master/employementType" },
     

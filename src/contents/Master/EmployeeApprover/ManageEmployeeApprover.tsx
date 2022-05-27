@@ -122,7 +122,7 @@ function ManageEmployeeApprover() {
     <div>
       <PageTitleWrapper>
         <PageTitle
-          heading="Employee"
+          heading="Employee Approver"
           name="Add EmployeeApprover"
           subHeading="Master/EmployeeApprover"
           isButton={true}
