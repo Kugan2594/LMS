@@ -81,7 +81,7 @@ const PrivateRoute: PartialRouteObject[] = [
                 element: <ManageDesignations />,
             },
             {
-                path: "/employee/approver",
+                path: "/approver",
                 element: <ManageEmployeeApprover />,
             },
             {

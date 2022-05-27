@@ -137,9 +137,9 @@ function ManageEmployementType() {
         <div>
             <PageTitleWrapper>
                 <PageTitle
-                    heading="EmployementType"
-                    name="Add EmployementType"
-                    subHeading="Master/EmployementType"
+                    heading="Employement Type"
+                    name="Add Employement Type"
+                    subHeading="Master/Employement Type"
                     isButton={true}
                     onclickButton={handleClickOpen}
                 />

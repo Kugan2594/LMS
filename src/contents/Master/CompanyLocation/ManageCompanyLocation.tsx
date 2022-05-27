@@ -134,9 +134,9 @@ function ManageCompanyLocation() {
         <div>
             <PageTitleWrapper>
                 <PageTitle
-                    heading="CompanyLocation"
-                    name="Add CompanyLocation"
-                    subHeading="Master/CompanyLocation"
+                    heading="Company Location"
+                    name="Add Company Location"
+                    subHeading="Master/Company Location"
                     isButton={true}
                     onclickButton={handleClickOpen}
                 />

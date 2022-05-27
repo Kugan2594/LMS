@@ -164,10 +164,10 @@ function ManageBusinessUnit() {
         <div>
             <PageTitleWrapper>
                 <PageTitle
-                    heading="Manage BusinessUnit"
-                    subHeading="Master/ BusinessUnit"
+                    heading="Business Unit"
+                    subHeading="Master/Business Unit"
                     isButton={true}
-                    name="Add BusinessUnit"
+                    name="Add Business Unit"
                     onclickButton={handleClickOpen}
                 />
             </PageTitleWrapper>
