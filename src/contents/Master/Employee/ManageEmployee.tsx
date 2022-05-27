@@ -217,12 +217,15 @@ function ManageEmployee() {
                 <Modals
                     modalTitle={action === 'edit' ? 'Edit Employee' : 'Add Employee'}
                     modalWidth="70%"
+                    modalHeigth="90%"
+
                     open={open}
                     onClose={handleClose}
                     modalBody={<AddEmployee reloadTable={reloadTable}
                         action={action}
                         editData={editData}
-                        handleError={handleError} />}
+                        handleError={handleError}
+                        handleClose={handleClose} />}
                 />
             </Container>
             {alert.type.length > 0 ? (
