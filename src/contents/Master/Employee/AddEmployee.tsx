@@ -10,7 +10,7 @@ import {
   EMAIL_VALIDATION,
   NIC_VALIDATION,
   LICENCE_VALIDATION,
-  PASSPORT_VALIDATION
+  PASSPORT_VALIDATION,
 } from "src/util/ValidationMeassage";
 import { IEmployee } from "./Employee.interface";
 
@@ -167,7 +167,7 @@ const religon = [
 ];
 
 function AddEmployee(props) {
-  const { reloadTable, action, editData, handleError,handleClose } = props;
+  const { reloadTable, action, editData, handleError, handleClose } = props;
   const [companyLocationData, setcompanyLocationData] = useState([]);
   const [designationData, setdesignationData] = useState([]);
   const [employementTypeData, setemployementTypeData] = useState([]);
@@ -216,8 +216,6 @@ function AddEmployee(props) {
           ? ""
           : `nic ${FORM_VALIDATION.space}`
         : FORM_VALIDATION.required;
-        
-
 
     if ("maritalStatus" in fieldValues)
       temp.maritalStatus = fieldValues.maritalStatus
@@ -237,15 +235,19 @@ function AddEmployee(props) {
         ? ""
         : FORM_VALIDATION.email;
 
-        if ("drivingLicenceNo" in fieldValues)
-        temp.drivingLicenceNo =fieldValues.drivingLicenceNo? LICENCE_VALIDATION.test(fieldValues.drivingLicenceNo)
+    if ("drivingLicenceNo" in fieldValues)
+      temp.drivingLicenceNo = fieldValues.drivingLicenceNo
+        ? LICENCE_VALIDATION.test(fieldValues.drivingLicenceNo)
           ? ""
-          : FORM_VALIDATION.drivingLicenceNo:""; 
+          : FORM_VALIDATION.drivingLicenceNo
+        : "";
 
-          if ("passportNo" in fieldValues)
-        temp.passportNo =fieldValues.passportNo? PASSPORT_VALIDATION.test(fieldValues.passportNo)
+    if ("passportNo" in fieldValues)
+      temp.passportNo = fieldValues.passportNo
+        ? PASSPORT_VALIDATION.test(fieldValues.passportNo)
           ? ""
-          : FORM_VALIDATION.passportNo:""; 
+          : FORM_VALIDATION.passportNo
+        : "";
     if ("address" in fieldValues)
       temp.address =
         fieldValues.address.length !== 0
@@ -257,21 +259,6 @@ function AddEmployee(props) {
       temp.dateOfBirth = fieldValues.dateOfBirth
         ? ""
         : "This field is required.";
-    if ("joinDate" in fieldValues)
-      temp.joinDate = fieldValues.joinDate ? "" : "This field is required.";
-
-    if ("companyLocationId" in fieldValues)
-      temp.companyLocationId = fieldValues.companyLocationId
-        ? ""
-        : "This field is required.";
-    if ("designationId" in fieldValues)
-      temp.designationId = fieldValues.designationId
-        ? ""
-        : "This field is required.";
-    if ("dateOfPermanency" in fieldValues)
-      temp.dateOfPermanency = fieldValues.dateOfPermanency
-        ? ""
-        : "This field is required. ";
 
     setErrors({
       ...temp,
@@ -321,7 +308,7 @@ function AddEmployee(props) {
     e.preventDefault();
     console.log(values);
     const formData = new FormData();
-    if (validate()) {
+    if (validate1()) {
       if (action === "add") {
         let data: object = {
           firstName: values.firstName,
@@ -471,7 +458,6 @@ function AddEmployee(props) {
     setOpen(true);
   };
 
-
   const onValueChange = (e) => {
     setupdateStatus(false);
     const { name, value } = e.target;
@@ -490,6 +476,7 @@ function AddEmployee(props) {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
+    if(validate())
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -694,7 +681,9 @@ function AddEmployee(props) {
                   <AutocompleteSelect
                     name="employmentTypeId"
                     label="Employment Type*"
-                    value={values.employmentTypeId ? values.employmentTypeId : ""}
+                    value={
+                      values.employmentTypeId ? values.employmentTypeId : ""
+                    }
                     onChange={handleInputChange}
                     onValueChange={onValueChange}
                     options={employementTypeData}
@@ -729,11 +718,14 @@ function AddEmployee(props) {
           <MobileStepper
             variant="dots"
             steps={2}
-            // position="static"
+            position="static"
             activeStep={activeStep}
-            sx={{}}
+            sx={{ backgroundColor: "white" }}
             nextButton={
-              <ButtonGroup  variant="outlined" aria-label="outlined button group">
+              <ButtonGroup
+                variant="outlined"
+                aria-label="outlined button group"
+              >
                 {action !== "edit" && (
                   <Button
                     size="small"
@@ -766,12 +758,12 @@ function AddEmployee(props) {
               </ButtonGroup>
             }
             backButton={
-                <Button
-                  size="small"
-                  color="inherit"
-                  text="Cancel"
-                  onClick={handleClose}
-                />
+              <Button
+                size="small"
+                color="inherit"
+                text="Cancel"
+                onClick={handleClose}
+              />
             }
           />
         </Box>
@@ -785,6 +777,6 @@ AddEmployee.propTypes = {
   handleError: PropTypes.func,
   action: PropTypes.string,
   editData: PropTypes.object,
-  handleClose: PropTypes.func
+  handleClose: PropTypes.func,
 };
 export default AddEmployee;
