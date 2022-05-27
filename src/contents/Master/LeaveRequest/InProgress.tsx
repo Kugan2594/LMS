@@ -1,4 +1,11 @@
-import { Button, Card, CardContent, Container, Divider, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Divider,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Modals from "src/components/atoms/Modals";
 import Tables from "src/components/atoms/Tables";
@@ -188,20 +195,26 @@ function InProgress(props) {
   ];
   return (
     <div>
-      { props.isTitle && <div><PageTitleWrapper>
-                <PageTitle
-                    heading="InProgress Leave Requests"
-                    name="Approval Status"
-                    subHeading="Master"
-                    isButton={true}
-                    onclickButton={handleClickOpen}
-                />
-            </PageTitleWrapper>
-            <Divider /></div>}
+      {props.isTitle && (
+        <div>
+          <PageTitleWrapper>
+            <PageTitle
+              heading="InProgress Leave Requests"
+              name="Approval Status"
+              subHeading="Master"
+              isButton={true}
+              onclickButton={handleClickOpen}
+            />
+          </PageTitleWrapper>
+          <Divider />
+        </div>
+      )}
       <br />
       <Container maxWidth="lg">
         <Card>
-        <Typography variant="h6" margin="10px 0 0 20px">InProgress leave requests</Typography>
+          <Typography variant="h6" margin="10px 0 0 20px" color="#1a8cff">
+            InProgress leave requests
+          </Typography>
           <CardContent>
             <Tables
               columns={columns}

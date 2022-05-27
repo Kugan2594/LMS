@@ -1,10 +1,12 @@
 import {
+  Box,
   Card,
   CardContent,
   Container,
   Divider,
   Grid,
   IconButton,
+  Typography,
 } from "@mui/material";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
@@ -128,7 +130,6 @@ function ManageAllocateDay() {
       (res: []) => {
         data = createData(res);
         setemployeedata(data);
-        
       },
       (error) => {
         setemployeedata([]);
@@ -140,7 +141,7 @@ function ManageAllocateDay() {
     <div>
       <PageTitleWrapper>
         <PageTitle
-          heading="Allocation Days"
+          heading="Allocate Leave"
           subHeading="Master/AllocateDay"
           name="Add Employee Allocation Day"
           isButton={true}
@@ -180,26 +181,27 @@ function ManageAllocateDay() {
                 {employeedata.map((post, index) => {
                   return (
                     <Grid item xs={12} md={6} lg={3} key={index}>
-                      <DoughnutChart
-                        selectedValue={post.remainingDays}
-                        maxValue={
-                          post.allocatedDays === 0 ? 100 : post.allocatedDays
-                        }
-                        radius={80}
-                        strokeWidth={12}
-                        activeStrokeColor="#1a8cff"
-                        withGradient
-                        title="annual"
-                      />
-                      <CardContent>
-                        <Grid item xs={12} md={12} lg={12} key={index}>
-                          <h4>
-                            {post.leaveType} - [{post.allocatedDays}]
-                          </h4>
-                          {/* Hold update */}
-                          {/* <Button onClick={()=>editOnclick(post.id)} variant="outlined" text="Edit"></Button> */}
-                        </Grid>
-                      </CardContent>
+                      <Box sx={{ textAlign: "center" }}>
+                        <DoughnutChart
+                          selectedValue={post.remainingDays}
+                          maxValue={
+                            post.allocatedDays === 0 ? 100 : post.allocatedDays
+                          }
+                          radius={60}
+                          strokeWidth={12}
+                          activeStrokeColor="#1a8cff"
+                          withGradient
+                          title="annual"
+                        />
+                        <Typography variant="h6" marginTop={"10px"}>
+                          {post.leaveType}
+                        </Typography>
+                        <Typography variant="subtitle1">
+                          total {post.allocatedDays}
+                        </Typography>
+                        {/* Hold update */}
+                        {/* <Button onClick={()=>editOnclick(post.id)} variant="outlined" text="Edit"></Button> */}
+                      </Box>
                     </Grid>
                   );
                 })}

@@ -164,8 +164,8 @@ function ManageDesignations() {
         <div>
             <PageTitleWrapper>
                 <PageTitle
-                    heading="Manage Designation"
-                    subHeading="Master/ Designation"
+                    heading="Designation"
+                    subHeading="Master/Designation"
                     isButton={true}
                     name="Add Designation"
                     onclickButton={handleClickOpen}
