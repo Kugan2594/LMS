@@ -30,6 +30,7 @@ import TaskAltRoundedIcon from "@mui/icons-material/TaskAltRounded";
 import LocalPostOfficeRoundedIcon from "@mui/icons-material/LocalPostOfficeRounded";
 import DonutSmallRoundedIcon from "@mui/icons-material/DonutSmallRounded";
 import SafetyDividerRoundedIcon from "@mui/icons-material/SafetyDividerRounded";
+import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
 
 import { remove } from "lodash";
 
@@ -51,9 +52,9 @@ const masterMenuItems: MenuItem[] = [
   { name: "Employees", icon: PersonRoundedIcon, link: "/master/employee" },
   { name: "Designations", icon: WorkRoundedIcon, link: "/master/designations" },
   {
-    name: "Approver",
+    name: "Approvers",
     icon: SafetyDividerRoundedIcon,
-    link: "/master/employee/approver",
+    link: "/master/approver",
   },
   // { name: "Apply Leave", icon: SendRoundedIcon, link: "/master/leaveRequest",},
   {
@@ -68,10 +69,10 @@ const masterMenuItems: MenuItem[] = [
   },
   // { name: "History", icon: HistoryRoundedIcon, link: "/master/history" },
   { name: "History", icon: HistoryRoundedIcon, link: "/master/e-history" },
+  { name: "Holidays", icon: InsertInvitationIcon, link: "/master/holidays" },
   // { name: "My Tasks", icon: TaskAltRoundedIcon, link: "/master/tasks" },
   // { name: "Leave Requests", icon: LocalPostOfficeRoundedIcon, link: "/master/In-Progress",},
   { name: "BusinessUnit", icon: IoIosWoman, link: "/master/businessUnit" },
-  { name: "Holidays", icon: IoIosWoman, link: "/master/holidays" },
   {
     name: "Employement Type",
     icon: IoIosWoman,

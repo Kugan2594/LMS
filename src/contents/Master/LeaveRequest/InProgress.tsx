@@ -39,6 +39,7 @@ function createData(data) {
       leaveType: post.employeeLeaveType.leaveType.type,
       firstName: post.employee.firstName,
       lastName: post.employee.lastName,
+      approvers:[],
     };
   });
   return convertData;
@@ -68,6 +69,7 @@ function InProgress(props) {
   };
   const handleClose = () => {
     setOpen(false);
+    setOpenDetails(false);
   };
   const [update, setUpdate] = useState(false);
   const handleUpdate = (value) => {
@@ -228,6 +230,22 @@ function InProgress(props) {
             />
           </CardContent>
         </Card>
+        <Dialog
+        open={openDetails}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        maxWidth="md"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {""}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          <ViewHistory details={leaveDetails} isEmployeeDetail={false} isResponseButtons={false} cancel={handleClose} />
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
 
         <Modals
           modalTitle="edit"

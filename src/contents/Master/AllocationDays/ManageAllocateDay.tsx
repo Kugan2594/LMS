@@ -141,9 +141,9 @@ function ManageAllocateDay() {
     <div>
       <PageTitleWrapper>
         <PageTitle
-          heading="Allocate Leave"
-          subHeading="Master/AllocateDay"
-          name="Add Employee Allocation Day"
+          heading="Allocate Leaves"
+          subHeading="Master/Allocate Leaves"
+          name="Allocate Leaves"
           isButton={true}
           onclickButton={handleClickOpen}
         />
@@ -175,7 +175,6 @@ function ManageAllocateDay() {
                 direction="row"
                 justifyContent="center"
                 alignItems="center"
-                marginLeft={5}
                 marginTop={3}
               >
                 {employeedata.map((post, index) => {
