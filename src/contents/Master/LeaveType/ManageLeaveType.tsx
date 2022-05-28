@@ -47,9 +47,7 @@ function createData(data) {
       allocatedDaysByExtraWorking: post.allocatedDaysByExtraWorking,
       monthlyApplicable: post.monthlyApplicable,
       leaveDaysDurationSettingDto: newfield,
-      carryforwardCancellation: post.carryforwardCancellation
-
-
+      carryforwardCancellation: post.carryforwardCancellation,
     };
   });
   return convertData;
