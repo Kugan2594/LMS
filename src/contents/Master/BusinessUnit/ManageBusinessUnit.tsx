@@ -21,8 +21,8 @@ import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import ViewHistory from "../History/ViewHistory";
 import LeaveRequestForm from "../LeaveRequest/LeaveRequestForm";
-import AddDesignation from "./AddDesignation";
-import { getAllDesignation, deleteDesignation } from './ServiceDesignation';
+import AddBusinessUnit from "./AddBusinessUnit";
+import { getAllBusinessUnit, deleteBusinessUnit } from './ServiceBusinessUnit';
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from 'src/util/CustomizedNotification';
 function createData(data) {
@@ -34,7 +34,7 @@ function createData(data) {
     });
     return convertData;
 }
-function ManageDesignations() {
+function ManageBusinessUnit() {
     const [pagination, setpagination] = useState({
         pageNumber: 0,
         pageSize: 10,
@@ -57,11 +57,11 @@ function ManageDesignations() {
 
 
     useEffect(() => {
-        getAllDesignationData(pagination.pageNumber, pagination.pageSize);
+        getAllBusinessUnitData(pagination.pageNumber, pagination.pageSize);
     }, [pagination.pageNumber, pagination.pageSize]);
-    const getAllDesignationData = (pageNumber, pageSize) => {
-        getAllDesignation(pageNumber, pageSize).then((res: any) => {
-            let data: [] = createData(res.results.Designation);
+    const getAllBusinessUnitData = (pageNumber, pageSize) => {
+        getAllBusinessUnit(pageNumber, pageSize).then((res: any) => {
+            let data: [] = createData(res.results.Business_Unit);
             setpagination({
                 pageNumber: res.pagination.pageNumber,
                 pageSize: res.pagination.pageSize,
@@ -75,12 +75,12 @@ function ManageDesignations() {
         console.log("ppppppppppppppppp", res);
         setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
         setOpen(false);
-        getAllDesignationData(pagination.pageNumber, pagination.pageSize);
+        getAllBusinessUnitData(pagination.pageNumber, pagination.pageSize);
     };
     const columns: Column[] = [
         {
             id: "name",
-            label: "Designation Name",
+            label: "BusinessUnit Name",
             minWidth: 0,
         },
         {
@@ -104,12 +104,12 @@ function ManageDesignations() {
         setOpen(true);
     };
 
-    const [designation, setDesignation] = useState("");
+    const [BusinessUnit, setBusinessUnit] = useState("");
     const [error, setError] = useState(false);
     const [update, setUpdate] = useState(false);
-    const onChangeHandler = (designationValue) => {
-        setDesignation(designationValue);
-        console.log(designation);
+    const onChangeHandler = (businessUnitValue) => {
+        setBusinessUnit(businessUnitValue);
+        console.log(BusinessUnit);
     };
 
     const handleClose = () => {
@@ -131,7 +131,7 @@ function ManageDesignations() {
         setOpen(false);
     };
     const deleteOnclick = (row) => {
-        deleteDesignation(row.id).then(
+        deleteBusinessUnit(row.id).then(
             (res: any) => {
                 reloadTable(res);
             },
@@ -144,11 +144,11 @@ function ManageDesignations() {
 
     const handleClose1 = (e) => {
         setError(false);
-        if (designation === "") {
+        if (BusinessUnit === "") {
             setError(true);
         } else {
             setUpdate(false);
-            setDesignation("");
+            setBusinessUnit("");
         }
     };
     const handleCancel1 = () => {
@@ -164,10 +164,10 @@ function ManageDesignations() {
         <div>
             <PageTitleWrapper>
                 <PageTitle
-                    heading="Designation"
-                    subHeading="Master/Designation"
+                    heading="Business Unit"
+                    subHeading="Master/Business Unit"
                     isButton={true}
-                    name="Add Designation"
+                    name="Add Business Unit"
                     onclickButton={handleClickOpen}
                 />
             </PageTitleWrapper>
@@ -187,11 +187,11 @@ function ManageDesignations() {
                     </CardContent>
                 </Card>
                 <Modals
-                    modalTitle={action === 'edit' ? 'Edit Designation' : 'Add Designation'}
+                    modalTitle={action === 'edit' ? 'Edit BusinessUnit' : 'Add BusinessUnit'}
                     modalWidth="50%"
                     open={open}
                     onClose={handleClose}
-                    modalBody={<AddDesignation reloadTable={reloadTable}
+                    modalBody={<AddBusinessUnit reloadTable={reloadTable}
                         action={action}
                         editData={editData}
                         handleError={handleError} />}
@@ -209,4 +209,4 @@ function ManageDesignations() {
     );
 }
 
-export default ManageDesignations;
+export default ManageBusinessUnit;

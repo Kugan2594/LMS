@@ -5,16 +5,18 @@ import Tables from "src/components/atoms/Tables";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import { Column } from "../../../components/atoms/Tables/TableInterface";
-import AddCompanyLocation from "./AddCompanyLocation"
 import { TableAction } from "src/components/atoms/Tables/TableAction";
-import { deleteCompanyLocation, getAllCompanyLocation } from "./ServiceCompanyLocation";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from 'src/util/CustomizedNotification';
+import { deleteEmployementType, getAllEmployementType } from "./ServiceEmployementType";
+import AddEmployementType from "./AddEmployementType";
+
+
 function createData(data) {
     let convertData = data.map((post, index) => {
         return {
             id: post.id,
-            location: post.location,
+            type: post.type,
             createdAt:post.createdAt,
             updatedAt:post.updatedAt
             
@@ -25,7 +27,7 @@ function createData(data) {
 }
 
 
-function ManageCompanyLocation() {
+function ManageEmployementType() {
     
     const [open, setOpen] = useState(false);
     const [searchFields, setsearchFields] = useState({ name: "" });
@@ -40,6 +42,7 @@ function ManageCompanyLocation() {
     const [dataSource, setdataSource] = useState([]);
     const [action, setaction] = useState('add');
     const [editData, seteditData] = useState({});
+
     const handleClickOpen = () => {
         setaction('add');
         setOpen(true);
@@ -50,10 +53,10 @@ function ManageCompanyLocation() {
     };
 
     useEffect(() => {
-        getAllCompanyLocationData();
+        getAllEmployementTypeData();
     },[]);
-    const getAllCompanyLocationData = () => {
-        getAllCompanyLocation().then((res: any) => {
+    const getAllEmployementTypeData = () => {
+        getAllEmployementType().then((res: any) => {
             let data: [] = createData(res);
            
             setdataSource(data);
@@ -61,7 +64,7 @@ function ManageCompanyLocation() {
     };
     
     const deleteOnclick = (row) => {
-        deleteCompanyLocation(row.id).then(
+        deleteEmployementType(row.id).then(
             (res: any) => {
                 reloadTable(res);
             },
@@ -77,7 +80,7 @@ function ManageCompanyLocation() {
         console.log("//////////////////////////", res);
 
         setOpen(false);
-        getAllCompanyLocationData();
+        getAllEmployementTypeData();
     };
 
     const editOnclick = (row) => {
@@ -102,8 +105,8 @@ function ManageCompanyLocation() {
     const onTableSearch = (values, sortField) => { };
     const columns: Column[] = [
         {
-            id: "location",
-            label: "Company Location",
+            id: "type",
+            label: "Employement Type",
             minWidth: 120,
         },
         {
@@ -134,9 +137,9 @@ function ManageCompanyLocation() {
         <div>
             <PageTitleWrapper>
                 <PageTitle
-                    heading="Company Location"
-                    name="Add Company Location"
-                    subHeading="Master/Company Location"
+                    heading="Employement Type"
+                    name="Add Employement Type"
+                    subHeading="Master/Employement Type"
                     isButton={true}
                     onclickButton={handleClickOpen}
                 />
@@ -156,11 +159,11 @@ function ManageCompanyLocation() {
                     </CardContent>
                 </Card>
                 <Modals
-                    modalTitle={action === 'edit' ? 'Edit CompanyLocation' : 'Add CompanyLocation'}
+                    modalTitle={action === 'edit' ? 'Edit EmployementType' : 'Add EmployementType'}
                     modalWidth="20%"
                     open={open}
                     onClose={handleClose}
-                    modalBody={<AddCompanyLocation reloadTable={reloadTable}
+                    modalBody={<AddEmployementType reloadTable={reloadTable}
                         action={action}
                         editData={editData}
                         handleError={handleError} />}
@@ -177,4 +180,4 @@ function ManageCompanyLocation() {
     );
 }
 
-export default ManageCompanyLocation;
+export default ManageEmployementType;

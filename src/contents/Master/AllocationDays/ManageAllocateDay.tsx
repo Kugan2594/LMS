@@ -1,4 +1,13 @@
-import { Card, CardContent, Container, Divider, Grid } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Container,
+  Divider,
+  Grid,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import DoughnutChart from "src/components/molecules/Charts/Doughnut";
@@ -11,11 +20,14 @@ import AutocompleteSelect from "src/components/atoms/controlls/AutocompleteSelec
 import Modals from "src/components/atoms/Modals";
 import AddAllocationDays from "./AddAllocationDays";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
-import CustomizedNotification from 'src/util/CustomizedNotification';
+import CustomizedNotification from "src/util/CustomizedNotification";
+import { EditOutlined } from "@mui/icons-material";
+import Button from "src/components/atoms/controlls/Button";
 
 function createData(data) {
   let convertData = data.map((post, index) => {
     return {
+      id: post.id,
       allocatedDays: post.allocatedDays,
       remainingDays: post.remainingDays,
       leaveType: post.leaveType.type,
@@ -41,8 +53,8 @@ function ManageAllocateDay() {
 
   const handleAlertClose = () => {
     setalert({
-      type: '',
-      mesg: ''
+      type: "",
+      mesg: "",
     });
   };
   const handleClickOpen = () => {
@@ -61,10 +73,10 @@ function ManageAllocateDay() {
     setOpen(false);
   };
 
-  const editOnclick = (row) => {
-    console.log(row);
+  const editOnclick = (id) => {
+    console.log(id);
     setaction("edit");
-    seteditData(row);
+    seteditData(id);
     setOpen(true);
   };
 
@@ -129,9 +141,9 @@ function ManageAllocateDay() {
     <div>
       <PageTitleWrapper>
         <PageTitle
-          heading="Allocation Days"
-          subHeading="Master/AllocateDay"
-          name="Add Employee Allocation Day"
+          heading="Allocate Leaves"
+          subHeading="Master/Allocate Leaves"
+          name="Allocate Leaves"
           isButton={true}
           onclickButton={handleClickOpen}
         />
@@ -163,29 +175,32 @@ function ManageAllocateDay() {
                 direction="row"
                 justifyContent="center"
                 alignItems="center"
-                marginLeft={5}
                 marginTop={3}
               >
                 {employeedata.map((post, index) => {
                   return (
                     <Grid item xs={12} md={6} lg={3} key={index}>
-                      <DoughnutChart
-                        selectedValue={post.remainingDays}
-                        maxValue={
-                          post.allocatedDays === 0 ? 100 : post.allocatedDays
-                        }
-                        radius={75}
-                        activeStrokeColor="#0f4fff"
-                        withGradient
-                        title="annual"
-                      />
-                      <CardContent>
-                        <Grid item xs={12} md={12} lg={12} key={index}>
-                          <h4>
-                            {post.leaveType} - [{post.allocatedDays}]
-                          </h4>
-                        </Grid>
-                      </CardContent>
+                      <Box sx={{ textAlign: "center" }}>
+                        <DoughnutChart
+                          selectedValue={post.remainingDays}
+                          maxValue={
+                            post.allocatedDays === 0 ? 100 : post.allocatedDays
+                          }
+                          radius={60}
+                          strokeWidth={12}
+                          activeStrokeColor="#1a8cff"
+                          withGradient
+                          title="annual"
+                        />
+                        <Typography variant="h6" marginTop={"10px"}>
+                          {post.leaveType}
+                        </Typography>
+                        <Typography variant="subtitle1">
+                          total {post.allocatedDays}
+                        </Typography>
+                        {/* Hold update */}
+                        {/* <Button onClick={()=>editOnclick(post.id)} variant="outlined" text="Edit"></Button> */}
+                      </Box>
                     </Grid>
                   );
                 })}

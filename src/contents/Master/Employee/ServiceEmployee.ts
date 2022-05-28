@@ -94,5 +94,44 @@ const getAllDesignationForDropDown = () => {
     });
 };
 
+const getAllBusinessUnitForDropDown = () => {
+    return new Promise((resolve, reject) => {
+        api(
+            "get",
+            "lm-web",
+            null,
+            `/businessUnit`,
+            "",
+            "",
+            ""
+        )
+            .then((response: any) => {
+                resolve(response.data);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
+const getAllEmployementTypeForDropDown = () => {
+    return new Promise((resolve, reject) => {
+        api(
+            "get",
+            "lm-web",
+            null,
+            `/employementType`,
+            "",
+            "",
+            ""
+        )
+            .then((response: any) => {
+                resolve(response.data);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
 
-export { deleteEmployee, getAllEmployee, createEmployee, updateEmployee, getAllDesignationForDropDown, getAllCompanyLocationForDropDown };
+
+export { deleteEmployee, getAllEmployee, createEmployee, updateEmployee, getAllDesignationForDropDown, getAllCompanyLocationForDropDown, getAllBusinessUnitForDropDown, getAllEmployementTypeForDropDown };

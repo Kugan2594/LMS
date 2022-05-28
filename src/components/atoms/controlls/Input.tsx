@@ -28,12 +28,15 @@ export default function Input(props) {
     disableUnderline = false,
     styles = {},
     tabIndex,
-    helperText
+    multiline=false,
+    helperText,
+    rows,
   } = props;
   return (
     <>
       <TextField
         id={id}
+      
         inputRef={textFieldRef}
         sx={{ width: width, height: PureLightTheme.spacing(9) }}
         variant={variant}
@@ -45,6 +48,9 @@ export default function Input(props) {
         disabled={disabled}
         onChange={onChange}
         classes={classes}
+        multiline={multiline}
+        rows={rows}
+      
         type={type}
         style={styles}
         onSelect={onSelect}

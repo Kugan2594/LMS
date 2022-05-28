@@ -21,20 +21,24 @@ import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import ViewHistory from "../History/ViewHistory";
 import LeaveRequestForm from "../LeaveRequest/LeaveRequestForm";
-import AddDesignation from "./AddDesignation";
-import { getAllDesignation, deleteDesignation } from './ServiceDesignation';
+import AddHolidays from "./AddHolidays";
+import { getAllHolidays, deleteHolidays } from './ServiceHolidays';
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from 'src/util/CustomizedNotification';
 function createData(data) {
     let convertData = data.map((post, index) => {
         return {
             id: post.id,
-            name: post.name
+            date: post.date,
+            type: post.type,
+            day:post.day,
+            description: post.description
+
         };
     });
     return convertData;
 }
-function ManageDesignations() {
+function ManageHolidays() {
     const [pagination, setpagination] = useState({
         pageNumber: 0,
         pageSize: 10,
@@ -56,31 +60,46 @@ function ManageDesignations() {
     const onTableSearch = (values, sortField) => { };
 
 
-    useEffect(() => {
-        getAllDesignationData(pagination.pageNumber, pagination.pageSize);
-    }, [pagination.pageNumber, pagination.pageSize]);
-    const getAllDesignationData = (pageNumber, pageSize) => {
-        getAllDesignation(pageNumber, pageSize).then((res: any) => {
-            let data: [] = createData(res.results.Designation);
-            setpagination({
-                pageNumber: res.pagination.pageNumber,
-                pageSize: res.pagination.pageSize,
-                total: res.pagination.totalRecords,
-            });
-            setdataSource(data);
-        });
-    };
+    // useEffect(() => {
+    //     getAllHolidaysData(pagination.pageNumber, pagination.pageSize);
+    // }, [pagination.pageNumber, pagination.pageSize]);
+    // const getAllHolidaysData = (pageNumber, pageSize) => {
+    //     getAllHolidays(pageNumber, pageSize).then((res: any) => {
+    //         let data: [] = createData(res.results.Designation);
+    //         setpagination({
+    //             pageNumber: res.pagination.pageNumber,
+    //             pageSize: res.pagination.pageSize,
+    //             total: res.pagination.totalRecords,
+    //         });
+    //         setdataSource(data);
+    //     });
+    // };
 
     const reloadTable = (res) => {
         console.log("ppppppppppppppppp", res);
         setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
         setOpen(false);
-        getAllDesignationData(pagination.pageNumber, pagination.pageSize);
+        // getAllHolidaysData(pagination.pageNumber, pagination.pageSize);
     };
     const columns: Column[] = [
         {
-            id: "name",
-            label: "Designation Name",
+            id: "type",
+            label: "Holidays Name",
+            minWidth: 0,
+        },
+        {
+            id: "DATE",
+            label: "DATE",
+            minWidth: 0,
+        },
+        {
+            id: "createddate",
+            label: "CREATED DATE",
+            minWidth: 0,
+        },
+        {
+            id: "updateddate",
+            label: "UPDATED DATE",
             minWidth: 0,
         },
         {
@@ -104,12 +123,12 @@ function ManageDesignations() {
         setOpen(true);
     };
 
-    const [designation, setDesignation] = useState("");
+    const [Holidays, setHolidays] = useState("");
     const [error, setError] = useState(false);
     const [update, setUpdate] = useState(false);
-    const onChangeHandler = (designationValue) => {
-        setDesignation(designationValue);
-        console.log(designation);
+    const onChangeHandler = (businessUnitValue) => {
+        setHolidays(businessUnitValue);
+        console.log(Holidays);
     };
 
     const handleClose = () => {
@@ -131,7 +150,7 @@ function ManageDesignations() {
         setOpen(false);
     };
     const deleteOnclick = (row) => {
-        deleteDesignation(row.id).then(
+        deleteHolidays(row.id).then(
             (res: any) => {
                 reloadTable(res);
             },
@@ -144,11 +163,11 @@ function ManageDesignations() {
 
     const handleClose1 = (e) => {
         setError(false);
-        if (designation === "") {
+        if (Holidays === "") {
             setError(true);
         } else {
             setUpdate(false);
-            setDesignation("");
+            setHolidays("");
         }
     };
     const handleCancel1 = () => {
@@ -164,10 +183,10 @@ function ManageDesignations() {
         <div>
             <PageTitleWrapper>
                 <PageTitle
-                    heading="Designation"
-                    subHeading="Master/Designation"
+                    heading="Manage Holidays"
+                    subHeading="Master/ Holidays"
                     isButton={true}
-                    name="Add Designation"
+                    name="Add Holidays"
                     onclickButton={handleClickOpen}
                 />
             </PageTitleWrapper>
@@ -187,11 +206,11 @@ function ManageDesignations() {
                     </CardContent>
                 </Card>
                 <Modals
-                    modalTitle={action === 'edit' ? 'Edit Designation' : 'Add Designation'}
+                    modalTitle={action === 'edit' ? 'Edit Holidays' : 'Add Holidays'}
                     modalWidth="50%"
                     open={open}
                     onClose={handleClose}
-                    modalBody={<AddDesignation reloadTable={reloadTable}
+                    modalBody={<AddHolidays reloadTable={reloadTable}
                         action={action}
                         editData={editData}
                         handleError={handleError} />}
@@ -209,4 +228,4 @@ function ManageDesignations() {
     );
 }
 
-export default ManageDesignations;
+export default ManageHolidays;
