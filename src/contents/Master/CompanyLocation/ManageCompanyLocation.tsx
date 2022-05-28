@@ -121,7 +121,8 @@ function ManageCompanyLocation() {
         {
             id: "action",
             label: "Action",
-            minWidth: 100,
+            width: 90,
+            minWidth: 0,
             fixed: "right",
             align: "center",
             render: (value: any) => (
@@ -157,7 +158,7 @@ function ManageCompanyLocation() {
                 </Card>
                 <Modals
                     modalTitle={action === 'edit' ? 'Edit CompanyLocation' : 'Add CompanyLocation'}
-                    modalWidth="20%"
+                    modalWidth="25%"
                     open={open}
                     onClose={handleClose}
                     modalBody={<AddCompanyLocation reloadTable={reloadTable}

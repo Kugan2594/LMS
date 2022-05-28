@@ -172,7 +172,7 @@ function ManageLeaveType() {
     {
       id: "noticePeriod",
       label: "Notice period",
-      minWidth: 180,
+      minWidth: 80,
     },
     {
       id: "description",
@@ -181,6 +181,7 @@ function ManageLeaveType() {
     }, {
       id: "action",
       label: "Action",
+      width: 90,
       minWidth: 100,
       fixed: "right",
       align: "center",

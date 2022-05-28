@@ -213,7 +213,7 @@ function ManageAllocateDay() {
                   ? "Edit Employee Allocation Days"
                   : "Add Employee Allocation Days"
               }
-              modalWidth="70%"
+              modalWidth="40%"
               open={open}
               onClose={handleClose}
               modalBody={

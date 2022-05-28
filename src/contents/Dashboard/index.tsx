@@ -114,7 +114,7 @@ export default function Dashboard() {
         <div>
           <Modals
             modalTitle=""
-            modalWidth="70%"
+            modalWidth="50%"
             open={open}
             onClose={handleClose}
             modalBody={<LeaveRequestForm isButton={true} isButtonTwo={true} />}
