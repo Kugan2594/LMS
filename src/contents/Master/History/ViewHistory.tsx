@@ -108,7 +108,7 @@ export default function ViewHistory(props) {
 
           return (
             <Step key={label.names} completed={approved[index]}>
-              <StepLabel {...labelProps}>{label.names} <br/>{ label.appStatus != "Pending" && <Typography variant="caption">{label.date}</Typography>}</StepLabel>
+              <StepLabel {...labelProps}>{label.names} <br/>{ label.appStatus != "Pending" && <Typography variant="subtitle1">{label.date}</Typography>}</StepLabel>
             </Step>
           );
         })}
@@ -237,7 +237,7 @@ export default function ViewHistory(props) {
               >
                 {steps.length == approvalStatusOriginal.length ||
                 rejected.includes("Rejected")
-                  ? rejected[rejected.length - 1]
+                  ? (rejected[rejected.length - 1] == "Approved" ? <Typography variant="h6" color="#49FF00" display="inline">Approved</Typography> : <Typography variant="h6" color="red" display="inline">Rejected</Typography>)
                   : "Pending"}
               </Typography>
             </div>
