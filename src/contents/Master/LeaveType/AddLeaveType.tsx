@@ -88,6 +88,7 @@ function AddLeaveType(props) {
                     endMonth: values.endMonth,
                     allocatedDaysByExtraWorking: values.allocatedDaysByExtraWorking,
                     monthlyApplicable: values.monthlyApplicable,
+                    carryForwardExpiry: values.carryForwardExpiry,
                 };
                 console.log({ data });
                 createLeaveType(data).then(
@@ -130,6 +131,7 @@ function AddLeaveType(props) {
                     endMonth: values.endMonth,
                     allocatedDaysByExtraWorking: values.allocatedDaysByExtraWorking,
                     monthlyApplicable: values.monthlyApplicable,
+                    carryForwardExpiry: values.carryForwardExpiry,
                 };
                 console.log({ data });
                 updateLeaveType(data).then(
@@ -285,7 +287,7 @@ function AddLeaveType(props) {
                                             onChange={handleInputChange}
                                         />
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={4}>
                                         <Checkbox
                                             name="ableToCarryForward"
                                             label="Carry Forward to next year"
@@ -293,7 +295,17 @@ function AddLeaveType(props) {
                                             onChange={handleInputChange}
                                         />
                                     </Grid>
-                                    {values.ableToCarryForward && <Grid item xs={6}>
+                                    {values.ableToCarryForward && <Grid item xs={4}>
+
+                                        <Checkbox
+                                            name="carryForwardExpiry"
+                                            label="Is Carry Forward Expired"
+                                            value={values.carryForwardExpiry}
+                                            onChange={handleInputChange}
+                                        />
+
+                                    </Grid>}
+                                    {values.ableToCarryForward && values.carryForwardExpiry && <Grid item xs={4}>
                                         <Input
                                             name="carryforwardCancellation"
                                             label="Carry Forward Cancellation Month"
