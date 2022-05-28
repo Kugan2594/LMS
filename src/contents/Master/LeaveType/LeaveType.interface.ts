@@ -17,7 +17,8 @@ interface ILeaveType {
   startMonth?: number;
   endMonth?: number;
   days?: number;
-  allocatedDaysByExtraWorking?: boolean
+  allocatedDaysByExtraWorking?: boolean,
+  carryforwardCancellation?: number
 }
 
 export type { ILeaveType };

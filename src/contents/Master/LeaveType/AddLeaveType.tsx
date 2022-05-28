@@ -41,7 +41,8 @@ function AddLeaveType(props) {
         noOfDays: 0,
         startMonth: 0,
         endMonth: 0,
-        days: 0
+        days: 0,
+        carryforwardCancellation: 0
     };
 
     const validate = (fieldValues = values) => {
@@ -278,11 +279,11 @@ function AddLeaveType(props) {
                                     </Grid>
                                     {values.ableToCarryForward && <Grid item xs={6}>
                                         <Input
-                                            name="cancellationNoticePeriod"
+                                            name="carryforwardCancellation"
                                             label="Carry Forward Cancellation Month"
-                                            value={values.cancellationNoticePeriod}
+                                            value={values.carryforwardCancellation}
                                             onChange={handleInputChange}
-                                            error={errors.cancellationNoticePeriod}
+                                            error={errors.carryforwardCancellation}
                                             type="number"
                                         />
 
