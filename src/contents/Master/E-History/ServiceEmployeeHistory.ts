@@ -1,12 +1,16 @@
 import api from "src/services/AxiosService";
 
-const getAllEmployeeLeaveHistory = (pageNumber: number, pageSize: number) => {
+const getAllEmployeeLeaveHistory = (
+    pageNumber: number,
+    pageSize: number,
+    id: number
+) => {
     return new Promise((resolve, reject) => {
         api(
             "get",
             "lm-web",
             null,
-            `/approvalStatus/employee/1?page=${pageNumber}&size=${pageSize}`,
+            `/approvalStatus/employee/${id}?page=${pageNumber}&size=${pageSize}`,
             "",
             "",
             ""
