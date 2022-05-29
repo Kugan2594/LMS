@@ -202,15 +202,9 @@ function EHistory() {
 
             <Container maxWidth="lg">
                 <Card>
-                    <Grid
-                        item
-                        xs={12}
-                        md={6}
-                        lg={6}
-                        maxWidth={550}
-                        marginLeft={31}
-                        padding={2}
-                    >
+                <CardContent>
+                    <Grid container>
+                    <Grid item xs={4}>
                         <AutocompleteSelect
                             name="employee"
                             label="Employee Name"
@@ -219,7 +213,8 @@ function EHistory() {
                             options={employee}
                         />
                     </Grid>
-                    <CardContent>
+                    </Grid>
+                    
                         <Tables
                             columns={columns}
                             tableData={dataSource}

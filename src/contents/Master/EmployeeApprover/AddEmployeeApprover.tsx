@@ -399,9 +399,8 @@ console.log("hi");
 
     return (
       <div>
-
+            <Box marginLeft={1.25}>
             <Grid container>
-              <Grid item xs={4}></Grid>
               <Grid item xs={4}>
                 <AutocompleteSelect
                   name="employeeId"
@@ -414,8 +413,8 @@ console.log("hi");
                   options={employeeData}
                 />
               </Grid>
-              <Grid item xs={4}></Grid>
             </Grid>
+            </Box>
             <Box marginBottom="40px">
         <Grid container spacing={2} justifyContent="center" alignItems="center">
           <Grid item>{customList('Approvers', left)}</Grid>
