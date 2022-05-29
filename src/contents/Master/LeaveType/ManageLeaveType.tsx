@@ -19,11 +19,11 @@ function createData(data) {
 
 
       (res.data).map((leave) => {
-        console.log("%%%%%%%%%%%%%%%%%%", leave);
+
         newfield.push(leave);
 
       })
-      console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&", newfield);
+
     });
     return {
 
@@ -50,6 +50,7 @@ function createData(data) {
       carryforwardCancellation: post.carryforwardCancellation,
     };
   });
+
   return convertData;
 }
 
@@ -91,13 +92,11 @@ function ManageLeaveType() {
       let newfield = [];
       setLeaveDays(res.data);
       (res.data).map((leave) => {
-        console.log("%%%%%%%%%%%%%%%%%%", leave);
+
         newfield.push(leave);
 
       })
       setLeaveAllocate(newfield);
-      console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&", newfield);
-
     });
   }
   const [alert, setalert] = useState({
@@ -139,6 +138,7 @@ function ManageLeaveType() {
   };
   const reloadTable = (res) => {
     setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
+    setOpen(false);
     getAllLeaveTypeData(pagination.pageNumber, pagination.pageSize);
   };
 
@@ -228,7 +228,8 @@ function ManageLeaveType() {
           modalBody={<AddLeaveType setLeaveDays={leaveallocate} reloadTable={reloadTable}
             action={action}
             editData={editData}
-            handleError={handleError} />}
+            handleError={handleError} 
+            handleClose={handleClose}/>}
         />
       </Container>
       {alert.type.length > 0 ? (
