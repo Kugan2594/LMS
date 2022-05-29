@@ -160,7 +160,7 @@ function ManageEmployementType() {
                 </Card>
                 <Modals
                     modalTitle={action === 'edit' ? 'Edit EmployementType' : 'Add EmployementType'}
-                    modalWidth="20%"
+                    modalWidth="25%"
                     open={open}
                     onClose={handleClose}
                     modalBody={<AddEmployementType reloadTable={reloadTable}

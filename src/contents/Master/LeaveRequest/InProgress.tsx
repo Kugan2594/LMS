@@ -149,17 +149,17 @@ function InProgress(props) {
   const columns: Column[] = [
     {
       id: "leaveType",
-      label: "LeaveType",
+      label: "Leave Type",
       minWidth: 0,
     },
     {
       id: "fromDate",
-      label: "FromDate",
+      label: "From Date",
       minWidth: 0,
     },
     {
       id: "toDate",
-      label: "ToDate",
+      label: "To Date",
       minWidth: 0,
     },
     {
@@ -169,7 +169,7 @@ function InProgress(props) {
     },
     {
       id: "leaveDays",
-      label: "Days",
+      label: "Leave Days",
       minWidth: 0,
     },
     {
