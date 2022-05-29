@@ -41,7 +41,8 @@ function AddLeaveType(props) {
         noOfDays: 0,
         startMonth: 0,
         endMonth: 0,
-        days: 0
+        days: 0,
+        carryforwardCancellation: 0
     };
 
     const validate = (fieldValues = values) => {
@@ -67,7 +68,7 @@ function AddLeaveType(props) {
         if (validate()) {
             if (action === 'add') {
                 let data: object = {
-
+                    allocateDaysByAppointedDate: values.allocateDaysByAppointedDate,
                     description: values.description,
                     type: values.type,
                     noticePeriod: values.noticePeriod,
@@ -80,7 +81,14 @@ function AddLeaveType(props) {
                     yearCompleted: values.yearCompleted,
                     noOfDaysPeryear: values.noOfDaysPeryear,
                     noOfDays: values.noOfDays,
-                    leaveDaysDurationSettingDto: inputFields
+                    leaveDaysDurationSettingDto: inputFields,
+                    carryforwardCancellation: values.carryforwardCancellation,
+                    days: values.days,
+                    startMonth: values.startMonth,
+                    endMonth: values.endMonth,
+                    allocatedDaysByExtraWorking: values.allocatedDaysByExtraWorking,
+                    monthlyApplicable: values.monthlyApplicable,
+                    carryForwardExpiry: values.carryForwardExpiry,
                 };
                 console.log({ data });
                 createLeaveType(data).then(
@@ -114,7 +122,16 @@ function AddLeaveType(props) {
                     yearCompleted: values.yearCompleted,
                     noOfDaysPeryear: values.noOfDaysPeryear,
                     noOfDays: values.noOfDays,
-                    leaveDaysDurationSettingDto: values.leaveDaysDurationSettingDto
+                    //  leaveDaysDurationSettingDto: values.leaveDaysDurationSettingDto
+                    leaveDaysDurationSettingDto: inputFields,
+                    allocateDaysByAppointedDate: values.allocateDaysByAppointedDate,
+                    carryforwardCancellation: values.carryforwardCancellation,
+                    days: values.days,
+                    startMonth: values.startMonth,
+                    endMonth: values.endMonth,
+                    allocatedDaysByExtraWorking: values.allocatedDaysByExtraWorking,
+                    monthlyApplicable: values.monthlyApplicable,
+                    carryForwardExpiry: values.carryForwardExpiry,
                 };
                 console.log({ data });
                 updateLeaveType(data).then(
@@ -181,6 +198,8 @@ function AddLeaveType(props) {
         if (action === "edit") {
             console.log({ editData });
             setValues({ ...editData, });
+            setInputFields(editData.leaveDaysDurationSettingDto);
+            console.log("/////////////////////////////", editData.leaveDaysDurationSettingDto);
         }
 
 
@@ -268,7 +287,7 @@ function AddLeaveType(props) {
                                             onChange={handleInputChange}
                                         />
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={4}>
                                         <Checkbox
                                             name="ableToCarryForward"
                                             label="Carry Forward to next year"
@@ -276,13 +295,23 @@ function AddLeaveType(props) {
                                             onChange={handleInputChange}
                                         />
                                     </Grid>
-                                    {values.ableToCarryForward && <Grid item xs={6}>
-                                        <Input
-                                            name="cancellationNoticePeriod"
-                                            label="Carry Forward Cancellation Month"
-                                            value={values.cancellationNoticePeriod}
+                                    {values.ableToCarryForward && <Grid item xs={4}>
+
+                                        <Checkbox
+                                            name="carryForwardExpiry"
+                                            label="Is Carry Forward Expired"
+                                            value={values.carryForwardExpiry}
                                             onChange={handleInputChange}
-                                            error={errors.cancellationNoticePeriod}
+                                        />
+
+                                    </Grid>}
+                                    {values.ableToCarryForward && values.carryForwardExpiry && <Grid item xs={4}>
+                                        <Input
+                                            name="carryforwardCancellation"
+                                            label="Carry Forward Cancellation Month"
+                                            value={values.carryforwardCancellation}
+                                            onChange={handleInputChange}
+                                            error={errors.carryforwardCancellation}
                                             type="number"
                                         />
 
@@ -416,7 +445,7 @@ function AddLeaveType(props) {
                                             onChange={handleInputChange}
                                         />
                                     </Grid>
-                                    {action === "add" && values.allocateDaysByAppointedDate &&
+                                    {values.allocateDaysByAppointedDate &&
                                         inputFields.map((input, index) => {
                                             return (
                                                 <div key={index}>
@@ -464,7 +493,7 @@ function AddLeaveType(props) {
                                             )
                                         })}
 
-                                    {action === "edit" && values.allocateDaysByAppointedDate && values.leaveDaysDurationSettingDto &&
+                                    {/* {action === "edit" && values.allocateDaysByAppointedDate && values.leaveDaysDurationSettingDto &&
                                         values.leaveDaysDurationSettingDto.map((input, index) => {
                                             return (
                                                 <div key={index}>
@@ -510,7 +539,7 @@ function AddLeaveType(props) {
 
                                                 </div>
                                             )
-                                        })}
+                                        })} */}
 
                                 </Grid>
 

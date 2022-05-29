@@ -226,7 +226,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
       
         <div>
             <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
-            <Box textAlign="right" marginBottom={2}>
+            <Box>
               <Grid container spacing={1}>
                 <Grid item xs={6}>
                   <Select
@@ -284,15 +284,16 @@ function LeaveRequestForm(props: ILeaveRequest) {
                   </Box>
                 </Grid>
               </Grid>
+              </Box>
               
 
                   <div>
-                  <Box display="inline">
+                  <Box textAlign="right" marginBottom={2}>
                     {isButton && (
                       <Button
                         size="small"
                         text="Reset"
-                        color="info"
+                        variant="outlined"
                         onClick={onReset}
                       />
                     )}
@@ -319,7 +320,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
                     )}
                     </Box>
                   </div>
-                  </Box>
+                  
                 
             </Form>
         </div>
