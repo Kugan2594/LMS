@@ -72,6 +72,7 @@ const masterMenuItems: MenuItem[] = [
   { name: "Holidays", icon: InsertInvitationIcon, link: "/master/holidays" },
   // { name: "My Tasks", icon: TaskAltRoundedIcon, link: "/master/tasks" },
   // { name: "Leave Requests", icon: LocalPostOfficeRoundedIcon, link: "/master/In-Progress",},
+  { name: "Lieu Request", icon: IoIosWoman, link: "/master/lieurequest" },
   { name: "BusinessUnit", icon: IoIosWoman, link: "/master/businessUnit" },
   {
     name: "Employement Type",
