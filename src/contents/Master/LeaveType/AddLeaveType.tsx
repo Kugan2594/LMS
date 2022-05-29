@@ -17,7 +17,7 @@ import Radio from '@mui/material/Radio';
 import { createLeaveType, updateLeaveType } from "./serviceLeaveType"
 import FormControlLabel from '@mui/material/FormControlLabel';
 function AddLeaveType(props) {
-    const { reloadTable, action, editData, handleError, setLeaveDays } = props;
+    const { reloadTable, action, editData, handleError,  handleClose ,setLeaveDays } = props;
     const [updateStatus, setupdateStatus] = useState(true);
     const [add, setAdd] = useState(false);
     const [inputFields, setInputFields] = useState([{ startMonth: 0, endMonth: 0, days: 0 }])
@@ -49,6 +49,9 @@ function AddLeaveType(props) {
         let temp: ILeaveType = { ...errors };
         if ("type" in fieldValues)
             temp.type = fieldValues.type ? "" : "This field is required.";
+        setErrors({
+            ...temp,
+        });
         if (fieldValues === values)
             return Object.values(temp).every((x) => x === "");
     };
@@ -107,7 +110,6 @@ function AddLeaveType(props) {
                 );
             }
             else {
-
                 let data: object = {
                     id: editData.id,
                     description: values.description,
@@ -173,9 +175,7 @@ function AddLeaveType(props) {
             setSkipped(newSkipped);
         }
     };
-    const handleClose = () => {
-        setOpen(false);
-    };
+
     const onReset = () => {
         resetForm();
     };
@@ -199,7 +199,7 @@ function AddLeaveType(props) {
             console.log({ editData });
             setValues({ ...editData, });
             setInputFields(editData.leaveDaysDurationSettingDto);
-            console.log("/////////////////////////////", editData.leaveDaysDurationSettingDto);
+
         }
 
 
@@ -242,9 +242,9 @@ function AddLeaveType(props) {
                                         <Input
                                             name="type"
                                             label="Leave Type Name"
-                                            value={values.name}
+                                            value={values.type}
                                             onChange={handleInputChange}
-                                            error={errors.name}
+                                            error={errors.type}
                                             tabIndex={0}
                                             inputProps={{ tabIndex: '1' }}
                                         />
@@ -262,7 +262,7 @@ function AddLeaveType(props) {
                                     <Grid item xs={6}>
                                         <Input
                                             name="noticePeriod"
-                                            label="Notice Perios"
+                                            label="Notice Perios In Days"
                                             value={values.noticePeriod}
                                             onChange={handleInputChange}
                                             error={errors.noticePeriod}
@@ -272,7 +272,7 @@ function AddLeaveType(props) {
                                     <Grid item xs={6}>
                                         <Input
                                             name="cancellationNoticePeriod"
-                                            label="Cancellation Notice Period"
+                                            label="Cancellation Notice Period In Days"
                                             value={values.cancellationNoticePeriod}
                                             onChange={handleInputChange}
                                             error={errors.cancellationNoticePeriod}
