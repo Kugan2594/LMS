@@ -166,9 +166,9 @@ function ManageEmployee() {
       minWidth: 120,
     },
     {
-      id: "joinDate",
-      label: "Appointed Date",
-      minWidth: 150,
+      id: "nic",
+      label: "NIC No",
+      minWidth: 120,
     },
 
     {
