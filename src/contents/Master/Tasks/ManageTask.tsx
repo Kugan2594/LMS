@@ -126,6 +126,7 @@ function Task(props) {
   const [open, setOpen] = useState(false);
   const [openDetails, setOpenDetails] = useState(false);
   const [searchFields, setsearchFields] = useState({ name: "" });
+  const [leaveTd,setLeaveId]=useState(0);
   const [sortField, setsortField] = React.useState({
     sortField: "id",
     direction: "DESC",
@@ -141,8 +142,10 @@ function Task(props) {
   const [leaveDetails, setLeaveDetails] = useState({});
 
   const handleOpenLeaveDetails = (value) => {
+    console.log({value})
     setOpenDetails(true);
     setLeaveDetails(value);
+    setLeaveId(value.id);
   };
 
   const handleClickOpen = (value) => {
@@ -296,6 +299,7 @@ function Task(props) {
                   isEmployeeDetail={true}
                   isResponseButtons={true}
                   cancel={handleClose}
+                  setleaveTYpeId={leaveTd}
                 />
               </DialogContentText>
             </DialogContent>

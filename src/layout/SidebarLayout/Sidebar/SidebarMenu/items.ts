@@ -45,7 +45,7 @@ const masterMenuItems: MenuItem[] = [
   // { name: "History", icon: HistoryRoundedIcon, link: "/master/history" },
   { name: "History", icon: HistoryRoundedIcon, link: "/master/e-history" },
   { name: "Holidays", icon: InsertInvitationIcon, link: "/master/holidays" },
-  { name: "In Progress", icon: TaskAltRoundedIcon, link: "/master/In-Progress" },
+  // { name: "In Progress", icon: TaskAltRoundedIcon, link: "/master/In-Progress" },
   // { name: "Leave Requests", icon: LocalPostOfficeRoundedIcon, link: "/master/In-Progress",},
   { name: "Lieu Request", icon: AddCircleOutlineRoundedIcon, link: "/master/lieurequest" },
   { name: "Settings",
@@ -69,5 +69,6 @@ const menuItems: MenuItems[] = [
     items: masterMenuItems,
   },
 ];
+
 
 export default menuItems;

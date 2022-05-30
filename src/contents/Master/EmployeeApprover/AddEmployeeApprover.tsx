@@ -36,9 +36,10 @@ let activeBtnTwo = {
 
 let initialFValues: IEmployeeApprover = {
   
-  employeeId:"",
+  employeeId:0,
   id: 1,
-  options:""
+  options:"",
+ 
 };
 
 function not(a: readonly object[], b: readonly object[]) {
@@ -412,6 +413,7 @@ console.log("hi");
                     handleInputChange(e)}}
                   onValueChange={onValueChange}
                   options={employeeData}
+                  error={errors.employeeId}
                 />
               </Grid>
             </Grid>

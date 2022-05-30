@@ -160,11 +160,13 @@ function ManageCompanyLocation() {
                     modalTitle={action === 'edit' ? 'Edit CompanyLocation' : 'Add CompanyLocation'}
                     modalWidth="25%"
                     open={open}
-                    onClose={handleClose}
+                    // onClose={handleClose}
                     modalBody={<AddCompanyLocation reloadTable={reloadTable}
                         action={action}
                         editData={editData}
-                        handleError={handleError} />}
+                        handleError={handleError}
+                        handleClose={handleClose}
+                        />}
                 />
             </Container>
             {alert.type.length > 0 ? (

@@ -24,7 +24,7 @@ let initialFValues: IHolidays = {
 };
 
 function AddHolidays(props) {
-  const { reloadTable, action, editData, handleError } = props;
+  const { reloadTable, action, editData, handleError,handleClose } = props;
   const handleClickOpen = (value) => {
     setOpen(true);
   };
@@ -115,9 +115,7 @@ function AddHolidays(props) {
     handleInputChange,
     resetForm,
   }: any = useForm(initialFValues, true, validate);
-  const handleClose = () => {
-    setOpen(false);
-  };
+  
   const onReset = () => {
     resetForm();
   };
@@ -170,7 +168,15 @@ function AddHolidays(props) {
                 style={{ padding: "8px" }}
               ></Grid> */}
 
-              <Box textAlign="right">
+              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                <Box sx={{ flex: "auto 1 1 1" }} />
+                <Button
+                  size="small"
+                  color="inherit"
+                  text="Cancel"
+                  onClick={handleClose}
+                />
+                <Box sx={{ flex: "1 1 auto" }} />{" "}
                 {action !== "edit" && (
                   <Button
                     size="small"

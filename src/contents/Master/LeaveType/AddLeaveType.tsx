@@ -14,7 +14,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import FormLabel from "@mui/material/FormLabel";
 import Radio from "@mui/material/Radio";
-import { createLeaveType, updateLeaveType } from "./serviceLeaveType";
+import { createLeaveType, updateLeaveType, getLeaveDaysDurationSetting } from "./serviceLeaveType";
 import FormControlLabel from "@mui/material/FormControlLabel";
 function AddLeaveType(props) {
   const {
@@ -52,19 +52,20 @@ function AddLeaveType(props) {
     endMonth: 0,
     days: 0,
     carryforwardCancellation: 0,
+    reminderGap:0
   };
-
   const validate = (fieldValues = values) => {
     let temp: ILeaveType = { ...errors };
     if ("type" in fieldValues)
       temp.type = fieldValues.type ? "" : "This field is required.";
+      if ("description" in fieldValues)
+      temp.description = fieldValues.description ? "" : "This field is required.";
     setErrors({
       ...temp,
     });
     if (fieldValues === values)
       return Object.values(temp).every((x) => x === "");
   };
-
   const {
     values,
     setValues,
@@ -73,6 +74,31 @@ function AddLeaveType(props) {
     handleInputChange,
     resetForm,
   }: any = useForm(initialFValues, true, validate);
+  useEffect(() => {
+    if (action === "edit") {
+      console.log({ editData });
+      setValues({ ...editData });
+      // setInputFields(setLeaveDays);
+      // console.log({setLeaveDays});
+      getLeaveAllocated(editData.id);
+    }
+  }, [action, editData, setValues]);
+
+
+  const getLeaveAllocated = (id: any) => {
+    getLeaveDaysDurationSetting(id).then((res: any) => {
+      let newfield = [];
+      console.log({ res });
+      (res.data).map((leave) => {
+
+        newfield.push(leave);
+
+      })
+      console.log({ newfield })
+      setInputFields(newfield);
+    });
+  }
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -101,6 +127,7 @@ function AddLeaveType(props) {
           allocatedDaysByExtraWorking: values.allocatedDaysByExtraWorking,
           monthlyApplicable: values.monthlyApplicable,
           carryForwardExpiry: values.carryForwardExpiry,
+          reminderGap:values.reminderGap
         };
         console.log({ data });
         createLeaveType(data).then(
@@ -142,6 +169,7 @@ function AddLeaveType(props) {
           allocatedDaysByExtraWorking: values.allocatedDaysByExtraWorking,
           monthlyApplicable: values.monthlyApplicable,
           carryForwardExpiry: values.carryForwardExpiry,
+          reminderGap:values.reminderGap
         };
         console.log({ data });
         updateLeaveType(data).then(
@@ -206,20 +234,14 @@ function AddLeaveType(props) {
     let data = [...inputFields];
     data.splice(index, 1)
     setInputFields(data)
-}
+  }
 
-  useEffect(() => {
-    if (action === "edit") {
-      console.log({ editData });
-      setValues({ ...editData });
-      setInputFields(editData.leaveDaysDurationSettingDto);
-    }
-  }, [action, editData, setValues]);
+
 
   return (
     <div>
       <Box sx={{ width: "100%", justifyContent: "center" }}>
-      <Stepper sx={{background:"none",padding:0}} activeStep={activeStep - 1} alternativeLabel>
+        <Stepper sx={{ background: "none", padding: 0 }} activeStep={activeStep - 1} alternativeLabel>
           {steps.map((label, index) => {
             const stepProps: { completed?: boolean } = {};
             const labelProps: {
@@ -370,7 +392,7 @@ function AddLeaveType(props) {
                 </Grid>
                 
                 <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                <Box sx={{ flex: "auto 1 1 1" }} />
+                  <Box sx={{ flex: "auto 1 1 1" }} />
                   <Button
                     size="small"
                     color="inherit"
@@ -490,7 +512,7 @@ function AddLeaveType(props) {
                                 error={errors.startMonth}
                                 type="number"
                               />
-                             
+
                             </Grid>
 
                             <Grid item xs={2}>
@@ -521,70 +543,27 @@ function AddLeaveType(props) {
                             <Grid item xs={2}>
                             <FormLabel></FormLabel>
                               <Button text="Remove" variant="text" size="small" onClick={() => removeFields(index)} color="error"/>
+                              <Button onClick={addFields} text="Add More.." size="small" />
                             </Grid>
+                            <Grid item xs={2}>
+
+                              <Button text="Remove" size="small" onClick={() => removeFields(index)} color="error" />
+
+                            </Grid>
+
                           </Grid>
 
-                          
+
                         </div>
                       );
                     }
                     )
-                    }
-                     {values.allocateDaysByAppointedDate && <Grid item xs={4}>
-                                <Button onClick={addFields} text="Add More.." size="small"/>
-                            </Grid>}
-
-                  {/* {action === "edit" && values.allocateDaysByAppointedDate && values.leaveDaysDurationSettingDto &&
-                                        values.leaveDaysDurationSettingDto.map((input, index) => {
-                                            return (
-                                                <div key={index}>
-                                                    <Grid container>
-                                                        <Grid item xs={3}>
-                                                            <FormLabel> Appointed month between</FormLabel>
-                                                        </Grid>
-                                                        <Grid item xs={2}>
-                                                            <FormLabel> from</FormLabel>
-                                                            <Input
-                                                                name="startMonth"
-
-                                                                value={input.startMonth}
-                                                                onChange={event => handleFormChange(index, event)}
-                                                                error={errors.startMonth}
-                                                                type="number"
-                                                            />
-                                                        </Grid>
-
-                                                        <Grid item xs={2}>
-                                                            <FormLabel> to</FormLabel>
-                                                            <Input
-                                                                name="endMonth"
-                                                                value={input.endMonth}
-                                                                onChange={event => handleFormChange(index, event)}
-                                                                error={errors.endMonth}
-                                                                type="number"
-                                                            />
-                                                        </Grid>
-                                                        <Grid item xs={2}>
-                                                            <FormLabel> Allocated Days</FormLabel>
-                                                            <Input
-                                                                name="days"
-                                                                value={input.days}
-                                                                onChange={event => handleFormChange(index, event)}
-                                                                error={errors.days}
-                                                                type="number"
-                                                            />
-                                                        </Grid>
-
-
-                                                    </Grid>
-
-                                                </div>
-                                            )
-                                        })} */}
+                  }
+              
                 </Grid>
 
                 <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                <Box sx={{ flex: "auto 1 1 1" }} />
+                  <Box sx={{ flex: "auto 1 1 1" }} />
                   <Button
                     size="small"
                     color="inherit"

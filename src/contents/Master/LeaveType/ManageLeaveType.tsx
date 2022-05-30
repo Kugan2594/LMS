@@ -7,24 +7,25 @@ import PageTitle from "src/components/organism/PageTitle";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import { Column } from "../../../components/atoms/Tables/TableInterface";
 import { getAllEmployee } from "../Employee/ServiceEmployee";
-import { getAllLeaveType, deleteLeaveType, getGeneralSettingByLeaveType, getAllGeneralSetting, getLeaveDaysDurationSetting } from "./serviceLeaveType";
+import { getAllLeaveType, deleteLeaveType, getGeneralSettingByLeaveType, getAllGeneralSetting} from "./serviceLeaveType";
 import { TableAction } from "src/components/atoms/Tables/TableAction";
 import AddLeaveType from "./AddLeaveType";
 import CustomizedNotification from 'src/util/CustomizedNotification';
 
 function createData(data) {
-  let newfield = [];
+
   let convertData = data.map((post, index) => {
-    getLeaveDaysDurationSetting(post.leaveType.id).then((res: any) => {
+  //   let newfield = [];
+  //   getLeaveDaysDurationSetting(post.leaveType.id).then((res: any) => {
 
+  // let newfield = [];
+  //     (res.data).map((leave) => {
+  //       console.log({leave});
+  //       newfield.push(leave);
 
-      (res.data).map((leave) => {
+  //     })
 
-        newfield.push(leave);
-
-      })
-
-    });
+  //   });
     return {
 
       id: post.leaveType.id,
@@ -46,7 +47,7 @@ function createData(data) {
       allocateDaysByAppointedDate: post.allocateDaysByAppointedDate,
       allocatedDaysByExtraWorking: post.allocatedDaysByExtraWorking,
       monthlyApplicable: post.monthlyApplicable,
-      leaveDaysDurationSettingDto: newfield,
+      // leaveDaysDurationSettingDto: newfield,
       carryforwardCancellation: post.carryforwardCancellation,
     };
   });
@@ -56,7 +57,7 @@ function createData(data) {
 
 
 function ManageLeaveType() {
-  const [leavedays, setLeaveDays] = useState([]);
+
   const [leaveallocate, setLeaveAllocate] = useState([]);
   const [action, setaction] = useState('add');
   const [open, setOpen] = useState(false);
@@ -76,6 +77,11 @@ function ManageLeaveType() {
     });
   };
   const [dataSource, setdataSource] = useState([]);
+  useEffect(() => {
+    getAllLeaveTypeData(pagination.pageNumber, pagination.pageSize);
+    getGeneralSettingDataByLeaveType();
+
+  }, [pagination.pageNumber, pagination.pageSize]);
   const handleClickOpen = () => {
     setaction('add');
     setOpen(true);
@@ -85,20 +91,10 @@ function ManageLeaveType() {
     setaction('edit');
     seteditData(row);
     setOpen(true);
-    getLeaveAllocated(row.id);
+
   };
-  const getLeaveAllocated = (id: any) => {
-    getLeaveDaysDurationSetting(id).then((res: any) => {
-      let newfield = [];
-      setLeaveDays(res.data);
-      (res.data).map((leave) => {
 
-        newfield.push(leave);
 
-      })
-      setLeaveAllocate(newfield);
-    });
-  }
   const [alert, setalert] = useState({
     type: "",
     mesg: "",
@@ -112,11 +108,7 @@ function ManageLeaveType() {
     }
   };
 
-  useEffect(() => {
-    getAllLeaveTypeData(pagination.pageNumber, pagination.pageSize);
-    getGeneralSettingDataByLeaveType();
 
-  }, [pagination.pageNumber, pagination.pageSize]);
 
   const getGeneralSettingDataByLeaveType = () => {
 

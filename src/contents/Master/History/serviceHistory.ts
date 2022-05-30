@@ -11,13 +11,13 @@ const updateApproverStatus = (data: object) => {
     });
 };
 
-const getLeaveApproverStatus = () => {
+const getLeaveApproverStatus = (id:number) => {
     return new Promise((resolve, reject) => {
         api(
           "get",
           "lm-web",
           null,
-          `/approvalStatus/history?leaveRequestId=3`,
+          `/approvalStatus/history?leaveRequestId=${id}`,
           "",
           "",
           ""

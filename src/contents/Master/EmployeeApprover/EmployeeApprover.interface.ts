@@ -1,7 +1,8 @@
 interface IEmployeeApprover {
-    employeeId?:string;
+    employeeId?:number;
     id?: number;
     options: String;
+   
   }
   
   export type { IEmployeeApprover };

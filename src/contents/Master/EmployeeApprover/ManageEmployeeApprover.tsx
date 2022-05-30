@@ -12,7 +12,7 @@ import CustomizedNotification from 'src/util/CustomizedNotification';
 function createData(data) {
   let convertData = data.map((post, index) => {
       return {
-          name: post.employee.lastName,
+          employeeName: post.employee.firstName,
           approverOrder: post.approverOrder,
           approverName:post.approver.employee.firstName,
           employeeId: post.employee.id
@@ -65,6 +65,7 @@ function ManageEmployeeApprover() {
   const getAllEmployeeApproverData = (pageNumber, pageSize) => {
     getAllEmployeeApprover(pageNumber, pageSize).then((res: any) => {
         let data: [] = createData(res.results.EmployeeApprovers);
+        console.log({data});
         setpagination({
             pageNumber: res.pagination.pageNumber,
             pageSize: res.pagination.pageSize,
@@ -96,7 +97,7 @@ function ManageEmployeeApprover() {
       minWidth: 40,
     },
     {
-      id: "name",
+      id: "employeeName",
       label: "Employee Name",
       minWidth: 180,
     },

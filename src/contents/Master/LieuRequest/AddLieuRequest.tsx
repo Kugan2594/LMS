@@ -1,4 +1,4 @@
-import { Divider, Grid } from "@mui/material";
+import { Divider, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Button from "src/components/atoms/controlls/Button";
 import Input from "src/components/atoms/controlls/Input";
@@ -8,139 +8,136 @@ import { ILieuRequest } from "./LieuRequest.interface";
 
 import DatePicker from "src/components/atoms/controlls/DatePicker";
 import {
-    createLieuRequest,
-    updateLieuRequest,
-    getAllLieuRequest,
-    getAllEmployee,
+  createLieuRequest,
+  updateLieuRequest,
+  getAllLieuRequest,
+  getAllEmployee,
 } from "./serviceLieuRequest";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import AutocompleteSelect from "src/components/atoms/controlls/AutocompleteSelect";
 
 let initialFValues: ILieuRequest = {
-    id: 0,
-    requestDate: "",
-    employeeId: 0,
+  id: 0,
+  requestDate: "",
+  employeeId: 0,
 };
 
 function AddLieuRequest(props) {
-    const { reloadTable, action, editData, handleError } = props;
-    const [employeeData, setemployeeData] = useState([]);
+  const { reloadTable, action, editData, handleError,handleClose } = props;
+  const [employeeData, setemployeeData] = useState([]);
 
-    const validate = (fieldValues = values) => {
-        let temp: ILieuRequest = { ...errors };
+  const validate = (fieldValues = values) => {
+    let temp: ILieuRequest = { ...errors };
 
     if ("employeeId" in fieldValues)
       temp.employeeId = fieldValues.employeeId ? "" : "This field is required.";
 
-        if ("requestDate" in fieldValues)
-            temp.requestDate = fieldValues.requestDate
-                ? spaceValidation.test(fieldValues.requestDate)
-                    ? ""
-                    : `requestDate ${FORM_VALIDATION.space}`
-                : FORM_VALIDATION.required;
+    if ("requestDate" in fieldValues)
+      temp.requestDate = fieldValues.requestDate
+        ? spaceValidation.test(fieldValues.requestDate)
+          ? ""
+          : `requestDate ${FORM_VALIDATION.space}`
+        : FORM_VALIDATION.required;
 
-        setErrors({
-            ...temp,
-        });
+    setErrors({
+      ...temp,
+    });
 
-        if (fieldValues === values)
-            return Object.values(temp).every((x) => x === "");
-    };
+    if (fieldValues === values)
+      return Object.values(temp).every((x) => x === "");
+  };
 
-    const {
-        values,
-        setValues,
-        errors,
-        setErrors,
-        handleInputChange,
-        resetForm,
-    }: any = useForm(initialFValues, true, validate);
-    const [updateStatus, setupdateStatus] = useState(true);
+  const {
+    values,
+    setValues,
+    errors,
+    setErrors,
+    handleInputChange,
+    resetForm,
+  }: any = useForm(initialFValues, true, validate);
+  const [updateStatus, setupdateStatus] = useState(true);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+
+    if (validate()) {
+      if (action === "add") {
+        let data: object = {
+          employeeId: values.employeeId,
+          requestDate: values.requestDate,
+        };
+        createLieuRequest(data).then(
+          (res: any) => {
+            reloadTable(res);
+            handleClose();
+            resetForm();
+          },
+          (error) => {
+            handleClose();
+            handleError(error);
+          }
+        );
+      } else {
         const formData = new FormData();
+        let data: object = {
+          id: editData.id,
+          employeeId: values.employeeId,
+          requestDate: values.requestDate,
+        };
 
-        if (validate()) {
-            if (action === "add") {
-                let data: object = {
-                    employeeId: values.employeeId,
-                    requestDate: values.requestDate,
-                };
-                createLieuRequest(data).then(
-                    (res: any) => {
-                        reloadTable(res);
-                        handleClose();
-                        resetForm();
-                    },
-                    (error) => {
-                        handleClose();
-                        handleError(error);
-                    }
-                );
-            } else {
-                const formData = new FormData();
-                let data: object = {
-                    id: editData.id,
-                    employeeId: values.employeeId,
-                    requestDate: values.requestDate,
-                };
+        updateLieuRequest(data).then(
+          (res: any) => {
+            console.log(res);
 
-                updateLieuRequest(data).then(
-                    (res: any) => {
-                        console.log(res);
+            reloadTable(res);
+            setupdateStatus(true);
+            resetForm();
+          },
+          (error) => {
+            console.log(error);
+            handleError(error);
+          }
+        );
+      }
+    }
+  };
+  useEffect(() => {
+    getEmployeeSelectData();
+    if (action === "edit") {
+      setValues(editData);
+    }
+  }, [action, editData, setValues]);
 
-                        reloadTable(res);
-                        setupdateStatus(true);
-                        resetForm();
-                    },
-                    (error) => {
-                        console.log(error);
-                        handleError(error);
-                    }
-                );
-            }
-        }
-    };
-    useEffect(() => {
-        getEmployeeSelectData();
-        if (action === "edit") {
-            setValues(editData);
-        }
-    }, [action, editData, setValues]);
+  const getEmployeeSelectData = () => {
+    let data: any = [];
+    getAllEmployee().then((res: []) => {
+      res.map((post: any) => {
+        data.push({ id: post.id, title: post.lastName });
+        return null;
+      });
+      setemployeeData(data);
+    });
+  };
 
-    const getEmployeeSelectData = () => {
-        let data: any = [];
-        getAllEmployee().then((res: []) => {
-          res.map((post: any) => {
-            data.push({ id: post.id, title: post.lastName });
-            return null;
-          });
-          setemployeeData(data);
-        });
-      };
+  const onChangeFormValue = () => {
+    setupdateStatus(false);
+  };
+  const onReset = () => {
+    resetForm();
+  };
+  const [open, setOpen] = useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  
+  const onValueChange = (e) => {
+    setupdateStatus(false);
+    const { name, value } = e.target;
 
-    const onChangeFormValue = () => {
-        setupdateStatus(false);
-    };
-    const onReset = () => {
-        resetForm();
-    };
-    const [open, setOpen] = useState(false);
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const onValueChange = (e) => {
-        setupdateStatus(false);
-        const { name, value } = e.target;
-
-        console.log("hit", name, value);
-    };
+    console.log("hit", name, value);
+  };
 
     return (
         <React.Fragment>
@@ -196,9 +193,11 @@ function AddLieuRequest(props) {
 }
 
 AddLieuRequest.propTypes = {
-    reloadTable: PropTypes.func,
-    handleError: PropTypes.func,
-    action: PropTypes.string,
-    editData: PropTypes.object,
+  reloadTable: PropTypes.func,
+  handleError: PropTypes.func,
+  action: PropTypes.string,
+  editData: PropTypes.object,
+  handleClose: PropTypes.func,
+
 };
 export default AddLieuRequest;
