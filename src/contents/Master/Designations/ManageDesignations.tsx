@@ -29,7 +29,9 @@ function createData(data) {
     let convertData = data.map((post, index) => {
         return {
             id: post.id,
-            name: post.name
+            name: post.name,
+            createdAt:post.createdAt,
+            updatedAt:post.updatedAt
         };
     });
     return convertData;
@@ -82,6 +84,17 @@ function ManageDesignations() {
             id: "name",
             label: "Designation Name",
             minWidth: 0,
+        },
+        
+        {
+            id: "createdAt",
+            label: "Create Date",
+            minWidth: 120,
+        },
+        {
+            id: "updatedAt",
+            label: "Update Date",
+            minWidth: 120,
         },
         {
             id: "action",
@@ -191,11 +204,13 @@ function ManageDesignations() {
                     modalTitle={action === 'edit' ? 'Edit Designation' : 'Add Designation'}
                     modalWidth="25%"
                     open={open}
-                    onClose={handleClose}
+                    // onClose={handleClose}
                     modalBody={<AddDesignation reloadTable={reloadTable}
                         action={action}
                         editData={editData}
-                        handleError={handleError} />}
+                        handleError={handleError}
+                        handleClose={handleClose}
+                        />}
                 />
 
             </Container>

@@ -162,11 +162,12 @@ function ManageEmployementType() {
                     modalTitle={action === 'edit' ? 'Edit EmployementType' : 'Add EmployementType'}
                     modalWidth="25%"
                     open={open}
-                    onClose={handleClose}
+                    // onClose={handleClose}
                     modalBody={<AddEmployementType reloadTable={reloadTable}
                         action={action}
                         editData={editData}
-                        handleError={handleError} />}
+                        handleError={handleError}
+                        handleClose={handleClose} />}
                 />
             </Container>
             {alert.type.length > 0 ? (

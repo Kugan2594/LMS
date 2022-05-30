@@ -102,7 +102,7 @@ const LogoText = styled(Box)(
 
 function Logo() {
   return (
-    <LogoWrapper to="/dashboard">
+    <LogoWrapper to="/master">
       {/* <LogoSignWrapper> */}
       {/* {/* <LogoSign>
           <LogoSignInner />

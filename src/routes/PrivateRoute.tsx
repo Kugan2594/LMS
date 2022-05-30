@@ -22,7 +22,6 @@ import ManageEmployementType from "src/contents/Master/EmployementType/ManageEmp
 import { element } from "prop-types";
 
 import ManageLieuRequest from "src/contents/Master/LieuRequest/ManageLieuRequest";
-import ManageHolidays from "src/contents/Master/Holidays/ManageHolidays";
 const Loader = (Component: any) => (props: any) =>
     (
         <Suspense fallback={<SuspenseLoader />}>

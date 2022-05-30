@@ -33,7 +33,7 @@ let initialFValues: ICompanyLocation = {
 
 
 function AddCompanyLocation(props) {
-  const { reloadTable, action, editData, handleError } = props;
+  const { reloadTable, action, editData, handleError,handleClose} = props;
 
   const validate = (fieldValues = values) => {
     let temp: ICompanyLocation = { ...errors };
@@ -134,9 +134,9 @@ function AddCompanyLocation(props) {
   const handleClickOpen = () => {
     setOpen(true);
   };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
   const onValueChange = (e) => {
     setupdateStatus(false);
@@ -164,8 +164,15 @@ function AddCompanyLocation(props) {
                       error={errors.location}
                     />
                   
-                  <Box textAlign="right">
-                    
+                  <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Box sx={{ flex: "auto 1 1 1" }} />
+                  <Button
+                    size="small"
+                    color="inherit"
+                    text="Cancel"
+                    onClick={handleClose}
+                  />
+                  <Box sx={{ flex: "1 1 auto" }} />                    
                   {action !== "edit" && (
                     <Button
                       size="small"
@@ -194,5 +201,7 @@ AddCompanyLocation.propTypes = {
   handleError: PropTypes.func,
   action: PropTypes.string,
   editData: PropTypes.object,
+  handleClose: PropTypes.func,
+
 };
 export default AddCompanyLocation;
