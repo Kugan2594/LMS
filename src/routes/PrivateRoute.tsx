@@ -17,6 +17,8 @@ import Task from "src/contents/Master/Tasks/ManageTask";
 import ManageDesignations from "src/contents/Master/Designations/ManageDesignations";
 import ManageCompanyLocation from "src/contents/Master/CompanyLocation/ManageCompanyLocation";
 import ManageEmployementType from "src/contents/Master/EmployementType/ManageEmployementType";
+import { element } from "prop-types";
+
 const Loader = (Component: any) => (props: any) =>
     (
         <Suspense fallback={<SuspenseLoader />}>
