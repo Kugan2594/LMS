@@ -61,7 +61,7 @@ function ManageBusinessUnit() {
     }, [pagination.pageNumber, pagination.pageSize]);
     const getAllBusinessUnitData = (pageNumber, pageSize) => {
         getAllBusinessUnit(pageNumber, pageSize).then((res: any) => {
-            let data: [] = createData(res.results.Designation);
+            let data: [] = createData(res.results.Business_Unit);
             setpagination({
                 pageNumber: res.pagination.pageNumber,
                 pageSize: res.pagination.pageSize,
@@ -87,6 +87,7 @@ function ManageBusinessUnit() {
             id: "action",
             label: "Action",
             fixed: "right",
+            width: 90,
             minWidth: 0,
             align: "center",
             render: (value: any) => (
@@ -164,10 +165,10 @@ function ManageBusinessUnit() {
         <div>
             <PageTitleWrapper>
                 <PageTitle
-                    heading="Manage BusinessUnit"
-                    subHeading="Master/ BusinessUnit"
+                    heading="Business Unit"
+                    subHeading="Master/Business Unit"
                     isButton={true}
-                    name="Add BusinessUnit"
+                    name="Add Business Unit"
                     onclickButton={handleClickOpen}
                 />
             </PageTitleWrapper>
@@ -188,7 +189,7 @@ function ManageBusinessUnit() {
                 </Card>
                 <Modals
                     modalTitle={action === 'edit' ? 'Edit BusinessUnit' : 'Add BusinessUnit'}
-                    modalWidth="50%"
+                    modalWidth="25%"
                     open={open}
                     onClose={handleClose}
                     modalBody={<AddBusinessUnit reloadTable={reloadTable}

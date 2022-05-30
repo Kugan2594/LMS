@@ -87,6 +87,7 @@ function ManageDesignations() {
             id: "action",
             label: "Action",
             fixed: "right",
+            width: 90,
             minWidth: 0,
             align: "center",
             render: (value: any) => (
@@ -164,8 +165,8 @@ function ManageDesignations() {
         <div>
             <PageTitleWrapper>
                 <PageTitle
-                    heading="Manage Designation"
-                    subHeading="Master/ Designation"
+                    heading="Designation"
+                    subHeading="Master/Designation"
                     isButton={true}
                     name="Add Designation"
                     onclickButton={handleClickOpen}
@@ -188,7 +189,7 @@ function ManageDesignations() {
                 </Card>
                 <Modals
                     modalTitle={action === 'edit' ? 'Edit Designation' : 'Add Designation'}
-                    modalWidth="50%"
+                    modalWidth="25%"
                     open={open}
                     onClose={handleClose}
                     modalBody={<AddDesignation reloadTable={reloadTable}

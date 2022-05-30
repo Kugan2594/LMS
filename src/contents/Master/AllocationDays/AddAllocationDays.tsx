@@ -233,7 +233,6 @@ function AddAllocationDays(props) {
                 </Grid>
               </Grid>
 
-              <Divider />
               <Grid
                 display="flex"
                 flexDirection="row"
@@ -241,12 +240,13 @@ function AddAllocationDays(props) {
                 container
                 style={{ padding: "8px" }}
               ></Grid>
-              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                <Box sx={{ flex: "1 1 auto" }} />
+              
+              <Box textAlign="right">
 
                 {action !== "edit" && (
                   <Button
                     size="small"
+                    variant="outlined"
                     color="primary"
                     text="Reset"
                     onClick={onReset}

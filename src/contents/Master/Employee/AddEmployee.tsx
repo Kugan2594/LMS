@@ -10,7 +10,7 @@ import {
   EMAIL_VALIDATION,
   NIC_VALIDATION,
   LICENCE_VALIDATION,
-  PASSPORT_VALIDATION
+  PASSPORT_VALIDATION,
 } from "src/util/ValidationMeassage";
 import { IEmployee } from "./Employee.interface";
 
@@ -32,6 +32,7 @@ import PropTypes from "prop-types";
 import Checkbox from "src/components/atoms/controlls/Checkbox";
 import MobileStepper from "@mui/material/MobileStepper";
 import Button1 from "@mui/material/Button";
+import { padding } from "@mui/system";
 
 let initialFValues: IEmployee = {
   id: 0,
@@ -167,7 +168,7 @@ const religon = [
 ];
 
 function AddEmployee(props) {
-  const { reloadTable, action, editData, handleError,handleClose } = props;
+  const { reloadTable, action, editData, handleError, handleClose } = props;
   const [companyLocationData, setcompanyLocationData] = useState([]);
   const [designationData, setdesignationData] = useState([]);
   const [employementTypeData, setemployementTypeData] = useState([]);
@@ -216,8 +217,6 @@ function AddEmployee(props) {
           ? ""
           : `nic ${FORM_VALIDATION.space}`
         : FORM_VALIDATION.required;
-        
-
 
     if ("maritalStatus" in fieldValues)
       temp.maritalStatus = fieldValues.maritalStatus
@@ -237,15 +236,19 @@ function AddEmployee(props) {
         ? ""
         : FORM_VALIDATION.email;
 
-        if ("drivingLicenceNo" in fieldValues)
-        temp.drivingLicenceNo =fieldValues.drivingLicenceNo? LICENCE_VALIDATION.test(fieldValues.drivingLicenceNo)
+    if ("drivingLicenceNo" in fieldValues)
+      temp.drivingLicenceNo = fieldValues.drivingLicenceNo
+        ? LICENCE_VALIDATION.test(fieldValues.drivingLicenceNo)
           ? ""
-          : FORM_VALIDATION.drivingLicenceNo:""; 
+          : FORM_VALIDATION.drivingLicenceNo
+        : "";
 
-          if ("passportNo" in fieldValues)
-        temp.passportNo =fieldValues.passportNo? PASSPORT_VALIDATION.test(fieldValues.passportNo)
+    if ("passportNo" in fieldValues)
+      temp.passportNo = fieldValues.passportNo
+        ? PASSPORT_VALIDATION.test(fieldValues.passportNo)
           ? ""
-          : FORM_VALIDATION.passportNo:""; 
+          : FORM_VALIDATION.passportNo
+        : "";
     if ("address" in fieldValues)
       temp.address =
         fieldValues.address.length !== 0
@@ -257,21 +260,6 @@ function AddEmployee(props) {
       temp.dateOfBirth = fieldValues.dateOfBirth
         ? ""
         : "This field is required.";
-    if ("joinDate" in fieldValues)
-      temp.joinDate = fieldValues.joinDate ? "" : "This field is required.";
-
-    if ("companyLocationId" in fieldValues)
-      temp.companyLocationId = fieldValues.companyLocationId
-        ? ""
-        : "This field is required.";
-    if ("designationId" in fieldValues)
-      temp.designationId = fieldValues.designationId
-        ? ""
-        : "This field is required.";
-    if ("dateOfPermanency" in fieldValues)
-      temp.dateOfPermanency = fieldValues.dateOfPermanency
-        ? ""
-        : "This field is required. ";
 
     setErrors({
       ...temp,
@@ -321,7 +309,7 @@ function AddEmployee(props) {
     e.preventDefault();
     console.log(values);
     const formData = new FormData();
-    if (validate()) {
+    if (validate1()) {
       if (action === "add") {
         let data: object = {
           firstName: values.firstName,
@@ -471,7 +459,6 @@ function AddEmployee(props) {
     setOpen(true);
   };
 
-
   const onValueChange = (e) => {
     setupdateStatus(false);
     const { name, value } = e.target;
@@ -490,6 +477,7 @@ function AddEmployee(props) {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
+    if(validate())
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -499,7 +487,8 @@ function AddEmployee(props) {
 
   return (
     <div>
-      <Box sx={{ width: "100%", height: "100%", justifyContent: "center" }}>
+      <Box sx={{ width: "100%", height: "480px", justifyContent: "center" }}>
+      <Box sx={{ width: "100%", height: "400px", justifyContent: "center" }}>
         {activeStep === steps.length - 2 ? (
           <React.Fragment>
             <Typography sx={{ mt: 2, mb: 1 }}>
@@ -647,7 +636,7 @@ function AddEmployee(props) {
             </Typography>
           </React.Fragment>
         ) : (
-          <Typography>
+          <Typography sx={{ mt: 2, mb: 1 }}>
             <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
               <Grid container>
                 <Grid item xs={4}>
@@ -694,7 +683,9 @@ function AddEmployee(props) {
                   <AutocompleteSelect
                     name="employmentTypeId"
                     label="Employment Type*"
-                    value={values.employmentTypeId ? values.employmentTypeId : ""}
+                    value={
+                      values.employmentTypeId ? values.employmentTypeId : ""
+                    }
                     onChange={handleInputChange}
                     onValueChange={onValueChange}
                     options={employementTypeData}
@@ -724,16 +715,19 @@ function AddEmployee(props) {
             </Form>
           </Typography>
         )}
-        <Box sx={{ pt: 2 }}>
-          <Box />
+        </Box>
+        <Box sx={{ pt: 2, width: "100%", height: "80px", justifyContent: "center" }}>
           <MobileStepper
             variant="dots"
             steps={2}
-            // position="static"
+            position="static"
             activeStep={activeStep}
-            sx={{}}
+            sx={{ backgroundColor: "white" }}
             nextButton={
-              <ButtonGroup  variant="outlined" aria-label="outlined button group">
+              <ButtonGroup
+                variant="outlined"
+                aria-label="outlined button group"
+              >
                 {action !== "edit" && (
                   <Button
                     size="small"
@@ -749,6 +743,7 @@ function AddEmployee(props) {
                   color="inherit"
                   text="Back"
                 />
+                <Box width="100px">
                 <Button
                   size="small"
                   text={
@@ -761,21 +756,21 @@ function AddEmployee(props) {
                   onClick={
                     activeStep === steps.length - 1 ? handleSubmit : handleNext
                   }
-                  color="inherit"
                 />
+                </Box>
               </ButtonGroup>
             }
             backButton={
-                <Button
-                  size="small"
-                  color="inherit"
-                  text="Cancel"
-                  onClick={handleClose}
-                />
+              <Button
+                size="small"
+                color="inherit"
+                text="Cancel"
+                onClick={handleClose}
+              />
             }
           />
         </Box>
-      </Box>
+        </Box>
     </div>
   );
 }
@@ -785,6 +780,6 @@ AddEmployee.propTypes = {
   handleError: PropTypes.func,
   action: PropTypes.string,
   editData: PropTypes.object,
-  handleClose: PropTypes.func
+  handleClose: PropTypes.func,
 };
 export default AddEmployee;

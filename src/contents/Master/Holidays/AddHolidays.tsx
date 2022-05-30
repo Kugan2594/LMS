@@ -21,8 +21,9 @@ import FormLabel from '@mui/material/FormLabel';
 
 let initialFValues: IHolidays = {
   id: 0,
-  name: "",
   date: "",
+  type: "",
+  day:'',
   description: "",
 };
 
@@ -44,8 +45,9 @@ function AddHolidays(props) {
     if (validate()) {
       if (action === "add") {
         let data: object = {
-          name: values.name,
           date: values.date,
+          type: values.type,
+          day:values.day,
           description: values.description,
 
         };
@@ -69,8 +71,9 @@ function AddHolidays(props) {
 
         let data: object = {
           id: editData.id,
-          name: editData.name,
           date: editData.date,
+          type: editData.type,
+          day:editData.day,
           description: editData.description,
 
 
@@ -98,11 +101,11 @@ function AddHolidays(props) {
   const validate = (fieldValues = values) => {
     let temp: IHolidays = { ...errors };
 
-    if ("name" in fieldValues)
-      temp.name = fieldValues.name
+    if ("type" in fieldValues)
+      temp.type = fieldValues.type
         ? spaceValidation.test(fieldValues.name)
           ? ""
-          : `name ${FORM_VALIDATION.space}`
+          : `type ${FORM_VALIDATION.space}`
         : FORM_VALIDATION.required;
 
     setErrors({
@@ -152,11 +155,11 @@ function AddHolidays(props) {
             <Grid container>
               <Grid item xs={8}>
                 <DatePicker
-                  name="dateOfHoliday"
+                  name="date"
                   label="Select Date"
-                  value={values.dateOfHoliday}
+                  value={values.date}
                   onChange={handleInputChange}
-                  error={errors.dateOfHoliday}
+                  error={errors.date}
 
                 />
               </Grid>
@@ -168,10 +171,12 @@ function AddHolidays(props) {
                   <RadioGroup
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="row-radio-buttons-group"
+                    name="day"
+                    value={values.day}
+                    onChange={handleInputChange}
                   >
-                    <FormControlLabel value="half day" control={<Radio />} label="half day" />
-                    <FormControlLabel value="full day" control={<Radio />} label="full day" />
+                    <FormControlLabel value='true' control={<Radio />} label="half day" />
+                    <FormControlLabel value='false' control={<Radio />} label="full day" />
 
                   </RadioGroup>
                 </FormControl>
@@ -179,11 +184,11 @@ function AddHolidays(props) {
 
               <Grid item xs={8}>
                 <Input
-                  name="HolidayName"
-                  label="Holiday Name"
-                  value={values.HolidayName}
+                  name="type"
+                  label="Holiday type"
+                  value={values.type}
                   onChange={handleInputChange}
-                  error={errors.HolidayName} />
+                  error={errors.type} />
               </Grid>
 
               <Divider />
@@ -196,23 +201,28 @@ function AddHolidays(props) {
               ></Grid>
             </Grid>
 
-            <Box
+            {/* <Box
               component="form"
               sx={{
                 '& .MuiTextField-root': { m: 1, width: '52ch' },
               }}
               noValidate
               autoComplete="off"
-            >
+            > */}
 
-              <TextField
-                id="outlined-multiline-static"
+              <Input
+                name="description"
                 label="Description"
-                multiline
+
+                multiline={true}
+                
                 rows={4}
+                value={values.description}
+                onChange={handleInputChange}
+
 
               />
-            </Box>
+            {/* </Box> */}
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Box sx={{ flex: "1 1 auto" }} />
 

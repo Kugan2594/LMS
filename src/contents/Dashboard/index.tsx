@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, Container, Divider, Grid } from "@mui/material";
-import { PageTitleWrapper } from "src/components/organism";
-import PageTitle from "src/components/organism/PageTitle";
+import {
+    Box,
+    Button,
+    Card,
+    CardContent,
+    Container,
+    Grid,
+    Typography,
+} from "@mui/material";
 import DoughnutChart from "src/components/molecules/Charts/Doughnut";
-import ManageInProgress from "../Master/History/ManageInProgress";
 import { getAllEmployeeLeaveType } from "../Master/AllocationDays/ServiceAllocatedDays";
+import ManageTask from "../Master/Tasks/ManageTask";
+import SendRoundedIcon from "@mui/icons-material/SendRounded";
+import Modals from "src/components/atoms/Modals";
+import LeaveRequestForm from "../Master/LeaveRequest/LeaveRequestForm";
+import ManageInProgress from "../Master/History/ManageInProgress";
 
 function createData(data) {
     let convertData = data.map((post, index) => {
@@ -30,21 +40,30 @@ export default function Dashboard() {
         });
     };
 
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
         <>
             <div>
-                <PageTitleWrapper>
-                    <PageTitle
-                        heading="Allocation Days"
-                        subHeading="Master"
-                        isButton={false}
-                    />
-                </PageTitleWrapper>
-                <Divider />
-                <br />
-
+                <Box marginLeft={3} marginTop={2}>
+                    <Button
+                        variant="contained"
+                        startIcon={<SendRoundedIcon />}
+                        onClick={handleOpen}
+                    >
+                        Apply Leave
+                    </Button>
+                </Box>
                 <Container maxWidth="lg">
-                    <Card>
+                    <Card sx={{ marginTop: 3 }}>
                         <CardContent>
                             <Container>
                                 <Grid
@@ -53,8 +72,7 @@ export default function Dashboard() {
                                     direction="row"
                                     justifyContent="center"
                                     alignItems="center"
-                                    marginLeft={5}
-                                    marginTop={3}
+                                    marginTop={1}
                                 >
                                     {dataSource.map((post, index) => {
                                         return (
@@ -65,26 +83,33 @@ export default function Dashboard() {
                                                 lg={3}
                                                 key={index}
                                             >
-                                                <DoughnutChart
-                                                    selectedValue={
-                                                        post.remainingDays
-                                                    }
-                                                    maxValue={
-                                                        post.allocatedDays
-                                                    }
-                                                    radius={75}
-                                                    activeStrokeColor="#0f4fff"
-                                                    withGradient
-                                                    title="annual"
-                                                />
+                                                <Box
+                                                    sx={{ textAlign: "center" }}
+                                                >
+                                                    <DoughnutChart
+                                                        radius={60}
+                                                        strokeWidth={12}
+                                                        activeStrokeColor="#1a8cff"
+                                                        selectedValue={
+                                                            post.remainingDays
+                                                        }
+                                                        maxValue={
+                                                            post.allocatedDays
+                                                        }
+                                                        withGradient
+                                                    />
 
-                                                <CardContent>
-                                                    <Container>
-                                                        <h4>
-                                                            {post.leaveType}
-                                                        </h4>
-                                                    </Container>
-                                                </CardContent>
+                                                    <Typography
+                                                        variant="h6"
+                                                        marginTop={"10px"}
+                                                    >
+                                                        {post.leaveType}
+                                                    </Typography>
+                                                    <Typography variant="subtitle1">
+                                                        total{" "}
+                                                        {post.allocatedDays}
+                                                    </Typography>
+                                                </Box>
                                             </Grid>
                                         );
                                     })}
@@ -94,9 +119,28 @@ export default function Dashboard() {
                         </CardContent>
                     </Card>
                 </Container>
-            </div>
-            <div>
-                <ManageInProgress />
+                <div>
+                    <ManageInProgress />
+                </div>
+                <Box marginTop={3}>
+                    <div>
+                        <ManageTask isTitle={false} />
+                    </div>
+                </Box>
+                <div>
+                    <Modals
+                        modalTitle=""
+                        modalWidth="50%"
+                        open={open}
+                        onClose={handleClose}
+                        modalBody={
+                            <LeaveRequestForm
+                                isButton={true}
+                                isButtonTwo={true}
+                            />
+                        }
+                    />
+                </div>
             </div>
         </>
     );

@@ -29,9 +29,10 @@ function createData(data) {
     let convertData = data.map((post, index) => {
         return {
             id: post.id,
-            name: post.name,
             date: post.date,
-            description: post.description,
+            type: post.type,
+            day:post.day,
+            description: post.description
 
         };
     });
@@ -59,30 +60,30 @@ function ManageHolidays() {
     const onTableSearch = (values, sortField) => { };
 
 
-    useEffect(() => {
-        getAllHolidaysData(pagination.pageNumber, pagination.pageSize);
-    }, [pagination.pageNumber, pagination.pageSize]);
-    const getAllHolidaysData = (pageNumber, pageSize) => {
-        getAllHolidays(pageNumber, pageSize).then((res: any) => {
-            let data: [] = createData(res.results.Designation);
-            setpagination({
-                pageNumber: res.pagination.pageNumber,
-                pageSize: res.pagination.pageSize,
-                total: res.pagination.totalRecords,
-            });
-            setdataSource(data);
-        });
-    };
+    // useEffect(() => {
+    //     getAllHolidaysData(pagination.pageNumber, pagination.pageSize);
+    // }, [pagination.pageNumber, pagination.pageSize]);
+    // const getAllHolidaysData = (pageNumber, pageSize) => {
+    //     getAllHolidays(pageNumber, pageSize).then((res: any) => {
+    //         let data: [] = createData(res.results.Designation);
+    //         setpagination({
+    //             pageNumber: res.pagination.pageNumber,
+    //             pageSize: res.pagination.pageSize,
+    //             total: res.pagination.totalRecords,
+    //         });
+    //         setdataSource(data);
+    //     });
+    // };
 
     const reloadTable = (res) => {
         console.log("ppppppppppppppppp", res);
         setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
         setOpen(false);
-        getAllHolidaysData(pagination.pageNumber, pagination.pageSize);
+        // getAllHolidaysData(pagination.pageNumber, pagination.pageSize);
     };
     const columns: Column[] = [
         {
-            id: "name",
+            id: "type",
             label: "Holidays Name",
             minWidth: 0,
         },

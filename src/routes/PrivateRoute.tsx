@@ -19,7 +19,7 @@ import ManageDesignations from "src/contents/Master/Designations/ManageDesignati
 import ManageBusinessUnit from "src/contents/Master/BusinessUnit/ManageBusinessUnit";
 import ManageCompanyLocation from "src/contents/Master/CompanyLocation/ManageCompanyLocation";
 import ManageEmployementType from "src/contents/Master/EmployementType/ManageEmployementType";
-import ManageLieuRequest from "src/contents/Master/Lieu Request/ManageLieuRequest";
+import ManageLieuRequest from "src/contents/Master/LieuRequest/ManageLieuRequest";
 const Loader = (Component: any) => (props: any) =>
     (
         <Suspense fallback={<SuspenseLoader />}>
@@ -82,8 +82,12 @@ const PrivateRoute: PartialRouteObject[] = [
                 element: <ManageDesignations />,
             },
             {
-                path: "/empApprover",
+                path: "/approver",
                 element: <ManageEmployeeApprover />,
+            },
+            {
+                path: "/lieurequest",
+                element: <ManageLieuRequest />,
             },
             {
                 path: "/businessUnit",
