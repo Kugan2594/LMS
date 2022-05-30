@@ -6,7 +6,7 @@ const getAllHoliday = (pageNumber: number, pageSize: number) => {
             "get",
             "lm-web",
             null,
-            `/holiday?page=${pageNumber}&size=${pageSize}`,
+            `/holidayPagination?page=${pageNumber}&size=${pageSize}`,
             "",
             "",
             ""

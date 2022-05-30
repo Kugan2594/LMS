@@ -10,13 +10,15 @@ import AddHolidays from "./AddHolidays";
 import { getAllHoliday, deleteHoliday } from "./ServiceHolidays";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from "src/util/CustomizedNotification";
+import moment from "moment";
+
 function createData(data) {
   let convertData = data.map((post, index) => {
     return {
       id: post.id,
-      date: post.date,
+      date: moment(post.date).format("YYYY-MM-DD"),
       type: post.type,
-      fullDay: post.fullDay,
+      fullDay: (post.fullDay ? "true" : "false"),
     };
   });
   return convertData;
@@ -125,6 +127,7 @@ function ManageHolidays() {
       id: "fullDay",
       label: "Half Day",
       minWidth: 0,
+      
     },
     {
       id: "action",
