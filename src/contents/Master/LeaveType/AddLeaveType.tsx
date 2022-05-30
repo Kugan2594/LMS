@@ -543,15 +543,11 @@ function AddLeaveType(props) {
                             <Grid item xs={2}>
                             <FormLabel></FormLabel>
                               <Button text="Remove" variant="text" size="small" onClick={() => removeFields(index)} color="error"/>
-                              <Button onClick={addFields} text="Add More.." size="small" />
+                              
                             </Grid>
-                            <Grid item xs={2}>
-
-                              <Button text="Remove" size="small" onClick={() => removeFields(index)} color="error" />
-
                             </Grid>
 
-                          </Grid>
+                            <Button onClick={addFields} text="Add More.." size="small" />
 
 
                         </div>
