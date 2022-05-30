@@ -1,12 +1,12 @@
 import api from "src/services/AxiosService";
 
-const getAllHolidays = (pageNumber: number, pageSize: number) => {
+const getAllHoliday = (pageNumber: number, pageSize: number) => {
     return new Promise((resolve, reject) => {
         api(
             "get",
             "lm-web",
             null,
-            `/designationPagination?page=${pageNumber}&size=${pageSize}`,
+            `/holiday?page=${pageNumber}&size=${pageSize}`,
             "",
             "",
             ""
@@ -20,9 +20,9 @@ const getAllHolidays = (pageNumber: number, pageSize: number) => {
     });
 };
 
-const deleteHolidays = (id: number) => {
+const deleteHoliday = (id: number) => {
     return new Promise((resolve, reject) => {
-        api("delete", "lm-web", null, "/designation", "", "", id)
+        api("delete", "lm-web", null, "/holiday", "", "", id)
             .then((response: any) => {
                 resolve(response);
             })
@@ -31,9 +31,9 @@ const deleteHolidays = (id: number) => {
             });
     });
 };
-const updateHolidays = (data: object) => {
+const updateHoliday = (data: object) => {
     return new Promise((resolve, reject) => {
-        api("put", "lm-web", null, `/designation`, "", data, "")
+        api("put", "lm-web", null, `/holiday`, "", data, "")
             .then((response: any) => {
                 resolve(response);
             })
@@ -43,9 +43,9 @@ const updateHolidays = (data: object) => {
     });
 };
 
-const createHolidays = (data: object) => {
+const createHoliday = (data: object) => {
     return new Promise((resolve, reject) => {
-        api("post", "lm-web", null, `/designation`, "", data, "")
+        api("post", "lm-web", null, `/holiday`, "", data, "")
             .then((response: any) => {
                 resolve(response);
             })
@@ -54,4 +54,4 @@ const createHolidays = (data: object) => {
             });
     });
 };
-export { getAllHolidays, updateHolidays, deleteHolidays, createHolidays }
+export { getAllHoliday, updateHoliday, deleteHoliday, createHoliday }

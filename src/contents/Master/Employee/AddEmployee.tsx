@@ -1,4 +1,4 @@
-import { Divider, Grid, ButtonGroup } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Button from "src/components/atoms/controlls/Button";
 import Input from "src/components/atoms/controlls/Input";
@@ -20,22 +20,21 @@ import {
   updateEmployee,
   getAllCompanyLocationForDropDown,
   getAllDesignationForDropDown,
-  getAllEmployementTypeForDropDown,
   getAllBusinessUnitForDropDown,
+  getAllEmployementTypeForDropDown,
 } from "./ServiceEmployee";
 import AutocompleteSelect from "src/components/atoms/controlls/AutocompleteSelect";
 import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import Checkbox from "src/components/atoms/controlls/Checkbox";
-import MobileStepper from "@mui/material/MobileStepper";
-import Button1 from "@mui/material/Button";
-import { padding } from "@mui/system";
 
 let initialFValues: IEmployee = {
   id: 0,
+  empId: "",
   firstName: "",
   address: "",
   lastName: "",
@@ -279,6 +278,13 @@ function AddEmployee(props) {
       temp.companyLocationId = fieldValues.companyLocationId
         ? ""
         : "This field is required.";
+
+    if ("empId" in fieldValues)
+      temp.empId = fieldValues.empId
+        ? spaceValidation.test(fieldValues.empId)
+          ? ""
+          : `empId ${FORM_VALIDATION.space}`
+        : FORM_VALIDATION.required;
     if ("designationId" in fieldValues)
       temp.designationId = fieldValues.designationId
         ? ""
@@ -295,6 +301,7 @@ function AddEmployee(props) {
     if (fieldValues === values)
       return Object.values(temp).every((x) => x === "");
   };
+
 
   const {
     values,
@@ -313,6 +320,7 @@ function AddEmployee(props) {
       if (action === "add") {
         let data: object = {
           firstName: values.firstName,
+          empId: values.empId,
           address: values.address,
           lastName: values.lastName,
           email: values.email,
@@ -355,6 +363,8 @@ function AddEmployee(props) {
         let data: object = {
           id: editData.id,
           firstName: values.firstName,
+          empId: values.empId,
+          nic: values.nic,
           address: values.address,
           lastName: values.lastName,
           email: values.email,
@@ -374,7 +384,6 @@ function AddEmployee(props) {
           employmentTypeId: values.employmentTypeId,
           businessUnitId: values.businessUnitId,
           dateOfPermanency: values.dateOfPermanency,
-          nic: values.nic,
         };
 
         updateEmployee(data).then(
@@ -416,6 +425,17 @@ function AddEmployee(props) {
     });
   };
 
+  const getDesignationSelectData = () => {
+    let data: any = [];
+    getAllDesignationForDropDown().then((res: []) => {
+      res.map((post: any) => {
+        data.push({ id: post.id, title: post.name });
+        return null;
+      });
+      setdesignationData(data);
+    });
+  };
+
   const getEmployementTypeSelectData = () => {
     let data: any = [];
     getAllEmployementTypeForDropDown().then((res: []) => {
@@ -426,7 +446,6 @@ function AddEmployee(props) {
       setemployementTypeData(data);
     });
   };
-
   const getBusinessUnitSelectData = () => {
     let data: any = [];
     getAllBusinessUnitForDropDown().then((res: []) => {
@@ -435,17 +454,6 @@ function AddEmployee(props) {
         return null;
       });
       setbusinessUnitData(data);
-    });
-  };
-
-  const getDesignationSelectData = () => {
-    let data: any = [];
-    getAllDesignationForDropDown().then((res: []) => {
-      res.map((post: any) => {
-        data.push({ id: post.id, title: post.name });
-        return null;
-      });
-      setdesignationData(data);
     });
   };
   const onChangeFormValue = () => {
@@ -468,17 +476,24 @@ function AddEmployee(props) {
 
   const steps = ["Personal Details", "Employement Details"];
 
+  const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
 
   const isStepSkipped = (step: number) => {
     return skipped.has(step);
   };
 
-  const [activeStep, setActiveStep] = React.useState(0);
-
   const handleNext = () => {
-    if(validate())
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (validate()) {
+      let newSkipped = skipped;
+      if (isStepSkipped(activeStep)) {
+        newSkipped = new Set(newSkipped.values());
+        newSkipped.delete(activeStep);
+      }
+
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setSkipped(newSkipped);
+    }
   };
 
   const handleBack = () => {
@@ -487,8 +502,24 @@ function AddEmployee(props) {
 
   return (
     <div>
-      <Box sx={{ width: "100%", height: "480px", justifyContent: "center" }}>
-      <Box sx={{ width: "100%", height: "400px", justifyContent: "center" }}>
+      <Box sx={{ width: "100%", justifyContent: "center" }}>
+        <Stepper sx={{background:"none",padding:0}} activeStep={activeStep - 1} alternativeLabel>
+          {steps.map((label, index) => {
+            const stepProps: { completed?: boolean } = {};
+            const labelProps: {
+              optional?: React.ReactNode;
+            } = {};
+
+            if (isStepSkipped(index)) {
+              stepProps.completed = false;
+            }
+            return (
+              <Step key={label} {...stepProps}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>
         {activeStep === steps.length - 2 ? (
           <React.Fragment>
             <Typography sx={{ mt: 2, mb: 1 }}>
@@ -632,145 +663,164 @@ function AddEmployee(props) {
                     />
                   </Grid>
                 </Grid>
+
+                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 ,paddingTop:0}}>
+                  <Box sx={{ flex: "auto 1 1 1" }} />
+                  <Button
+                    size="small"
+                    color="inherit"
+                    text="Cancel"
+                    onClick={handleClose}
+                  />
+                  <Box sx={{ flex: "1 1 auto" }} />
+                  <Button
+                    color="inherit"
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    text="Back"
+                  />
+
+                  <Button onClick={handleNext} text="Next" />
+                </Box>
               </Form>
             </Typography>
           </React.Fragment>
         ) : (
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
-              <Grid container>
-                <Grid item xs={4}>
-                  <DatePicker
-                    name="joinDate"
-                    label="Appointed Date *"
-                    value={values.joinDate}
-                    onChange={handleInputChange}
-                    error={errors.joinDate}
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <DatePicker
-                    name="dateOfPermanency"
-                    label="Date of Permanency *"
-                    value={values.dateOfPermanency}
-                    onChange={handleInputChange}
-                    error={errors.dateOfPermanency}
-                  />
-                </Grid>
-
-                <Grid item xs={4}>
-                  <AutocompleteSelect
-                    name="designationId"
-                    label="Designation*"
-                    value={values.designationId}
-                    onChange={handleInputChange}
-                    onValueChange={onValueChange}
-                    options={designationData}
-                    error={errors.designationId}
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <AutocompleteSelect
-                    name="companyLocationId"
-                    label="Office Location*"
-                    value={values.companyLocationId}
-                    onChange={handleInputChange}
-                    options={companyLocationData}
-                    error={errors.companyLocation}
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <AutocompleteSelect
-                    name="employmentTypeId"
-                    label="Employment Type*"
-                    value={
-                      values.employmentTypeId ? values.employmentTypeId : ""
-                    }
-                    onChange={handleInputChange}
-                    onValueChange={onValueChange}
-                    options={employementTypeData}
-                    error={errors.employmentTypeId}
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <AutocompleteSelect
-                    name="businessUnitId"
-                    label="Business Unit*"
-                    value={values.businessUnitId ? values.businessUnitId : ""}
-                    onChange={handleInputChange}
-                    onValueChange={onValueChange}
-                    options={businessUnitData}
-                    error={errors.businessUnitId}
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <Checkbox
-                    name="approverStatus"
-                    label="Approver Status"
-                    value={values.approverStatus}
-                    onChange={handleInputChange}
-                  />
-                </Grid>
-              </Grid>
-            </Form>
-          </Typography>
-        )}
-        </Box>
-        <Box sx={{ pt: 2, width: "100%", height: "80px", justifyContent: "center" }}>
-          <MobileStepper
-            variant="dots"
-            steps={2}
-            position="static"
-            activeStep={activeStep}
-            sx={{ backgroundColor: "white" }}
-            nextButton={
-              <ButtonGroup
-                variant="outlined"
-                aria-label="outlined button group"
+          <React.Fragment>
+            <Typography sx={{ mt: 2, mb: 1 }}>
+              <Form
+                onSubmit={handleSubmit}
+                onChangeFormValue={onChangeFormValue}
               >
-                {action !== "edit" && (
+                <Grid container>
+                  <Grid item xs={4}>
+                    <Input
+                      name="empId"
+                      label="Employee Id"
+                      value={values.empId}
+                      onChange={handleInputChange}
+                      error={errors.empId}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <DatePicker
+                      name="joinDate"
+                      label="Appointed Date *"
+                      value={values.joinDate}
+                      onChange={handleInputChange}
+                      error={errors.joinDate}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <DatePicker
+                      name="dateOfPermanency"
+                      label="Date of Permanency *"
+                      value={values.dateOfPermanency}
+                      onChange={handleInputChange}
+                      error={errors.dateOfPermanency}
+                    />
+                  </Grid>
+
+                  <Grid item xs={4}>
+                    <AutocompleteSelect
+                      name="designationId"
+                      label="Designation*"
+                      value={values.designationId}
+                      onChange={handleInputChange}
+                      onValueChange={onValueChange}
+                      options={designationData}
+                      error={errors.designationId}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <AutocompleteSelect
+                      name="companyLocationId"
+                      label="Office Location*"
+                      value={values.companyLocationId}
+                      onChange={handleInputChange}
+                      options={companyLocationData}
+                      error={errors.companyLocation}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <AutocompleteSelect
+                      name="employmentTypeId"
+                      label="Employment Type*"
+                      value={
+                        values.employmentTypeId ? values.employmentTypeId : ""
+                      }
+                      onChange={handleInputChange}
+                      onValueChange={onValueChange}
+                      options={employementTypeData}
+                      error={errors.employmentTypeId}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <AutocompleteSelect
+                      name="businessUnitId"
+                      label="Business Unit*"
+                      value={values.businessUnitId ? values.businessUnitId : ""}
+                      onChange={handleInputChange}
+                      onValueChange={onValueChange}
+                      options={businessUnitData}
+                      error={errors.businessUnitId}
+                    />
+                  </Grid>
+                  <Grid item xs={4}></Grid>
+                  <Grid item xs={4}></Grid>
+                  <Grid item xs={4}>
+                    <Checkbox
+                      name="approverStatus"
+                      label="Approver Status"
+                      value={values.approverStatus}
+                      onChange={handleInputChange}
+                    />
+                  </Grid>
+                  <Grid
+                    display="flex"
+                    flexDirection="row"
+                    justifyContent="flex-end"
+                    container
+                    style={{ padding: "8px" }}
+                  ></Grid>
+                </Grid>
+                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Box sx={{ flex: "auto 1 1 1" }} />
                   <Button
                     size="small"
                     color="inherit"
-                    text="Reset"
-                    onClick={onReset}
+                    text="Cancel"
+                    onClick={handleClose}
                   />
-                )}
-                <Button
-                  size="small"
-                  onClick={handleBack}
-                  disabled={activeStep === 0}
-                  color="inherit"
-                  text="Back"
-                />
-                <Box width="100px">
-                <Button
-                  size="small"
-                  text={
-                    activeStep === steps.length - 1
-                      ? action === "edit"
-                        ? "Update"
-                        : "Submit"
-                      : "Next"
-                  }
-                  onClick={
-                    activeStep === steps.length - 1 ? handleSubmit : handleNext
-                  }
-                />
+                  <Box sx={{ flex: "1 1 auto" }} />
+                  <Button
+                    color="inherit"
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    text="Back"
+                  />
+                  {action !== "edit" && (
+                    <Button
+                      size="small"
+                      color="primary"
+                      text="Reset"
+                      onClick={onReset}
+                    />
+                  )}
+                  <Button
+                    size="small"
+                    type="submit"
+                    text={action === "edit" ? "Update" : "Submit"}
+                    disabled={action === "edit" ? updateStatus : false}
+                  />
                 </Box>
-              </ButtonGroup>
-            }
-            backButton={
-              <Button
-                size="small"
-                color="inherit"
-                text="Cancel"
-                onClick={handleClose}
-              />
-            }
-          />
-        </Box>
-        </Box>
+                <br />
+                <br />
+              </Form>
+            </Typography>
+          </React.Fragment>
+        )}
+      </Box>
     </div>
   );
 }

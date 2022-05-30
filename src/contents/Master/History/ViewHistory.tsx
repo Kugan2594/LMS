@@ -1,14 +1,30 @@
-import { Chip, Grid, StepLabel, TextField, Typography } from "@mui/material";
-import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import Button from "@mui/material/Button";
-import { updateApproverStatus } from "./serviceHistory";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { Chip, Grid, StepLabel, TextField, Typography, } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import Box from '@mui/material/Box';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import Button from '@mui/material/Button';
+import { getLeaveApproverStatus, updateApproverStatus } from "./serviceHistory";
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { idText } from "typescript";
+
+function createData(data) {
+  let convertData = data.map((post, index) => {
+      return {
+          id : post.id,
+          status : post.status
+      };
+  });
+  return convertData;
+}
+
+
+
 
 export default function ViewHistory(props) {
-  const handleClickOpen = () => {};
+  const [dataSource, setdataSource] = useState([]);
+  const [leaveRequestId, setleaveRequestId] = useState("");
+  const handleClickOpen = () => { };
 
   const { details, isEmployeeDetails, isResponseButtons, cancel } = props;
 
@@ -50,6 +66,17 @@ export default function ViewHistory(props) {
     );
   };
 
+  
+
+const getLeaveApproverStatusData = () => {
+    getLeaveApproverStatus().then((res: any) => {
+        let value: [] = createData(res.results.ApproverStatus);
+        setdataSource(value);
+        
+        
+    });
+};
+
   const [rejected, setRejected] = useState(approvalStatusOriginal);
 
   const handleReject = (steps) => {
@@ -88,8 +115,15 @@ export default function ViewHistory(props) {
     setValue(event.target.value);
   };
 
+  useEffect(() => {
+    getLeaveApproverStatusData();
+  }, []);
+
+  console.log("8888888888",dataSource);
+
   return (
     <Box sx={{ width: "600px" }}>
+     
       <Stepper
         sx={{ backgroundColor: "White" }}
         activeStep={activeStep}
