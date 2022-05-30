@@ -24,7 +24,7 @@ function createData(data) {
       dateOfPermanency: post.dateOfPermanency,
       location: post.companyLocation.location,
       description: post.description,
-      employmentTypeId: post.employmentType.id,
+      employmentTypeId: post.employementType.id,
       businessUnitId: post.businessUnit.id,
       dateOfBirth: post.dateOfBirth,
       contactNo: post.contactNo,
