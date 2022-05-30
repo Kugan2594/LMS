@@ -111,6 +111,7 @@ function AddEmployeeApprover(props: any) {
         res.map((post: any) => {
           console.log("////////////////////////",res);
           data.push({ id: post.id, title: post.lastName });
+          setEmployeeId(post.id);
           return null;
         });
         setEmployeeData(data);
