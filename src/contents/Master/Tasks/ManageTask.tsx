@@ -23,9 +23,9 @@ import LeaveRequestForm from "../LeaveRequest/LeaveRequestForm";
 import { getAllLeaveRequest } from "../LeaveRequest/ServiceLeaveRequest";
 
 function createData(data) {
-  let convertData = data.map((post, index) => {
-    return {
-      id: post.id,
+    let convertData = data.map((post, index) => {
+        return {
+            id: post.id,
       employeeId: post.employeeId,
       reason: post.reason,
       fromDate: post.fromDate,
@@ -36,9 +36,9 @@ function createData(data) {
       firstName: post.employee.firstName,
       lastName: post.employee.lastName,
       approvers: [],
-    };
-  });
-  return convertData;
+        };
+    });
+    return convertData;
 }
 let mockData = [
   {
