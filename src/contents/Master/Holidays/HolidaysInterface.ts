@@ -1,11 +1,9 @@
 import { type } from "os";
 
 interface IHolidays {
-    id?: number,
-    date?:string,
-    type?: string,
-    day?:boolean|string ,
-    description?:string,
-
+  id?: number;
+  date?: string;
+  type?: string;
+  fullDay?: boolean;
 }
 export type { IHolidays };

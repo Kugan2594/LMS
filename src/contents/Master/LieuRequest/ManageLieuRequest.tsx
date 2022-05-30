@@ -16,7 +16,7 @@ function createData(data) {
     let convertData = data.map((post, index) => {
         return {
             id: post.id,
-            employeeId: moment(post.employee.id).format("YYYY-MM-DD"),
+            employeeName: post.employee.lastName,
             requestDate: moment(post.requestDate).format("YYYY-MM-DD"),
         };
     });
@@ -57,18 +57,6 @@ function ManageLieuRequest() {
         });
     };
 
-    // const deleteOnclick = (row) => {
-    //     deleteLieuRequest(row.id).then(
-    //         (res: any) => {
-    //             reloadTable(res);
-    //         },
-    //         (error) => {
-    //             console.log(error);
-    //             handleError(error);
-    //         }
-    //     );
-    // };
-
     const reloadTable = (res) => {
         setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
 
@@ -98,23 +86,23 @@ function ManageLieuRequest() {
     const onTableSearch = (values, sortField) => {};
     const columns: Column[] = [
         {
-            id: "employeeId",
-            label: "Employee id",
-            minWidth: 120,
+            id: "employeeName",
+            label: "Employee Name",
+            minWidth: 40,
         },
         {
             id: "requestDate",
             label: "Request Date",
-            minWidth: 120,
+            minWidth: 40,
         },
         {
             id: "action",
             label: "Action",
-            minWidth: 100,
+            minWidth: 5,
             fixed: "right",
             align: "center",
             render: (value: any) => (
-                <TableAction rowData={value} editOnclick={editOnclick} />
+                <TableAction rowData={value} editOnclick={editOnclick} deleteFeature={false} />
             ),
         },
     ];

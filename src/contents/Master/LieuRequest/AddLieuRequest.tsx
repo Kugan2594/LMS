@@ -11,21 +11,27 @@ import {
     createLieuRequest,
     updateLieuRequest,
     getAllLieuRequest,
+    getAllEmployee,
 } from "./serviceLieuRequest";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
+import AutocompleteSelect from "src/components/atoms/controlls/AutocompleteSelect";
 
 let initialFValues: ILieuRequest = {
     id: 0,
     requestDate: "",
-    employeeId: "",
+    employeeId: 0,
 };
 
 function AddLieuRequest(props) {
     const { reloadTable, action, editData, handleError } = props;
+    const [employeeData, setemployeeData] = useState([]);
 
     const validate = (fieldValues = values) => {
         let temp: ILieuRequest = { ...errors };
+
+    if ("employeeId" in fieldValues)
+      temp.employeeId = fieldValues.employeeId ? "" : "This field is required.";
 
         if ("requestDate" in fieldValues)
             temp.requestDate = fieldValues.requestDate
@@ -98,10 +104,22 @@ function AddLieuRequest(props) {
         }
     };
     useEffect(() => {
+        getEmployeeSelectData();
         if (action === "edit") {
             setValues(editData);
         }
     }, [action, editData, setValues]);
+
+    const getEmployeeSelectData = () => {
+        let data: any = [];
+        getAllEmployee().then((res: []) => {
+          res.map((post: any) => {
+            data.push({ id: post.id, title: post.lastName });
+            return null;
+          });
+          setemployeeData(data);
+        });
+      };
 
     const onChangeFormValue = () => {
         setupdateStatus(false);
@@ -128,15 +146,17 @@ function AddLieuRequest(props) {
         <React.Fragment>
             <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
                 <Grid container>
-                    <Grid item xs={9}>
-                        <Input
-                            name="employeeId"
-                            label="Employee id"
-                            value={values.employeeId}
-                            onChange={handleInputChange}
-                            error={errors.employeeId}
-                        />
-                    </Grid>
+                <Grid item xs={12} md={9} lg={9}>
+                  <AutocompleteSelect
+                    name="employeeId"
+                    label="Employee Name *"
+                    value={values.employeeId}
+                    onChange={handleInputChange}
+                    onValueChange={onValueChange}
+                    options={employeeData}
+                    error={errors.employeeId}
+                  />
+                </Grid>
 
                     <Grid item xs={9}>
                         <DatePicker
