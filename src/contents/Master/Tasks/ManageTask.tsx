@@ -17,6 +17,7 @@ import Tables from "src/components/atoms/Tables";
 import { Column } from "src/components/atoms/Tables/TableInterface";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
+import { getLeaveApproverStatus } from "../History/serviceHistory";
 import ViewHistory from "../History/ViewHistory";
 import InProgress from "../LeaveRequest/InProgress";
 import LeaveRequestForm from "../LeaveRequest/LeaveRequestForm";
@@ -124,6 +125,7 @@ function Task(props) {
   const [open, setOpen] = useState(false);
   const [openDetails, setOpenDetails] = useState(false);
   const [searchFields, setsearchFields] = useState({ name: "" });
+  const [leaveTd,setLeaveId]=useState(0);
   const [sortField, setsortField] = React.useState({
     sortField: "id",
     direction: "DESC",
@@ -139,8 +141,10 @@ function Task(props) {
   const [leaveDetails, setLeaveDetails] = useState({});
 
   const handleOpenLeaveDetails = (value) => {
+    console.log({value})
     setOpenDetails(true);
     setLeaveDetails(value);
+    setLeaveId(value.id);
   };
 
   const handleClickOpen = (value) => {
@@ -158,6 +162,7 @@ function Task(props) {
 
   useEffect(() => {
     getAllLeaveRequestData(pagination.pageNumber, pagination.pageSize);
+
   }, [pagination.pageNumber, pagination.pageSize]);
   const getAllLeaveRequestData = (pageNumber, pageSize) => {
     getAllLeaveRequest(pageNumber, pageSize).then((res: any) => {
@@ -170,6 +175,8 @@ function Task(props) {
       setdataSource(data);
     });
   };
+
+  
 
   const columns: Column[] = [
     {
@@ -291,6 +298,7 @@ function Task(props) {
                   isEmployeeDetail={true}
                   isResponseButtons={true}
                   cancel={handleClose}
+                  setleaveTYpeId={leaveTd}
                 />
               </DialogContentText>
             </DialogContent>

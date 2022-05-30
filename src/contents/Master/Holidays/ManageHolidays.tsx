@@ -172,15 +172,16 @@ function ManageHolidays() {
         </Card>
         <Modals
           modalTitle={action === "edit" ? "Edit Holidays" : "Add Holidays"}
-          modalWidth="50%"
+          modalWidth="40%"
           open={open}
-          onClose={handleClose}
+          // onClose={handleClose}
           modalBody={
             <AddHolidays
               reloadTable={reloadTable}
               action={action}
               editData={editData}
               handleError={handleError}
+              handleClose={handleClose}
             />
           }
         />

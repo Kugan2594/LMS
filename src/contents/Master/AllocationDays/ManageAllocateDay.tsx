@@ -213,13 +213,14 @@ function ManageAllocateDay() {
               }
               modalWidth="40%"
               open={open}
-              onClose={handleClose}
+              // onClose={handleClose}
               modalBody={
                 <AddAllocationDays
                   reloadTable={reloadTable}
                   action={action}
                   editData={editData}
                   handleError={handleError}
+                  handleClose={handleClose}
                 />
               }
             />

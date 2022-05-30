@@ -219,7 +219,7 @@ function AddLeaveType(props) {
   return (
     <div>
       <Box sx={{ width: "100%", justifyContent: "center" }}>
-        <Stepper sx={{}} activeStep={activeStep - 1} alternativeLabel>
+      <Stepper sx={{background:"none",padding:0}} activeStep={activeStep - 1} alternativeLabel>
           {steps.map((label, index) => {
             const stepProps: { completed?: boolean } = {};
             const labelProps: {
@@ -371,6 +371,13 @@ function AddLeaveType(props) {
                   style={{ padding: "8px" }}
                 ></Grid>
                 <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                <Box sx={{ flex: "auto 1 1 1" }} />
+                  <Button
+                    size="small"
+                    color="inherit"
+                    text="Cancel"
+                    onClick={handleClose}
+                  />
                   <Box sx={{ flex: "1 1 auto" }} />
                   <Button
                     color="inherit"
@@ -576,7 +583,15 @@ function AddLeaveType(props) {
                                             )
                                         })} */}
                 </Grid>
+
                 <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                <Box sx={{ flex: "auto 1 1 1" }} />
+                  <Button
+                    size="small"
+                    color="inherit"
+                    text="Cancel"
+                    onClick={handleClose}
+                  />
                   <Box sx={{ flex: "1 1 auto" }} />
                   <Button
                     color="inherit"
@@ -607,4 +622,5 @@ function AddLeaveType(props) {
     </div>
   );
 }
+
 export default AddLeaveType;

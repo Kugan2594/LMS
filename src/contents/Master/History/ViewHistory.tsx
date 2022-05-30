@@ -6,20 +6,14 @@ import Step from '@mui/material/Step';
 import Button from '@mui/material/Button';
 import { getLeaveApproverStatus, updateApproverStatus } from "./serviceHistory";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { idText } from "typescript";
 
 function createData(data) {
   let convertData = data.map((post, index) => {
       return {
           id : post.id,
-          employeeId:post.employeeId,
-          reason: post.reason,
-          fromDate: post.fromDate,
-          toDate: post.toDate,
-          leaveDays: post.leaveDays,
-          requestedDate: post.requestedDate,
-          leaveType: post.employeeLeaveType.leaveType.type,
-          firstName: post.employee.firstName,
-          lastName: post.employee.lastName,
+          status : post.status,
+          employeeApproverName:post.employeeApproverName
       };
   });
   return convertData;
@@ -27,11 +21,13 @@ function createData(data) {
 
 
 
+
 export default function ViewHistory(props) {
   const [dataSource, setdataSource] = useState([]);
+  const [leaveRequestId, setleaveRequestId] = useState("");
   const handleClickOpen = () => { };
 
-  const { details, isEmployeeDetails, isResponseButtons, cancel } = props;
+  const { details, isEmployeeDetails, isResponseButtons, cancel ,setleaveTYpeId} = props;
 
   const steps = details.approvers;
 
@@ -71,14 +67,14 @@ export default function ViewHistory(props) {
     );
   };
 
-  useEffect(() => {
-    getLeaveApproverStatusData();
-});
+  
 
-const getLeaveApproverStatusData = () => {
-    getLeaveApproverStatus().then((res: any) => {
-        let value: [] = details(res.results.ApprovalLeaveHistory);
+const getLeaveApproverStatusData = (setleaveTYpeId) => {
+    getLeaveApproverStatus(setleaveTYpeId).then((res: any) => {
+        let value: [] = createData(res.results.ApproverStatus);
         setdataSource(value);
+        
+        
     });
 };
 
@@ -120,8 +116,16 @@ const getLeaveApproverStatusData = () => {
     setValue(event.target.value);
   };
 
+  useEffect(() => {
+    getLeaveApproverStatusData(setleaveTYpeId);
+    console.log("setleaveTYpeId",setleaveTYpeId);
+  }, []);
+
+  console.log("8888888888",dataSource);
+
   return (
     <Box sx={{ width: "600px" }}>
+     
       <Stepper
         sx={{ backgroundColor: "White" }}
         activeStep={activeStep}

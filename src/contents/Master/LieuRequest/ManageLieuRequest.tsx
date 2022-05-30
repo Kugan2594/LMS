@@ -138,15 +138,16 @@ function ManageLieuRequest() {
                             ? "Edit LieuRequest"
                             : "Add LieuRequest"
                     }
-                    modalWidth="40%"
+                    modalWidth="30%"
                     open={open}
-                    onClose={handleClose}
+                    // onClose={handleClose}
                     modalBody={
                         <AddLieuRequest
                             reloadTable={reloadTable}
                             action={action}
                             editData={editData}
                             handleError={handleError}
+                            handleClose={handleClose}
                         />
                     }
                 />

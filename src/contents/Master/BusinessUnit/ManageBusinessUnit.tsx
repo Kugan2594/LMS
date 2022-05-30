@@ -29,7 +29,9 @@ function createData(data) {
     let convertData = data.map((post, index) => {
         return {
             id: post.id,
-            name: post.name
+            name: post.name,
+            createdAt:post.createdAt,
+            updatedAt:post.updatedAt
         };
     });
     return convertData;
@@ -82,6 +84,16 @@ function ManageBusinessUnit() {
             id: "name",
             label: "BusinessUnit Name",
             minWidth: 0,
+        },
+        {
+            id: "createdAt",
+            label: "Create Date",
+            minWidth: 120,
+        },
+        {
+            id: "updatedAt",
+            label: "Update Date",
+            minWidth: 120,
         },
         {
             id: "action",
@@ -191,11 +203,13 @@ function ManageBusinessUnit() {
                     modalTitle={action === 'edit' ? 'Edit BusinessUnit' : 'Add BusinessUnit'}
                     modalWidth="25%"
                     open={open}
-                    onClose={handleClose}
+                    // onClose={handleClose}
                     modalBody={<AddBusinessUnit reloadTable={reloadTable}
                         action={action}
                         editData={editData}
-                        handleError={handleError} />}
+                        handleError={handleError}
+                        handleClose={handleClose}
+                         />}
                 />
 
             </Container>

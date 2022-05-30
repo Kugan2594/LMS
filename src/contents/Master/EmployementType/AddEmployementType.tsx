@@ -33,7 +33,7 @@ let initialFValues: IEmployementType = {
 
 
 function AddEmployementType(props) {
-  const { reloadTable, action, editData, handleError } = props;
+  const { reloadTable, action, editData, handleError,handleClose } = props;
 
   const validate = (fieldValues = values) => {
     let temp: IEmployementType = { ...errors };
@@ -135,10 +135,7 @@ function AddEmployementType(props) {
   const handleClickOpen = () => {
     setOpen(true);
   };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
+  
   const onValueChange = (e) => {
     setupdateStatus(false);
     const { name, value } = e.target;
@@ -165,8 +162,15 @@ function AddEmployementType(props) {
                       onChange={handleInputChange}
                       error={errors.type}
                     />
-                    <Box textAlign="right">
-                  <Box sx={{ flex: "1 1 auto" }} />
+                   <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Box sx={{ flex: "auto 1 1 1" }} />
+                  <Button
+                    size="small"
+                    color="inherit"
+                    text="Cancel"
+                    onClick={handleClose}
+                  />
+                  <Box sx={{ flex: "1 1 auto" }} />                    
                   
                   {action !== "edit" && (
                     <Button
@@ -196,5 +200,7 @@ AddEmployementType.propTypes = {
   handleError: PropTypes.func,
   action: PropTypes.string,
   editData: PropTypes.object,
+  handleClose: PropTypes.func,
+
 };
 export default AddEmployementType;
