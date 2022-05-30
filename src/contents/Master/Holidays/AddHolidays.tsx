@@ -1,8 +1,4 @@
-import {
-  Divider,
-  Grid,
-  TextField,
-} from "@mui/material";
+import { Divider, Grid, TextField } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import React, { useState, useEffect } from "react";
@@ -11,20 +7,20 @@ import Input from "src/components/atoms/controlls/Input";
 import { Form, useForm } from "src/components/atoms/Forms/useForm";
 import { FORM_VALIDATION, spaceValidation } from "src/util/ValidationMeassage";
 import { IHolidays } from "./HolidaysInterface";
-import { updateHolidays, createHolidays } from './ServiceHolidays';
+import { updateHoliday, createHoliday } from "./ServiceHolidays";
 import DatePicker from "src/components/atoms/controlls/DatePicker";
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import Checkbox from "src/components/atoms/controlls/Checkbox";
 
 let initialFValues: IHolidays = {
   id: 0,
   date: "",
   type: "",
-  day:'',
-  description: "",
+  fullDay: false,
 };
 
 function AddHolidays(props) {
@@ -36,7 +32,7 @@ function AddHolidays(props) {
   const [updateStatus, setupdateStatus] = useState(true);
   const [error, setError] = useState(false);
   const onChangeHandler = (e) => {
-    props.businessChange(e.target.value);
+    props.holidayChange(e.target.value);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -47,12 +43,10 @@ function AddHolidays(props) {
         let data: object = {
           date: values.date,
           type: values.type,
-          day:values.day,
-          description: values.description,
-
+          day: values.day,
         };
         console.log(data);
-        createHolidays(data).then(
+        createHoliday(data).then(
           (res: any) => {
             console.log(res);
             reloadTable(res);
@@ -61,7 +55,7 @@ function AddHolidays(props) {
           },
           (error) => {
             console.log(error);
-            // reloadTable(res);
+            reloadTable(error);
             handleClose();
             handleError(error);
           }
@@ -73,14 +67,10 @@ function AddHolidays(props) {
           id: editData.id,
           date: editData.date,
           type: editData.type,
-          day:editData.day,
-          description: editData.description,
-
-
-
+          day: editData.day,
         };
 
-        updateHolidays(data).then(
+        updateHoliday(data).then(
           (res: any) => {
             console.log(res);
 
@@ -97,17 +87,18 @@ function AddHolidays(props) {
     }
   };
 
-
   const validate = (fieldValues = values) => {
     let temp: IHolidays = { ...errors };
 
     if ("type" in fieldValues)
       temp.type = fieldValues.type
-        ? spaceValidation.test(fieldValues.name)
+        ? spaceValidation.test(fieldValues.type)
           ? ""
           : `type ${FORM_VALIDATION.space}`
         : FORM_VALIDATION.required;
 
+    if ("date" in fieldValues)
+      temp.date = fieldValues.date ? "" : "This field is required.";
     setErrors({
       ...temp,
     });
@@ -137,7 +128,6 @@ function AddHolidays(props) {
   };
 
   useEffect(() => {
-
     if (action === "edit") {
       console.log({ editData });
 
@@ -146,52 +136,41 @@ function AddHolidays(props) {
   }, [action, editData, setValues]);
   return (
     <div>
-
-      <React.Fragment>
-        <Typography sx={{ mt: 2, mb: 1 }}>
-          <Form
-            onSubmit={handleSubmit}
-            onChangeFormValue={onChangeFormValue}>
-            <Grid container>
-              <Grid item xs={8}>
-                <DatePicker
-                  name="date"
-                  label="Select Date"
-                  value={values.date}
-                  onChange={handleInputChange}
-                  error={errors.date}
-
-                />
-              </Grid>
-
-              <Grid item xs={8}>
-
-                <FormControl>
-                  <FormLabel id="demo-row-radio-buttons-group-label">Half/Full Day</FormLabel>
-                  <RadioGroup
-                    row
-                    aria-labelledby="demo-row-radio-buttons-group-label"
+      <Box sx={{ width: "100%", justifyContent: "center" }}>
+        <React.Fragment>
+          <Typography sx={{ mt: 2, mb: 1 }}>
+            <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
+              <Grid container>
+                {" "}
+                <Grid item xs={12} md={4} lg={4}>
+                  <DatePicker
+                    name="date"
+                    label="Select Date"
+                    value={values.date}
+                    onChange={handleInputChange}
+                    error={errors.date}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4} lg={4}>
+                <Checkbox
                     name="day"
+                    label="Half Day"
                     value={values.day}
                     onChange={handleInputChange}
-                  >
-                    <FormControlLabel value='true' control={<Radio />} label="half day" />
-                    <FormControlLabel value='false' control={<Radio />} label="full day" />
-
-                  </RadioGroup>
-                </FormControl>
+                  />
+                </Grid>
+                <Grid item xs={12} md={4} lg={4}>
+                  <Input
+                    name="type"
+                    label="Holiday type"
+                    value={values.type}
+                    onChange={handleInputChange}
+                    error={errors.type}
+                  />
+                </Grid>
+                <Divider />
               </Grid>
 
-              <Grid item xs={8}>
-                <Input
-                  name="type"
-                  label="Holiday type"
-                  value={values.type}
-                  onChange={handleInputChange}
-                  error={errors.type} />
-              </Grid>
-
-              <Divider />
               <Grid
                 display="flex"
                 flexDirection="column"
@@ -199,54 +178,28 @@ function AddHolidays(props) {
                 container
                 style={{ padding: "8px" }}
               ></Grid>
-            </Grid>
 
-            {/* <Box
-              component="form"
-              sx={{
-                '& .MuiTextField-root': { m: 1, width: '52ch' },
-              }}
-              noValidate
-              autoComplete="off"
-            > */}
-
-              <Input
-                name="description"
-                label="Description"
-
-                multiline={true}
-                
-                rows={4}
-                value={values.description}
-                onChange={handleInputChange}
-
-
-              />
-            {/* </Box> */}
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Box sx={{ flex: "1 1 auto" }} />
-
-              {action !== "edit" && (
+              <Box textAlign="right">
+                {action !== "edit" && (
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    color="primary"
+                    text="Reset"
+                    onClick={onReset}
+                  />
+                )}
                 <Button
                   size="small"
-                  color="primary"
-                  text="Reset"
-                  onClick={onReset}
+                  type="submit"
+                  text={action === "edit" ? "Update" : "Submit"}
+                  disabled={action === "edit" ? updateStatus : false}
                 />
-              )}
-              <Button
-                size="small"
-                type="submit"
-                text={action === "edit" ? "Update" : "Submit"}
-                disabled={action === "edit" ? updateStatus : false}
-              />
-            </Box>
-          </Form>
-        </Typography>
-      </React.Fragment>
-
-
-
+              </Box>
+            </Form>
+          </Typography>
+        </React.Fragment>
+      </Box>
     </div>
   );
 }
