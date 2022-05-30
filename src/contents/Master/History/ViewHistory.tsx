@@ -12,7 +12,8 @@ function createData(data) {
   let convertData = data.map((post, index) => {
       return {
           id : post.id,
-          status : post.status
+          status : post.status,
+          employeeApproverName:post.employeeApproverName
       };
   });
   return convertData;
@@ -26,7 +27,7 @@ export default function ViewHistory(props) {
   const [leaveRequestId, setleaveRequestId] = useState("");
   const handleClickOpen = () => { };
 
-  const { details, isEmployeeDetails, isResponseButtons, cancel } = props;
+  const { details, isEmployeeDetails, isResponseButtons, cancel ,setleaveTYpeId} = props;
 
   const steps = details.approvers;
 
@@ -68,8 +69,8 @@ export default function ViewHistory(props) {
 
   
 
-const getLeaveApproverStatusData = () => {
-    getLeaveApproverStatus().then((res: any) => {
+const getLeaveApproverStatusData = (setleaveTYpeId) => {
+    getLeaveApproverStatus(setleaveTYpeId).then((res: any) => {
         let value: [] = createData(res.results.ApproverStatus);
         setdataSource(value);
         
@@ -116,7 +117,8 @@ const getLeaveApproverStatusData = () => {
   };
 
   useEffect(() => {
-    getLeaveApproverStatusData();
+    getLeaveApproverStatusData(setleaveTYpeId);
+    console.log("setleaveTYpeId",setleaveTYpeId);
   }, []);
 
   console.log("8888888888",dataSource);
