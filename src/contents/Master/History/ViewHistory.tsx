@@ -12,7 +12,9 @@ function createData(data) {
   let convertData = data.map((post, index) => {
       return {
           id : post.id,
-          status : post.status
+          status : post.status,
+          approverName:post.employeeApproverName,
+          date:post.date
       };
   });
   return convertData;
@@ -28,17 +30,16 @@ export default function ViewHistory(props) {
 
   const { details, isEmployeeDetails, isResponseButtons, cancel } = props;
 
-  const steps = details.approvers;
+  const steps = dataSource;
 
-  const approvalStatusOriginal = details.approvers
-    .filter((status) => status.appStatus != "Pending")
-    .map((approverStatus) => approverStatus.appStatus);
+  const approvalStatusOriginal = dataSource.filter((requestStatus) => requestStatus.status != "PENDING" && requestStatus.status != "NEW")
+    .map((approverStatus) => approverStatus.status);
 
-  const approvalStatus = details.approvers
-    .filter((status) => status.appStatus == "Approved")
-    .map((filteredStatus) => filteredStatus.appStatus);
+  const approvalStatus = dataSource.filter((requestStatus) => requestStatus.status == "APPROVED")
+    .map((filteredStatus) => filteredStatus.status);
 
   const [approved, setApproved] = useState(approvalStatus);
+  
   const [activeStep, setActiveStep] = useState(approved.length);
 
   const handleNext = () => {
@@ -80,7 +81,7 @@ const getLeaveApproverStatusData = () => {
   const [rejected, setRejected] = useState(approvalStatusOriginal);
 
   const handleReject = (steps) => {
-    setRejected([...approved, "Rejected"]);
+    setRejected([...approved, "REJECTED"]);
 
     let data: object = {
       id: details.id,
@@ -98,7 +99,7 @@ const getLeaveApproverStatusData = () => {
   };
 
   const isStepFailed = (step: number) => {
-    return step === rejected.indexOf("Rejected");
+    return step === approvalStatusOriginal.indexOf("REJECTED");
   };
 
   function RejectIcon() {
@@ -141,8 +142,8 @@ const getLeaveApproverStatusData = () => {
           }
 
           return (
-            <Step key={label.names} completed={approved[index]}>
-              <StepLabel {...labelProps}>{label.names} <br/>{ label.appStatus != "Pending" && <Typography variant="subtitle1">{label.date}</Typography>}</StepLabel>
+            <Step key={label.approverName} completed={approvalStatus[index]}>
+              <StepLabel {...labelProps}>{label.approverName} <br/>{ label.status != "PENDING" && <Typography variant="subtitle1">{label.date}</Typography>}</StepLabel>
             </Step>
           );
         })}
@@ -270,12 +271,12 @@ const getLeaveApproverStatusData = () => {
                 marginLeft="79px"
               >
                 {steps.length == approvalStatusOriginal.length ||
-                rejected.includes("Rejected")
-                  ? (rejected[rejected.length - 1] == "Approved" ? <Chip label="Approved" color="success" /> : <Chip label="Rejected" color="error" />)
-                  : <Chip label="Pending" color="warning" />}
+                approvalStatusOriginal.includes("REJECTED")
+                  ? (approvalStatusOriginal[approvalStatusOriginal.length - 1] == "APPROVED" ? <Chip label="APPROVED" color="success" size="small" /> : <Chip label="REJECTED" color="error" size="small" />)
+                  : <Chip label="PENDING" color="warning" size="small" />}
               </Typography>
             </div>
-            {rejected.includes("Rejected") && (
+            {approvalStatusOriginal.includes("REJECTED") && (
               <div>
                 <Typography variant="h6" color="textSecondary" display="inline">
                   Comment

@@ -145,8 +145,7 @@ function AddLieuRequest(props) {
     return (
         <React.Fragment>
             <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
-                <Grid container>
-                <Grid item xs={12} md={9} lg={9}>
+            <Box margin={0.5}>
                   <AutocompleteSelect
                     name="employeeId"
                     label="Employee Name *"
@@ -156,9 +155,7 @@ function AddLieuRequest(props) {
                     options={employeeData}
                     error={errors.employeeId}
                   />
-                </Grid>
-
-                    <Grid item xs={9}>
+            
                         <DatePicker
                             name="requestDate"
                             label="Request Date"
@@ -166,17 +163,7 @@ function AddLieuRequest(props) {
                             onChange={handleInputChange}
                             error={errors.requestDate}
                         />
-                    </Grid>
-
-                    <Divider />
-                    <Grid
-                        display="flex"
-                        flexDirection="column"
-                        justifyContent="flex-end"
-                        container
-                        style={{ padding: "8px" }}
-                    ></Grid>
-                </Grid>
+                        </Box>
 
                 <Box
                     component="form"
@@ -186,13 +173,12 @@ function AddLieuRequest(props) {
                     noValidate
                     autoComplete="off"
                 ></Box>
-                <Box sx={{ display: "flex", pt: 2 }}>
-                    <Box sx={{ flex: "1 1 auto" }} />
 
+                <Box textAlign="right" margin={1}>
                     {action !== "edit" && (
                         <Button
                             size="small"
-                            color="primary"
+                            variant="outlined"
                             text="Reset"
                             onClick={onReset}
                         />
@@ -203,7 +189,7 @@ function AddLieuRequest(props) {
                         text={action === "edit" ? "Update" : "Submit"}
                         disabled={action === "edit" ? updateStatus : false}
                     />
-                </Box>
+                    </Box>
             </Form>
         </React.Fragment>
     );

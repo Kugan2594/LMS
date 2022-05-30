@@ -138,9 +138,7 @@ function AddHolidays(props) {
         <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1 }}>
             <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
-              <Grid container>
-                {" "}
-                <Grid item xs={12} md={4} lg={4}>
+              
                   <DatePicker
                     name="date"
                     label="Select Date"
@@ -148,34 +146,29 @@ function AddHolidays(props) {
                     onChange={handleInputChange}
                     error={errors.date}
                   />
-                </Grid>
-                <Grid item xs={12} md={4} lg={4}>
+               
                   <Checkbox
                     name="fullDay"
                     label="Half Day"
                     value={values.fullDay}
                     onChange={handleInputChange}
                   />
-                </Grid>
-                <Grid item xs={12} md={4} lg={4}>
+               
                   <Input
                     name="type"
-                    label="Holiday type"
+                    label="Holiday Type"
                     value={values.type}
                     onChange={handleInputChange}
                     error={errors.type}
                   />
-                </Grid>
-                <Divider />
-              </Grid>
 
-              <Grid
+              {/* <Grid
                 display="flex"
                 flexDirection="column"
                 justifyContent="flex-end"
                 container
                 style={{ padding: "8px" }}
-              ></Grid>
+              ></Grid> */}
 
               <Box textAlign="right">
                 {action !== "edit" && (

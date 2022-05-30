@@ -138,7 +138,7 @@ function ManageLieuRequest() {
                             ? "Edit LieuRequest"
                             : "Add LieuRequest"
                     }
-                    modalWidth="40%"
+                    modalWidth="25%"
                     open={open}
                     onClose={handleClose}
                     modalBody={

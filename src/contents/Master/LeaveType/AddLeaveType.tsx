@@ -291,15 +291,17 @@ function AddLeaveType(props) {
                       type="number"
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  </Grid>
+
                     <Checkbox
                       name="reginationNotified"
                       label="Applicable in termination notice period"
                       value={values.reginationNotified}
                       onChange={handleInputChange}
                     />
-                  </Grid>
-                  <Grid item xs={4}>
+                  
+                  <Grid container>
+                  <Grid item xs={5}>
                     <Checkbox
                       name="ableToCarryForward"
                       label="Carry Forward to next year"
@@ -317,8 +319,9 @@ function AddLeaveType(props) {
                       />
                     </Grid>
                   )}
-                  {values.ableToCarryForward && values.carryForwardExpiry && (
-                    <Grid item xs={4}>
+                  
+                    <Grid item xs={3}>
+                    {values.ableToCarryForward && values.carryForwardExpiry && (
                       <Input
                         name="carryforwardCancellation"
                         label="Carry Forward Cancellation Month"
@@ -327,9 +330,12 @@ function AddLeaveType(props) {
                         error={errors.carryforwardCancellation}
                         type="number"
                       />
+                      )}
                     </Grid>
-                  )}
-                  <Grid item xs={4}>
+                    </Grid>
+                  
+                  <Grid container>
+                  <Grid item xs={6}>
                     <Checkbox
                       name="noticePeriodApplicable"
                       label="Applicable Leave Days per request"
@@ -338,7 +344,7 @@ function AddLeaveType(props) {
                     />
                   </Grid>
                   {values.noticePeriodApplicable && (
-                    <Grid item xs={4}>
+                    <Grid item xs={3}>
                       <Input
                         name="minStretchDays"
                         label="Minimum Days"
@@ -350,7 +356,7 @@ function AddLeaveType(props) {
                     </Grid>
                   )}
                   {values.noticePeriodApplicable && (
-                    <Grid item xs={4}>
+                    <Grid item xs={3}>
                       <Input
                         name="maxStretchDays"
                         label="Maximum Days"
@@ -362,14 +368,7 @@ function AddLeaveType(props) {
                     </Grid>
                   )}
                 </Grid>
-                <Divider />
-                <Grid
-                  display="flex"
-                  flexDirection="row"
-                  justifyContent="flex-end"
-                  container
-                  style={{ padding: "8px" }}
-                ></Grid>
+                
                 <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                 <Box sx={{ flex: "auto 1 1 1" }} />
                   <Button
@@ -476,8 +475,8 @@ function AddLeaveType(props) {
                     inputFields.map((input, index) => {
                       return (
                         <div key={index}>
-                          <Grid container>
-                            <Grid item xs={3}>
+                          <Grid container spacing={2}>
+                            <Grid item xs={4}>
                               <FormLabel> Appointed month between</FormLabel>
                             </Grid>
                             <Grid item xs={2}>
@@ -521,7 +520,7 @@ function AddLeaveType(props) {
                             </Grid>
                             <Grid item xs={2}>
                             <FormLabel></FormLabel>
-                              <Button text="Remove" size="small" onClick={() => removeFields(index)} color="error"/>
+                              <Button text="Remove" variant="text" size="small" onClick={() => removeFields(index)} color="error"/>
                             </Grid>
                           </Grid>
 
@@ -602,7 +601,7 @@ function AddLeaveType(props) {
                   {action !== "edit" && (
                     <Button
                       size="small"
-                      color="primary"
+                      variant="outlined"
                       text="Reset"
                       onClick={onReset}
                     />

@@ -24,7 +24,7 @@ const getLeaveApproverStatus = () => {
         )
   
         .then((response: any) => {
-          resolve(response.data.results.ApproverStatus);
+          resolve(response.data);
       })
       .catch((error) => {
           reject(error);
