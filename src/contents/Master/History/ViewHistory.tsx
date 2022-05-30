@@ -1,4 +1,4 @@
-import { Grid, StepLabel, TextField, Typography } from "@mui/material";
+import { Chip, Grid, StepLabel, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
@@ -237,8 +237,8 @@ export default function ViewHistory(props) {
               >
                 {steps.length == approvalStatusOriginal.length ||
                 rejected.includes("Rejected")
-                  ? (rejected[rejected.length - 1] == "Approved" ? <Typography variant="h6" color="#49FF00" display="inline">Approved</Typography> : <Typography variant="h6" color="red" display="inline">Rejected</Typography>)
-                  : "Pending"}
+                  ? (rejected[rejected.length - 1] == "Approved" ? <Chip label="Approved" color="success" /> : <Chip label="Rejected" color="error" />)
+                  : <Chip label="Pending" color="warning" />}
               </Typography>
             </div>
             {rejected.includes("Rejected") && (
