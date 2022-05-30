@@ -14,7 +14,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import FormLabel from "@mui/material/FormLabel";
 import Radio from "@mui/material/Radio";
-import { createLeaveType, updateLeaveType } from "./serviceLeaveType";
+import { createLeaveType, updateLeaveType, getLeaveDaysDurationSetting  } from "./serviceLeaveType";
 import FormControlLabel from "@mui/material/FormControlLabel";
 function AddLeaveType(props) {
   const {
@@ -53,7 +53,6 @@ function AddLeaveType(props) {
     days: 0,
     carryforwardCancellation: 0,
   };
-
   const validate = (fieldValues = values) => {
     let temp: ILeaveType = { ...errors };
     if ("type" in fieldValues)
@@ -64,7 +63,6 @@ function AddLeaveType(props) {
     if (fieldValues === values)
       return Object.values(temp).every((x) => x === "");
   };
-
   const {
     values,
     setValues,
@@ -73,6 +71,31 @@ function AddLeaveType(props) {
     handleInputChange,
     resetForm,
   }: any = useForm(initialFValues, true, validate);
+  useEffect(() => {
+    if (action === "edit") {
+      console.log({ editData });
+      setValues({ ...editData });
+      // setInputFields(setLeaveDays);
+      // console.log({setLeaveDays});
+      getLeaveAllocated(editData.id);
+    }
+  }, [action, editData, setValues]);
+
+
+  const getLeaveAllocated = (id: any) => {
+    getLeaveDaysDurationSetting(id).then((res: any) => {
+      let newfield = [];
+      console.log({res});
+      (res.data).map((leave) => {
+
+        newfield.push(leave);
+
+      })
+      console.log({newfield})
+      setInputFields(newfield);
+    });
+  }
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -208,13 +231,7 @@ function AddLeaveType(props) {
     setInputFields(data)
 }
 
-  useEffect(() => {
-    if (action === "edit") {
-      console.log({ editData });
-      setValues({ ...editData });
-      setInputFields(editData.leaveDaysDurationSettingDto);
-    }
-  }, [action, editData, setValues]);
+
 
   return (
     <div>
