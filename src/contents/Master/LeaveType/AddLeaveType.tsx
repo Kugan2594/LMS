@@ -52,11 +52,14 @@ function AddLeaveType(props) {
     endMonth: 0,
     days: 0,
     carryforwardCancellation: 0,
+    reminderGap:0
   };
   const validate = (fieldValues = values) => {
     let temp: ILeaveType = { ...errors };
     if ("type" in fieldValues)
       temp.type = fieldValues.type ? "" : "This field is required.";
+      if ("description" in fieldValues)
+      temp.description = fieldValues.description ? "" : "This field is required.";
     setErrors({
       ...temp,
     });
@@ -124,6 +127,7 @@ function AddLeaveType(props) {
           allocatedDaysByExtraWorking: values.allocatedDaysByExtraWorking,
           monthlyApplicable: values.monthlyApplicable,
           carryForwardExpiry: values.carryForwardExpiry,
+          reminderGap:values.reminderGap
         };
         console.log({ data });
         createLeaveType(data).then(
@@ -165,6 +169,7 @@ function AddLeaveType(props) {
           allocatedDaysByExtraWorking: values.allocatedDaysByExtraWorking,
           monthlyApplicable: values.monthlyApplicable,
           carryForwardExpiry: values.carryForwardExpiry,
+          reminderGap:values.reminderGap
         };
         console.log({ data });
         updateLeaveType(data).then(
@@ -308,12 +313,22 @@ function AddLeaveType(props) {
                       type="number"
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={6}>
                     <Checkbox
                       name="reginationNotified"
                       label="Applicable in termination notice period"
                       value={values.reginationNotified}
                       onChange={handleInputChange}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                       <Input
+                      name="reminderGap"
+                      label="Reminder Gap"
+                      value={values.reminderGap}
+                      onChange={handleInputChange}
+                      error={errors.reminderGap}
+                      type="number"
                     />
                   </Grid>
                   <Grid item xs={4}>
