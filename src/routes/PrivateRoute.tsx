@@ -19,6 +19,8 @@ import ManageHolidays from "src/contents/Master/Holidays/ManageHolidays";
 import ManageBusinessUnit from "src/contents/Master/BusinessUnit/ManageBusinessUnit";
 import ManageCompanyLocation from "src/contents/Master/CompanyLocation/ManageCompanyLocation";
 import ManageEmployementType from "src/contents/Master/EmployementType/ManageEmployementType";
+import { element } from "prop-types";
+
 import ManageLieuRequest from "src/contents/Master/LieuRequest/ManageLieuRequest";
 import ManageHolidays from "src/contents/Master/Holidays/ManageHolidays";
 const Loader = (Component: any) => (props: any) =>
@@ -101,10 +103,6 @@ const PrivateRoute: PartialRouteObject[] = [
             {
                 path: "/employementType",
                 element: <ManageEmployementType />,
-            },
-            {
-            path: "/lieuRequest",
-            element: <ManageLieuRequest />,
             },
         ],
     },
