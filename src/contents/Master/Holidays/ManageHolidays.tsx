@@ -63,37 +63,7 @@ function ManageHolidays() {
     setOpen(false);
     getAllHolidayData(pagination.pageNumber, pagination.pageSize);
   };
-  const columns: Column[] = [
-    {
-      id: "type",
-      label: "Holidays Name",
-      minWidth: 0,
-    },
-    {
-      id: "date",
-      label: "DATE",
-      minWidth: 0,
-    },
-    {
-      id: "fullDay",
-      label: "Full day/ Half Day",
-      minWidth: 0,
-    },
-    {
-      id: "action",
-      label: "Action",
-      fixed: "right",
-      minWidth: 0,
-      align: "center",
-      render: (value: any) => (
-        <TableAction
-          rowData={value}
-          deleteOnclick={deleteOnclick}
-          editOnclick={editOnclick}
-        />
-      ),
-    },
-  ];
+
   const [action, setaction] = useState("add");
   const handleClickOpen = (value) => {
     setaction("add");
@@ -123,9 +93,6 @@ function ManageHolidays() {
     seteditData(row);
     setOpen(true);
   };
-  const handleCancel = () => {
-    setOpen(false);
-  };
   const deleteOnclick = (row) => {
     deleteHoliday(row.id).then(
       (res: any) => {
@@ -137,25 +104,43 @@ function ManageHolidays() {
       }
     );
   };
-
-  const handleClose1 = (e) => {
-    setError(false);
-    if (Holidays === "") {
-      setError(true);
-    } else {
-      setUpdate(false);
-      setHolidays("");
-    }
-  };
-  const handleCancel1 = () => {
-    setUpdate(false);
-  };
   const handleError = (res) => {
     setalert({
       type: NOTIFICATION_TYPE.error,
       mesg: res.data.validationFailures[0].message,
     });
   };
+  const columns: Column[] = [
+    {
+      id: "type",
+      label: "Holidays Name",
+      minWidth: 0,
+    },
+    {
+      id: "date",
+      label: "DATE",
+      minWidth: 0,
+    },
+    {
+      id: "fullDay",
+      label: "Half Day",
+      minWidth: 0,
+    },
+    {
+      id: "action",
+      label: "Action",
+      fixed: "right",
+      minWidth: 0,
+      align: "center",
+      render: (value: any) => (
+        <TableAction
+          rowData={value}
+          deleteOnclick={deleteOnclick}
+          editOnclick={editOnclick}
+        />
+      ),
+    },
+  ];
   return (
     <div>
       <PageTitleWrapper>
@@ -163,7 +148,7 @@ function ManageHolidays() {
           heading="Manage Holidays"
           subHeading="Master/ Holidays"
           isButton={true}
-          name="Add Holidays"
+          name="Add Holiday"
           onclickButton={handleClickOpen}
         />
       </PageTitleWrapper>

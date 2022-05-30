@@ -43,7 +43,7 @@ function AddHolidays(props) {
         let data: object = {
           date: values.date,
           type: values.type,
-          day: values.day,
+          fullDay: values.fullDay,
         };
         console.log(data);
         createHoliday(data).then(
@@ -65,9 +65,9 @@ function AddHolidays(props) {
 
         let data: object = {
           id: editData.id,
-          date: editData.date,
-          type: editData.type,
-          day: editData.day,
+          date: values.date,
+          type: values.type,
+          fullDay: values.fullDay,
         };
 
         updateHoliday(data).then(
@@ -99,6 +99,7 @@ function AddHolidays(props) {
 
     if ("date" in fieldValues)
       temp.date = fieldValues.date ? "" : "This field is required.";
+
     setErrors({
       ...temp,
     });
@@ -122,9 +123,6 @@ function AddHolidays(props) {
   };
   const onChangeFormValue = () => {
     setupdateStatus(false);
-  };
-  const editOnclick = () => {
-    setOpen(true);
   };
 
   useEffect(() => {
@@ -152,10 +150,10 @@ function AddHolidays(props) {
                   />
                 </Grid>
                 <Grid item xs={12} md={4} lg={4}>
-                <Checkbox
-                    name="day"
+                  <Checkbox
+                    name="fullDay"
                     label="Half Day"
-                    value={values.day}
+                    value={values.fullDay}
                     onChange={handleInputChange}
                   />
                 </Grid>
