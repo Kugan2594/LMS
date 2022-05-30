@@ -87,6 +87,7 @@ function ManageBusinessUnit() {
             id: "action",
             label: "Action",
             fixed: "right",
+            width: 90,
             minWidth: 0,
             align: "center",
             render: (value: any) => (
@@ -188,7 +189,7 @@ function ManageBusinessUnit() {
                 </Card>
                 <Modals
                     modalTitle={action === 'edit' ? 'Edit BusinessUnit' : 'Add BusinessUnit'}
-                    modalWidth="50%"
+                    modalWidth="25%"
                     open={open}
                     onClose={handleClose}
                     modalBody={<AddBusinessUnit reloadTable={reloadTable}

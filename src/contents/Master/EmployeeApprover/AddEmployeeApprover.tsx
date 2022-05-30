@@ -1,4 +1,4 @@
-import { ButtonBase, Card, CardHeader, Divider, Grid, List, ListItem, ListItemIcon, ListItemText, Modal, Paper, styled } from "@mui/material";
+import { Box, ButtonBase, Card, CardHeader, Divider, Grid, List, ListItem, ListItemIcon, ListItemText, Modal, Paper, styled } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import Checkbox from "src/components/atoms/controlls/Checkbox";
@@ -321,7 +321,7 @@ console.log("hi");
     };
 
     const customList = (title: React.ReactNode, items: readonly object[]) => (
-      <Card>
+      <Card sx={{boxShadow: "0", border: "1px solid #ccc"}}>
         <CardHeader
           sx={{ px: 2, py: 1 }}
           avatar={
@@ -399,10 +399,9 @@ console.log("hi");
 
     return (
       <div>
-
+            <Box marginLeft={1.25}>
             <Grid container>
-              <Grid item xs={12} md={3} lg={3}></Grid>
-              <Grid item xs={12} md={6} lg={6}>
+              <Grid item xs={4}>
                 <AutocompleteSelect
                   name="employeeId"
                   label="Employee Name"
@@ -414,9 +413,9 @@ console.log("hi");
                   options={employeeData}
                 />
               </Grid>
-              <Grid item xs={12} md={3} lg={3}></Grid>
             </Grid>
-
+            </Box>
+            <Box marginBottom="40px">
         <Grid container spacing={2} justifyContent="center" alignItems="center">
           <Grid item>{customList('Approvers', left)}</Grid>
           <Grid item>
@@ -455,9 +454,7 @@ console.log("hi");
           </Grid>
           <Grid item>{customList('Chosen', right)}</Grid>
         </Grid>
-
-        
-
+        </Box>
       </div>
     );
   }

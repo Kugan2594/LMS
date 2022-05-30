@@ -140,17 +140,14 @@ import {
     }, [action, editData, setValues]);
     return (
       <div>
-        <Box sx={{ width: "100%", justifyContent: "center" }}>
+        <Box>
   
           <React.Fragment>
             <Typography sx={{ mt: 2, mb: 1 }}>
               <Form
                 onSubmit={handleSubmit}
                 onChangeFormValue={onChangeFormValue}
-  
               >
-                <Grid container>
-                  <Grid>
                     <Input
                       name="name"
                       label="BusinessUnit Name *"
@@ -158,23 +155,12 @@ import {
                       onChange={handleInputChange}
                       error={errors.name}
                     />
-                  </Grid>
-  
-                  <Divider />
-                  <Grid
-                    display="flex"
-                    flexDirection="row"
-                    justifyContent="flex-end"
-                    container
-                    style={{ padding: "8px" }}
-                  ></Grid>
-                </Grid>
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                  <Box sx={{ flex: "1 1 auto" }} />
+                <Box textAlign="right">
   
                   {action !== "edit" && (
                     <Button
                       size="small"
+                      variant="outlined"
                       color="primary"
                       text="Reset"
                       onClick={onReset}

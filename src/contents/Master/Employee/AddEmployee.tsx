@@ -32,6 +32,7 @@ import PropTypes from "prop-types";
 import Checkbox from "src/components/atoms/controlls/Checkbox";
 import MobileStepper from "@mui/material/MobileStepper";
 import Button1 from "@mui/material/Button";
+import { padding } from "@mui/system";
 
 let initialFValues: IEmployee = {
   id: 0,
@@ -495,7 +496,8 @@ function AddEmployee(props) {
 
   return (
     <div>
-      <Box sx={{ width: "100%", height: "100%", justifyContent: "center" }}>
+      <Box sx={{ width: "100%", height: "480px", justifyContent: "center" }}>
+      <Box sx={{ width: "100%", height: "400px", justifyContent: "center" }}>
         {activeStep === steps.length - 2 ? (
           <React.Fragment>
             <Typography sx={{ mt: 2, mb: 1 }}>
@@ -643,7 +645,7 @@ function AddEmployee(props) {
             </Typography>
           </React.Fragment>
         ) : (
-          <Typography>
+          <Typography sx={{ mt: 2, mb: 1 }}>
             <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
               <Grid container>
               <Grid item xs={4}>
@@ -737,8 +739,8 @@ function AddEmployee(props) {
             </Form>
           </Typography>
         )}
-        <Box sx={{ pt: 2 }}>
-          <Box />
+        </Box>
+        <Box sx={{ pt: 2, width: "100%", height: "80px", justifyContent: "center" }}>
           <MobileStepper
             variant="progress"
             steps={3}
@@ -765,6 +767,7 @@ function AddEmployee(props) {
                   color="inherit"
                   text="Back"
                 />
+                <Box width="100px">
                 <Button
                   size="small"
                   text={
@@ -777,8 +780,8 @@ function AddEmployee(props) {
                   onClick={
                     activeStep === steps.length - 1 ? handleSubmit : handleNext
                   }
-                  color="inherit"
                 />
+                </Box>
               </ButtonGroup>
             }
             backButton={
@@ -791,7 +794,7 @@ function AddEmployee(props) {
             }
           />
         </Box>
-      </Box>
+        </Box>
     </div>
   );
 }

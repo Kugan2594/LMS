@@ -7,28 +7,23 @@ import PageTitle from "src/components/organism/PageTitle";
 import { Column } from "../../../components/atoms/Tables/TableInterface";
 import { TableAction } from "src/components/atoms/Tables/TableAction";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
-import CustomizedNotification from 'src/util/CustomizedNotification';
-import { deleteEmployementType, getAllEmployementType } from "./ServiceEmployementType";
-import AddEmployementType from "./AddEmployementType";
-
+import CustomizedNotification from "src/util/CustomizedNotification";
+import AddLieuRequest from "./AddLieuRequest";
+import { getAllLieuRequest } from "./serviceLieuRequest";
+import moment from "moment";
 
 function createData(data) {
     let convertData = data.map((post, index) => {
         return {
             id: post.id,
-            type: post.type,
-            createdAt:post.createdAt,
-            updatedAt:post.updatedAt
-            
-
+            employeeId: moment(post.employee.id).format("YYYY-MM-DD"),
+            requestDate: moment(post.requestDate).format("YYYY-MM-DD"),
         };
     });
     return convertData;
 }
 
-
-function ManageEmployementType() {
-    
+function ManageLieuRequest() {
     const [open, setOpen] = useState(false);
     const [searchFields, setsearchFields] = useState({ name: "" });
     const [sortField, setsortField] = React.useState({
@@ -40,11 +35,11 @@ function ManageEmployementType() {
         mesg: "",
     });
     const [dataSource, setdataSource] = useState([]);
-    const [action, setaction] = useState('add');
+    const [action, setaction] = useState("add");
     const [editData, seteditData] = useState({});
 
     const handleClickOpen = () => {
-        setaction('add');
+        setaction("add");
         setOpen(true);
     };
 
@@ -53,39 +48,37 @@ function ManageEmployementType() {
     };
 
     useEffect(() => {
-        getAllEmployementTypeData();
-    },[]);
-    const getAllEmployementTypeData = () => {
-        getAllEmployementType().then((res: any) => {
+        getAllLeiuRequestData();
+    }, []);
+    const getAllLeiuRequestData = () => {
+        getAllLieuRequest().then((res: any) => {
             let data: [] = createData(res);
-           
             setdataSource(data);
         });
     };
-    
-    const deleteOnclick = (row) => {
-        deleteEmployementType(row.id).then(
-            (res: any) => {
-                reloadTable(res);
-            },
-            (error) => {
-                console.log(error);
-                handleError(error);
-            }
-        );
-    };
+
+    // const deleteOnclick = (row) => {
+    //     deleteLieuRequest(row.id).then(
+    //         (res: any) => {
+    //             reloadTable(res);
+    //         },
+    //         (error) => {
+    //             console.log(error);
+    //             handleError(error);
+    //         }
+    //     );
+    // };
 
     const reloadTable = (res) => {
         setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
-        console.log("//////////////////////////", res);
 
         setOpen(false);
-        getAllEmployementTypeData();
+        getAllLeiuRequestData();
     };
 
     const editOnclick = (row) => {
         console.log(row);
-        setaction('edit');
+        setaction("edit");
         seteditData(row);
         setOpen(true);
     };
@@ -98,29 +91,22 @@ function ManageEmployementType() {
     };
     const handleAlertClose = () => {
         setalert({
-            type: '',
-            mesg: ''
+            type: "",
+            mesg: "",
         });
     };
-    const onTableSearch = (values, sortField) => { };
+    const onTableSearch = (values, sortField) => {};
     const columns: Column[] = [
         {
-            id: "type",
-            label: "Employement Type",
+            id: "employeeId",
+            label: "Employee id",
             minWidth: 120,
         },
         {
-            id: "createdAt",
-            label: "Create Date",
+            id: "requestDate",
+            label: "Request Date",
             minWidth: 120,
         },
-        {
-            id: "updatedAt",
-            label: "Update Date",
-            minWidth: 120,
-        },
-
-        
         {
             id: "action",
             label: "Action",
@@ -128,7 +114,7 @@ function ManageEmployementType() {
             fixed: "right",
             align: "center",
             render: (value: any) => (
-                <TableAction rowData={value} deleteOnclick={deleteOnclick} editOnclick={editOnclick} />
+                <TableAction rowData={value} editOnclick={editOnclick} />
             ),
         },
     ];
@@ -137,9 +123,9 @@ function ManageEmployementType() {
         <div>
             <PageTitleWrapper>
                 <PageTitle
-                    heading="Employement Type"
-                    name="Add Employement Type"
-                    subHeading="Master/Employement Type"
+                    heading="Lieu Request"
+                    name="Add Lieu request"
+                    subHeading="Master/LieuRequest"
                     isButton={true}
                     onclickButton={handleClickOpen}
                 />
@@ -159,14 +145,22 @@ function ManageEmployementType() {
                     </CardContent>
                 </Card>
                 <Modals
-                    modalTitle={action === 'edit' ? 'Edit EmployementType' : 'Add EmployementType'}
-                    modalWidth="25%"
+                    modalTitle={
+                        action === "edit"
+                            ? "Edit LieuRequest"
+                            : "Add LieuRequest"
+                    }
+                    modalWidth="40%"
                     open={open}
                     onClose={handleClose}
-                    modalBody={<AddEmployementType reloadTable={reloadTable}
-                        action={action}
-                        editData={editData}
-                        handleError={handleError} />}
+                    modalBody={
+                        <AddLieuRequest
+                            reloadTable={reloadTable}
+                            action={action}
+                            editData={editData}
+                            handleError={handleError}
+                        />
+                    }
                 />
             </Container>
             {alert.type.length > 0 ? (
@@ -180,4 +174,4 @@ function ManageEmployementType() {
     );
 }
 
-export default ManageEmployementType;
+export default ManageLieuRequest;

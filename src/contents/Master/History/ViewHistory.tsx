@@ -12,7 +12,7 @@ export default function ViewHistory(props) {
 
   const { details, isEmployeeDetails, isResponseButtons, cancel } = props;
 
-  const steps = details.approvers.map((approversName) => approversName.names);
+  const steps = details.approvers;
 
   const approvalStatusOriginal = details.approvers
     .filter((status) => status.appStatus != "Pending")
@@ -107,8 +107,8 @@ export default function ViewHistory(props) {
           }
 
           return (
-            <Step key={label} completed={approved[index]}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
+            <Step key={label.names} completed={approved[index]}>
+              <StepLabel {...labelProps}>{label.names} <br/>{ label.appStatus != "Pending" && <Typography variant="subtitle1">{label.date}</Typography>}</StepLabel>
             </Step>
           );
         })}
@@ -119,14 +119,14 @@ export default function ViewHistory(props) {
           <Box>
             {props.isEmployeeDetail && (
               <div>
-                <Typography variant="subtitle1" display="inline">
+                <Typography variant="h6" color="textSecondary" display="inline">
                   Employee ID
                 </Typography>
                 <Typography
                   variant="h6"
                   color="black"
                   display="inline"
-                  marginLeft="34px"
+                  marginLeft="35px"
                 >
                   {details.employeeId}
                 </Typography>
@@ -134,86 +134,86 @@ export default function ViewHistory(props) {
             )}
             {props.isEmployeeDetail && (
               <div>
-                <Typography variant="subtitle1" display="inline">
+                <Typography variant="h6" color="textSecondary" display="inline">
                   Name
                 </Typography>
                 <Typography
                   variant="h6"
                   color="black"
                   display="inline"
-                  marginLeft="75px"
+                  marginLeft="80px"
                 >
                   {details.firstName}
                 </Typography>
               </div>
             )}
             <div>
-              <Typography variant="subtitle1" display="inline">
+              <Typography variant="h6" color="textSecondary" display="inline">
                 Leave Type
               </Typography>
               <Typography
                 variant="h6"
                 color="black"
                 display="inline"
-                marginLeft="44px"
+                marginLeft="46px"
               >
                 {details.leaveType}
               </Typography>
             </div>
             <div>
-              <Typography variant="subtitle1" display="inline">
+              <Typography variant="h6" color="textSecondary" display="inline">
                 Leave days
               </Typography>
               <Typography
                 variant="h6"
                 color="black"
                 display="inline"
-                marginLeft="44px"
+                marginLeft="47px"
               >
                 {details.leaveDays}
               </Typography>
             </div>
             <div>
-              <Typography variant="subtitle1" display="inline">
+              <Typography variant="h6" color="textSecondary" display="inline">
                 From date
               </Typography>
               <Typography
                 variant="h6"
                 color="black"
                 display="inline"
-                marginLeft="48px"
+                marginLeft="52px"
               >
                 {details.fromDate}
               </Typography>
             </div>
             <div>
-              <Typography variant="subtitle1" display="inline">
+              <Typography variant="h6" color="textSecondary" display="inline">
                 To date
               </Typography>
               <Typography
                 variant="h6"
                 color="black"
                 display="inline"
-                marginLeft="66px"
+                marginLeft="71px"
               >
                 {details.toDate}
               </Typography>
             </div>
             <div>
-              <Typography variant="subtitle1" display="inline">
+              <Typography variant="h6" color="textSecondary" display="inline">
                 Reason
               </Typography>
               <Typography
                 variant="h6"
                 color="black"
                 display="inline"
-                marginLeft="68px"
+                marginLeft="72px"
               >
                 {details.reason}
               </Typography>
             </div>
             <div>
-              <Typography variant="subtitle1" display="inline">
+              <Typography variant="h6" color="textSecondary" display="inline">
                 Requested date
               </Typography>
               <Typography
@@ -226,31 +226,31 @@ export default function ViewHistory(props) {
               </Typography>
             </div>
             <div>
-              <Typography variant="subtitle1" display="inline">
+              <Typography variant="h6" color="textSecondary" display="inline">
                 Status
               </Typography>
               <Typography
                 variant="h6"
                 color="black"
                 display="inline"
-                marginLeft="74px"
+                marginLeft="79px"
               >
                 {steps.length == approvalStatusOriginal.length ||
                 rejected.includes("Rejected")
-                  ? rejected[rejected.length - 1]
+                  ? (rejected[rejected.length - 1] == "Approved" ? <Typography variant="h6" color="#49FF00" display="inline">Approved</Typography> : <Typography variant="h6" color="red" display="inline">Rejected</Typography>)
                   : "Pending"}
               </Typography>
             </div>
             {rejected.includes("Rejected") && (
               <div>
-                <Typography variant="subtitle1" display="inline">
+                <Typography variant="h6" color="textSecondary" display="inline">
                   Comment
                 </Typography>
                 <Typography
                   variant="h6"
                   color="black"
                   display="inline"
-                  marginLeft="51px"
+                  marginLeft="54px"
                 >
                   {details.comment}
                 </Typography>

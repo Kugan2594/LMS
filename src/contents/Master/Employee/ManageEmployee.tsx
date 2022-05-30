@@ -218,7 +218,7 @@ function ManageEmployee() {
         </Card>
         <Modals
           modalTitle={action === "edit" ? "Edit Employee" : "Add Employee"}
-          modalWidth="70%"
+          modalWidth="60%"
 
           open={open}
           // onClose={handleClose}

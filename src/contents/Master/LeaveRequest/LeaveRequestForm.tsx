@@ -223,13 +223,12 @@ function LeaveRequestForm(props: ILeaveRequest) {
 
   return (
     <div>
-      <Container maxWidth="md">
+      
         <div>
-          <Box>
             <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
-              <Grid container>
-                <Grid item xs={1}></Grid>
-                <Grid item xs={5}>
+            <Box>
+              <Grid container spacing={1}>
+                <Grid item xs={6}>
                   <Select
                     name="employeeId"
                     label="Employee *"
@@ -256,7 +255,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
                   </Box>
                 </Grid>
 
-                <Grid item xs={5}>
+                <Grid item xs={6}>
                   <Select
                     name="leaveTypeId"
                     label="LeaveType *"
@@ -285,28 +284,20 @@ function LeaveRequestForm(props: ILeaveRequest) {
                   </Box>
                 </Grid>
               </Grid>
+              </Box>
+              
 
-              <Grid container>
-                <Grid item xs={6}></Grid>
-                <Grid
-                  item
-                  xs={4}
-                  display="flex"
-                  flexDirection="row"
-                  justifyContent="flex-end"
-                  container
-                  style={{ padding: "8px" }}
-                >
                   <div>
+                  <Box textAlign="right" marginBottom={2}>
                     {isButton && (
                       <Button
                         size="small"
                         text="Reset"
-                        color="info"
+                        variant="outlined"
                         onClick={onReset}
                       />
                     )}
-
+                    
                     {isButtonTwo && (
                       <Button
                         onClick={() => {
@@ -327,14 +318,12 @@ function LeaveRequestForm(props: ILeaveRequest) {
                         text="Update"
                       />
                     )}
+                    </Box>
                   </div>
-                </Grid>
-                <Grid item xs={2}></Grid>
-              </Grid>
+                  
+                
             </Form>
-          </Box>
         </div>
-      </Container>
       {alert.type.length > 0 ? (
         <CustomizedNotification
           severity={alert.type}
@@ -342,6 +331,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
           handleAlertClose={handleAlertClose}
         />
       ) : null}
+      
     </div>
   );
 }
