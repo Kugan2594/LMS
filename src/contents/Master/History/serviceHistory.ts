@@ -17,14 +17,14 @@ const getLeaveApproverStatus = () => {
           "get",
           "lm-web",
           null,
-          `/approvalStatus?employeeId=2&leaveRequestId=3`,
+          `/approvalStatus/history?leaveRequestId=3`,
           "",
           "",
           ""
         )
   
         .then((response: any) => {
-          resolve(response.results.ApprovalLeaveHistory);
+          resolve(response.data.results.ApproverStatus);
       })
       .catch((error) => {
           reject(error);
