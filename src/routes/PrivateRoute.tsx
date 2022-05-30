@@ -20,6 +20,7 @@ import ManageBusinessUnit from "src/contents/Master/BusinessUnit/ManageBusinessU
 import ManageCompanyLocation from "src/contents/Master/CompanyLocation/ManageCompanyLocation";
 import ManageEmployementType from "src/contents/Master/EmployementType/ManageEmployementType";
 import ManageLieuRequest from "src/contents/Master/LieuRequest/ManageLieuRequest";
+import ManageHolidays from "src/contents/Master/Holidays/ManageHolidays";
 const Loader = (Component: any) => (props: any) =>
     (
         <Suspense fallback={<SuspenseLoader />}>
