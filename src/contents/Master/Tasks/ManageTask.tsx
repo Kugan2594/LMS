@@ -35,7 +35,11 @@ function createData(data) {
       leaveType: post.employeeLeaveType.leaveType.type,
       firstName: post.employee.firstName,
       lastName: post.employee.lastName,
-      approvers: [],
+      approvers: [
+        {names: "CudApp1", appStatus: "Approved"},
+        {names: "CudApp2", appStatus: "Rejected"},
+        {names: "CudApp3", appStatus: "Pending"},
+        {names: "CudApp4", appStatus: "Pending"},],
     };
   });
   return convertData;
