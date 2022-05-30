@@ -7,25 +7,57 @@ import PageTitle from "src/components/organism/PageTitle";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import { Column } from "../../../components/atoms/Tables/TableInterface";
 import { getAllEmployee } from "../Employee/ServiceEmployee";
-import { getAllLeaveType, deleteLeaveType } from "./serviceLeaveType";
+import { getAllLeaveType, deleteLeaveType, getGeneralSettingByLeaveType, getAllGeneralSetting, getLeaveDaysDurationSetting } from "./serviceLeaveType";
 import { TableAction } from "src/components/atoms/Tables/TableAction";
 import AddLeaveType from "./AddLeaveType";
 import CustomizedNotification from 'src/util/CustomizedNotification';
 
 function createData(data) {
+  let newfield = [];
   let convertData = data.map((post, index) => {
+    getLeaveDaysDurationSetting(post.leaveType.id).then((res: any) => {
+
+
+      (res.data).map((leave) => {
+
+        newfield.push(leave);
+
+      })
+
+    });
     return {
-      id: post.id,
-      type: post.type,
-      noticePeriod: post.noticePeriod,
-      description: post.description
+
+      id: post.leaveType.id,
+      type: post.leaveType.type,
+      noticePeriod: post.leaveType.noticePeriod,
+      description: post.leaveType.description,
+      ableToCarryForward: post.ableToCarryForward,
+      cancellationNoticePeriod: post.cancellationNoticePeriod,
+      carryForwardExpiry: post.carryForwardExpiry,
+      expiryDate: post.expiryDate,
+      maxStretchDays: post.maxStretchDays,
+      minStretchDays: post.minStretchDays,
+      noOfDays: post.noOfDays,
+      noOfDaysPeryear: post.noOfDaysPeryear,
+      noticePeriodApplicable: post.noticePeriodApplicable,
+      reginationNotified: post.reginationNotified,
+      reminderGap: post.reminderGap,
+      yearCompleted: post.yearCompleted,
+      allocateDaysByAppointedDate: post.allocateDaysByAppointedDate,
+      allocatedDaysByExtraWorking: post.allocatedDaysByExtraWorking,
+      monthlyApplicable: post.monthlyApplicable,
+      leaveDaysDurationSettingDto: newfield,
+      carryforwardCancellation: post.carryforwardCancellation,
     };
   });
+
   return convertData;
 }
 
 
 function ManageLeaveType() {
+  const [leavedays, setLeaveDays] = useState([]);
+  const [leaveallocate, setLeaveAllocate] = useState([]);
   const [action, setaction] = useState('add');
   const [open, setOpen] = useState(false);
   const [editData, seteditData] = useState({});
@@ -53,7 +85,20 @@ function ManageLeaveType() {
     setaction('edit');
     seteditData(row);
     setOpen(true);
+    getLeaveAllocated(row.id);
   };
+  const getLeaveAllocated = (id: any) => {
+    getLeaveDaysDurationSetting(id).then((res: any) => {
+      let newfield = [];
+      setLeaveDays(res.data);
+      (res.data).map((leave) => {
+
+        newfield.push(leave);
+
+      })
+      setLeaveAllocate(newfield);
+    });
+  }
   const [alert, setalert] = useState({
     type: "",
     mesg: "",
@@ -69,20 +114,31 @@ function ManageLeaveType() {
 
   useEffect(() => {
     getAllLeaveTypeData(pagination.pageNumber, pagination.pageSize);
+    getGeneralSettingDataByLeaveType();
+
   }, [pagination.pageNumber, pagination.pageSize]);
+
+  const getGeneralSettingDataByLeaveType = () => {
+
+  }
+
   const getAllLeaveTypeData = (pageNumber, pageSize) => {
-    getAllLeaveType(pageNumber, pageSize).then((res: any) => {
-      let data: [] = createData(res.results.LeaveType);
-      setpagination({
-        pageNumber: res.pagination.pageNumber,
-        pageSize: res.pagination.pageSize,
-        total: res.pagination.totalRecords,
-      });
+    getAllGeneralSetting().then((res: any) => {
+
+      let data: [] = createData(res.data);
+      // setpagination({
+      //   pageNumber: res.pagination.pageNumber,
+      //   pageSize: res.pagination.pageSize,
+      //   total: res.pagination.totalRecords,
+      // });
       setdataSource(data);
     });
+
+
   };
   const reloadTable = (res) => {
     setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
+    setOpen(false);
     getAllLeaveTypeData(pagination.pageNumber, pagination.pageSize);
   };
 
@@ -115,7 +171,7 @@ function ManageLeaveType() {
     {
       id: "noticePeriod",
       label: "Notice period",
-      minWidth: 180,
+      minWidth: 80,
     },
     {
       id: "description",
@@ -124,6 +180,7 @@ function ManageLeaveType() {
     }, {
       id: "action",
       label: "Action",
+      width: 90,
       minWidth: 100,
       fixed: "right",
       align: "center",
@@ -168,10 +225,12 @@ function ManageLeaveType() {
           modalWidth="50%"
           open={open}
           onClose={handleClose}
-          modalBody={<AddLeaveType reloadTable={reloadTable}
+
+          modalBody={<AddLeaveType setLeaveDays={leaveallocate} reloadTable={reloadTable}
             action={action}
             editData={editData}
-            handleError={handleError} />}
+            handleError={handleError} 
+            handleClose={handleClose}/>}
         />
       </Container>
       {alert.type.length > 0 ? (

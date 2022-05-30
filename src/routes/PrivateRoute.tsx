@@ -15,10 +15,13 @@ import LeaveRequest from "src/contents/Master/LeaveRequest/LeaveRequest";
 import InProgress from "src/contents/Master/LeaveRequest/InProgress";
 import Task from "src/contents/Master/Tasks/ManageTask";
 import ManageDesignations from "src/contents/Master/Designations/ManageDesignations";
+import ManageHolidays from "src/contents/Master/Holidays/ManageHolidays";
+import ManageBusinessUnit from "src/contents/Master/BusinessUnit/ManageBusinessUnit";
 import ManageCompanyLocation from "src/contents/Master/CompanyLocation/ManageCompanyLocation";
 import ManageEmployementType from "src/contents/Master/EmployementType/ManageEmployementType";
 import { element } from "prop-types";
 
+import ManageLieuRequest from "src/contents/Master/LieuRequest/ManageLieuRequest";
 const Loader = (Component: any) => (props: any) =>
     (
         <Suspense fallback={<SuspenseLoader />}>
@@ -81,8 +84,20 @@ const PrivateRoute: PartialRouteObject[] = [
                 element: <ManageDesignations />,
             },
             {
-                path: "/employee/approver",
+                path: "/approver",
                 element: <ManageEmployeeApprover />,
+            },
+            {
+                path: "/lieurequest",
+                element: <ManageLieuRequest />,
+            },
+            {
+                path: "/businessUnit",
+                element: <ManageBusinessUnit />,
+            },
+            {
+                path: "/holidays",
+                element: <ManageHolidays />,
             },
             {
                 path: "/employementType",

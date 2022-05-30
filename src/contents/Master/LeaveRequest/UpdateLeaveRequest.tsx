@@ -118,6 +118,7 @@ function UpdateLeaveRequest(props) {
         leaveDays: values.leaveDays,
         reason: values.reason,
         toDate: values.toDate,
+        id: values.id,
         fromDate: values.fromDate,
       };
       const formData = new FormData();
@@ -125,6 +126,7 @@ function UpdateLeaveRequest(props) {
       formData.append("employeeId", values.employeeId);
       formData.append("leaveDays", values.leaveDays);
       formData.append("reason", values.reason);
+      formData.append("id", values.id);
       formData.append(
         "toDate",
         moment(values.toDate).format("YYYY-MM-DD HH:MM:SS.SSSS")
@@ -138,7 +140,7 @@ function UpdateLeaveRequest(props) {
         moment(values.requestedDate).format("YYYY-MM-DD HH:MM:SS.SSSS")
       );
 
-      updateLeaveRequest(data).then(
+      updateLeaveRequest(formData).then(
         (res: any) => {
           console.log(res);
 
@@ -332,5 +334,6 @@ UpdateLeaveRequest.propTypes = {
   handleError: PropTypes.func,
   action: PropTypes.string,
   editData: PropTypes.object,
+  handleClose: PropTypes.func
 };
 export default UpdateLeaveRequest;

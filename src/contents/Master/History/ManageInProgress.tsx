@@ -1,4 +1,15 @@
-import { Card, CardContent, Container, Divider } from "@mui/material";
+import {
+    Button,
+    Card,
+    CardContent,
+    Container,
+    Dialog,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Divider,
+    Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
@@ -31,7 +42,7 @@ function createData(data) {
     return convertData;
 }
 
-export default function ManageInProgress() {
+export default function ManageInProgress(props) {
     const [dataSource, setdataSource] = useState([]);
     const [pagination, setpagination] = useState({
         pageNumber: 0,
@@ -70,12 +81,14 @@ export default function ManageInProgress() {
         );
     };
 
+    const [leaveDetails, setLeaveDetails] = useState({});
+
+    const handleClickViewDetails = (value) => {
+        setOpen(true);
+        setLeaveDetails(value);
+    };
+
     const columns: Column[] = [
-        {
-            id: "firstName",
-            label: "Name",
-            minWidth: 150,
-        },
         {
             id: "type",
             label: "Leave type",
@@ -103,9 +116,16 @@ export default function ManageInProgress() {
             minWidth: 110,
         },
         {
-            id: "status",
-            label: "Status",
-            minWidth: 80,
+            id: "details",
+            label: "",
+            render: (value) => (
+                <Button
+                    variant="text"
+                    onClick={() => handleClickViewDetails(value)}
+                >
+                    Detail
+                </Button>
+            ),
         },
     ];
 
@@ -119,20 +139,32 @@ export default function ManageInProgress() {
 
     return (
         <div>
-            <PageTitleWrapper>
-                <PageTitle
-                    heading="InProgress Leave Requests"
-                    name="Approval Status"
-                    subHeading="Master"
-                    isButton={true}
-                    onclickButton={handleClickOpen}
-                />
-            </PageTitleWrapper>
-            <Divider />
+            {props.isTitle && (
+                <div>
+                    <PageTitleWrapper>
+                        <PageTitle
+                            heading="InProgress Leave Requests"
+                            name="Approval Status"
+                            subHeading="Master"
+                            isButton={true}
+                            onclickButton={handleClickOpen}
+                        />
+                    </PageTitleWrapper>
+                    <Divider />
+                </div>
+            )}
             <br />
 
             <Container maxWidth="lg">
                 <Card>
+                    <Typography
+                        variant="h6"
+                        margin="10px 0 0 20px"
+                        color="#1a8cff"
+                    >
+                        InProgress leave requests
+                    </Typography>
+
                     <CardContent>
                         <Tables
                             columns={columns}
@@ -146,13 +178,25 @@ export default function ManageInProgress() {
                         />
                     </CardContent>
                 </Card>
-                <Modals
-                    modalTitle="Approval Status"
-                    modalWidth="50%"
+                <Dialog
                     open={open}
                     onClose={handleClose}
-                    modalBody={<ViewHistory />}
-                />
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                    maxWidth="md"
+                >
+                    <DialogTitle id="alert-dialog-title">{""}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            <ViewHistory
+                                details={leaveDetails}
+                                isEmployeeDetail={true}
+                                isResponseButtons={true}
+                                cancel={handleClose}
+                            />
+                        </DialogContentText>
+                    </DialogContent>
+                </Dialog>
             </Container>
         </div>
     );

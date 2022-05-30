@@ -1,4 +1,4 @@
-import { Divider, Grid } from "@mui/material";
+import { Divider, Grid, ButtonGroup } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Button from "src/components/atoms/controlls/Button";
 import Input from "src/components/atoms/controlls/Input";
@@ -8,7 +8,9 @@ import {
   spaceValidation,
   PHONE_VALIDATION,
   EMAIL_VALIDATION,
-  NIC_VALIDATION
+  NIC_VALIDATION,
+  LICENCE_VALIDATION,
+  PASSPORT_VALIDATION,
 } from "src/util/ValidationMeassage";
 import { IEmployee } from "./Employee.interface";
 
@@ -18,18 +20,23 @@ import {
   updateEmployee,
   getAllCompanyLocationForDropDown,
   getAllDesignationForDropDown,
+  getAllEmployementTypeForDropDown,
+  getAllBusinessUnitForDropDown,
 } from "./ServiceEmployee";
 import AutocompleteSelect from "src/components/atoms/controlls/AutocompleteSelect";
 import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import Checkbox from "src/components/atoms/controlls/Checkbox";
+import MobileStepper from "@mui/material/MobileStepper";
+import Button1 from "@mui/material/Button";
+import { padding } from "@mui/system";
 
 let initialFValues: IEmployee = {
   id: 0,
+  empId: "",
   firstName: "",
   address: "",
   lastName: "",
@@ -49,8 +56,8 @@ let initialFValues: IEmployee = {
   dateOfBirth: "",
   companyLocationId: 0,
   designationId: 0,
-  employmentType: "",
-  businessUnit: "",
+  employmentTypeId: "",
+  businessUnitId: "",
 };
 const genderType = [
   {
@@ -162,9 +169,11 @@ const religon = [
 ];
 
 function AddEmployee(props) {
-  const { reloadTable, action, editData, handleError } = props;
+  const { reloadTable, action, editData, handleError, handleClose } = props;
   const [companyLocationData, setcompanyLocationData] = useState([]);
   const [designationData, setdesignationData] = useState([]);
+  const [employementTypeData, setemployementTypeData] = useState([]);
+  const [businessUnitData, setbusinessUnitData] = useState([]);
 
   const validate = (fieldValues = values) => {
     let temp: IEmployee = { ...errors };
@@ -210,13 +219,6 @@ function AddEmployee(props) {
           : `nic ${FORM_VALIDATION.space}`
         : FORM_VALIDATION.required;
 
-    if ('nic' in fieldValues)
-      temp.nic = fieldValues.nic
-        ? NIC_VALIDATION.test(fieldValues.nic)
-          ? ''
-          : `nic ${FORM_VALIDATION.NicNumber}`
-        : FORM_VALIDATION.required;
-
     if ("maritalStatus" in fieldValues)
       temp.maritalStatus = fieldValues.maritalStatus
         ? spaceValidation.test(fieldValues.maritalStatus)
@@ -234,6 +236,20 @@ function AddEmployee(props) {
       temp.email = EMAIL_VALIDATION.test(fieldValues.email)
         ? ""
         : FORM_VALIDATION.email;
+
+    if ("drivingLicenceNo" in fieldValues)
+      temp.drivingLicenceNo = fieldValues.drivingLicenceNo
+        ? LICENCE_VALIDATION.test(fieldValues.drivingLicenceNo)
+          ? ""
+          : FORM_VALIDATION.drivingLicenceNo
+        : "";
+
+    if ("passportNo" in fieldValues)
+      temp.passportNo = fieldValues.passportNo
+        ? PASSPORT_VALIDATION.test(fieldValues.passportNo)
+          ? ""
+          : FORM_VALIDATION.passportNo
+        : "";
     if ("address" in fieldValues)
       temp.address =
         fieldValues.address.length !== 0
@@ -264,6 +280,13 @@ function AddEmployee(props) {
       temp.companyLocationId = fieldValues.companyLocationId
         ? ""
         : "This field is required.";
+
+    if ("empId" in fieldValues)
+      temp.empId = fieldValues.empId
+        ? spaceValidation.test(fieldValues.empId)
+          ? ""
+          : `empId ${FORM_VALIDATION.space}`
+        : FORM_VALIDATION.required;
     if ("designationId" in fieldValues)
       temp.designationId = fieldValues.designationId
         ? ""
@@ -297,6 +320,7 @@ function AddEmployee(props) {
     if (validate1()) {
       if (action === "add") {
         let data: object = {
+          empId:values.empId,
           firstName: values.firstName,
           address: values.address,
           lastName: values.lastName,
@@ -316,8 +340,8 @@ function AddEmployee(props) {
           dateOfBirth: values.dateOfBirth,
           companyLocationId: values.companyLocationId,
           designationId: values.designationId,
-          employmentType: values.employmentType,
-          businessUnit: values.businessUnit,
+          employmentTypeId: values.employmentTypeId,
+          businessUnitId: values.businessUnitId,
         };
         console.log(data);
         createEmployee(data).then(
@@ -339,6 +363,7 @@ function AddEmployee(props) {
 
         let data: object = {
           id: editData.id,
+          empId:values.empId,
           firstName: values.firstName,
           address: values.address,
           lastName: values.lastName,
@@ -356,9 +381,10 @@ function AddEmployee(props) {
           dateOfBirth: values.dateOfBirth,
           companyLocationId: values.companyLocationId,
           designationId: values.designationId,
-          employmentType: values.employmentType,
-          businessUnit: values.businessUnit,
+          employmentTypeId: values.employmentTypeId,
+          businessUnitId: values.businessUnitId,
           dateOfPermanency: values.dateOfPermanency,
+          nic: values.nic,
         };
 
         updateEmployee(data).then(
@@ -380,6 +406,8 @@ function AddEmployee(props) {
   useEffect(() => {
     getCompanyLocationSelectData();
     getDesignationSelectData();
+    getEmployementTypeSelectData();
+    getBusinessUnitSelectData();
     if (action === "edit") {
       console.log({ editData });
 
@@ -395,6 +423,28 @@ function AddEmployee(props) {
         return null;
       });
       setcompanyLocationData(data);
+    });
+  };
+
+  const getEmployementTypeSelectData = () => {
+    let data: any = [];
+    getAllEmployementTypeForDropDown().then((res: []) => {
+      res.map((post: any) => {
+        data.push({ id: post.id, title: post.type });
+        return null;
+      });
+      setemployementTypeData(data);
+    });
+  };
+
+  const getBusinessUnitSelectData = () => {
+    let data: any = [];
+    getAllBusinessUnitForDropDown().then((res: []) => {
+      res.map((post: any) => {
+        data.push({ id: post.id, title: post.name });
+        return null;
+      });
+      setbusinessUnitData(data);
     });
   };
 
@@ -418,9 +468,6 @@ function AddEmployee(props) {
   const handleClickOpen = () => {
     setOpen(true);
   };
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const onValueChange = (e) => {
     setupdateStatus(false);
@@ -431,24 +478,16 @@ function AddEmployee(props) {
 
   const steps = ["Personal Details", "Employement Details"];
 
-  const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
 
   const isStepSkipped = (step: number) => {
     return skipped.has(step);
   };
 
-  const handleNext = () => {
-    if (validate()) {
-      let newSkipped = skipped;
-      if (isStepSkipped(activeStep)) {
-        newSkipped = new Set(newSkipped.values());
-        newSkipped.delete(activeStep);
-      }
+  const [activeStep, setActiveStep] = React.useState(0);
 
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      setSkipped(newSkipped);
-    }
+  const handleNext = () => {
+    if (validate()) setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   const handleBack = () => {
@@ -457,24 +496,8 @@ function AddEmployee(props) {
 
   return (
     <div>
-      <Box sx={{ width: "100%", justifyContent: "center" }}>
-        <Stepper sx={{}} activeStep={activeStep}>
-          {steps.map((label, index) => {
-            const stepProps: { completed?: boolean } = {};
-            const labelProps: {
-              optional?: React.ReactNode;
-            } = {};
-
-            if (isStepSkipped(index)) {
-              stepProps.completed = false;
-            }
-            return (
-              <Step key={label} {...stepProps}>
-                <StepLabel {...labelProps}>{label}</StepLabel>
-              </Step>
-            );
-          })}
-        </Stepper>
+      <Box sx={{ width: "100%", height: "480px", justifyContent: "center" }}>
+      <Box sx={{ width: "100%", height: "400px", justifyContent: "center" }}>
         {activeStep === steps.length - 2 ? (
           <React.Fragment>
             <Typography sx={{ mt: 2, mb: 1 }}>
@@ -618,144 +641,160 @@ function AddEmployee(props) {
                     />
                   </Grid>
                 </Grid>
-
-                <Divider />
-                <Grid
-                  display="flex"
-                  flexDirection="row"
-                  justifyContent="flex-end"
-                  container
-                  style={{ padding: "8px" }}
-                ></Grid>
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                  <Box sx={{ flex: "1 1 auto" }} />
-                  <Button
-                    color="inherit"
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    text="Back"
-                  />
-
-                  <Button onClick={handleNext} text="Next" />
-                </Box>
               </Form>
             </Typography>
           </React.Fragment>
         ) : (
-          <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>
-              <Form
-                onSubmit={handleSubmit}
-                onChangeFormValue={onChangeFormValue}
-              >
-                <Grid container>
-                  <Grid item xs={4}>
-                    <DatePicker
-                      name="joinDate"
-                      label="Appointed Date *"
-                      value={values.joinDate}
+          <Typography sx={{ mt: 2, mb: 1 }}>
+            <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
+              <Grid container>
+              <Grid item xs={4}>
+              <Input
+                      name="empId"
+                      label="Employee Id"
+                      value={values.empId}
                       onChange={handleInputChange}
-                      error={errors.joinDate}
+                      error={errors.empId}
                     />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <DatePicker
-                      name="dateOfPermanency"
-                      label="Date of Permanency *"
-                      value={values.dateOfPermanency}
-                      onChange={handleInputChange}
-                      error={errors.dateOfPermanency}
-                    />
-                  </Grid>
-
-                  <Grid item xs={4}>
-                    <AutocompleteSelect
-                      name="designationId"
-                      label="Designation*"
-                      value={values.designationId}
-                      onChange={handleInputChange}
-                      onValueChange={onValueChange}
-                      options={designationData}
-                      error={errors.designationId}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <AutocompleteSelect
-                      name="companyLocationId"
-                      label="Office Location*"
-                      value={values.companyLocationId}
-                      onChange={handleInputChange}
-                      options={companyLocationData}
-                      error={errors.companyLocation}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <AutocompleteSelect
-                      name="employmentType"
-                      label="Employment Type*"
-                      value={values.employmentType ? values.employmentType : ""}
-                      onChange={handleInputChange}
-                      onValueChange={onValueChange}
-                      options={employeementtype}
-                      error={errors.employmentType}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <AutocompleteSelect
-                      name="businessUnit"
-                      label="Business Unit*"
-                      value={values.businessUnit ? values.businessUnit : ""}
-                      onChange={handleInputChange}
-                      onValueChange={onValueChange}
-                      options={employeementtype}
-                      error={errors.employmentType}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Checkbox
-                      name="approverStatus"
-                      label="Approver Status"
-                      value={values.approverStatus}
-                      onChange={handleInputChange}
-                    />
-                  </Grid>
-                  <Divider />
-                  <Grid
-                    display="flex"
-                    flexDirection="row"
-                    justifyContent="flex-end"
-                    container
-                    style={{ padding: "8px" }}
-                  ></Grid>
                 </Grid>
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                  <Box sx={{ flex: "1 1 auto" }} />
-                  <Button
-                    color="inherit"
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    text="Back"
+                <Grid item xs={4}>
+                  <DatePicker
+                    name="joinDate"
+                    label="Appointed Date *"
+                    value={values.joinDate}
+                    onChange={handleInputChange}
+                    error={errors.joinDate}
                   />
-                  {action !== "edit" && (
-                    <Button
-                      size="small"
-                      color="primary"
-                      text="Reset"
-                      onClick={onReset}
-                    />
-                  )}
+                </Grid>
+                <Grid item xs={4}>
+                  <DatePicker
+                    name="dateOfPermanency"
+                    label="Date of Permanency *"
+                    value={values.dateOfPermanency}
+                    onChange={handleInputChange}
+                    error={errors.dateOfPermanency}
+                  />
+                </Grid>
+
+                <Grid item xs={4}>
+                  <AutocompleteSelect
+                    name="designationId"
+                    label="Designation*"
+                    value={values.designationId}
+                    onChange={handleInputChange}
+                    onValueChange={onValueChange}
+                    options={designationData}
+                    error={errors.designationId}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <AutocompleteSelect
+                    name="companyLocationId"
+                    label="Office Location*"
+                    value={values.companyLocationId}
+                    onChange={handleInputChange}
+                    options={companyLocationData}
+                    error={errors.companyLocation}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <AutocompleteSelect
+                    name="employmentTypeId"
+                    label="Employment Type*"
+                    value={
+                      values.employmentTypeId ? values.employmentTypeId : ""
+                    }
+                    onChange={handleInputChange}
+                    onValueChange={onValueChange}
+                    options={employementTypeData}
+                    error={errors.employmentTypeId}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <AutocompleteSelect
+                    name="businessUnitId"
+                    label="Business Unit*"
+                    value={values.businessUnitId ? values.businessUnitId : ""}
+                    onChange={handleInputChange}
+                    onValueChange={onValueChange}
+                    options={businessUnitData}
+                    error={errors.businessUnitId}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                 
+                </Grid>
+                <Grid item xs={4}>
+                 
+                </Grid>
+                <Grid item xs={4}>
+                  <Checkbox
+                    name="approverStatus"
+                    label="Approver Status"
+                    value={values.approverStatus}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+              </Grid>
+            </Form>
+          </Typography>
+        )}
+        </Box>
+        <Box sx={{ pt: 2, width: "100%", height: "80px", justifyContent: "center" }}>
+          <MobileStepper
+            variant="progress"
+            steps={3}
+            position="static"
+            activeStep={activeStep}
+            sx={{ backgroundColor: "white" }}
+            nextButton={
+              <ButtonGroup
+                variant="outlined"
+                aria-label="outlined button group"
+              >
+                {action !== "edit" && (
                   <Button
                     size="small"
-                    type="submit"
-                    text={action === "edit" ? "Update" : "Submit"}
-                    disabled={action === "edit" ? updateStatus : false}
+                    color="inherit"
+                    text="Reset"
+                    onClick={onReset}
                   />
+                )}
+                <Button
+                  size="small"
+                  onClick={handleBack}
+                  disabled={activeStep === 0}
+                  color="inherit"
+                  text="Back"
+                />
+                <Box width="100px">
+                <Button
+                  size="small"
+                  text={
+                    activeStep === steps.length - 1
+                      ? action === "edit"
+                        ? "Update"
+                        : "Submit"
+                      : "Next"
+                  }
+                  onClick={
+                    activeStep === steps.length - 1 ? handleSubmit : handleNext
+                  }
+                />
                 </Box>
-              </Form>
-            </Typography>
-          </React.Fragment>
-        )}
-      </Box>
+              </ButtonGroup>
+            }
+            backButton={
+              <Button
+                size="small"
+                color="inherit"
+                text="Cancel"
+                onClick={handleClose}
+              />
+            }
+          />
+        </Box>
+        </Box>
     </div>
   );
 }
@@ -765,5 +804,6 @@ AddEmployee.propTypes = {
   handleError: PropTypes.func,
   action: PropTypes.string,
   editData: PropTypes.object,
+  handleClose: PropTypes.func,
 };
 export default AddEmployee;

@@ -12,10 +12,9 @@ import CustomizedNotification from 'src/util/CustomizedNotification';
 function createData(data) {
   let convertData = data.map((post, index) => {
       return {
-          id: post.id,
           name: post.employee.lastName,
           approverOrder: post.approverOrder,
-          approverId:post.approver.id,
+          approverName:post.approver.employee.firstName,
           employeeId: post.employee.id
       };
   });
@@ -92,39 +91,35 @@ function ManageEmployeeApprover() {
   const onTableSearch = (values, sortField) => {};
   const columns: Column[] = [
     {
-      id: "id",
-      label: "Id",
-      minWidth: 180,
+      id: "employeeId",
+      label: "ID",
+      minWidth: 40,
     },
     {
       id: "name",
-      label: "name",
+      label: "Employee Name",
       minWidth: 180,
     },
     {
       id: "approverOrder",
-      label: "Approver Order",
-      minWidth: 180,
+      label: "Level",
+      minWidth: 40,
     },
     {
-      id: "approverId",
-      label: "Approver Id",
+      id: "approverName",
+      label: "Approver Name",
       minWidth: 180,
     },
-    {
-      id: "employeeId",
-      label: "Employee Id",
-      minWidth: 180,
-    },
+    
   ];
 
   return (
     <div>
       <PageTitleWrapper>
         <PageTitle
-          heading="Employee"
-          name="Add EmployeeApprover"
-          subHeading="Master/EmployeeApprover"
+          heading="Employee Approvers"
+          name="Add Employee Approver"
+          subHeading="Master/Approvers"
           isButton={true}
           onclickButton={handleClickOpen}
         />
@@ -148,8 +143,8 @@ function ManageEmployeeApprover() {
           </CardContent>
         </Card>
         <Modals
-          modalTitle="Add EmployeeApprover"
-          modalWidth="70%"
+          modalTitle="Add Employee Approver"
+          modalWidth="75%"
           open={open}
           onClose={handleClose}
           modalBody={<AddEmployeeApprover reloadTable={reloadTable} handleError={handleError} />}

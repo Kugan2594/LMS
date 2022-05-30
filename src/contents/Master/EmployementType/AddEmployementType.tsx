@@ -150,7 +150,6 @@ function AddEmployementType(props) {
 
   return (
     <div>
-      <Box sx={{ width: "100%", justifyContent: "center" }}>
         
       <React.Fragment>
             <Typography sx={{ mt: 2, mb: 1 }}>
@@ -159,8 +158,6 @@ function AddEmployementType(props) {
                 onChangeFormValue={onChangeFormValue}
 
               >
-                <Grid container>
-                  <Grid>
                   <Input
                       name="type"
                       label="EmployementType *"
@@ -168,23 +165,13 @@ function AddEmployementType(props) {
                       onChange={handleInputChange}
                       error={errors.type}
                     />
-                  </Grid>
-                  
-                  <Divider />
-                  <Grid
-                    display="flex"
-                    flexDirection="row"
-                    justifyContent="flex-end"
-                    container
-                    style={{ padding: "8px" }}
-                  ></Grid>
-                </Grid>
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                    <Box textAlign="right">
                   <Box sx={{ flex: "1 1 auto" }} />
                   
                   {action !== "edit" && (
                     <Button
                       size="small"
+                      variant="outlined"
                       color="primary"
                       text="Reset"
                       onClick={onReset}
@@ -200,7 +187,6 @@ function AddEmployementType(props) {
               </Form>
             </Typography>
           </React.Fragment>
-      </Box>
     </div>
   );
 }

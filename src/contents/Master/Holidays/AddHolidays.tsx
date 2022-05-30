@@ -1,42 +1,38 @@
-import {
-  Card,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Divider,
-  Grid,
-} from "@mui/material";
+import { Divider, Grid, TextField } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
-import { Container } from "@mui/system";
 import React, { useState, useEffect } from "react";
 import Button from "src/components/atoms/controlls/Button";
 import Input from "src/components/atoms/controlls/Input";
-import Select from "src/components/atoms/controlls/Select";
 import { Form, useForm } from "src/components/atoms/Forms/useForm";
 import { FORM_VALIDATION, spaceValidation } from "src/util/ValidationMeassage";
-import { IDesignations } from "./DesignationsInterface";
-import { updateDesignation, createDesignation } from './ServiceDesignation';
-let initialFValues: IDesignations = {
-  id: 0,
-  name: "",
+import { IHolidays } from "./HolidaysInterface";
+import { updateHoliday, createHoliday } from "./ServiceHolidays";
+import DatePicker from "src/components/atoms/controlls/DatePicker";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import Checkbox from "src/components/atoms/controlls/Checkbox";
 
+let initialFValues: IHolidays = {
+  id: 0,
+  date: "",
+  type: "",
+  fullDay: false,
 };
 
-function AddDesignation(props) {
+function AddHolidays(props) {
   const { reloadTable, action, editData, handleError } = props;
   const handleClickOpen = (value) => {
     setOpen(true);
   };
   const [open, setOpen] = useState(false);
   const [updateStatus, setupdateStatus] = useState(true);
-  const [designation, setDesignation] = useState("");
   const [error, setError] = useState(false);
   const onChangeHandler = (e) => {
-    props.designationChange(e.target.value);
+    props.holidayChange(e.target.value);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,11 +41,12 @@ function AddDesignation(props) {
     if (validate()) {
       if (action === "add") {
         let data: object = {
-          name: values.name,
-
+          date: values.date,
+          type: values.type,
+          fullDay: values.fullDay,
         };
         console.log(data);
-        createDesignation(data).then(
+        createHoliday(data).then(
           (res: any) => {
             console.log(res);
             reloadTable(res);
@@ -58,7 +55,7 @@ function AddDesignation(props) {
           },
           (error) => {
             console.log(error);
-            // reloadTable(res);
+            reloadTable(error);
             handleClose();
             handleError(error);
           }
@@ -68,11 +65,12 @@ function AddDesignation(props) {
 
         let data: object = {
           id: editData.id,
-          name: values.name,
-
+          date: values.date,
+          type: values.type,
+          fullDay: values.fullDay,
         };
 
-        updateDesignation(data).then(
+        updateHoliday(data).then(
           (res: any) => {
             console.log(res);
 
@@ -89,16 +87,18 @@ function AddDesignation(props) {
     }
   };
 
-
   const validate = (fieldValues = values) => {
-    let temp: IDesignations = { ...errors };
+    let temp: IHolidays = { ...errors };
 
-    if ("name" in fieldValues)
-      temp.name = fieldValues.name
-        ? spaceValidation.test(fieldValues.name)
+    if ("type" in fieldValues)
+      temp.type = fieldValues.type
+        ? spaceValidation.test(fieldValues.type)
           ? ""
-          : `name ${FORM_VALIDATION.space}`
+          : `type ${FORM_VALIDATION.space}`
         : FORM_VALIDATION.required;
+
+    if ("date" in fieldValues)
+      temp.date = fieldValues.date ? "" : "This field is required.";
 
     setErrors({
       ...temp,
@@ -124,14 +124,8 @@ function AddDesignation(props) {
   const onChangeFormValue = () => {
     setupdateStatus(false);
   };
-  const editOnclick = () => {
-    setOpen(true);
-  };
-  const handleCancel = () => {
-    setOpen(false);
-  };
-  useEffect(() => {
 
+  useEffect(() => {
     if (action === "edit") {
       console.log({ editData });
 
@@ -140,29 +134,55 @@ function AddDesignation(props) {
   }, [action, editData, setValues]);
   return (
     <div>
-      <Box>
-
+      <Box sx={{ width: "100%", justifyContent: "center" }}>
         <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1 }}>
-            <Form
-              onSubmit={handleSubmit}
-              onChangeFormValue={onChangeFormValue}
-
-            >
-                  <Input
-                    name="name"
-                    label="Designation Name *"
-                    value={values.name}
+            <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
+              <Grid container>
+                {" "}
+                <Grid item xs={12} md={4} lg={4}>
+                  <DatePicker
+                    name="date"
+                    label="Select Date"
+                    value={values.date}
                     onChange={handleInputChange}
-                    error={errors.name}
+                    error={errors.date}
                   />
-                  
-              <Box textAlign="right">
+                </Grid>
+                <Grid item xs={12} md={4} lg={4}>
+                  <Checkbox
+                    name="fullDay"
+                    label="Half Day"
+                    value={values.fullDay}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4} lg={4}>
+                  <Input
+                    name="type"
+                    label="Holiday type"
+                    value={values.type}
+                    onChange={handleInputChange}
+                    error={errors.type}
+                  />
+                </Grid>
+                <Divider />
+              </Grid>
 
+              <Grid
+                display="flex"
+                flexDirection="column"
+                justifyContent="flex-end"
+                container
+                style={{ padding: "8px" }}
+              ></Grid>
+
+              <Box textAlign="right">
                 {action !== "edit" && (
                   <Button
                     size="small"
                     variant="outlined"
+                    color="primary"
                     text="Reset"
                     onClick={onReset}
                   />
@@ -181,4 +201,4 @@ function AddDesignation(props) {
     </div>
   );
 }
-export default AddDesignation;
+export default AddHolidays;

@@ -1,5 +1,6 @@
 interface IEmployee {
   id?: number;
+  empId?: string;
   address?: string;
   lastName?: string;
   firstName?: string;
@@ -20,8 +21,8 @@ interface IEmployee {
   dateOfPermanency?: string;
   companyLocationId?: string | number;
   designationId?: string | number;
-  employmentType?: string;
-  businessUnit?: string;
+  employmentTypeId?: string | number;
+  businessUnitId?: string | number;
 }
 
 export type { IEmployee };
