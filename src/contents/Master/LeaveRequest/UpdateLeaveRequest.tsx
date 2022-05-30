@@ -140,7 +140,7 @@ function UpdateLeaveRequest(props) {
         moment(values.requestedDate).format("YYYY-MM-DD HH:MM:SS.SSSS")
       );
 
-      updateLeaveRequest(data).then(
+      updateLeaveRequest(formData).then(
         (res: any) => {
           console.log(res);
 
