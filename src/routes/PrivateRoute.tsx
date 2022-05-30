@@ -101,6 +101,10 @@ const PrivateRoute: PartialRouteObject[] = [
                 path: "/employementType",
                 element: <ManageEmployementType />,
             },
+            {
+            path: "/lieuRequest",
+            element: <ManageLieuRequest />,
+            },
         ],
     },
 ];

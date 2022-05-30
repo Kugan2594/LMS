@@ -1,7 +1,7 @@
 interface ILieuRequest {
     id?: number;
     requestDate?: string;
-    employeeId?:string;
+    employeeId?:Number | string;
     
   }
   

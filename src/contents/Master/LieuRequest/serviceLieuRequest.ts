@@ -34,4 +34,17 @@ const updateLieuRequest = (data: object) => {
     });
 };
 
-export { getAllLieuRequest, createLieuRequest, updateLieuRequest };
+const getAllEmployee = () => {
+    return new Promise((resolve, reject) => {
+      api("get", "lm-web", null, `/employee`, "", "", "")
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  };
+  
+
+export { getAllLieuRequest, createLieuRequest, updateLieuRequest,getAllEmployee };
