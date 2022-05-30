@@ -14,6 +14,7 @@ function createData(data) {
   let convertData = data.map((post, index) => {
     return {
       id: post.id,
+      empId: post.empId,
       email: post.email,
       firstName: post.firstName,
       lastName: post.lastName,
@@ -23,8 +24,8 @@ function createData(data) {
       dateOfPermanency: post.dateOfPermanency,
       location: post.companyLocation.location,
       description: post.description,
-      employmentType: post.employmentType,
-      businessUnit: post.businessUnit,
+      employmentTypeId: post.employmentType.id,
+      businessUnitId: post.businessUnit.id,
       dateOfBirth: post.dateOfBirth,
       contactNo: post.contactNo,
       religon: post.religon,
@@ -134,6 +135,11 @@ function ManageEmployee() {
   const onTableSearch = (values, sortField) => {};
   const columns: Column[] = [
     {
+      id: "empId",
+      label: "Employee Id",
+      minWidth: 120,
+    },
+    {
       id: "firstName",
       label: "FirstName",
       minWidth: 120,
@@ -162,11 +168,6 @@ function ManageEmployee() {
     {
       id: "joinDate",
       label: "Appointed Date",
-      minWidth: 150,
-    },
-    {
-      id: "location",
-      label: "Office Location",
       minWidth: 150,
     },
 

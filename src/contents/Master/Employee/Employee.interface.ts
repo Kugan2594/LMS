@@ -1,5 +1,6 @@
 interface IEmployee {
   id?: number;
+  empId?: string;
   address?: string;
   lastName?: string;
   firstName?: string;

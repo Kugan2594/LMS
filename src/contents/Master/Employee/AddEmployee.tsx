@@ -35,6 +35,7 @@ import Button1 from "@mui/material/Button";
 
 let initialFValues: IEmployee = {
   id: 0,
+  empId: "",
   firstName: "",
   address: "",
   lastName: "",
@@ -278,6 +279,13 @@ function AddEmployee(props) {
       temp.companyLocationId = fieldValues.companyLocationId
         ? ""
         : "This field is required.";
+
+    if ("empId" in fieldValues)
+      temp.empId = fieldValues.empId
+        ? spaceValidation.test(fieldValues.empId)
+          ? ""
+          : `empId ${FORM_VALIDATION.space}`
+        : FORM_VALIDATION.required;
     if ("designationId" in fieldValues)
       temp.designationId = fieldValues.designationId
         ? ""
@@ -311,6 +319,7 @@ function AddEmployee(props) {
     if (validate1()) {
       if (action === "add") {
         let data: object = {
+          empId:values.empId,
           firstName: values.firstName,
           address: values.address,
           lastName: values.lastName,
@@ -353,6 +362,7 @@ function AddEmployee(props) {
 
         let data: object = {
           id: editData.id,
+          empId:values.empId,
           firstName: values.firstName,
           address: values.address,
           lastName: values.lastName,
@@ -476,8 +486,7 @@ function AddEmployee(props) {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
-    if(validate())
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (validate()) setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   const handleBack = () => {
@@ -637,6 +646,15 @@ function AddEmployee(props) {
           <Typography>
             <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
               <Grid container>
+              <Grid item xs={4}>
+              <Input
+                      name="empId"
+                      label="Employee Id"
+                      value={values.empId}
+                      onChange={handleInputChange}
+                      error={errors.empId}
+                    />
+                </Grid>
                 <Grid item xs={4}>
                   <DatePicker
                     name="joinDate"
@@ -702,6 +720,12 @@ function AddEmployee(props) {
                   />
                 </Grid>
                 <Grid item xs={4}>
+                 
+                </Grid>
+                <Grid item xs={4}>
+                 
+                </Grid>
+                <Grid item xs={4}>
                   <Checkbox
                     name="approverStatus"
                     label="Approver Status"
@@ -716,8 +740,8 @@ function AddEmployee(props) {
         <Box sx={{ pt: 2 }}>
           <Box />
           <MobileStepper
-            variant="dots"
-            steps={2}
+            variant="progress"
+            steps={3}
             position="static"
             activeStep={activeStep}
             sx={{ backgroundColor: "white" }}
