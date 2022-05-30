@@ -14,7 +14,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import FormLabel from "@mui/material/FormLabel";
 import Radio from "@mui/material/Radio";
-import { createLeaveType, updateLeaveType, getLeaveDaysDurationSetting  } from "./serviceLeaveType";
+import { createLeaveType, updateLeaveType, getLeaveDaysDurationSetting } from "./serviceLeaveType";
 import FormControlLabel from "@mui/material/FormControlLabel";
 function AddLeaveType(props) {
   const {
@@ -85,13 +85,13 @@ function AddLeaveType(props) {
   const getLeaveAllocated = (id: any) => {
     getLeaveDaysDurationSetting(id).then((res: any) => {
       let newfield = [];
-      console.log({res});
+      console.log({ res });
       (res.data).map((leave) => {
 
         newfield.push(leave);
 
       })
-      console.log({newfield})
+      console.log({ newfield })
       setInputFields(newfield);
     });
   }
@@ -229,14 +229,14 @@ function AddLeaveType(props) {
     let data = [...inputFields];
     data.splice(index, 1)
     setInputFields(data)
-}
+  }
 
 
 
   return (
     <div>
       <Box sx={{ width: "100%", justifyContent: "center" }}>
-      <Stepper sx={{background:"none",padding:0}} activeStep={activeStep - 1} alternativeLabel>
+        <Stepper sx={{ background: "none", padding: 0 }} activeStep={activeStep - 1} alternativeLabel>
           {steps.map((label, index) => {
             const stepProps: { completed?: boolean } = {};
             const labelProps: {
@@ -388,7 +388,7 @@ function AddLeaveType(props) {
                   style={{ padding: "8px" }}
                 ></Grid>
                 <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                <Box sx={{ flex: "auto 1 1 1" }} />
+                  <Box sx={{ flex: "auto 1 1 1" }} />
                   <Button
                     size="small"
                     color="inherit"
@@ -494,7 +494,7 @@ function AddLeaveType(props) {
                       return (
                         <div key={index}>
                           <Grid container>
-                            <Grid item xs={3}>
+                            <Grid item xs={2}>
                               <FormLabel> Appointed month between</FormLabel>
                             </Grid>
                             <Grid item xs={2}>
@@ -508,7 +508,7 @@ function AddLeaveType(props) {
                                 error={errors.startMonth}
                                 type="number"
                               />
-                             
+
                             </Grid>
 
                             <Grid item xs={2}>
@@ -537,72 +537,27 @@ function AddLeaveType(props) {
                               />
                             </Grid>
                             <Grid item xs={2}>
-                            <FormLabel></FormLabel>
-                              <Button text="Remove" size="small" onClick={() => removeFields(index)} color="error"/>
+                              <Button onClick={addFields} text="Add More.." size="small" />
                             </Grid>
+                            <Grid item xs={2}>
+
+                              <Button text="Remove" size="small" onClick={() => removeFields(index)} color="error" />
+
+                            </Grid>
+
                           </Grid>
 
-                          
+
                         </div>
                       );
                     }
                     )
-                    }
-                     {values.allocateDaysByAppointedDate && <Grid item xs={4}>
-                                <Button onClick={addFields} text="Add More.." size="small"/>
-                            </Grid>}
-
-                  {/* {action === "edit" && values.allocateDaysByAppointedDate && values.leaveDaysDurationSettingDto &&
-                                        values.leaveDaysDurationSettingDto.map((input, index) => {
-                                            return (
-                                                <div key={index}>
-                                                    <Grid container>
-                                                        <Grid item xs={3}>
-                                                            <FormLabel> Appointed month between</FormLabel>
-                                                        </Grid>
-                                                        <Grid item xs={2}>
-                                                            <FormLabel> from</FormLabel>
-                                                            <Input
-                                                                name="startMonth"
-
-                                                                value={input.startMonth}
-                                                                onChange={event => handleFormChange(index, event)}
-                                                                error={errors.startMonth}
-                                                                type="number"
-                                                            />
-                                                        </Grid>
-
-                                                        <Grid item xs={2}>
-                                                            <FormLabel> to</FormLabel>
-                                                            <Input
-                                                                name="endMonth"
-                                                                value={input.endMonth}
-                                                                onChange={event => handleFormChange(index, event)}
-                                                                error={errors.endMonth}
-                                                                type="number"
-                                                            />
-                                                        </Grid>
-                                                        <Grid item xs={2}>
-                                                            <FormLabel> Allocated Days</FormLabel>
-                                                            <Input
-                                                                name="days"
-                                                                value={input.days}
-                                                                onChange={event => handleFormChange(index, event)}
-                                                                error={errors.days}
-                                                                type="number"
-                                                            />
-                                                        </Grid>
-
-
-                                                    </Grid>
-
-                                                </div>
-                                            )
-                                        })} */}
+                  }
+              
                 </Grid>
 
                 <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                <Box sx={{ flex: "auto 1 1 1" }} />
+                  <Box sx={{ flex: "auto 1 1 1" }} />
                   <Button
                     size="small"
                     color="inherit"
