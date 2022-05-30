@@ -155,8 +155,7 @@ function ManageAllocateDay() {
         <Card>
           <CardContent>
             <Grid container>
-              <Grid item xs={12} md={3} lg={3}></Grid>
-              <Grid item xs={12} md={6} lg={6}>
+              <Grid item xs={4}>
                 <AutocompleteSelect
                   name="employee"
                   label="Employee Name"
@@ -165,7 +164,6 @@ function ManageAllocateDay() {
                   options={employee}
                 />
               </Grid>
-              <Grid item xs={12} md={3} lg={3}></Grid>
             </Grid>
 
             <Container>
@@ -213,7 +211,7 @@ function ManageAllocateDay() {
                   ? "Edit Employee Allocation Days"
                   : "Add Employee Allocation Days"
               }
-              modalWidth="70%"
+              modalWidth="40%"
               open={open}
               onClose={handleClose}
               modalBody={

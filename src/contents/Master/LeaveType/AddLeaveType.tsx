@@ -17,7 +17,7 @@ import Radio from '@mui/material/Radio';
 import { createLeaveType, updateLeaveType } from "./serviceLeaveType"
 import FormControlLabel from '@mui/material/FormControlLabel';
 function AddLeaveType(props) {
-    const { reloadTable, action, editData, handleError, setLeaveDays } = props;
+    const { reloadTable, action, editData, handleError,  handleClose ,setLeaveDays } = props;
     const [updateStatus, setupdateStatus] = useState(true);
     const [add, setAdd] = useState(false);
     const [inputFields, setInputFields] = useState([{ startMonth: 0, endMonth: 0, days: 0 }])
@@ -41,13 +41,17 @@ function AddLeaveType(props) {
         noOfDays: 0,
         startMonth: 0,
         endMonth: 0,
-        days: 0
+        days: 0,
+        carryforwardCancellation: 0
     };
 
     const validate = (fieldValues = values) => {
         let temp: ILeaveType = { ...errors };
         if ("type" in fieldValues)
             temp.type = fieldValues.type ? "" : "This field is required.";
+        setErrors({
+            ...temp,
+        });
         if (fieldValues === values)
             return Object.values(temp).every((x) => x === "");
     };
@@ -67,7 +71,7 @@ function AddLeaveType(props) {
         if (validate()) {
             if (action === 'add') {
                 let data: object = {
-
+                    allocateDaysByAppointedDate: values.allocateDaysByAppointedDate,
                     description: values.description,
                     type: values.type,
                     noticePeriod: values.noticePeriod,
@@ -80,7 +84,14 @@ function AddLeaveType(props) {
                     yearCompleted: values.yearCompleted,
                     noOfDaysPeryear: values.noOfDaysPeryear,
                     noOfDays: values.noOfDays,
-                    leaveDaysDurationSettingDto: inputFields
+                    leaveDaysDurationSettingDto: inputFields,
+                    carryforwardCancellation: values.carryforwardCancellation,
+                    days: values.days,
+                    startMonth: values.startMonth,
+                    endMonth: values.endMonth,
+                    allocatedDaysByExtraWorking: values.allocatedDaysByExtraWorking,
+                    monthlyApplicable: values.monthlyApplicable,
+                    carryForwardExpiry: values.carryForwardExpiry,
                 };
                 console.log({ data });
                 createLeaveType(data).then(
@@ -99,7 +110,6 @@ function AddLeaveType(props) {
                 );
             }
             else {
-
                 let data: object = {
                     id: editData.id,
                     description: values.description,
@@ -114,7 +124,16 @@ function AddLeaveType(props) {
                     yearCompleted: values.yearCompleted,
                     noOfDaysPeryear: values.noOfDaysPeryear,
                     noOfDays: values.noOfDays,
-                    leaveDaysDurationSettingDto: values.leaveDaysDurationSettingDto
+                    //  leaveDaysDurationSettingDto: values.leaveDaysDurationSettingDto
+                    leaveDaysDurationSettingDto: inputFields,
+                    allocateDaysByAppointedDate: values.allocateDaysByAppointedDate,
+                    carryforwardCancellation: values.carryforwardCancellation,
+                    days: values.days,
+                    startMonth: values.startMonth,
+                    endMonth: values.endMonth,
+                    allocatedDaysByExtraWorking: values.allocatedDaysByExtraWorking,
+                    monthlyApplicable: values.monthlyApplicable,
+                    carryForwardExpiry: values.carryForwardExpiry,
                 };
                 console.log({ data });
                 updateLeaveType(data).then(
@@ -156,9 +175,7 @@ function AddLeaveType(props) {
             setSkipped(newSkipped);
         }
     };
-    const handleClose = () => {
-        setOpen(false);
-    };
+
     const onReset = () => {
         resetForm();
     };
@@ -181,6 +198,8 @@ function AddLeaveType(props) {
         if (action === "edit") {
             console.log({ editData });
             setValues({ ...editData, });
+            setInputFields(editData.leaveDaysDurationSettingDto);
+
         }
 
 
@@ -223,9 +242,9 @@ function AddLeaveType(props) {
                                         <Input
                                             name="type"
                                             label="Leave Type Name"
-                                            value={values.name}
+                                            value={values.type}
                                             onChange={handleInputChange}
-                                            error={errors.name}
+                                            error={errors.type}
                                             tabIndex={0}
                                             inputProps={{ tabIndex: '1' }}
                                         />
@@ -243,7 +262,7 @@ function AddLeaveType(props) {
                                     <Grid item xs={6}>
                                         <Input
                                             name="noticePeriod"
-                                            label="Notice Perios"
+                                            label="Notice Perios In Days"
                                             value={values.noticePeriod}
                                             onChange={handleInputChange}
                                             error={errors.noticePeriod}
@@ -253,7 +272,7 @@ function AddLeaveType(props) {
                                     <Grid item xs={6}>
                                         <Input
                                             name="cancellationNoticePeriod"
-                                            label="Cancellation Notice Period"
+                                            label="Cancellation Notice Period In Days"
                                             value={values.cancellationNoticePeriod}
                                             onChange={handleInputChange}
                                             error={errors.cancellationNoticePeriod}
@@ -268,7 +287,7 @@ function AddLeaveType(props) {
                                             onChange={handleInputChange}
                                         />
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={4}>
                                         <Checkbox
                                             name="ableToCarryForward"
                                             label="Carry Forward to next year"
@@ -276,13 +295,23 @@ function AddLeaveType(props) {
                                             onChange={handleInputChange}
                                         />
                                     </Grid>
-                                    {values.ableToCarryForward && <Grid item xs={6}>
-                                        <Input
-                                            name="cancellationNoticePeriod"
-                                            label="Carry Forward Cancellation Month"
-                                            value={values.cancellationNoticePeriod}
+                                    {values.ableToCarryForward && <Grid item xs={4}>
+
+                                        <Checkbox
+                                            name="carryForwardExpiry"
+                                            label="Is Carry Forward Expired"
+                                            value={values.carryForwardExpiry}
                                             onChange={handleInputChange}
-                                            error={errors.cancellationNoticePeriod}
+                                        />
+
+                                    </Grid>}
+                                    {values.ableToCarryForward && values.carryForwardExpiry && <Grid item xs={4}>
+                                        <Input
+                                            name="carryforwardCancellation"
+                                            label="Carry Forward Cancellation Month"
+                                            value={values.carryforwardCancellation}
+                                            onChange={handleInputChange}
+                                            error={errors.carryforwardCancellation}
                                             type="number"
                                         />
 
@@ -416,8 +445,8 @@ function AddLeaveType(props) {
                                             onChange={handleInputChange}
                                         />
                                     </Grid>
-                                    {values.allocateDaysByAppointedDate && values.leaveDaysDurationSettingDto &&
-                                        values.leaveDaysDurationSettingDto.map((input, index) => {
+                                    {values.allocateDaysByAppointedDate &&
+                                        inputFields.map((input, index) => {
                                             return (
                                                 <div key={index}>
                                                     <Grid container>
@@ -463,6 +492,54 @@ function AddLeaveType(props) {
                                                 </div>
                                             )
                                         })}
+
+                                    {/* {action === "edit" && values.allocateDaysByAppointedDate && values.leaveDaysDurationSettingDto &&
+                                        values.leaveDaysDurationSettingDto.map((input, index) => {
+                                            return (
+                                                <div key={index}>
+                                                    <Grid container>
+                                                        <Grid item xs={3}>
+                                                            <FormLabel> Appointed month between</FormLabel>
+                                                        </Grid>
+                                                        <Grid item xs={2}>
+                                                            <FormLabel> from</FormLabel>
+                                                            <Input
+                                                                name="startMonth"
+
+                                                                value={input.startMonth}
+                                                                onChange={event => handleFormChange(index, event)}
+                                                                error={errors.startMonth}
+                                                                type="number"
+                                                            />
+                                                        </Grid>
+
+                                                        <Grid item xs={2}>
+                                                            <FormLabel> to</FormLabel>
+                                                            <Input
+                                                                name="endMonth"
+                                                                value={input.endMonth}
+                                                                onChange={event => handleFormChange(index, event)}
+                                                                error={errors.endMonth}
+                                                                type="number"
+                                                            />
+                                                        </Grid>
+                                                        <Grid item xs={2}>
+                                                            <FormLabel> Allocated Days</FormLabel>
+                                                            <Input
+                                                                name="days"
+                                                                value={input.days}
+                                                                onChange={event => handleFormChange(index, event)}
+                                                                error={errors.days}
+                                                                type="number"
+                                                            />
+                                                        </Grid>
+
+
+                                                    </Grid>
+
+                                                </div>
+                                            )
+                                        })} */}
 
                                 </Grid>
 
