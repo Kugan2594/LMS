@@ -23,7 +23,7 @@ let initialFValues: IEmployeeLeaveType = {
 };
 
 function AddAllocationDays(props) {
-  const { reloadTable, action, editData, handleError } = props;
+  const { reloadTable, action, editData, handleError,handleClose } = props;
   const [employeeData, setemployeeData] = useState([]);
   const [leaveTypeData, setleaveTypeData] = useState([]);
   const [updateStatus, setupdateStatus] = useState(true);
@@ -78,9 +78,7 @@ function AddAllocationDays(props) {
 
   const [open, setOpen] = useState(false);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -241,8 +239,15 @@ function AddAllocationDays(props) {
                 style={{ padding: "8px" }}
               ></Grid>
               
-              <Box textAlign="right">
-
+              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Box sx={{ flex: "auto 1 1 1" }} />
+                  <Button
+                    size="small"
+                    color="inherit"
+                    text="Cancel"
+                    onClick={handleClose}
+                  />
+                  <Box sx={{ flex: "1 1 auto" }} />
                 {action !== "edit" && (
                   <Button
                     size="small"

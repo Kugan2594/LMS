@@ -27,7 +27,7 @@ let initialFValues: IDesignations = {
 };
 
 function AddDesignation(props) {
-  const { reloadTable, action, editData, handleError } = props;
+  const { reloadTable, action, editData, handleError,handleClose } = props;
   const handleClickOpen = (value) => {
     setOpen(true);
   };
@@ -115,9 +115,9 @@ function AddDesignation(props) {
     handleInputChange,
     resetForm,
   }: any = useForm(initialFValues, true, validate);
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
   const onReset = () => {
     resetForm();
   };
@@ -157,8 +157,15 @@ function AddDesignation(props) {
                     error={errors.name}
                   />
                   
-              <Box textAlign="right">
-
+                  <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Box sx={{ flex: "auto 1 1 1" }} />
+                  <Button
+                    size="small"
+                    color="inherit"
+                    text="Cancel"
+                    onClick={handleClose}
+                  />
+                  <Box sx={{ flex: "1 1 auto" }} />
                 {action !== "edit" && (
                   <Button
                     size="small"

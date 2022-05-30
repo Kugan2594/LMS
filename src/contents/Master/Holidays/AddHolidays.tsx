@@ -24,7 +24,7 @@ let initialFValues: IHolidays = {
 };
 
 function AddHolidays(props) {
-  const { reloadTable, action, editData, handleError } = props;
+  const { reloadTable, action, editData, handleError,handleClose } = props;
   const handleClickOpen = (value) => {
     setOpen(true);
   };
@@ -115,9 +115,7 @@ function AddHolidays(props) {
     handleInputChange,
     resetForm,
   }: any = useForm(initialFValues, true, validate);
-  const handleClose = () => {
-    setOpen(false);
-  };
+  
   const onReset = () => {
     resetForm();
   };
@@ -140,7 +138,7 @@ function AddHolidays(props) {
             <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
               <Grid container>
                 {" "}
-                <Grid item xs={12} md={4} lg={4}>
+                <Grid item xs={12} md={6} lg={6}>
                   <DatePicker
                     name="date"
                     label="Select Date"
@@ -149,21 +147,22 @@ function AddHolidays(props) {
                     error={errors.date}
                   />
                 </Grid>
-                <Grid item xs={12} md={4} lg={4}>
-                  <Checkbox
-                    name="fullDay"
-                    label="Half Day"
-                    value={values.fullDay}
-                    onChange={handleInputChange}
-                  />
-                </Grid>
-                <Grid item xs={12} md={4} lg={4}>
+                
+                <Grid item xs={12} md={6} lg={6}>
                   <Input
                     name="type"
                     label="Holiday type"
                     value={values.type}
                     onChange={handleInputChange}
                     error={errors.type}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} lg={6}>
+                  <Checkbox
+                    name="fullDay"
+                    label="Half Day"
+                    value={values.fullDay}
+                    onChange={handleInputChange}
                   />
                 </Grid>
                 <Divider />
@@ -177,7 +176,15 @@ function AddHolidays(props) {
                 style={{ padding: "8px" }}
               ></Grid>
 
-              <Box textAlign="right">
+              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                <Box sx={{ flex: "auto 1 1 1" }} />
+                <Button
+                  size="small"
+                  color="inherit"
+                  text="Cancel"
+                  onClick={handleClose}
+                />
+                <Box sx={{ flex: "1 1 auto" }} />{" "}
                 {action !== "edit" && (
                   <Button
                     size="small"
