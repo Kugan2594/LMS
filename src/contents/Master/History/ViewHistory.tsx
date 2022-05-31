@@ -7,6 +7,9 @@ import Button from '@mui/material/Button';
 import { getLeaveApproverStatus, updateApproverStatus } from "./serviceHistory";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { idText } from "typescript";
+import { NOTIFICATION_TYPE } from "src/util/Notification";
+import CustomizedNotification from "src/util/CustomizedNotification";
+import moment from "moment";
 
 function createData(data) {
   let convertData = data.map((post, index) => {
@@ -14,7 +17,7 @@ function createData(data) {
           id : post.id,
           status : post.status,
           approverName:post.employeeApproverName,
-          date:post.date
+          date:moment(post.date).format("DD-MM-yyyy")
       };
   });
   return convertData;
@@ -48,17 +51,23 @@ export default function ViewHistory(props) {
   const [rejected, setRejected] = useState(approvalStatusOriginal);
   
   
-  const [activeStep, setActiveStep] = useState(approved.length);
+  const [activeStep, setActiveStep] = useState(approvalStatus.length);
 
   const handleNext = () => {
-    const newActiveStep = approved.length;
+    const newActiveStep = approvalStatus.length;
     setActiveStep(newActiveStep);
   };
 
+<<<<<<< HEAD
   const handleApprove = (steps) => {
     const newApproved = approved;
+=======
+  const handleApprove = () => {
+    const newApproved = approvalStatus;
+>>>>>>> 6f3b2200f6f31577d30e89502d7331ff81dc0865
     newApproved[activeStep] = true;
     setApproved(newApproved);
+    console.log({details})
     handleNext();
     let data: object = {
       id: steps.id,
@@ -67,6 +76,7 @@ export default function ViewHistory(props) {
     updateApproverStatus(data).then(
       (res: any) => {
         console.log(res);
+          reloadTable(res);
       },
       (error) => {
         console.log(error);
@@ -89,6 +99,29 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
 
  
 
+  const handleAlertClose = () => {
+    setalert({
+      type: "",
+      mesg: "",
+    });
+  };
+
+  const [alert, setalert] = useState({
+    type: "",
+    mesg: "",
+  });
+
+  const handleError = (res) => {
+    setalert({
+      type: NOTIFICATION_TYPE.error,
+      mesg: res.data.validationFailures[0].message,
+    });
+  };
+
+  const reloadTable = (res) => {
+    setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
+  };
+
   const handleReject = (steps) => {
     setRejected([...approved, "REJECTED"]);
 
@@ -99,6 +132,7 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
     updateApproverStatus(data).then(
       (res: any) => {
         console.log(res);
+        reloadTable(res);
       },
       (error) => {
         console.log(error);
@@ -153,7 +187,7 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
 
           return (
             <Step key={label.approverName} completed={approvalStatus[index]}>
-              <StepLabel {...labelProps}>{label.approverName} <br/>{ label.status != "PENDING" && <Typography variant="subtitle1">{label.date}</Typography>}</StepLabel>
+              <StepLabel {...labelProps}>{label.approverName} <br/>{ (label.status != "PENDING" && label.status != "NEW") && <Typography variant="subtitle1">{label.date}</Typography>}</StepLabel>
             </Step>
           );
         })}
@@ -332,6 +366,14 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
                 >
                   Reject
                 </Button>
+                {alert.type.length > 0 ? (
+              <CustomizedNotification
+              severity={alert.type}
+              message={alert.mesg}
+              handleAlertClose={handleAlertClose}
+            />
+            ) : null}
+                
                 <Button
                   variant="contained"
                   sx={{ margin: 0.5 }}
@@ -339,7 +381,16 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
                 >
                   Approve
                 </Button>
+            {alert.type.length > 0 ? (
+              <CustomizedNotification
+              severity={alert.type}
+              message={alert.mesg}
+              handleAlertClose={handleAlertClose}
+            />
+            ) : null}
               </div>
+
+              
             )}
           </Box>
         </React.Fragment>

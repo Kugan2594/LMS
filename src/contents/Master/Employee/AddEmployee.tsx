@@ -384,6 +384,7 @@ function AddEmployee(props) {
           employmentTypeId: values.employmentTypeId,
           businessUnitId: values.businessUnitId,
           dateOfPermanency: values.dateOfPermanency,
+          approverStatus: values.approverStatus,
         };
 
         updateEmployee(data).then(

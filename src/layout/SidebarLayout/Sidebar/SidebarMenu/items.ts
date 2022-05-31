@@ -47,7 +47,7 @@ const masterMenuItems: MenuItem[] = [
   { name: "Holidays", icon: InsertInvitationIcon, link: "/master/holidays" },
   // { name: "In Progress", icon: TaskAltRoundedIcon, link: "/master/In-Progress" },
   // { name: "Leave Requests", icon: LocalPostOfficeRoundedIcon, link: "/master/In-Progress",},
-  { name: "Lieu Request", icon: AddCircleOutlineRoundedIcon, link: "/master/lieurequest" },
+  // { name: "Lieu Request", icon: AddCircleOutlineRoundedIcon, link: "/master/lieurequest" },
   { name: "Settings",
     icon: SettingsIcon,
     link: "/master/companyLocation",
