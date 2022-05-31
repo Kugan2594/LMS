@@ -69,14 +69,14 @@ export default function Dashboard() {
                     >
                         Apply Leave
                     </Button>
-                    <Button
+                    {/* <Button
                         sx={{marginLeft: "20px"}}
                         variant="contained"
                         startIcon={<AddCircleOutlineRoundedIcon />}
                         onClick={handleOpenLieu}
                     >
                         Lieu Request
-                    </Button>
+                    </Button> */}
                 </Box>
                 <Container maxWidth="lg">
                     <Card sx={{ marginTop: 3 }}>
