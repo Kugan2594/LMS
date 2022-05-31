@@ -19,7 +19,8 @@ interface ILeaveType {
   days?: number;
   allocatedDaysByExtraWorking?: boolean,
   carryforwardCancellation?: number,
-  carryForwardExpiry?:boolean
+  carryForwardExpiry?:boolean,
+  reminderGap?: number
 }
 
 export type { ILeaveType };
