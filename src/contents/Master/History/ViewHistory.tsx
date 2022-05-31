@@ -40,8 +40,8 @@ export default function ViewHistory(props) {
 
   const [activeStep, setActiveStep] = useState(approved.length);
 
-  const getLeaveApproverStatusData = (setleaveTYpeId) => {
-    getLeaveApproverStatus(setleaveTYpeId).then((res: any) => {
+  const getLeaveApproverStatusData = (leaveRequestId) => {
+    getLeaveApproverStatus(details.leaveRequestId).then((res: any) => {
       const value: {status:String,id:Number,approverName:String,date:String}[] = createData(res.results.ApproverStatus);
         setdataSource(value);
 
@@ -68,9 +68,11 @@ export default function ViewHistory(props) {
     console.log({details})
     handleNext();
     let data: object = {
-      id: details.id,
+      id: dataSource[approved.length].id,
       statusId: 2,
     };
+    console.log("STEPS" + dataSource[approved.length].id);
+    
     updateApproverStatus(data).then(
       (res: any) => {
         console.log(res);
@@ -110,9 +112,11 @@ export default function ViewHistory(props) {
     setRejected([...approved, "REJECTED"]);
 
     let data: object = {
-      id: steps.id,
+      id: dataSource[approved.length].id,
       statusId: 3,
     };
+    console.log("STEPS" + dataSource[approved.length].id);
+    
     updateApproverStatus(data).then(
       (res: any) => {
         console.log(res);
@@ -173,7 +177,7 @@ export default function ViewHistory(props) {
 
           return (
             <Step key={label.approverName} completed={approved[index]}>
-              <StepLabel {...labelProps}>{label.approverName} <br/>{ (label.status == "APPROVED" || label.status == "REJECTED") && <Typography variant="subtitle1">{label.date}</Typography>}</StepLabel>
+              <StepLabel {...labelProps}>{label.approverName} <br/>{ (label.status == "APPROVED" || label.status == "REJECTED") ? <Typography variant="subtitle1">{label.date}</Typography> : !rejected.includes("REJECTED") ? <Typography variant="subtitle1">Pending</Typography> : ""}</StepLabel>
             </Step>
           );
         })}
