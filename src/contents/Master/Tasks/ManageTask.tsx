@@ -28,7 +28,7 @@ function createData(data) {
     let convertData = data.map((post, index) => {
         return {
             id: post.id,
-      employeeId: post.employeeId,
+      employeeId: post.employee.id,
       reason: post.reason,
       fromDate: moment(post.fromDate).format("DD-MM-yyyy"),
       toDate: moment(post.toDate).format("DD-MM-yyyy"),

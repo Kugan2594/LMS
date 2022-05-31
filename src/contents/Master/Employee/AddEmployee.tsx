@@ -1,4 +1,4 @@
-import { Divider, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Button from "src/components/atoms/controlls/Button";
 import Input from "src/components/atoms/controlls/Input";
@@ -384,6 +384,7 @@ function AddEmployee(props) {
           employmentTypeId: values.employmentTypeId,
           businessUnitId: values.businessUnitId,
           dateOfPermanency: values.dateOfPermanency,
+          approverStatus: values.approverStatus,
         };
 
         updateEmployee(data).then(

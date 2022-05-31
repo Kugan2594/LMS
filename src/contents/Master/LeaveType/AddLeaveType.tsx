@@ -231,9 +231,11 @@ function AddLeaveType(props) {
   };
 
   const removeFields = (index) => {
+    setupdateStatus(false);
     let data = [...inputFields];
     data.splice(index, 1)
     setInputFields(data)
+ 
   }
 
 
