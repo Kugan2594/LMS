@@ -9,6 +9,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { idText } from "typescript";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from "src/util/CustomizedNotification";
+import moment from "moment";
 
 function createData(data) {
   let convertData = data.map((post, index) => {
@@ -16,7 +17,7 @@ function createData(data) {
           id : post.id,
           status : post.status,
           approverName:post.employeeApproverName,
-          date:post.date
+          date:moment(post.date).format("DD-MM-yyyy")
       };
   });
   return convertData;
@@ -42,17 +43,18 @@ export default function ViewHistory(props) {
 
   const [approved, setApproved] = useState(approvalStatus);
   
-  const [activeStep, setActiveStep] = useState(approved.length);
+  const [activeStep, setActiveStep] = useState(approvalStatus.length);
 
   const handleNext = () => {
-    const newActiveStep = approved.length;
+    const newActiveStep = approvalStatus.length;
     setActiveStep(newActiveStep);
   };
 
   const handleApprove = () => {
-    const newApproved = approved;
+    const newApproved = approvalStatus;
     newApproved[activeStep] = true;
     setApproved(newApproved);
+    console.log({details})
     handleNext();
     let data: object = {
       id: details.id,
@@ -171,7 +173,7 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
 
           return (
             <Step key={label.approverName} completed={approvalStatus[index]}>
-              <StepLabel {...labelProps}>{label.approverName} <br/>{ label.status != "PENDING" && <Typography variant="subtitle1">{label.date}</Typography>}</StepLabel>
+              <StepLabel {...labelProps}>{label.approverName} <br/>{ (label.status != "PENDING" && label.status != "NEW") && <Typography variant="subtitle1">{label.date}</Typography>}</StepLabel>
             </Step>
           );
         })}
