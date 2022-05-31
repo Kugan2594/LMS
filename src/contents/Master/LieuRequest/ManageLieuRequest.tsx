@@ -88,17 +88,18 @@ function ManageLieuRequest() {
         {
             id: "employeeName",
             label: "Employee Name",
-            minWidth: 40,
+            minWidth: 0,
         },
         {
             id: "requestDate",
             label: "Request Date",
-            minWidth: 40,
+            minWidth: 0,
         },
         {
             id: "action",
             label: "Action",
-            minWidth: 5,
+            width: 90,
+            minWidth: 0,
             fixed: "right",
             align: "center",
             render: (value: any) => (
