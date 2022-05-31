@@ -18,6 +18,8 @@ function createData(data) {
             id: post.id,
             employeeName: post.employee.lastName,
             requestDate: moment(post.requestDate).format("YYYY-MM-DD"),
+            createdAt:moment(post.createdAt).format("YYYY-MM-DD"),
+            updatedAt:moment(post.updatedAt).format("YYYY-MM-DD"),
         };
     });
     return convertData;
@@ -94,6 +96,17 @@ function ManageLieuRequest() {
             id: "requestDate",
             label: "Request Date",
             minWidth: 0,
+        },
+
+        {
+            id: "createdAt",
+            label: "Created At",
+            minWidth: 10,
+        },
+        {
+            id: "updatedAt",
+            label: "Updated At",
+            minWidth: 10,
         },
         {
             id: "action",
