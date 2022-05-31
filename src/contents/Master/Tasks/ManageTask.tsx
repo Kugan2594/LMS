@@ -11,6 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Container } from "@mui/system";
+import moment from "moment";
 import React, { useState, useEffect } from "react";
 import Modals from "src/components/atoms/Modals";
 import Tables from "src/components/atoms/Tables";
@@ -27,12 +28,12 @@ function createData(data) {
     let convertData = data.map((post, index) => {
         return {
             id: post.id,
-      employeeId: post.employeeId,
+      employeeId: post.employee.id,
       reason: post.reason,
-      fromDate: post.fromDate,
-      toDate: post.toDate,
+      fromDate: moment(post.fromDate).format("DD-MM-yyyy"),
+      toDate: moment(post.toDate).format("DD-MM-yyyy"),
       leaveDays: post.leaveDays,
-      requestedDate: post.requestedDate,
+      requestedDate: moment(post.requestedDate).format("DD-MM-yyyy"),
       leaveType: post.employeeLeaveType.leaveType.type,
       firstName: post.employee.firstName,
       lastName: post.employee.lastName,

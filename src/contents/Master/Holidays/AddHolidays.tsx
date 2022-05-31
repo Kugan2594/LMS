@@ -132,13 +132,10 @@ function AddHolidays(props) {
   }, [action, editData, setValues]);
   return (
     <div>
-      <Box sx={{ width: "100%", justifyContent: "center" }}>
+      <Box>
         <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1 }}>
             <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
-              <Grid container>
-                {" "}
-                <Grid item xs={12} md={6} lg={6}>
                   <DatePicker
                     name="date"
                     label="Select Date"
@@ -146,35 +143,29 @@ function AddHolidays(props) {
                     onChange={handleInputChange}
                     error={errors.date}
                   />
-                </Grid>
-                
-                <Grid item xs={12} md={6} lg={6}>
-                  <Input
-                    name="type"
-                    label="Holiday type"
-                    value={values.type}
-                    onChange={handleInputChange}
-                    error={errors.type}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} lg={6}>
+               
                   <Checkbox
                     name="fullDay"
                     label="Half Day"
                     value={values.fullDay}
                     onChange={handleInputChange}
                   />
-                </Grid>
-                <Divider />
-              </Grid>
+               
+                  <Input
+                    name="type"
+                    label="Holiday Type"
+                    value={values.type}
+                    onChange={handleInputChange}
+                    error={errors.type}
+                  />
 
-              <Grid
+              {/* <Grid
                 display="flex"
                 flexDirection="column"
                 justifyContent="flex-end"
                 container
                 style={{ padding: "8px" }}
-              ></Grid>
+              ></Grid> */}
 
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                 <Box sx={{ flex: "auto 1 1 1" }} />

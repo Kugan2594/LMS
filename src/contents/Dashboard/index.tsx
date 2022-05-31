@@ -15,6 +15,8 @@ import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import Modals from "src/components/atoms/Modals";
 import LeaveRequestForm from "../Master/LeaveRequest/LeaveRequestForm";
 import ManageInProgress from "../Master/History/ManageInProgress";
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import AddLieuRequest from "../Master/LieuRequest/AddLieuRequest";
 
 function createData(data) {
     let convertData = data.map((post, index) => {
@@ -40,14 +42,20 @@ export default function Dashboard() {
         });
     };
 
-    const [open, setOpen] = useState(false);
+    const [openLeave, setOpenLeave] = useState(false);
+    const [openLieu, setOpenLieu] = useState(false);
 
-    const handleOpen = () => {
-        setOpen(true);
+    const handleOpenLeave = () => {
+        setOpenLeave(true);
+    };
+
+    const handleOpenLieu = () => {
+        setOpenLieu(true);
     };
 
     const handleClose = () => {
-        setOpen(false);
+        setOpenLeave(false);
+        setOpenLieu(false);
     };
 
     return (
@@ -57,10 +65,18 @@ export default function Dashboard() {
                     <Button
                         variant="contained"
                         startIcon={<SendRoundedIcon />}
-                        onClick={handleOpen}
+                        onClick={handleOpenLeave}
                     >
                         Apply Leave
                     </Button>
+                    {/* <Button
+                        sx={{marginLeft: "20px"}}
+                        variant="contained"
+                        startIcon={<AddCircleOutlineRoundedIcon />}
+                        onClick={handleOpenLieu}
+                    >
+                        Lieu Request
+                    </Button> */}
                 </Box>
                 <Container maxWidth="lg">
                     <Card sx={{ marginTop: 3 }}>
@@ -129,9 +145,9 @@ export default function Dashboard() {
                 </Box>
                 <div>
                     <Modals
-                        modalTitle=""
+                        modalTitle="Apply Leave"
                         modalWidth="50%"
-                        open={open}
+                        open={openLeave}
                         onClose={handleClose}
                         modalBody={
                             <LeaveRequestForm
@@ -139,6 +155,15 @@ export default function Dashboard() {
                                 isButtonTwo={true}
                             />
                         }
+                    />
+                </div>
+                <div>
+                    <Modals
+                        modalTitle="Lieu Request"
+                        modalWidth="25%"
+                        open={openLieu}
+                        onClose={handleClose}
+                        modalBody={<AddLieuRequest />}
                     />
                 </div>
             </div>

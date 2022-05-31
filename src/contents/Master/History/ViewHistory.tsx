@@ -1,4 +1,4 @@
-import { Grid, StepLabel, TextField, Typography, } from "@mui/material";
+import { Chip, Grid, StepLabel, TextField, Typography, } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -7,13 +7,17 @@ import Button from '@mui/material/Button';
 import { getLeaveApproverStatus, updateApproverStatus } from "./serviceHistory";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { idText } from "typescript";
+import { NOTIFICATION_TYPE } from "src/util/Notification";
+import CustomizedNotification from "src/util/CustomizedNotification";
+import moment from "moment";
 
 function createData(data) {
   let convertData = data.map((post, index) => {
       return {
           id : post.id,
           status : post.status,
-          employeeApproverName:post.employeeApproverName
+          approverName:post.employeeApproverName,
+          date:moment(post.date).format("DD-MM-yyyy")
       };
   });
   return convertData;
@@ -29,28 +33,28 @@ export default function ViewHistory(props) {
 
   const { details, isEmployeeDetails, isResponseButtons, cancel ,setleaveTYpeId} = props;
 
-  const steps = details.approvers;
+  const steps = dataSource;
 
-  const approvalStatusOriginal = details.approvers
-    .filter((status) => status.appStatus != "Pending")
-    .map((approverStatus) => approverStatus.appStatus);
+  const approvalStatusOriginal = dataSource.filter((requestStatus) => requestStatus.status != "PENDING" && requestStatus.status != "NEW")
+    .map((approverStatus) => approverStatus.status);
 
-  const approvalStatus = details.approvers
-    .filter((status) => status.appStatus == "Approved")
-    .map((filteredStatus) => filteredStatus.appStatus);
+  const approvalStatus = dataSource.filter((requestStatus) => requestStatus.status == "APPROVED")
+    .map((filteredStatus) => filteredStatus.status);
 
   const [approved, setApproved] = useState(approvalStatus);
-  const [activeStep, setActiveStep] = useState(approved.length);
+  
+  const [activeStep, setActiveStep] = useState(approvalStatus.length);
 
   const handleNext = () => {
-    const newActiveStep = approved.length;
+    const newActiveStep = approvalStatus.length;
     setActiveStep(newActiveStep);
   };
 
   const handleApprove = () => {
-    const newApproved = approved;
+    const newApproved = approvalStatus;
     newApproved[activeStep] = true;
     setApproved(newApproved);
+    console.log({details})
     handleNext();
     let data: object = {
       id: details.id,
@@ -59,6 +63,7 @@ export default function ViewHistory(props) {
     updateApproverStatus(data).then(
       (res: any) => {
         console.log(res);
+          reloadTable(res);
       },
       (error) => {
         console.log(error);
@@ -80,8 +85,31 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
 
   const [rejected, setRejected] = useState(approvalStatusOriginal);
 
+  const handleAlertClose = () => {
+    setalert({
+      type: "",
+      mesg: "",
+    });
+  };
+
+  const [alert, setalert] = useState({
+    type: "",
+    mesg: "",
+  });
+
+  const handleError = (res) => {
+    setalert({
+      type: NOTIFICATION_TYPE.error,
+      mesg: res.data.validationFailures[0].message,
+    });
+  };
+
+  const reloadTable = (res) => {
+    setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
+  };
+
   const handleReject = (steps) => {
-    setRejected([...approved, "Rejected"]);
+    setRejected([...approved, "REJECTED"]);
 
     let data: object = {
       id: details.id,
@@ -90,6 +118,7 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
     updateApproverStatus(data).then(
       (res: any) => {
         console.log(res);
+        reloadTable(res);
       },
       (error) => {
         console.log(error);
@@ -99,7 +128,7 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
   };
 
   const isStepFailed = (step: number) => {
-    return step === rejected.indexOf("Rejected");
+    return step === approvalStatusOriginal.indexOf("REJECTED");
   };
 
   function RejectIcon() {
@@ -143,8 +172,8 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
           }
 
           return (
-            <Step key={label.names} completed={approved[index]}>
-              <StepLabel {...labelProps}>{label.names} <br/>{ label.appStatus != "Pending" && <Typography variant="subtitle1">{label.date}</Typography>}</StepLabel>
+            <Step key={label.approverName} completed={approvalStatus[index]}>
+              <StepLabel {...labelProps}>{label.approverName} <br/>{ (label.status != "PENDING" && label.status != "NEW") && <Typography variant="subtitle1">{label.date}</Typography>}</StepLabel>
             </Step>
           );
         })}
@@ -272,12 +301,12 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
                 marginLeft="79px"
               >
                 {steps.length == approvalStatusOriginal.length ||
-                rejected.includes("Rejected")
-                  ? (rejected[rejected.length - 1] == "Approved" ? <Typography variant="h6" color="#49FF00" display="inline">Approved</Typography> : <Typography variant="h6" color="red" display="inline">Rejected</Typography>)
-                  : "Pending"}
+                approvalStatusOriginal.includes("REJECTED")
+                  ? (approvalStatusOriginal[approvalStatusOriginal.length - 1] == "APPROVED" ? <Chip label="APPROVED" color="success" size="small" /> : <Chip label="REJECTED" color="error" size="small" />)
+                  : <Chip label="PENDING" color="warning" size="small" />}
               </Typography>
             </div>
-            {rejected.includes("Rejected") && (
+            {approvalStatusOriginal.includes("REJECTED") && (
               <div>
                 <Typography variant="h6" color="textSecondary" display="inline">
                   Comment
@@ -323,6 +352,14 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
                 >
                   Reject
                 </Button>
+                {alert.type.length > 0 ? (
+              <CustomizedNotification
+              severity={alert.type}
+              message={alert.mesg}
+              handleAlertClose={handleAlertClose}
+            />
+            ) : null}
+                
                 <Button
                   variant="contained"
                   sx={{ margin: 0.5 }}
@@ -330,7 +367,16 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
                 >
                   Approve
                 </Button>
+            {alert.type.length > 0 ? (
+              <CustomizedNotification
+              severity={alert.type}
+              message={alert.mesg}
+              handleAlertClose={handleAlertClose}
+            />
+            ) : null}
               </div>
+
+              
             )}
           </Box>
         </React.Fragment>

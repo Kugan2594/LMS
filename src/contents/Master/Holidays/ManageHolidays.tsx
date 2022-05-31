@@ -172,7 +172,7 @@ function ManageHolidays() {
         </Card>
         <Modals
           modalTitle={action === "edit" ? "Edit Holidays" : "Add Holidays"}
-          modalWidth="40%"
+          modalWidth="25%"
           open={open}
           // onClose={handleClose}
           modalBody={

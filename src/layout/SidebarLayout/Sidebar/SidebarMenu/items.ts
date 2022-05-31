@@ -6,31 +6,19 @@
  * @desc [description]
  */
 import { ReactNode } from "react";
-import { FaRoute } from "react-icons/fa";
-import { GiSteeringWheel, GiRibbonMedal } from "react-icons/gi";
-import { GrHistory } from "react-icons/gr";
-import { CgUserList } from "react-icons/cg";
-import { IoCarSportSharp } from "react-icons/io5";
-import { GrSend, GrWaypoint, GrWifi } from "react-icons/gr";
-import { FaUserAlt, FaUserCheck } from "react-icons/fa";
-import { IoSettingsSharp, IoAccessibilityOutline } from "react-icons/io5";
-import { MdGpsFixed, MdEmojiPeople, MdPersonalInjury } from "react-icons/md";
-import { ImOffice } from "react-icons/im";
-import { FcLeave } from "react-icons/fc";
-import { RiRouteFill } from "react-icons/ri";
-import { HiUser } from "react-icons/hi";
-import { HiStar } from "react-icons/hi";
-import { IoIosWoman, IoLogoOctocat, IoMdDoneAll } from "react-icons/io";
-import SendRoundedIcon from "@mui/icons-material/SendRounded";
-import WorkRoundedIcon from "@mui/icons-material/WorkRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import FormatListBulletedRoundedIcon from "@mui/icons-material/FormatListBulletedRounded";
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
 import TaskAltRoundedIcon from "@mui/icons-material/TaskAltRounded";
-import LocalPostOfficeRoundedIcon from "@mui/icons-material/LocalPostOfficeRounded";
-import DonutSmallRoundedIcon from "@mui/icons-material/DonutSmallRounded";
 import SafetyDividerRoundedIcon from "@mui/icons-material/SafetyDividerRounded";
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
+import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
+import BusinessCenterRoundedIcon from '@mui/icons-material/BusinessCenterRounded';
+import SettingsIcon from '@mui/icons-material/Settings';
+import BadgeRoundedIcon from '@mui/icons-material/BadgeRounded';
+import GroupWorkRoundedIcon from '@mui/icons-material/GroupWorkRounded';
+import DonutLargeRoundedIcon from '@mui/icons-material/DonutLargeRounded';
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 
 import { remove } from "lodash";
 
@@ -50,36 +38,25 @@ export interface MenuItems {
 
 const masterMenuItems: MenuItem[] = [
   { name: "Employees", icon: PersonRoundedIcon, link: "/master/employee" },
-  { name: "Designations", icon: WorkRoundedIcon, link: "/master/designations" },
-  {
-    name: "Approvers",
-    icon: SafetyDividerRoundedIcon,
-    link: "/master/approver",
-  },
+  { name: "Approvers", icon: SafetyDividerRoundedIcon, link: "/master/approver" },
   // { name: "Apply Leave", icon: SendRoundedIcon, link: "/master/leaveRequest",},
-  {
-    name: "Leave Types",
-    icon: FormatListBulletedRoundedIcon,
-    link: "/master/leavetype",
-  },
-  {
-    name: "Allocate Leaves",
-    icon: DonutSmallRoundedIcon,
-    link: "/master/allocateday",
-  },
+  { name: "Leave Types", icon: FormatListBulletedRoundedIcon, link: "/master/leavetype" },
+  { name: "Allocate Leaves", icon: DonutLargeRoundedIcon, link: "/master/allocateday" },
   // { name: "History", icon: HistoryRoundedIcon, link: "/master/history" },
   { name: "History", icon: HistoryRoundedIcon, link: "/master/e-history" },
   { name: "Holidays", icon: InsertInvitationIcon, link: "/master/holidays" },
   // { name: "In Progress", icon: TaskAltRoundedIcon, link: "/master/In-Progress" },
   // { name: "Leave Requests", icon: LocalPostOfficeRoundedIcon, link: "/master/In-Progress",},
-  { name: "Lieu Request", icon: IoIosWoman, link: "/master/lieurequest" },
-  { name: "BusinessUnit", icon: IoIosWoman, link: "/master/businessUnit" },
-  {
-    name: "Employement Type",
-    icon: IoIosWoman,
-    link: "/master/employementType",
-  },
-  { name: "Company Location", icon: IoIosWoman, link: "/master/companyLocation" },
+  // { name: "Lieu Request", icon: AddCircleOutlineRoundedIcon, link: "/master/lieurequest" },
+  { name: "Settings",
+    icon: SettingsIcon,
+    link: "/master/companyLocation",
+    items: [
+      { name: "Designations", icon: BusinessCenterRoundedIcon, link: "/master/designations" },
+      { name: "Type", icon: BadgeRoundedIcon, link: "/master/employementType" },
+      { name: "Location", icon: LocationOnRoundedIcon, link: "/master/companyLocation" },
+      { name: "Unit", icon: GroupWorkRoundedIcon, link: "/master/businessUnit" },
+    ] },
 ];
 
 // if (!modulePermission(PERMISSION_NAME.role_permission).view) {

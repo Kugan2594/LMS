@@ -384,6 +384,7 @@ function AddEmployee(props) {
           employmentTypeId: values.employmentTypeId,
           businessUnitId: values.businessUnitId,
           dateOfPermanency: values.dateOfPermanency,
+          approverStatus: values.approverStatus,
         };
 
         updateEmployee(data).then(
@@ -802,7 +803,7 @@ function AddEmployee(props) {
                   {action !== "edit" && (
                     <Button
                       size="small"
-                      color="primary"
+                      variant="outlined"
                       text="Reset"
                       onClick={onReset}
                     />
