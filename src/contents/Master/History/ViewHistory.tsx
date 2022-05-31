@@ -7,6 +7,8 @@ import Button from '@mui/material/Button';
 import { getLeaveApproverStatus, updateApproverStatus } from "./serviceHistory";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { idText } from "typescript";
+import { NOTIFICATION_TYPE } from "src/util/Notification";
+import CustomizedNotification from "src/util/CustomizedNotification";
 
 function createData(data) {
   let convertData = data.map((post, index) => {
@@ -59,6 +61,7 @@ export default function ViewHistory(props) {
     updateApproverStatus(data).then(
       (res: any) => {
         console.log(res);
+          reloadTable(res);
       },
       (error) => {
         console.log(error);
@@ -80,6 +83,29 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
 
   const [rejected, setRejected] = useState(approvalStatusOriginal);
 
+  const handleAlertClose = () => {
+    setalert({
+      type: "",
+      mesg: "",
+    });
+  };
+
+  const [alert, setalert] = useState({
+    type: "",
+    mesg: "",
+  });
+
+  const handleError = (res) => {
+    setalert({
+      type: NOTIFICATION_TYPE.error,
+      mesg: res.data.validationFailures[0].message,
+    });
+  };
+
+  const reloadTable = (res) => {
+    setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
+  };
+
   const handleReject = (steps) => {
     setRejected([...approved, "Rejected"]);
 
@@ -90,6 +116,7 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
     updateApproverStatus(data).then(
       (res: any) => {
         console.log(res);
+        reloadTable(res);
       },
       (error) => {
         console.log(error);
@@ -323,6 +350,14 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
                 >
                   Reject
                 </Button>
+                {alert.type.length > 0 ? (
+              <CustomizedNotification
+              severity={alert.type}
+              message={alert.mesg}
+              handleAlertClose={handleAlertClose}
+            />
+            ) : null}
+                
                 <Button
                   variant="contained"
                   sx={{ margin: 0.5 }}
@@ -330,7 +365,16 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
                 >
                   Approve
                 </Button>
+            {alert.type.length > 0 ? (
+              <CustomizedNotification
+              severity={alert.type}
+              message={alert.mesg}
+              handleAlertClose={handleAlertClose}
+            />
+            ) : null}
               </div>
+
+              
             )}
           </Box>
         </React.Fragment>
