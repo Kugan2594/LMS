@@ -38,7 +38,15 @@ export default function ViewHistory(props) {
   const approvalStatus = dataSource.filter((requestStatus) => requestStatus.status == "APPROVED")
     .map((filteredStatus) => filteredStatus.status);
 
+    console.log(approvalStatus);
+    
+
   const [approved, setApproved] = useState(approvalStatus);
+
+  console.log("Approved...." , approved);
+
+  const [rejected, setRejected] = useState(approvalStatusOriginal);
+  
   
   const [activeStep, setActiveStep] = useState(approved.length);
 
@@ -47,13 +55,13 @@ export default function ViewHistory(props) {
     setActiveStep(newActiveStep);
   };
 
-  const handleApprove = () => {
+  const handleApprove = (steps) => {
     const newApproved = approved;
     newApproved[activeStep] = true;
     setApproved(newApproved);
     handleNext();
     let data: object = {
-      id: details.id,
+      id: steps.id,
       statusId: 2,
     };
     updateApproverStatus(data).then(
@@ -73,18 +81,19 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
     getLeaveApproverStatus(setleaveTYpeId).then((res: any) => {
         let value: [] = createData(res.results.ApproverStatus);
         setdataSource(value);
+
         
         
     });
 };
 
-  const [rejected, setRejected] = useState(approvalStatusOriginal);
+ 
 
   const handleReject = (steps) => {
     setRejected([...approved, "REJECTED"]);
 
     let data: object = {
-      id: details.id,
+      id: steps.id,
       statusId: 3,
     };
     updateApproverStatus(data).then(
