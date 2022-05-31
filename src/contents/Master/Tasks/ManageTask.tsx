@@ -57,7 +57,9 @@ function createData(data) {
       leaveDays: post.leaveDays,
       requestedDate: moment(post.requestedDate).format("DD-MM-yyyy"),
       leaveType: post.type,
-      lastName: post.lastName
+      lastName: post.lastName,
+      firstName: post.firstName,
+      leaveRequestId: post.leaveRequestId,
     };
   });
   return convertData;
@@ -184,7 +186,7 @@ function Task(props) {
       label: "Status",
       minWidth: 0,
       render: (value: any) => (
-         value.status === "APPROVED" ? <Chip label="APPROVED" color="success" size="small" /> : ""
+         value.status == "APPROVED" ? <Chip label="APPROVED" color="success" size="small" /> : value.status == "REJECTED" ? <Chip label="REJECTED" color="error" size="small" /> : <Chip label="PENDING" color="warning" size="small" />
       )
     },
     {
