@@ -132,11 +132,10 @@ function AddHolidays(props) {
   }, [action, editData, setValues]);
   return (
     <div>
-      <Box sx={{ width: "100%", justifyContent: "center" }}>
+      <Box>
         <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1 }}>
             <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
-              
                   <DatePicker
                     name="date"
                     label="Select Date"

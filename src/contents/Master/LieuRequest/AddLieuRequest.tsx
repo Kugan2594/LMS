@@ -139,57 +139,80 @@ function AddLieuRequest(props) {
     console.log("hit", name, value);
   };
 
-    return (
-        <React.Fragment>
-            <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
-            <Box margin={0.5}>
-                  <AutocompleteSelect
-                    name="employeeId"
-                    label="Employee Name *"
-                    value={values.employeeId}
-                    onChange={handleInputChange}
-                    onValueChange={onValueChange}
-                    options={employeeData}
-                    error={errors.employeeId}
-                  />
-            
-                        <DatePicker
-                            name="requestDate"
-                            label="Request Date"
-                            value={values.requestDate}
-                            onChange={handleInputChange}
-                            error={errors.requestDate}
-                        />
-                        </Box>
+  return (
+    <React.Fragment>
+      <Typography sx={{ mt: 2, mb: 1 }}>
+        <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
+          <Grid container>
+            <Grid item xs={12} md={12} lg={12}>
+              <AutocompleteSelect
+                name="employeeId"
+                label="Employee Name *"
+                value={values.employeeId}
+                onChange={handleInputChange}
+                onValueChange={onValueChange}
+                options={employeeData}
+                error={errors.employeeId}
+              />
+            </Grid>
 
-                <Box
-                    component="form"
-                    sx={{
-                        "& .MuiTextField-root": { m: 1, width: "52ch" },
-                    }}
-                    noValidate
-                    autoComplete="off"
-                ></Box>
+            <Grid item xs={12} md={12} lg={12}>
+              <DatePicker
+                name="requestDate"
+                label="Request Date"
+                value={values.requestDate}
+                onChange={handleInputChange}
+                error={errors.requestDate}
+              />
+            </Grid>
 
-                <Box textAlign="right" margin={1}>
-                    {action !== "edit" && (
-                        <Button
-                            size="small"
-                            variant="outlined"
-                            text="Reset"
-                            onClick={onReset}
-                        />
-                    )}
-                    <Button
-                        size="small"
-                        type="submit"
-                        text={action === "edit" ? "Update" : "Submit"}
-                        disabled={action === "edit" ? updateStatus : false}
-                    />
-                    </Box>
-            </Form>
-        </React.Fragment>
-    );
+            <Divider />
+            <Grid
+              display="flex"
+              flexDirection="column"
+              justifyContent="flex-end"
+              container
+              style={{ padding: "8px" }}
+            ></Grid>
+          </Grid>
+
+          <Box
+            component="form"
+            sx={{
+              "& .MuiTextField-root": { m: 1, width: "52ch" },
+            }}
+            noValidate
+            autoComplete="off"
+          ></Box>
+          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <Box sx={{ flex: "auto 1 1 1" }} />
+            <Button
+              size="small"
+              color="inherit"
+              text="Cancel"
+              onClick={handleClose}
+            />
+            <Box sx={{ flex: "1 1 auto" }} />
+
+            {action !== "edit" && (
+              <Button
+                size="small"
+                variant="outlined"
+                text="Reset"
+                onClick={onReset}
+              />
+            )}
+            <Button
+              size="small"
+              type="submit"
+              text={action === "edit" ? "Update" : "Submit"}
+              disabled={action === "edit" ? updateStatus : false}
+            />
+          </Box>
+        </Form>
+      </Typography>
+    </React.Fragment>
+  );
 }
 
 AddLieuRequest.propTypes = {
