@@ -5,9 +5,12 @@ import Tables from "src/components/atoms/Tables";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import { Column } from "../../../components/atoms/Tables/TableInterface";
-import AddCompanyLocation from "./AddCompanyLocation"
+import AddCompanyLocation from "./AddCompanyLocation";
 import { TableAction } from "src/components/atoms/Tables/TableAction";
-import { deleteCompanyLocation, getAllCompanyLocation } from "./ServiceCompanyLocation";
+import {
+  deleteCompanyLocation,
+  getAllCompanyLocation,
+} from "./ServiceCompanyLocation";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from 'src/util/CustomizedNotification';
 import moment from "moment";
@@ -24,160 +27,202 @@ function createData(data) {
     return convertData;
 }
 
-
 function ManageCompanyLocation() {
-    
-    const [open, setOpen] = useState(false);
-    const [searchFields, setsearchFields] = useState({ name: "" });
-    const [sortField, setsortField] = React.useState({
-        sortField: "id",
-        direction: "DESC",
+  const [pagination, setpagination] = useState({
+    pageNumber: 0,
+    pageSize: 10,
+    total: 0,
+  });
+  const [open, setOpen] = useState(false);
+  const [editData, seteditData] = useState({});
+  const [searchFields, setsearchFields] = useState({ name: "" });
+  const [sortField, setsortField] = React.useState({
+    sortField: "id",
+    direction: "DESC",
+  });
+  const [dataSource, setdataSource] = useState([]);
+  const onChangePage = (pageNumber, pageSize) => {};
+  const [alert, setalert] = useState({
+    type: "",
+    mesg: "",
+  });
+  const onTableSearch = (values, sortField) => {};
+
+  useEffect(() => {
+    getAllCompanyLocationData(pagination.pageNumber, pagination.pageSize);
+  }, [pagination.pageNumber, pagination.pageSize]);
+  const getAllCompanyLocationData = (pageNumber, pageSize) => {
+    getAllCompanyLocation(pageNumber, pageSize).then((res: any) => {
+      let data: [] = createData(res.results.Company_Location);
+      setpagination({
+        pageNumber: res.pagination.pageNumber,
+        pageSize: res.pagination.pageSize,
+        total: res.pagination.totalRecords,
+      });
+      console.log("ppppppppppppppppp", data);
+      setdataSource(data);
     });
-    const [alert, setalert] = useState({
-        type: "",
-        mesg: "",
+  };
+  const reloadTable = (res) => {
+    console.log("ppppppppppppppppp", res);
+    setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
+    setOpen(false);
+    getAllCompanyLocationData(pagination.pageNumber, pagination.pageSize);
+  };
+
+  const columns: Column[] = [
+    {
+      id: "location",
+      label: "Company Location",
+      minWidth: 120,
+    },
+    {
+      id: "createdAt",
+      label: "Create Date",
+      minWidth: 120,
+    },
+    {
+      id: "updatedAt",
+      label: "Update Date",
+      minWidth: 120,
+    },
+
+    {
+      id: "action",
+      label: "Action",
+      width: 90,
+      minWidth: 0,
+      fixed: "right",
+      align: "center",
+      render: (value: any) => (
+        <TableAction
+          rowData={value}
+          deleteOnclick={deleteOnclick}
+          editOnclick={editOnclick}
+        />
+      ),
+    },
+  ];
+
+  const [action, setaction] = useState("add");
+  const handleClickOpen = (value) => {
+    setaction("add");
+    setOpen(true);
+  };
+
+  const [CompanyLocation, setCompanyLocation] = useState("");
+  const [error, setError] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const onChangeHandler = (companyLocationValue) => {
+    setCompanyLocation(companyLocationValue);
+    console.log(CompanyLocation);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleAlertClose = () => {
+    setalert({
+      type: "",
+      mesg: "",
     });
-    const [dataSource, setdataSource] = useState([]);
-    const [action, setaction] = useState('add');
-    const [editData, seteditData] = useState({});
-    const handleClickOpen = () => {
-        setaction('add');
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    useEffect(() => {
-        getAllCompanyLocationData();
-    },[]);
-    const getAllCompanyLocationData = () => {
-        getAllCompanyLocation().then((res: any) => {
-            let data: [] = createData(res);
-           
-            setdataSource(data);
-        });
-    };
-    
-    const deleteOnclick = (row) => {
-        deleteCompanyLocation(row.id).then(
-            (res: any) => {
-                reloadTable(res);
-            },
-            (error) => {
-                console.log(error);
-                handleError(error);
-            }
-        );
-    };
-
-    const reloadTable = (res) => {
-        setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
-        console.log("//////////////////////////", res);
-
-        setOpen(false);
-        getAllCompanyLocationData();
-    };
-
-    const editOnclick = (row) => {
-        console.log(row);
-        setaction('edit');
-        seteditData(row);
-        setOpen(true);
-    };
-
-    const handleError = (res) => {
-        setalert({
-            type: NOTIFICATION_TYPE.error,
-            mesg: res.data.validationFailures[0].message,
-        });
-    };
-    const handleAlertClose = () => {
-        setalert({
-            type: '',
-            mesg: ''
-        });
-    };
-    const onTableSearch = (values, sortField) => { };
-    const columns: Column[] = [
-        {
-            id: "location",
-            label: "Company Location",
-            minWidth: 120,
-        },
-        {
-            id: "createdAt",
-            label: "Create Date",
-            minWidth: 120,
-        },
-        {
-            id: "updatedAt",
-            label: "Update Date",
-            minWidth: 120,
-        },
-
-        
-        {
-            id: "action",
-            label: "Action",
-            width: 90,
-            minWidth: 0,
-            fixed: "right",
-            align: "center",
-            render: (value: any) => (
-                <TableAction rowData={value} deleteOnclick={deleteOnclick} editOnclick={editOnclick} />
-            ),
-        },
-    ];
-
-    return (
-        <div>
-            <PageTitleWrapper>
-                <PageTitle
-                    heading="Company Location"
-                    name="Add Company Location"
-                    subHeading="Master/Company Location"
-                    isButton={true}
-                    onclickButton={handleClickOpen}
-                />
-            </PageTitleWrapper>
-            <Divider />
-            <br />
-
-            <Container maxWidth="lg">
-                <Card>
-                    <CardContent>
-                        <Tables
-                            columns={columns}
-                            tableData={dataSource}
-                            searchFields={{}}
-                            onTableSearch={onTableSearch}
-                        />
-                    </CardContent>
-                </Card>
-                <Modals
-                    modalTitle={action === 'edit' ? 'Edit CompanyLocation' : 'Add CompanyLocation'}
-                    modalWidth="25%"
-                    open={open}
-                    // onClose={handleClose}
-                    modalBody={<AddCompanyLocation reloadTable={reloadTable}
-                        action={action}
-                        editData={editData}
-                        handleError={handleError}
-                        handleClose={handleClose}
-                        />}
-                />
-            </Container>
-            {alert.type.length > 0 ? (
-                <CustomizedNotification
-                    severity={alert.type}
-                    message={alert.mesg}
-                    handleAlertClose={handleAlertClose}
-                />
-            ) : null}
-        </div>
+  };
+  const editOnclick = (row) => {
+    console.log(row);
+    setaction("edit");
+    seteditData(row);
+    setOpen(true);
+  };
+  const handleCancel = () => {
+    setOpen(false);
+  };
+  const deleteOnclick = (row) => {
+    deleteCompanyLocation(row.id).then(
+      (res: any) => {
+        reloadTable(res);
+      },
+      (error) => {
+        console.log(error);
+        handleError(error);
+      }
     );
+  };
+
+  const handleClose1 = (e) => {
+    setError(false);
+    if (CompanyLocation === "") {
+      setError(true);
+    } else {
+      setUpdate(false);
+      setCompanyLocation("");
+    }
+  };
+  const handleCancel1 = () => {
+    setUpdate(false);
+  };
+  const handleError = (res) => {
+    setalert({
+      type: NOTIFICATION_TYPE.error,
+      mesg: res.data.validationFailures[0].message,
+    });
+  };
+
+  return (
+    <div>
+      <PageTitleWrapper>
+        <PageTitle
+          heading="Company Location"
+          name="Add Company Location"
+          subHeading="Master/Company Location"
+          isButton={true}
+          onclickButton={handleClickOpen}
+        />
+      </PageTitleWrapper>
+      <Divider />
+      <br />
+
+      <Container maxWidth="lg">
+        <Card>
+          <CardContent>
+            <Tables
+              columns={columns}
+              tableData={dataSource}
+              onChangePage={onChangePage}
+              pageNumber={pagination.pageNumber}
+              total={pagination.total}
+              pageSize={pagination.pageSize}
+              searchFields={{}}
+              onTableSearch={onTableSearch}
+            />
+          </CardContent>
+        </Card>
+        <Modals
+          modalTitle={
+            action === "edit" ? "Edit CompanyLocation" : "Add CompanyLocation"
+          }
+          modalWidth="25%"
+          open={open}
+          // onClose={handleClose}
+          modalBody={
+            <AddCompanyLocation
+              reloadTable={reloadTable}
+              action={action}
+              editData={editData}
+              handleError={handleError}
+              handleClose={handleClose}
+            />
+          }
+        />
+      </Container>
+      {alert.type.length > 0 ? (
+        <CustomizedNotification
+          severity={alert.type}
+          message={alert.mesg}
+          handleAlertClose={handleAlertClose}
+        />
+      ) : null}
+    </div>
+  );
 }
 
 export default ManageCompanyLocation;
