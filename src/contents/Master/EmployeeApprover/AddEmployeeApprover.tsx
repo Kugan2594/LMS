@@ -100,9 +100,8 @@ function AddEmployeeApprover(props: any) {
   const onValueChange = (e) => {
     setupdateStatus(false);
     const { name, value } = e.target;
-    // if (name === "employee") {
-    //   setEmployeeId(value);
-    // }
+    setEmployeeId(value);
+    console.log("hit", name, value);
   };
 
   const getAllEmployeeData = () => {
@@ -112,7 +111,6 @@ function AddEmployeeApprover(props: any) {
         res.map((post: any) => {
           console.log("////////////////////////",res);
           data.push({ id: post.id, title: post.lastName });
-          setEmployeeId(post.id);
           return null;
         });
         setEmployeeData(data);

@@ -12,17 +12,26 @@ const deleteCompanyLocation = (id: number) => {
   });
 };
 
-const getAllCompanyLocation = () => {
+const getAllCompanyLocation = (pageNumber: number, pageSize: number) => {
   return new Promise((resolve, reject) => {
-    api("get", "lm-web", null, `/companyLocation`, "", "", "")
-      .then((response: any) => {
-        resolve(response.data);
-      })
-      .catch((error) => {
-        reject(error);
-      });
+      api(
+          "get",
+          "lm-web",
+          null,
+          `/companyLocationPagination?page=${pageNumber}&size=${pageSize}`,
+          "",
+          "",
+          ""
+      )
+          .then((response: any) => {
+              resolve(response.data);
+          })
+          .catch((error) => {
+              reject(error);
+          });
   });
 };
+
 const createCompanyLocation = (data: object) => {
   return new Promise((resolve, reject) => {
       api("post", "lm-web", null, `/companyLocation`, "", data, "")
