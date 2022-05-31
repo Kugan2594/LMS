@@ -258,7 +258,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
                 <Grid item xs={6}>
                   <Select
                     name="leaveTypeId"
-                    label="LeaveType *"
+                    label="Leave Type *"
                     value={values.leaveTypeId}
                     onChange={handleInputChange}
                     error={errors.leaveTypeId}

@@ -802,7 +802,7 @@ function AddEmployee(props) {
                   {action !== "edit" && (
                     <Button
                       size="small"
-                      color="primary"
+                      variant="outlined"
                       text="Reset"
                       onClick={onReset}
                     />
