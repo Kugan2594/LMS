@@ -58,13 +58,8 @@ export default function ViewHistory(props) {
     setActiveStep(newActiveStep);
   };
 
-<<<<<<< HEAD
-  const handleApprove = (steps) => {
-    const newApproved = approved;
-=======
   const handleApprove = () => {
     const newApproved = approvalStatus;
->>>>>>> 6f3b2200f6f31577d30e89502d7331ff81dc0865
     newApproved[activeStep] = true;
     setApproved(newApproved);
     console.log({details})
