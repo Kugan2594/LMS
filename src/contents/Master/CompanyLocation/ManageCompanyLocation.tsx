@@ -12,17 +12,19 @@ import {
   getAllCompanyLocation,
 } from "./ServiceCompanyLocation";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
-import CustomizedNotification from "src/util/CustomizedNotification";
+import CustomizedNotification from 'src/util/CustomizedNotification';
+import moment from "moment";
 function createData(data) {
-  let convertData = data.map((post, index) => {
-    return {
-      id: post.id,
-      location: post.location,
-      createdAt: post.createdAt,
-      updatedAt: post.updatedAt,
-    };
-  });
-  return convertData;
+    let convertData = data.map((post, index) => {
+        return {
+            id: post.id,
+            location: post.location,
+            createdAt:moment(post.createdAt).format("YYYY-MM-DD"),
+            updatedAt:moment(post.updatedAt).format("YYYY-MM-DD")
+
+        };
+    });
+    return convertData;
 }
 
 function ManageCompanyLocation() {
