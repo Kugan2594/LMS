@@ -59,7 +59,6 @@ import {
             (error) => {
               console.log(error);
               // reloadTable(res);
-              handleClose();
               handleError(error);
             }
           );

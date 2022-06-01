@@ -353,7 +353,7 @@ function AddEmployee(props) {
           (error) => {
             console.log(error);
             // reloadTable(res);
-            handleClose();
+            // handleClose();
             handleError(error);
           }
         );

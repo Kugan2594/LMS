@@ -91,6 +91,11 @@ const masterMenuItems: MenuItem[] = [
                 icon: GroupWorkRoundedIcon,
                 link: "/master/businessUnit",
             },
+            {
+                name: "UserPrivilage",
+                icon: GroupWorkRoundedIcon,
+                link: "/master/userPrivilege",
+            },
         ],
     },
 ];

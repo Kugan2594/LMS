@@ -71,7 +71,6 @@ export default function Dashboard() {
     return (
         <>
             <div>
-                <ManageNotification />
                 <Box sx={{ width: "100%" }}>
                     <TabContext value={value}>
                         <Box>
