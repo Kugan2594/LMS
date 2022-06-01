@@ -5,7 +5,7 @@ export const FORM_VALIDATION = {
   mobileNumber: 'is not valid.',
   phoneNumber: 'is not valid.',
   seatCount: 'is not valid.',
-  NicNumber: 'is not valid.',
+  NicNumber: 'is not valid. "000000000V"',
   price: 'Price is not valid.',
   space: 'is not valid.',
   drivingLicenceNo: 'is not valid "X0000000X" or "X0000000"',
