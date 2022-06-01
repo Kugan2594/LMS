@@ -9,7 +9,7 @@ const getAllEmployeeLeaveRequestHistory = (
             "get",
             "lm-web",
             null,
-            `/approvalStatus/employee/2?page=${pageNumber}&size=${pageSize}`,
+            `/approvalStatus/employee/3?page=${pageNumber}&size=${pageSize}`,
             "",
             "",
             ""
