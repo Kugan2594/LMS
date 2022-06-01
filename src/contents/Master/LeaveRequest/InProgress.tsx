@@ -2,6 +2,7 @@ import {
   Button,
   Card,
   CardContent,
+  Chip,
   Container,
   Divider,
   Typography,
@@ -163,13 +164,13 @@ function InProgress(props) {
       minWidth: 0,
     },
     {
-      id: "reason",
-      label: "Reason",
+      id: "leaveDays",
+      label: "Leave Days",
       minWidth: 0,
     },
     {
-      id: "leaveDays",
-      label: "Leave Days",
+      id: "reason",
+      label: "Reason",
       minWidth: 0,
     },
     {
@@ -221,7 +222,7 @@ function InProgress(props) {
       <Container maxWidth="lg">
         <Card>
           <Typography variant="h6" margin="10px 0 0 20px" color="#1a8cff">
-            InProgress leave requests
+            My Leaves
           </Typography>
           <CardContent>
             <Tables

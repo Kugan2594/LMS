@@ -15,13 +15,14 @@ import ManageTask from "../Master/Tasks/ManageTask";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import Modals from "src/components/atoms/Modals";
 import LeaveRequestForm from "../Master/LeaveRequest/LeaveRequestForm";
-import ManageInProgress from "../Master/History/ManageInProgress";
+// import ManageInProgress from "../Master/History/ManageInProgress";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import AddLieuRequest from "../Master/LieuRequest/AddLieuRequest";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import InProgress from "../Master/LeaveRequest/InProgress";
 function createData(data) {
   let convertData = data.map((post, index) => {
     return {
@@ -146,7 +147,7 @@ export default function Dashboard() {
               </Container>
 
               <div>
-                <ManageInProgress />
+                <InProgress />
               </div>
 
               <div>
