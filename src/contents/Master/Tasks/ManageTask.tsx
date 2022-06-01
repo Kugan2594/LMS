@@ -108,6 +108,7 @@ function Task(props) {
   const handleClose = () => {
     setOpen(false);
     setOpenDetails(false);
+    reloadTable();
   };
 
   const onChangePage = (pageNumber, pageSize) => { };
@@ -139,10 +140,12 @@ function Task(props) {
     getLeaveApproverStatusHistory().then((res: any) => {
       let value: [] = createData(res.results.leaveHistory);
       setdataSource(value);
-
-
     });
   };
+
+  const reloadTable = () => {
+    getAllLeaveRequestHistoryData();
+  }
 
 
   const columns: Column[] = [

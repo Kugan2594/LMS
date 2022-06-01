@@ -64,7 +64,7 @@ export default function ViewHistory(props) {
   const handleApprove = () => {
     const newApproved = approved;
     console.log({details})
-    setApproved([...approved, "APPROVED"]);
+    // setApproved([...approved, "APPROVED"]);
     handleNext();
     let data: object = {
       id: dataSource[approved.length].id,
@@ -108,8 +108,8 @@ export default function ViewHistory(props) {
     getLeaveApproverStatusData(leaveRequestId);
   };
 
-  const handleReject = (steps) => {
-    setRejected([...approved, "REJECTED"]);
+  const handleReject = () => {
+    // setRejected([...approved, "REJECTED"]);
 
     let data: object = {
       id: dataSource[approved.length].id,
@@ -337,7 +337,7 @@ export default function ViewHistory(props) {
                 <Button
                   variant="outlined"
                   sx={{ margin: 0.5 }}
-                  onClick={() => handleReject(steps)}
+                  onClick={handleReject}
                 >
                   Reject
                 </Button>
