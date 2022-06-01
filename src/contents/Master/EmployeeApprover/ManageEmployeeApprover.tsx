@@ -12,9 +12,9 @@ import CustomizedNotification from 'src/util/CustomizedNotification';
 function createData(data) {
   let convertData = data.map((post, index) => {
       return {
-          employeeName: post.employee.firstName,
+          employeeName: post.employee.lastName,
           approverOrder: post.approverOrder,
-          approverName:post.approver.employee.firstName,
+          approverName:post.approver.employee.lastName,
           employeeId: post.employee.id
       };
   });
@@ -93,7 +93,7 @@ function ManageEmployeeApprover() {
   const columns: Column[] = [
     {
       id: "employeeId",
-      label: "ID",
+      label: "Employee id",
       minWidth: 40,
     },
     {

@@ -143,7 +143,7 @@ export default function ManageInProgress(props) {
                 <div>
                     <PageTitleWrapper>
                         <PageTitle
-                            heading="InProgress Leave Requests"
+                            heading="My Leaves"
                             name="Approval Status"
                             subHeading="Master"
                             isButton={true}
@@ -162,7 +162,7 @@ export default function ManageInProgress(props) {
                         margin="10px 0 0 20px"
                         color="#1a8cff"
                     >
-                        In Progress leaves
+                        My Leaves
                     </Typography>
 
                     <CardContent>
