@@ -162,7 +162,7 @@ export default function ManageInProgress(props) {
                         margin="10px 0 0 20px"
                         color="#1a8cff"
                     >
-                        InProgress leave requests
+                        In Progress leaves
                     </Typography>
 
                     <CardContent>

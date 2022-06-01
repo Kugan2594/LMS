@@ -15,14 +15,14 @@ import ManageTask from "../Master/Tasks/ManageTask";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import Modals from "src/components/atoms/Modals";
 import LeaveRequestForm from "../Master/LeaveRequest/LeaveRequestForm";
-// import ManageInProgress from "../Master/History/ManageInProgress";
+import InProgress from "../Master/LeaveRequest/InProgress";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import AddLieuRequest from "../Master/LieuRequest/AddLieuRequest";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import InProgress from "../Master/LeaveRequest/InProgress";
+import EHistory from "../Master/E-History/EHistory";
 function createData(data) {
   let convertData = data.map((post, index) => {
     return {
@@ -72,22 +72,22 @@ export default function Dashboard() {
       <div>
         <Box sx={{ width: "100%" }}>
           <TabContext value={value}>
-            {/* <Box sx={{ borderBottom: 1, borderColor: "divider" }}> */}
+            <Box>
               <Tabs
-              
+                value={value}
                 centered
                 orientation="horizontal"
                 onChange={handleChange}
                 textColor="secondary"
-                indicatorColor="secondary"
+                indicatorColor="primary"
                 aria-label="secondary tabs example"
               >
                 <Tab label="Employee" value="1" />
                 <Tab label="Approver" value="2" />
               </Tabs>
-            {/* </Box> */}
+            </Box>
             <TabPanel value="1">
-              <Box marginLeft={3} marginTop={2}>
+              <Box marginRight={3} textAlign="right" >
                 <Button
                   variant="contained"
                   startIcon={<SendRoundedIcon />}
@@ -95,14 +95,14 @@ export default function Dashboard() {
                 >
                   Apply Leave
                 </Button>
-                <Button
+                {/* <Button
                   sx={{ marginLeft: "20px" }}
                   variant="contained"
                   startIcon={<AddCircleOutlineRoundedIcon />}
                   onClick={handleOpenLieu}
                 >
                   Lieu Request
-                </Button>
+                </Button> */}
               </Box>
               <Container maxWidth="lg">
                 <Card sx={{ marginTop: 3 }}>
@@ -147,8 +147,13 @@ export default function Dashboard() {
               </Container>
 
               <div>
-                <InProgress />
+                <InProgress isTitle={false} />
               </div>
+              <Box marginBottom={3}>
+              <div>
+                <EHistory isTitle = {false} />
+              </div>
+              </Box>
 
               <div>
                 <Modals

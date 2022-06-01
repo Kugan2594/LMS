@@ -29,23 +29,21 @@ import { NOTIFICATION_TYPE } from "src/util/Notification";
 import { TableAction } from "src/components/atoms/Tables/TableAction";
 import CustomizedNotification from "src/util/CustomizedNotification";
 import UpdateLeaveRequest from "./UpdateLeaveRequest";
+import moment from "moment";
 function createData(data) {
   let convertData = data.map((post, index) => {
     return {
-      id: post.id,
+      leaveRequestId: post.id,
       reason: post.reason,
-      fromDate: post.fromDate,
-      toDate: post.toDate,
+      fromDate: moment(post.fromDate).format("DD-MM-yyyy"),
+      toDate: moment(post.toDate).format("DD-MM-yyyy"),
       leaveDays: post.leaveDays,
-      requestedDate: post.requestedDate,
+      requestedDate: moment(post.requestedDate).format("DD-MM-yyyy"),
       leaveType: post.employeeLeaveType.leaveType.type,
       firstName: post.employee.firstName,
       lastName: post.employee.lastName,
-      approvers:[],
       leaveTypeId: post.employeeLeaveType.leaveType.id,
       employeeId: post.employee.id,
-
-      
     };
   });
   return convertData;
@@ -174,9 +172,22 @@ function InProgress(props) {
       minWidth: 0,
     },
     {
+      id: "requestedDate",
+      label: "Requested date",
+      minWidth: 0,
+  },
+    {
+      id: "status",
+      label: "Status",
+      minWidth: 0,
+      render: (value: any) => (
+         value.status == "APPROVED" ? <Chip label="APPROVED" color="success" size="small" /> : value.status == "REJECTED" ? <Chip label="REJECTED" color="error" size="small" /> : <Chip label="PENDING" color="warning" size="small" />
+      )
+    },
+    {
       id: "details",
       label: "",
-      minWidth: 40,
+      minWidth: 0,
       render: (value) => (
         <Button
           variant="text"
@@ -190,7 +201,7 @@ function InProgress(props) {
     {
       id: "action",
       label: "Action",
-      minWidth: 100,
+      minWidth: 0,
       fixed: "right",
       align: "center",
       render: (value: any) => (
