@@ -100,9 +100,8 @@ function AddEmployeeApprover(props: any) {
   const onValueChange = (e) => {
     setupdateStatus(false);
     const { name, value } = e.target;
-    // if (name === "employee") {
-    //   setEmployeeId(value);
-    // }
+    setEmployeeId(value);
+    console.log("hit", name, value);
   };
 
   const getAllEmployeeData = () => {
@@ -112,7 +111,6 @@ function AddEmployeeApprover(props: any) {
         res.map((post: any) => {
           console.log("////////////////////////",res);
           data.push({ id: post.id, title: post.lastName });
-          setEmployeeId(post.id);
           return null;
         });
         setEmployeeData(data);
@@ -151,7 +149,7 @@ function AddEmployeeApprover(props: any) {
         let datas= res.map((post:any)=>{
           return{
             id:post.id,
-            name:post.employee.firstName
+            name:post.employee.lastName
           }
         })
 
@@ -199,7 +197,7 @@ console.log("hi");
     rightChecked.map((post: any) => {
       name.push({
         id: post.id,
-        name: post.employee.firstName
+        name: post.employee.lastName
       });
     });
 
@@ -411,7 +409,7 @@ console.log("hi");
                   onChange={(e)=>{
                     console.log({employeeData}); 
                     handleInputChange(e)}}
-                  onValueChange={onValueChange}
+                    onValueChange={(e) => onValueChange(e)}
                   options={employeeData}
                   error={errors.employeeId}
                 />

@@ -2,6 +2,7 @@ import {
     Button,
     Card,
     CardContent,
+    Chip,
     Container,
     Dialog,
     DialogContent,
@@ -38,13 +39,15 @@ function createData(data) {
                 "YYYY-MM-DD"
             ),
             status: post.status.status,
+            leaveType: post.leaveRequest.employeeLeaveType.leaveType.type,
+            reason: post.leaveRequest.reason,
+            leaveRequestId: post.leaveRequest.id,
         };
     });
     return convertData;
 }
 
 function EHistory(props) {
-    const { isTitle: boolean } = props;
     const [pagination, setpagination] = useState({
         pageNumber: 0,
         pageSize: 10,
@@ -141,37 +144,45 @@ function EHistory(props) {
         {
             id: "type",
             label: "Leave type",
-            minWidth: 60,
-        },
-        {
-            id: "leaveDays",
-            label: "Leave days",
-            minWidth: 60,
+            minWidth: 0,
         },
         {
             id: "fromDate",
             label: "From",
-            minWidth: 100,
+            minWidth: 0,
         },
         {
             id: "toDate",
             label: "To",
-            minWidth: 100,
+            minWidth: 0,
+        },
+        {
+            id: "leaveDays",
+            label: "Leave days",
+            minWidth: 0,
         },
         {
             id: "requestedDate",
             label: "Requested date",
-            minWidth: 110,
+            minWidth: 0,
         },
         {
             id: "status",
             label: "Status",
-            minWidth: 80,
+            minWidth: 0,
+            render: (value: any) =>
+                value.status == "APPROVED" ? (
+                    <Chip label="APPROVED" color="success" size="small" />
+                ) : value.status == "REJECTED" ? (
+                    <Chip label="REJECTED" color="error" size="small" />
+                ) : (
+                    <Chip label="PENDING" color="warning" size="small" />
+                ),
         },
         {
-            id: "action",
+            id: "details",
             label: "",
-            minWidth: 40,
+            minWidth: 0,
             render: (value: any) => (
                 <Button variant="text" onClick={() => handleClickOpen(value)}>
                     Detail
@@ -191,16 +202,18 @@ function EHistory(props) {
     return (
         <div>
             {props.isTitle && (
-                <PageTitleWrapper>
-                    <PageTitle
-                        heading="History"
-                        name=""
-                        subHeading="Master/History"
-                        isButton={false}
-                    />
-                </PageTitleWrapper>
+                <div>
+                    <PageTitleWrapper>
+                        <PageTitle
+                            heading="History"
+                            name=""
+                            subHeading="Master/History"
+                            isButton={false}
+                        />
+                    </PageTitleWrapper>
+                    <Divider />
+                </div>
             )}
-
             <br />
 
             <Container maxWidth="lg">
@@ -210,7 +223,7 @@ function EHistory(props) {
                         margin="10px 0 0 20px"
                         color="#1a8cff"
                     >
-                        My History
+                        Leave History
                     </Typography>
                     <CardContent>
                         <Grid container>

@@ -18,6 +18,8 @@ function createData(data) {
             id: post.id,
             employeeName: post.employee.lastName,
             requestDate: moment(post.requestDate).format("YYYY-MM-DD"),
+            createdAt:moment(post.createdAt).format("YYYY-MM-DD"),
+            updatedAt:moment(post.updatedAt).format("YYYY-MM-DD"),
         };
     });
     return convertData;
@@ -88,17 +90,29 @@ function ManageLieuRequest() {
         {
             id: "employeeName",
             label: "Employee Name",
-            minWidth: 40,
+            minWidth: 0,
         },
         {
             id: "requestDate",
             label: "Request Date",
-            minWidth: 40,
+            minWidth: 0,
+        },
+
+        {
+            id: "createdAt",
+            label: "Created At",
+            minWidth: 10,
+        },
+        {
+            id: "updatedAt",
+            label: "Updated At",
+            minWidth: 10,
         },
         {
             id: "action",
             label: "Action",
-            minWidth: 5,
+            width: 90,
+            minWidth: 0,
             fixed: "right",
             align: "center",
             render: (value: any) => (

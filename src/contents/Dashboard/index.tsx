@@ -15,7 +15,7 @@ import ManageTask from "../Master/Tasks/ManageTask";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import Modals from "src/components/atoms/Modals";
 import LeaveRequestForm from "../Master/LeaveRequest/LeaveRequestForm";
-import ManageInProgress from "../Master/History/ManageInProgress";
+import InProgress from "../Master/LeaveRequest/InProgress";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import AddLieuRequest from "../Master/LieuRequest/AddLieuRequest";
 import Tab from "@mui/material/Tab";
@@ -72,21 +72,22 @@ export default function Dashboard() {
             <div>
                 <Box sx={{ width: "100%" }}>
                     <TabContext value={value}>
-                        {/* <Box sx={{ borderBottom: 1, borderColor: "divider" }}> */}
-                        <Tabs
-                            centered
-                            orientation="horizontal"
-                            onChange={handleChange}
-                            textColor="secondary"
-                            indicatorColor="secondary"
-                            aria-label="secondary tabs example"
-                        >
-                            <Tab label="Employee" value="1" />
-                            <Tab label="Approver" value="2" />
-                        </Tabs>
-                        {/* </Box> */}
+                        <Box>
+                            <Tabs
+                                value={value}
+                                centered
+                                orientation="horizontal"
+                                onChange={handleChange}
+                                textColor="secondary"
+                                indicatorColor="primary"
+                                aria-label="secondary tabs example"
+                            >
+                                <Tab label="Employee" value="1" />
+                                <Tab label="Approver" value="2" />
+                            </Tabs>
+                        </Box>
                         <TabPanel value="1">
-                            <Box marginLeft={3} marginTop={2}>
+                            <Box marginRight={3} textAlign="right">
                                 <Button
                                     variant="contained"
                                     startIcon={<SendRoundedIcon />}
@@ -94,14 +95,14 @@ export default function Dashboard() {
                                 >
                                     Apply Leave
                                 </Button>
-                                <Button
-                                    sx={{ marginLeft: "20px" }}
-                                    variant="contained"
-                                    startIcon={<AddCircleOutlineRoundedIcon />}
-                                    onClick={handleOpenLieu}
-                                >
-                                    Lieu Request
-                                </Button>
+                                {/* <Button
+                  sx={{ marginLeft: "20px" }}
+                  variant="contained"
+                  startIcon={<AddCircleOutlineRoundedIcon />}
+                  onClick={handleOpenLieu}
+                >
+                  Lieu Request
+                </Button> */}
                             </Box>
                             <Container maxWidth="lg">
                                 <Card sx={{ marginTop: 3 }}>
@@ -177,13 +178,13 @@ export default function Dashboard() {
                             </Container>
 
                             <div>
-                                <ManageInProgress />
+                                <InProgress isTitle={false} />
                             </div>
-                            <div>
-                                <Box sx={{ paddingBottom: 3 }}>
+                            <Box marginBottom={3}>
+                                <div>
                                     <EHistory isTitle={false} />
-                                </Box>
-                            </div>
+                                </div>
+                            </Box>
 
                             <div>
                                 <Modals

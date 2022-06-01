@@ -10,6 +10,7 @@ import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from 'src/util/CustomizedNotification';
 import { deleteEmployementType, getAllEmployementType } from "./ServiceEmployementType";
 import AddEmployementType from "./AddEmployementType";
+import moment from "moment";
 
 
 function createData(data) {
@@ -17,8 +18,8 @@ function createData(data) {
         return {
             id: post.id,
             type: post.type,
-            createdAt:post.createdAt,
-            updatedAt:post.updatedAt
+            createdAt:moment(post.createdAt).format("YYYY-MM-DD"),
+            updatedAt:moment(post.updatedAt).format("YYYY-MM-DD")
             
 
         };
@@ -78,7 +79,6 @@ function ManageEmployementType() {
     const reloadTable = (res) => {
         setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
         console.log("//////////////////////////", res);
-
         setOpen(false);
         getAllEmployementTypeData();
     };
