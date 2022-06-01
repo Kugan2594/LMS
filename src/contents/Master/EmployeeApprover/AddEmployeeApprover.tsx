@@ -151,7 +151,7 @@ function AddEmployeeApprover(props: any) {
         let datas= res.map((post:any)=>{
           return{
             id:post.id,
-            name:post.employee.firstName
+            name:post.employee.lastName
           }
         })
 
@@ -199,7 +199,7 @@ console.log("hi");
     rightChecked.map((post: any) => {
       name.push({
         id: post.id,
-        name: post.employee.firstName
+        name: post.employee.lastName
       });
     });
 
@@ -411,7 +411,7 @@ console.log("hi");
                   onChange={(e)=>{
                     console.log({employeeData}); 
                     handleInputChange(e)}}
-                  onValueChange={onValueChange}
+                    onValueChange={(e) => onValueChange(e)}
                   options={employeeData}
                   error={errors.employeeId}
                 />
