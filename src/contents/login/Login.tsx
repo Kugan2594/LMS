@@ -17,6 +17,21 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { IconButton, InputAdornment } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Animi } from "src/assets/login-main-bg.svg";
+import { NOTIFICATION_TYPE } from 'src/util/Notification';
+import jwt_decode from 'jwt-decode';
+import CustomizedNotification from 'src/util/CustomizedNotification';
+import { signIn } from './ServiceLogin';
+import {
+    getAllPermissionByRoleIdInLogin
+} from '../Permission/ServiceRolePermission';
+import {
+    getUserDetails,
+    setAuthentication,
+    setToken,
+    setUserDetails,
+    setUserName,
+    setUserRolePermission
+} from './LoginAuthentication';
 import "./loginPage.scss";
 
 const theme = createTheme();
@@ -39,18 +54,69 @@ export default function Login() {
         setshowPassword(!showPassword);
     };
 
+    const [alert, setalert] = React.useState({
+        type: '',
+        mesg: ''
+    });
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
+    };
+    const handleAlertClose = () => {
+        setalert({
+            type: '',
+            mesg: ''
+        });
+    };
+
+    const getAllPermission = (roleId) => {
+        getAllPermissionByRoleIdInLogin(1).then((res: any) => {
+            let permission = res;
+            let permissionData = permission.map((post: any) => {
+                return {
+                    name: post.moduleName,
+                    id: post.id,
+                    active: post.active,
+                    permissionType: post.active ? post.permission : 'NONE',
+                    moduleId: post.moduleId
+                };
+            });
+            console.log('permissionData', permissionData);
+            setUserRolePermission(permissionData);
+            setTimeout(() => {
+                setloading(false);
+
+                navigate('master');
+                window.location.reload();
+            }, 300);
+        });
     };
 
     const onChangeTextField = (e) => {
         setEmailError("");
     };
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleError = (res) => {
+        console.log('msg------->', res);
+        setalert({
+            type: NOTIFICATION_TYPE.error,
+            mesg:
+                res.error_description === 'User is disabled'
+                    ? 'Your account has been temporarily deactivated'
+                    : res.error === 'access_denied'
+                        ? "User don't have permisson for web"
+                        : 'Incorrect username or password'
+        });
+    };
+    const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        let emailId = data.get("email").toString();
+        ;
+        let emailId = data.get('email').toString();
+        let body = {
+            userName: data.get('email'),
+            password: data.get('password')
+        };
+        console.log(body);
+
         console.log({
             email: data.get("email"),
             password: data.get("password"),
@@ -62,15 +128,50 @@ export default function Login() {
             !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(emailId)
         ) {
             setEmailError("Email is not valid");
-        } else if (data.get("email") !== "admin@gmail.com") {
-            setEmailError("Wrong Email!");
-        } else {
-            if (data.get("password") === "admin") {
-                setloading(true);
-                navigate("master");
-            } else {
-                setPasswordError("Wrong Password!");
-            }
+        }
+        else {
+            console.log({ body });
+            setloading(true);
+            signIn(body).then(
+                (res: any) => {
+                    let response = res.data;
+                    var decoded_token: any = jwt_decode(response.access_token);
+                    setalert({
+                        type: NOTIFICATION_TYPE.success,
+                        mesg: 'Successfully logged in'
+                    });
+                    if (response.access_token) {
+                        setAuthentication('true');
+                        setToken(response.access_token);
+                        console.log('decoded_token', decoded_token);
+                        let userdata = {
+
+                            user_name: decoded_token.user_name,
+                            user_id: decoded_token.userId,
+                            firstName: decoded_token.firstName,
+                            roleId: decoded_token.roleId,
+                            roleName:
+                                decoded_token.authorities && decoded_token.authorities[0],
+
+
+                        };
+                        console.log("//////////////////////////", decoded_token.roleId);
+
+                        getAllPermission(1);
+                        setUserName(userdata.firstName);
+                        setUserDetails(JSON.stringify(userdata));
+                    }
+                    // console.log(getUserDetails());
+                    console.log(res);
+                },
+                (error) => {
+                    console.log(error.data);
+
+                    handleError(error.data);
+                    setloading(false);
+                    setAuthentication('false');
+                }
+            );
         }
     };
 
@@ -196,6 +297,13 @@ export default function Login() {
                                     </Grid>
                                 </Box>
                             </Box>
+                            {alert.type.length > 0 ? (
+                                <CustomizedNotification
+                                    severity={alert.type}
+                                    message={alert.mesg}
+                                    handleAlertClose={handleAlertClose}
+                                />
+                            ) : null}
                         </Container>
                     </ThemeProvider>
                 </Grid>
