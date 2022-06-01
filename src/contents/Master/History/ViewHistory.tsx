@@ -9,7 +9,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { idText } from "typescript";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from "src/util/CustomizedNotification";
-import moment from "moment";
+import moment, { Moment } from "moment";
 
 function createData(data) {
   let convertData = data.map((post, index) => {
@@ -17,49 +17,62 @@ function createData(data) {
           id : post.id,
           status : post.status,
           approverName:post.employeeApproverName,
-          date:moment(post.date).format("DD-MM-yyyy")
+          date:moment(post.date).format("DD-MM-yyyy").toString()
       };
   });
   return convertData;
 }
 
-
-
-
 export default function ViewHistory(props) {
-  const [dataSource, setdataSource] = useState([]);
-  const [leaveRequestId, setleaveRequestId] = useState("");
-  const handleClickOpen = () => { };
-
   const { details, isEmployeeDetails, isResponseButtons, cancel ,setleaveTYpeId} = props;
 
-  const steps = dataSource;
+  const [dataSource, setdataSource] = useState([]);
 
-  const approvalStatusOriginal = dataSource.filter((requestStatus) => requestStatus.status != "PENDING" && requestStatus.status != "NEW")
+  const steps = dataSource.sort((a,b) => a.id - b.id);
+
+  const [leaveRequestId, setleaveRequestId] = useState("");
+
+  const handleClickOpen = () => { };
+
+  const [approved, setApproved] = useState([]);
+
+  const [rejected, setRejected] = useState([]);
+
+  const [activeStep, setActiveStep] = useState(approved.length);
+
+  const getLeaveApproverStatusData = (leaveRequestId) => {
+    getLeaveApproverStatus(details.leaveRequestId).then((res: any) => {
+      const value: {status:String,id:Number,approverName:String,date:String}[] = createData(res.results.ApproverStatus);
+        setdataSource(value);
+
+    const approvalStatusOriginal:String[] = value.filter((requestStatus) =>requestStatus.status != "PENDING" && requestStatus.status != "NEW")
     .map((approverStatus) => approverStatus.status);
 
-  const approvalStatus = dataSource.filter((requestStatus) => requestStatus.status == "APPROVED")
+    const approvalStatus = value.filter((requestStatus) => requestStatus.status == "APPROVED")
     .map((filteredStatus) => filteredStatus.status);
 
-  const [approved, setApproved] = useState(approvalStatus);
-  
-  const [activeStep, setActiveStep] = useState(approvalStatus.length);
+    setApproved(approvalStatus);
+    setRejected(approvalStatusOriginal);
+    });
+};
 
   const handleNext = () => {
-    const newActiveStep = approvalStatus.length;
+    const newActiveStep = approved.length;
     setActiveStep(newActiveStep);
   };
 
   const handleApprove = () => {
-    const newApproved = approvalStatus;
-    newApproved[activeStep] = true;
+    const newApproved = approved;
+    newApproved[activeStep] = "APPROVED";
     setApproved(newApproved);
     console.log({details})
     handleNext();
     let data: object = {
-      id: details.id,
+      id: dataSource[approved.length].id,
       statusId: 2,
     };
+    console.log("STEPS" + dataSource[approved.length].id);
+    
     updateApproverStatus(data).then(
       (res: any) => {
         console.log(res);
@@ -71,19 +84,6 @@ export default function ViewHistory(props) {
       }
     );
   };
-
-  
-
-const getLeaveApproverStatusData = (setleaveTYpeId) => {
-    getLeaveApproverStatus(setleaveTYpeId).then((res: any) => {
-        let value: [] = createData(res.results.ApproverStatus);
-        setdataSource(value);
-        
-        
-    });
-};
-
-  const [rejected, setRejected] = useState(approvalStatusOriginal);
 
   const handleAlertClose = () => {
     setalert({
@@ -112,9 +112,11 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
     setRejected([...approved, "REJECTED"]);
 
     let data: object = {
-      id: details.id,
+      id: dataSource[approved.length].id,
       statusId: 3,
     };
+    console.log("STEPS" + dataSource[approved.length].id);
+    
     updateApproverStatus(data).then(
       (res: any) => {
         console.log(res);
@@ -128,7 +130,7 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
   };
 
   const isStepFailed = (step: number) => {
-    return step === approvalStatusOriginal.indexOf("REJECTED");
+    return step === rejected.indexOf("REJECTED");
   };
 
   function RejectIcon() {
@@ -151,13 +153,15 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
   }, []);
 
   console.log("8888888888",dataSource);
+  console.log("Approved.... " , approved);
+  console.log("Rejected.... " , rejected);
 
   return (
     <Box sx={{ width: "600px" }}>
      
       <Stepper
         sx={{ backgroundColor: "White" }}
-        activeStep={activeStep}
+        activeStep={approved.length}
         alternativeLabel
       >
         {steps.map((label, index) => {
@@ -172,8 +176,8 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
           }
 
           return (
-            <Step key={label.approverName} completed={approvalStatus[index]}>
-              <StepLabel {...labelProps}>{label.approverName} <br/>{ (label.status != "PENDING" && label.status != "NEW") && <Typography variant="subtitle1">{label.date}</Typography>}</StepLabel>
+            <Step key={label.approverName} completed={approved[index]}>
+              <StepLabel {...labelProps}>{label.approverName} <br/>{ (label.status == "APPROVED" || label.status == "REJECTED") ? <Typography variant="subtitle1">{label.date}</Typography> : !rejected.includes("REJECTED") ? <Typography variant="subtitle1">Pending</Typography> : ""}</StepLabel>
             </Step>
           );
         })}
@@ -300,13 +304,13 @@ const getLeaveApproverStatusData = (setleaveTYpeId) => {
                 display="inline"
                 marginLeft="79px"
               >
-                {steps.length == approvalStatusOriginal.length ||
-                approvalStatusOriginal.includes("REJECTED")
-                  ? (approvalStatusOriginal[approvalStatusOriginal.length - 1] == "APPROVED" ? <Chip label="APPROVED" color="success" size="small" /> : <Chip label="REJECTED" color="error" size="small" />)
+                {steps.length == rejected.length ||
+                rejected.includes("REJECTED")
+                  ? (rejected[rejected.length - 1] == "APPROVED" ? <Chip label="APPROVED" color="success" size="small" /> : <Chip label="REJECTED" color="error" size="small" />)
                   : <Chip label="PENDING" color="warning" size="small" />}
               </Typography>
             </div>
-            {approvalStatusOriginal.includes("REJECTED") && (
+            {rejected.includes("REJECTED") && (
               <div>
                 <Typography variant="h6" color="textSecondary" display="inline">
                   Comment

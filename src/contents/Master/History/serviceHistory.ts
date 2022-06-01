@@ -32,4 +32,25 @@ const getLeaveApproverStatus = (id:number) => {
     });
   };
 
-export { updateApproverStatus , getLeaveApproverStatus};
+  const getLeaveApproverStatusHistory = () => {
+    return new Promise((resolve, reject) => {
+        api(
+          "get",
+          "lm-web",
+          null,
+          `/leaveHistory`,
+          "",
+          "",
+          ""
+        )
+  
+        .then((response: any) => {
+          resolve(response.data);
+      })
+      .catch((error) => {
+          reject(error);
+      });
+    });
+  };
+
+export { updateApproverStatus , getLeaveApproverStatus, getLeaveApproverStatusHistory};
