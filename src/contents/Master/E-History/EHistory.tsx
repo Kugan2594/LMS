@@ -43,7 +43,8 @@ function createData(data) {
     return convertData;
 }
 
-function EHistory() {
+function EHistory(props) {
+    const { isTitle: boolean } = props;
     const [pagination, setpagination] = useState({
         pageNumber: 0,
         pageSize: 10,
@@ -189,32 +190,41 @@ function EHistory() {
 
     return (
         <div>
-            <PageTitleWrapper>
-                <PageTitle
-                    heading="History"
-                    name=""
-                    subHeading="Master/History"
-                    isButton={false}
-                />
-            </PageTitleWrapper>
-            <Divider />
+            {props.isTitle && (
+                <PageTitleWrapper>
+                    <PageTitle
+                        heading="History"
+                        name=""
+                        subHeading="Master/History"
+                        isButton={false}
+                    />
+                </PageTitleWrapper>
+            )}
+
             <br />
 
             <Container maxWidth="lg">
                 <Card>
-                <CardContent>
-                    <Grid container>
-                    <Grid item xs={4}>
-                        <AutocompleteSelect
-                            name="employee"
-                            label="Employee Name"
-                            value={employeeId}
-                            onValueChange={onValueChange}
-                            options={employee}
-                        />
-                    </Grid>
-                    </Grid>
-                    
+                    <Typography
+                        variant="h6"
+                        margin="10px 0 0 20px"
+                        color="#1a8cff"
+                    >
+                        My History
+                    </Typography>
+                    <CardContent>
+                        <Grid container>
+                            <Grid item xs={4}>
+                                <AutocompleteSelect
+                                    name="employee"
+                                    label="Employee Name"
+                                    value={employeeId}
+                                    onValueChange={onValueChange}
+                                    options={employee}
+                                />
+                            </Grid>
+                        </Grid>
+
                         <Tables
                             columns={columns}
                             tableData={dataSource}
