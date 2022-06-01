@@ -233,7 +233,7 @@ function InProgress(props) {
       <Container maxWidth="lg">
         <Card>
           <Typography variant="h6" margin="10px 0 0 20px" color="#1a8cff">
-            My Leaves
+            In Progress Leaves
           </Typography>
           <CardContent>
             <Tables

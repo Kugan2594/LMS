@@ -89,13 +89,14 @@ function EHistory(props) {
     ) => {
         getAllEmployeeLeaveHistory(pageNumber, pageSize, employeeId).then(
             (res: any) => {
-                let data: [] = createData(res.results.leaveHistory);
+                let data: {id:Number,status:String,approverName:String,date:String,reason:String,fromDate:String,toDate:String,leaveDays:Number,
+                    requestedDate:String,leaveType:String,lastName:String,firstName:String,leaveRequestId:Number}[] = createData(res.results.leaveHistory);
                 setpagination({
                     pageNumber: res.pagination.pageNumber,
                     pageSize: res.pagination.pageSize,
                     total: res.pagination.totalRecords,
                 });
-                setdataSource(data);
+                setdataSource(data.filter((request) => request.status == "APPROVED" || request.status == "REJECTED").map((filtered) => filtered));
             }
         );
     };

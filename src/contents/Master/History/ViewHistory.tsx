@@ -56,6 +56,9 @@ export default function ViewHistory(props) {
     });
 };
 
+console.log("NNNNNNNNNN" + rejected);
+
+
   const handleNext = () => {
     const newActiveStep = approved.length;
     setActiveStep(newActiveStep);
@@ -334,21 +337,37 @@ export default function ViewHistory(props) {
             </Button>
             {props.isResponseButtons && (
               <div>
-                <Button
+                { !rejected.includes("REJECTED") ? <Button
                   variant="outlined"
                   sx={{ margin: 0.5 }}
                   onClick={handleReject}
                 >
                   Reject
-                </Button>
-                
+                </Button> :
                 <Button
+                variant="outlined"
+                sx={{ margin: 0.5 }}
+                onClick={handleReject}
+                disabled
+              >
+                Reject
+              </Button>}
+                
+                { !rejected.includes("REJECTED") ? <Button
                   variant="contained"
                   sx={{ margin: 0.5 }}
                   onClick={handleApprove}
                 >
                   Approve
-                </Button>
+                </Button> :
+                <Button
+                variant="contained"
+                sx={{ margin: 0.5 }}
+                onClick={handleApprove}
+                disabled
+              >
+                Approve
+              </Button>}
               </div>
             )}
           </Box>
