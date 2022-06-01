@@ -22,6 +22,7 @@ import ManageEmployementType from "src/contents/Master/EmployementType/ManageEmp
 import { element } from "prop-types";
 
 import ManageLieuRequest from "src/contents/Master/LieuRequest/ManageLieuRequest";
+import ManageNotification from "src/contents/Master/Notification/ManageNotification";
 const Loader = (Component: any) => (props: any) =>
     (
         <Suspense fallback={<SuspenseLoader />}>
@@ -102,6 +103,10 @@ const PrivateRoute: PartialRouteObject[] = [
             {
                 path: "/employementType",
                 element: <ManageEmployementType />,
+            },
+            {
+                path: "/notifications",
+                element: <ManageNotification />,
             },
         ],
     },

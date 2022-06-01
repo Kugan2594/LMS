@@ -23,6 +23,7 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import EHistory from "../Master/E-History/EHistory";
+import ManageNotification from "../Master/Notification/ManageNotification";
 function createData(data) {
     let convertData = data.map((post, index) => {
         return {
@@ -70,6 +71,7 @@ export default function Dashboard() {
     return (
         <>
             <div>
+                <ManageNotification />
                 <Box sx={{ width: "100%" }}>
                     <TabContext value={value}>
                         <Box>
