@@ -248,23 +248,23 @@
     @include wobble-hor-bottom(3s);
 }
 #tikRound {
-    @include blink-1(3s, 1s);
+    @include blink-1(6s, 1s);
 }
 #mul1 {
     // @include rotateimg();
     // transform-origin: center;
 }
 #date1 {
-    @include blink-1(1s, 1s);
+    @include blink-1(10s, 8s);
 }
 #date2 {
-    @include blink-1(1s, 2s);
+    @include blink-1(10s, 9s);
 }
 #date3 {
-    @include blink-1(1s, 3s);
+    @include blink-1(10s, 10s);
 }
 #date4 {
-    @include blink-1(1s, 4s);
+    @include blink-1(10s, 12s);
 }
 // #date5 {
 //     @include blink-1(5s);
@@ -301,14 +301,14 @@
 
 @keyframes float {
     from {
-        transform: rotateX(20deg);
+        transform: rotateX(10deg);
     }
     to {
-        transform: rotateX(40deg);
+        transform: rotateX(25deg);
     }
 }
 @mixin float {
-    animation: float 5s ease-in-out infinite alternate;
+    animation: float 10s ease-in-out infinite alternate;
     transform-origin: bottom;
 }
 @keyframes float-up {
@@ -316,7 +316,7 @@
         transform: rotateY(0deg);
     }
     to {
-        transform: rotateY(40deg);
+        transform: rotateY(18deg);
     }
 }
 @mixin float-up($duration, $delay) {
@@ -328,11 +328,11 @@
         transform: rotateZ(0deg);
     }
     to {
-        transform: rotateZ(360deg);
+        transform: rotateZ(180deg);
     }
 }
 @mixin spin {
-    animation: spin 1s ease infinite;
+    animation: spin 4s ease infinite;
 }
 #squarefill {
     @include float();

@@ -2,6 +2,7 @@ import {
   Button,
   Card,
   CardContent,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
@@ -18,102 +19,54 @@ import Tables from "src/components/atoms/Tables";
 import { Column } from "src/components/atoms/Tables/TableInterface";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
-import { getLeaveApproverStatus } from "../History/serviceHistory";
+import { getLeaveApproverStatus, getLeaveApproverStatusHistory } from "../History/serviceHistory";
 import ViewHistory from "../History/ViewHistory";
 import InProgress from "../LeaveRequest/InProgress";
 import LeaveRequestForm from "../LeaveRequest/LeaveRequestForm";
 import { getAllLeaveRequest } from "../LeaveRequest/ServiceLeaveRequest";
 
+// function createData(data) {
+//     let convertData = data.map((post, index) => {
+//         return {
+//             id: post.id,
+//       employeeId: post.employee.id,
+//       reason: post.reason,
+//       fromDate: moment(post.fromDate).format("DD-MM-yyyy"),
+//       toDate: moment(post.toDate).format("DD-MM-yyyy"),
+//       leaveDays: post.leaveDays,
+//       requestedDate: moment(post.requestedDate).format("DD-MM-yyyy"),
+//       leaveType: post.employeeLeaveType.leaveType.type,
+//       firstName: post.employee.firstName,
+//       lastName: post.employee.lastName,
+//       approvers: [],
+//         };
+//     });
+//     return convertData;
+// }
+
 function createData(data) {
-    let convertData = data.map((post, index) => {
-        return {
-            id: post.id,
-      employeeId: post.employee.id,
+  let convertData = data.map((post, index) => {
+    return {
+      id: post.id,
+      status: post.status,
+      approverName: post.employeeApproverName,
+      date: moment(post.date).format("DD-MM-yyyy"),
       reason: post.reason,
       fromDate: moment(post.fromDate).format("DD-MM-yyyy"),
       toDate: moment(post.toDate).format("DD-MM-yyyy"),
       leaveDays: post.leaveDays,
       requestedDate: moment(post.requestedDate).format("DD-MM-yyyy"),
-      leaveType: post.employeeLeaveType.leaveType.type,
-      firstName: post.employee.firstName,
-      lastName: post.employee.lastName,
-      approvers: [],
-        };
-    });
-    return convertData;
+      leaveType: post.type,
+      lastName: post.lastName,
+      firstName: post.firstName,
+      leaveRequestId: post.leaveRequestId,
+    };
+  });
+  return convertData;
 }
-let mockData = [
-  {
-    id: 1,
-    employeeId: 1,
-    employeeName: "Kuganesan Kuganesan",
-    leaveType: "Annual",
-    leaveDays: 14,
-    reason: "Wedding",
-    fromDate: "02/06/2022",
-    toDate: "15/06/2022",
-    requestedDate: "19/05/2022",
-    status: "Approved",
-    approvers: [
-      { names: "KugApp1", appStatus: "Approved" },
-      { names: "KugApp2", appStatus: "Approved" },
-      { names: "KugApp3", appStatus: "Approved" },
-    ],
-  },
-  {
-    id: 2,
-    employeeId: 2,
-    employeeName: "Cudeson Cudeson",
-    leaveType: "Annual",
-    leaveDays: 7,
-    reason: "Wedding",
-    fromDate: "02/06/2022",
-    toDate: "09/06/2022",
-    requestedDate: "18/05/2022",
-    status: "Rejected",
-    approvers: [
-      { names: "CudApp1", appStatus: "Approved" },
-      { names: "CudApp2", appStatus: "Approved" },
-      { names: "CudApp3", appStatus: "Rejected" },
-      { names: "CudApp4", appStatus: "Pending" },
-    ],
-  },
-  {
-    id: 3,
-    employeeId: 3,
-    employeeName: "Kuganesan Kuganesan",
-    leaveType: "Annual",
-    leaveDays: 14,
-    reason: "Wedding",
-    fromDate: "02/06/2022",
-    toDate: "15/06/2022",
-    requestedDate: "19/05/2022",
-    status: "Approved",
-    approvers: [
-      { names: "KugApp1", appStatus: "Approved" },
-      { names: "KugApp2", appStatus: "Approved" },
-      { names: "KugApp3", appStatus: "Approved" },
-    ],
-  },
-  {
-    id: 4,
-    employeeId: 4,
-    employeeName: "Cudeson Cudeson",
-    leaveType: "Annual",
-    leaveDays: 7,
-    reason: "Wedding",
-    fromDate: "02/06/2022",
-    toDate: "09/06/2022",
-    requestedDate: "18/05/2022",
-    status: "Rejected",
-    approvers: [
-      { names: "CudApp1", appStatus: "Approved" },
-      { names: "CudApp2", appStatus: "Approved" },
-      { names: "CudApp3", appStatus: "Pending" },
-      { names: "CudApp4", appStatus: "Pending" },
-    ],
-  },
-];
+
+
+
 
 function Task(props) {
   const [pagination, setpagination] = useState({
@@ -126,7 +79,7 @@ function Task(props) {
   const [open, setOpen] = useState(false);
   const [openDetails, setOpenDetails] = useState(false);
   const [searchFields, setsearchFields] = useState({ name: "" });
-  const [leaveTd,setLeaveId]=useState(0);
+  const [leaveTd, setLeaveId] = useState(0);
   const [sortField, setsortField] = React.useState({
     sortField: "id",
     direction: "DESC",
@@ -142,7 +95,7 @@ function Task(props) {
   const [leaveDetails, setLeaveDetails] = useState({});
 
   const handleOpenLeaveDetails = (value) => {
-    console.log({value})
+    console.log({ value })
     setOpenDetails(true);
     setLeaveDetails(value);
     setLeaveId(value.id);
@@ -157,34 +110,47 @@ function Task(props) {
     setOpenDetails(false);
   };
 
-  const onChangePage = (pageNumber, pageSize) => {};
+  const onChangePage = (pageNumber, pageSize) => { };
 
-  const onTableSearch = (values, sortField) => {};
+  const onTableSearch = (values, sortField) => { };
+
+  // useEffect(() => {
+  //   getAllLeaveRequestData(pagination.pageNumber, pagination.pageSize);
+
+  // }, [pagination.pageNumber, pagination.pageSize]);
+  // const getAllLeaveRequestData = (pageNumber, pageSize) => {
+  //   getAllLeaveRequest(pageNumber, pageSize).then((res: any) => {
+  //     let data: [] = createData(res.results.LeaveRequest);
+  //     setpagination({
+  //       pageNumber: res.pagination.pageNumber,
+  //       pageSize: res.pagination.pageSize,
+  //       total: res.pagination.totalRecords,
+  //     });
+  //     setdataSource(data);
+  //   });
+  // };
 
   useEffect(() => {
-    getAllLeaveRequestData(pagination.pageNumber, pagination.pageSize);
+    getAllLeaveRequestHistoryData();
 
-  }, [pagination.pageNumber, pagination.pageSize]);
-  const getAllLeaveRequestData = (pageNumber, pageSize) => {
-    getAllLeaveRequest(pageNumber, pageSize).then((res: any) => {
-      let data: [] = createData(res.results.LeaveRequest);
-      setpagination({
-        pageNumber: res.pagination.pageNumber,
-        pageSize: res.pagination.pageSize,
-        total: res.pagination.totalRecords,
-      });
-      setdataSource(data);
+  }, []);
+
+  const getAllLeaveRequestHistoryData = () => {
+    getLeaveApproverStatusHistory().then((res: any) => {
+      let value: [] = createData(res.results.leaveHistory);
+      setdataSource(value);
+
+
     });
   };
 
-  
 
   const columns: Column[] = [
-    {
-      id: "id",
-      label: "Id",
-      minWidth: 0,
-    },
+    // {
+    //   id: "id",
+    //   label: "Id",
+    //   minWidth: 0,
+    // },
     {
       id: "lastName",
       label: "Employee Name",
@@ -206,20 +172,28 @@ function Task(props) {
       minWidth: 0,
     },
     {
+      id: "leaveDays",
+      label: "Leave Days",
+      minWidth: 0,
+    },
+    {
       id: "reason",
       label: "Reason",
       minWidth: 0,
     },
     {
-      id: "leaveDays",
-      label: "Leave Days",
+      id: "requestedDate",
+      label: "Requested date",
       minWidth: 0,
+  },
+    {
+      id: "status",
+      label: "Status",
+      minWidth: 0,
+      render: (value: any) => (
+         value.status == "APPROVED" ? <Chip label="APPROVED" color="success" size="small" /> : value.status == "REJECTED" ? <Chip label="REJECTED" color="error" size="small" /> : <Chip label="PENDING" color="warning" size="small" />
+      )
     },
-    // {
-    //     id: "status",
-    //     label: "Status",
-    //     minWidth: 0,
-    // },
     {
       id: "details",
       label: "",
@@ -250,7 +224,7 @@ function Task(props) {
       <Container maxWidth="lg">
         <Card>
           <Typography variant="h6" margin="10px 0 0 20px" color="#1a8cff">
-            My Tasks
+            My Approvals
           </Typography>
           <CardContent>
             <Tables
