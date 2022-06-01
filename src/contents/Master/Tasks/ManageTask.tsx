@@ -182,6 +182,11 @@ function Task(props) {
       minWidth: 0,
     },
     {
+      id: "requestedDate",
+      label: "Requested date",
+      minWidth: 0,
+  },
+    {
       id: "status",
       label: "Status",
       minWidth: 0,
@@ -219,7 +224,7 @@ function Task(props) {
       <Container maxWidth="lg">
         <Card>
           <Typography variant="h6" margin="10px 0 0 20px" color="#1a8cff">
-            My Tasks
+            Pending Approvals
           </Typography>
           <CardContent>
             <Tables
