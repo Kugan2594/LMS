@@ -56,6 +56,9 @@ const masterMenuItems: MenuItem[] = [
       { name: "Type", icon: BadgeRoundedIcon, link: "/master/employementType" },
       { name: "Location", icon: LocationOnRoundedIcon, link: "/master/companyLocation" },
       { name: "Unit", icon: GroupWorkRoundedIcon, link: "/master/businessUnit" },
+      { name: "UserPrivilage", icon: GroupWorkRoundedIcon, link: "/master/userPrivilege" },
+
+      
     ] },
 ];
 

@@ -19,6 +19,8 @@ import ManageHolidays from "src/contents/Master/Holidays/ManageHolidays";
 import ManageBusinessUnit from "src/contents/Master/BusinessUnit/ManageBusinessUnit";
 import ManageCompanyLocation from "src/contents/Master/CompanyLocation/ManageCompanyLocation";
 import ManageEmployementType from "src/contents/Master/EmployementType/ManageEmployementType";
+import UserPrivilege from "src/contents/Master/PrivilegeComponent/UserPrivilege";
+
 import { element } from "prop-types";
 
 import ManageLieuRequest from "src/contents/Master/LieuRequest/ManageLieuRequest";
@@ -102,6 +104,10 @@ const PrivateRoute: PartialRouteObject[] = [
             {
                 path: "/employementType",
                 element: <ManageEmployementType />,
+            },
+            {
+                path: "/userPrivilege",
+                element: <UserPrivilege />,
             },
         ],
     },
