@@ -63,9 +63,8 @@ export default function ViewHistory(props) {
 
   const handleApprove = () => {
     const newApproved = approved;
-    newApproved[activeStep] = "APPROVED";
-    setApproved(newApproved);
     console.log({details})
+    setApproved([...approved, "APPROVED"]);
     handleNext();
     let data: object = {
       id: dataSource[approved.length].id,
