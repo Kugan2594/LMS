@@ -105,6 +105,7 @@ export default function ViewHistory(props) {
 
   const reloadTable = (res) => {
     setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
+    getLeaveApproverStatusData(leaveRequestId);
   };
 
   const handleReject = (steps) => {
@@ -185,21 +186,6 @@ export default function ViewHistory(props) {
         <Grid container>
           <Grid item xs={4}></Grid>
           <Box>
-            {props.isEmployeeDetail && (
-              <div>
-                <Typography variant="h6" color="textSecondary" display="inline">
-                  Employee ID
-                </Typography>
-                <Typography
-                  variant="h6"
-                  color="black"
-                  display="inline"
-                  marginLeft="35px"
-                >
-                  {details.employeeId}
-                </Typography>
-              </div>
-            )}
             {props.isEmployeeDetail && (
               <div>
                 <Typography variant="h6" color="textSecondary" display="inline">
@@ -355,13 +341,6 @@ export default function ViewHistory(props) {
                 >
                   Reject
                 </Button>
-                {alert.type.length > 0 ? (
-              <CustomizedNotification
-              severity={alert.type}
-              message={alert.mesg}
-              handleAlertClose={handleAlertClose}
-            />
-            ) : null}
                 
                 <Button
                   variant="contained"
@@ -370,6 +349,16 @@ export default function ViewHistory(props) {
                 >
                   Approve
                 </Button>
+              </div>
+            )}
+          </Box>
+          {alert.type.length > 0 ? (
+              <CustomizedNotification
+              severity={alert.type}
+              message={alert.mesg}
+              handleAlertClose={handleAlertClose}
+            />
+            ) : null}
             {alert.type.length > 0 ? (
               <CustomizedNotification
               severity={alert.type}
@@ -377,11 +366,6 @@ export default function ViewHistory(props) {
               handleAlertClose={handleAlertClose}
             />
             ) : null}
-              </div>
-
-              
-            )}
-          </Box>
         </React.Fragment>
       </div>
     </Box>
