@@ -208,7 +208,7 @@ function EHistory(props) {
             <Container maxWidth="lg">
                 <Card>
                 <Typography variant="h6" margin="10px 0 0 20px" color="#1a8cff">
-            Leave History
+            My Approvals
           </Typography>
                 <CardContent>
                     <Grid container>
