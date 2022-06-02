@@ -144,11 +144,11 @@ function HeaderUserbox() {
                 <List sx={{ p: 1 }} component="nav">
                     <ListItem
                         button
-                        to="/allocation/profile"
+                        to="/profile/profile"
                         component={NavLink}
                     >
                         <AccountBoxTwoToneIcon fontSize="small" />
-                        <ListItemText primary="My Profile" />
+                        <ListItemText primary="Change Password" />
                     </ListItem>
 
                     <ListItem
