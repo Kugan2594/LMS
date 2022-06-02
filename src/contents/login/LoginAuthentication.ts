@@ -27,19 +27,6 @@ const getUserName = () => {
   return userData;
 };
 
-const isUserRole = () => {
-  let userData = localStorage.getItem('user');
-  let user = JSON.parse(userData);
-
-  return {
-    isCompanyAdmin: user.isCompanyAdmin,
-    isCompanyBranchAdmin: user.isCompanyBranchAdmin,
-    companyId: user.companyId === null ? '' : user.companyId,
-    companyBranchId: user.companyBranchId === null ? '' : user.companyBranchId,
-    isTHAdmin: user.roleName === 'THADMIN' ? true : false,
-    isSchool: user.companyType === 'SCHOOL' ? true : false
-  };
-};
 
 const setUserRolePermission = (permission) => {
   let permissionStr = JSON.stringify(permission);
@@ -58,7 +45,6 @@ export {
   getUserDetails,
   setUserRolePermission,
   getUserRolePermission,
-  isUserRole,
   setUserName,
   getUserName
 };
