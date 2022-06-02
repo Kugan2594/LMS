@@ -70,30 +70,24 @@ export default function Login() {
     };
 
     const getAllPermission = (roleId) => {
-     
-        getRoleIdByRoleName(roleId).then((res:any)=>{
 
+        getRoleIdByRoleName(roleId).then((res: any) => {
+            console.log("res.results.role.id", res.results.role.id);
             getAllPermissionByRoleIdInLogin(res.results.role.id).then((res: any) => {
-                let permission = res;
-                let permissionData = permission.map((post: any) => {
-                    return {
-                        name: post.permission.name,
-                        id: post.permission.id,
-                        status: post.permission.status,
-                    };
-                });
-                console.log("^^^^^^^^^^^^^^^^^^^^^^",permissionData);
+                let permission = res.results.Role_permission;
+                console.log("res.results.role.id", res.results.Role_permission);
+                let permissionData = res.results.Role_permission
                 setUserRolePermission(permissionData);
                 setTimeout(() => {
                     setloading(false);
-    
                     navigate('master');
-                   window.location.reload();
+                    window.location.reload();
+
                 }, 300);
             });
         })
-       
-     
+
+
     };
 
     const onChangeTextField = (e) => {
@@ -114,7 +108,7 @@ export default function Login() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        
+
         let emailId = data.get('email').toString();
         let body = {
             userName: data.get('email'),
@@ -140,7 +134,7 @@ export default function Login() {
             signIn(body).then(
                 (res: any) => {
                     let response = res.data;
-                    console.log({response});
+                    console.log({ response });
                     var decoded_token: any = jwt_decode(response.access_token);
                     setalert({
                         type: NOTIFICATION_TYPE.success,
@@ -155,7 +149,7 @@ export default function Login() {
                             user_id: decoded_token.userId,
                             firstName: decoded_token.firstName,
                             roleId: decoded_token.roleId,
-                            roleName:decoded_token.authorities && decoded_token.authorities[0],
+                            roleName: decoded_token.authorities && decoded_token.authorities[0],
                         };
                         getAllPermission(decoded_token.authorities[0]);
                         setUserName(userdata.firstName);
