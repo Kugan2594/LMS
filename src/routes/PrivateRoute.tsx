@@ -25,6 +25,9 @@ import { element } from "prop-types";
 
 import ManageLieuRequest from "src/contents/Master/LieuRequest/ManageLieuRequest";
 import ManageNotification from "src/contents/Master/Notification/ManageNotification";
+import ForgotPassword from "src/contents/login/ForgotPassword";
+import ResetPassword from "src/contents/login/ResetPassword";
+
 const Loader = (Component: any) => (props: any) =>
     (
         <Suspense fallback={<SuspenseLoader />}>
@@ -36,6 +39,14 @@ const PrivateRoute: PartialRouteObject[] = [
     {
         path: "/",
         element: <Login />,
+    },
+    {
+        path: "/forgot-password",
+        element: <ForgotPassword />,
+    },
+    {
+        path: "/reset-password",
+        element: <ResetPassword />,
     },
     {
         path: "master",

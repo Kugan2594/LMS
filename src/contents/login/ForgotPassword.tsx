@@ -18,6 +18,7 @@ import { IconButton, InputAdornment } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Animi } from "src/assets/login-main-bg.svg";
 import "./loginPage.scss";
+import { addItemApi } from "./ServiceForgotPassword";
 
 const theme = createTheme();
 
@@ -28,16 +29,10 @@ let errStyle = {
     marginTop: "-8px",
 };
 
-export default function Login() {
+export default function ForgotPassword() {
     let navigate = useNavigate();
-    const [showPassword, setshowPassword] = React.useState(false);
     const [emailError, setEmailError] = React.useState("");
-    const [passwordError, setPasswordError] = React.useState("");
     const [loading, setloading] = React.useState(false);
-
-    const handleClickShowPassword = () => {
-        setshowPassword(!showPassword);
-    };
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
@@ -62,15 +57,10 @@ export default function Login() {
             !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(emailId)
         ) {
             setEmailError("Email is not valid");
-        } else if (data.get("email") !== "rishireiko@gmail.com") {
-            setEmailError("Wrong Email!");
         } else {
-            if (data.get("password") === "admin") {
-                setloading(true);
-                navigate("master");
-            } else {
-                setPasswordError("Wrong Password!");
-            }
+            setloading(true);
+            addItemApi(emailId);
+            navigate("/reset-password");
         }
     };
 
@@ -104,7 +94,7 @@ export default function Login() {
                                     <LockOutlinedIcon />
                                 </Avatar>
                                 <Typography component="h1" variant="h5">
-                                    Sign in
+                                    Forgot Password
                                 </Typography>
                                 <Box
                                     component="form"
@@ -127,56 +117,7 @@ export default function Login() {
                                     {emailError && (
                                         <div style={errStyle}>{emailError}</div>
                                     )}
-                                    <TextField
-                                        margin="normal"
-                                        required
-                                        fullWidth
-                                        name="password"
-                                        label="Password"
-                                        type={
-                                            showPassword ? "text" : "password"
-                                        }
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <IconButton
-                                                        aria-label="toggle password visibility"
-                                                        onClick={
-                                                            handleClickShowPassword
-                                                        }
-                                                        onMouseDown={
-                                                            handleMouseDownPassword
-                                                        }
-                                                        edge="end"
-                                                    >
-                                                        {showPassword ? (
-                                                            <Visibility
-                                                                style={{
-                                                                    fontSize:
-                                                                        "16px",
-                                                                }}
-                                                            />
-                                                        ) : (
-                                                            <VisibilityOff
-                                                                style={{
-                                                                    fontSize:
-                                                                        "16px",
-                                                                }}
-                                                            />
-                                                        )}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                        id="password"
-                                        autoComplete="current-password"
-                                        error={passwordError ? true : false}
-                                    />
-                                    {passwordError && (
-                                        <div style={errStyle}>
-                                            {passwordError}
-                                        </div>
-                                    )}
+
                                     <LoadingButton
                                         type="submit"
                                         fullWidth
@@ -185,15 +126,12 @@ export default function Login() {
                                         color="primary"
                                         loading={loading}
                                     >
-                                        Sign In
+                                        Send
                                     </LoadingButton>
                                     <Grid container>
                                         <Grid item xs>
-                                            <Link
-                                                href="/forgot-password"
-                                                variant="body2"
-                                            >
-                                                Forgot password?
+                                            <Link href="/" variant="body2">
+                                                Already have an account ?
                                             </Link>
                                         </Grid>
                                     </Grid>

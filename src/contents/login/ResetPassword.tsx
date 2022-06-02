@@ -28,10 +28,9 @@ let errStyle = {
     marginTop: "-8px",
 };
 
-export default function Login() {
+export default function ResetPassword() {
     let navigate = useNavigate();
     const [showPassword, setshowPassword] = React.useState(false);
-    const [emailError, setEmailError] = React.useState("");
     const [passwordError, setPasswordError] = React.useState("");
     const [loading, setloading] = React.useState(false);
 
@@ -44,33 +43,20 @@ export default function Login() {
     };
 
     const onChangeTextField = (e) => {
-        setEmailError("");
+        setPasswordError("");
     };
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        let emailId = data.get("email").toString();
         console.log({
-            email: data.get("email"),
             password: data.get("password"),
         });
-        if (data.get("email") === "") {
-            setEmailError("Email is required");
-        } else if (
-            data.get("email") !== "" &&
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(emailId)
-        ) {
-            setEmailError("Email is not valid");
-        } else if (data.get("email") !== "rishireiko@gmail.com") {
-            setEmailError("Wrong Email!");
+        if (data.get("password") === "admin") {
+            setloading(true);
+            navigate("master");
         } else {
-            if (data.get("password") === "admin") {
-                setloading(true);
-                navigate("master");
-            } else {
-                setPasswordError("Wrong Password!");
-            }
+            setPasswordError("Wrong Password!");
         }
     };
 
@@ -93,8 +79,6 @@ export default function Login() {
                                     display: "flex",
                                     flexDirection: "column",
                                     alignItems: "center",
-                                    // boxShadow: 5,
-                                    // borderRadius: 5,
                                     paddingBottom: 5,
                                 }}
                             >
@@ -104,7 +88,7 @@ export default function Login() {
                                     <LockOutlinedIcon />
                                 </Avatar>
                                 <Typography component="h1" variant="h5">
-                                    Sign in
+                                    Reset Password
                                 </Typography>
                                 <Box
                                     component="form"
@@ -117,16 +101,12 @@ export default function Login() {
                                         required
                                         fullWidth
                                         id="email"
-                                        label="Email Address"
-                                        name="email"
-                                        autoComplete="email"
+                                        label="Token"
+                                        name="token"
+                                        autoComplete="token"
                                         onChange={onChangeTextField}
                                         autoFocus
-                                        error={emailError ? true : false}
                                     />
-                                    {emailError && (
-                                        <div style={errStyle}>{emailError}</div>
-                                    )}
                                     <TextField
                                         margin="normal"
                                         required
@@ -185,18 +165,8 @@ export default function Login() {
                                         color="primary"
                                         loading={loading}
                                     >
-                                        Sign In
+                                        Reset
                                     </LoadingButton>
-                                    <Grid container>
-                                        <Grid item xs>
-                                            <Link
-                                                href="/forgot-password"
-                                                variant="body2"
-                                            >
-                                                Forgot password?
-                                            </Link>
-                                        </Grid>
-                                    </Grid>
                                 </Box>
                             </Box>
                         </Container>
