@@ -1,0 +1,359 @@
+@keyframes blink-1 {
+    0%,
+    50%,
+    100% {
+        opacity: 1;
+    }
+    25%,
+    75% {
+        opacity: 0;
+    }
+}
+@mixin blink-1($delay, $duration) {
+    animation: blink-1 $duration infinite $delay both;
+}
+@keyframes wobble-hor-bottom {
+    0%,
+    100% {
+        transform: translateY(0);
+        transform-origin: 10% 10%;
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+    80% {
+        transform: translateY(0px);
+    }
+}
+
+@keyframes flip-scale-up-hor {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(2.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+@keyframes slide-fwd-center {
+    0% {
+        transform: translateZ(0);
+    }
+    100% {
+        transform: translateZ(160px);
+    }
+}
+
+@mixin slide-fwd-center {
+    animation: slide-fwd-center 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 2s both;
+}
+@mixin flip-scale-up-hor {
+    animation: flip-scale-up-hor 0.5s linear both;
+}
+
+@mixin popup($delay) {
+    animation: popup 0.1s linear ($delay) both;
+}
+
+@mixin fade-in {
+    animation: fade-in 2s linear 3s both;
+}
+
+@mixin slide-bottom($duration) {
+    animation: slide-bottom ($duration) cubic-bezier(0.25, 0.46, 0.45, 0.94)
+        both;
+}
+@mixin wobble-hor-bottom($delay) {
+    animation: wobble-hor-bottom 2s infinite $delay both;
+}
+
+@mixin slide-top($duration) {
+    animation: slide-top ($duration) cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+@mixin moveRight($duration) {
+    animation: moveRight $duration linear both;
+}
+// #mobile {
+//     @include slide-bottom();
+// }
+// #calender {
+//     @include slide-top();
+// }
+// #tikRound {
+// }
+
+// #clock {
+//     @include slide-top();
+// }
+// #Task {
+//     @include slide-bottom();
+// }
+#computer {
+    @include moveRight(5s);
+}
+// #cloudDrive {
+//     @include slide-top();
+// }
+// // #Group {
+// //     @include slide-top();
+// // }
+// // #LMSLogin {
+// //     @include tilt-in-fwd-tr;
+// // }
+// #file2 {
+//     @include blink-1();
+// }
+// #tik {
+//     @include blink-1();
+// }
+// #msg1 {
+//     @include blink-1();
+// }
+// #task {
+//     @include slide-bottom();
+// }
+// #cloudDrive {
+//     @include slide-bottom();
+// }
+// #file2 {
+//     @include slide-bottom();
+// }
+// #file {
+//     @include slide-bottom();
+// }
+@keyframes wobble-ver-left {
+    0%,
+    100% {
+        transform: translateY(0) rotate(0);
+        transform-origin: 50% 50%;
+    }
+    15% {
+        transform: translateY(-30px);
+    }
+    30% {
+        transform: translateY(15px);
+    }
+    45% {
+        transform: translateY(-15px);
+    }
+    60% {
+        transform: translateY(9px);
+    }
+    75% {
+        transform: translateY(-6px);
+    }
+}
+
+@mixin wobble-ver-left {
+    animation: wobble-ver-left 3s linear 3s both;
+}
+@keyframes moveout {
+    0% {
+        transform: translateY(-100px);
+    }
+    100% {
+        transform: translateY(400px);
+    }
+}
+@keyframes moveLeft {
+    0% {
+        transform: translateX(0px);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-100px);
+        opacity: 0.25;
+    }
+}
+@keyframes moveX {
+    0% {
+        transform: translateX(0px);
+    }
+    100% {
+        transform: translateX(-100px);
+    }
+}
+@keyframes moveY {
+    0% {
+        transform: translateY(0px);
+    }
+    100% {
+        transform: translateY(100px);
+    }
+}
+@mixin moveX {
+    animation: moveX 4s linear both;
+}
+@mixin moveY {
+    animation: moveY 4s linear both;
+}
+@mixin moveLeft($duration) {
+    animation: moveLeft ($duration) linear both;
+}
+@mixin moveout {
+    animation: moveout 5s linear 6s both;
+}
+
+#calender {
+    @include moveRight(5s);
+}
+#mobile {
+    @include slide-bottom(5s);
+}
+#focus-in-expand {
+    @include popup(5s);
+}
+#cloudDrive {
+    @include slide-bottom(5s);
+}
+#task {
+    @include slide-bottom(5s);
+}
+#clock {
+    @include slide-top(5s);
+}
+#analytic {
+    @include slide-bottom(5s);
+}
+#task-svgrepo-com-1 {
+    @include moveLeft(5s);
+}
+#task {
+    @include moveRight(5s);
+}
+#msgcombo {
+    @include slide-top(5s);
+}
+#pie {
+    @include moveLeft(5s);
+}
+#Task {
+    @include slide-bottom(5s);
+}
+#file {
+    @include slide-bottom(5s);
+}
+#dot1 {
+    @include wobble-hor-bottom(1s);
+}
+#dot2 {
+    @include wobble-hor-bottom(2s);
+}
+#dot3 {
+    @include wobble-hor-bottom(3s);
+}
+#tikRound {
+    @include blink-1(6s, 1s);
+}
+#mul1 {
+    // @include rotateimg();
+    // transform-origin: center;
+}
+#date1 {
+    @include blink-1(10s, 8s);
+}
+#date2 {
+    @include blink-1(10s, 9s);
+}
+#date3 {
+    @include blink-1(10s, 10s);
+}
+#date4 {
+    @include blink-1(10s, 4s);
+}
+// #date5 {
+//     @include blink-1(5s);
+// }
+
+@keyframes focus-in-expand {
+    0% {
+        letter-spacing: -0.5em;
+        filter: blur(12px);
+        opacity: 0;
+    }
+    50% {
+        letter-spacing: -0.5em;
+        filter: blur(6px);
+        opacity: 0.25;
+    }
+    100% {
+        filter: blur(0);
+        opacity: 1;
+    }
+}
+
+@mixin focus-in-expand {
+    animation: focus-in-expand 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+#text {
+    @include focus-in-expand();
+}
+#approved {
+}
+// #Vector_42 {
+//     @include wobble-hor-bottom(1s);
+// }
+
+@keyframes float {
+    from {
+        transform: rotateX(10deg);
+    }
+    to {
+        transform: rotateX(25deg);
+    }
+}
+@mixin float {
+    animation: float 10s ease-in-out infinite alternate;
+    transform-origin: bottom;
+}
+@keyframes float-up {
+    from {
+        transform: rotateY(0deg);
+    }
+    to {
+        transform: rotateY(18deg);
+    }
+}
+@mixin float-up($duration, $delay) {
+    animation: float-up $duration ease-in-out infinite $delay alternate;
+    transform-origin: bottom;
+}
+@keyframes spin {
+    from {
+        transform: rotateZ(0deg);
+    }
+    to {
+        transform: rotateZ(180deg);
+    }
+}
+@mixin spin {
+    animation: spin 4s ease infinite;
+}
+#squarefill {
+    @include float();
+}
+#trianglefill {
+    @include float-up(6s, 2s);
+}
+
+#circlefill1 {
+    @include float();
+}
+#circlefill2 {
+    @include float();
+}
+#plus2 {
+    @include spin();
+    transform-origin: center;
+    transform-box: fill-box;
+}
+#plus1 {
+    @include spin();
+    transform-origin: center;
+    transform-box: fill-box;
+}

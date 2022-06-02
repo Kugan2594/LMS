@@ -3,18 +3,18 @@ import { useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 import {
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  Hidden,
-  lighten,
-  List,
-  ListItem,
-  ListItemText,
-  Popover,
-  Tooltip,
-  Typography,
+    Avatar,
+    Box,
+    Button,
+    Divider,
+    Hidden,
+    lighten,
+    List,
+    ListItem,
+    ListItemText,
+    Popover,
+    Tooltip,
+    Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import InboxTwoToneIcon from "@mui/icons-material/InboxTwoTone";
@@ -31,28 +31,28 @@ import { red } from "@mui/material/colors";
 import { SYSTEM_CONFIG } from "../../../../util/StytemConfig";
 
 const UserBoxButton = styled(Button)(
-  ({ theme }) => `
+    ({ theme }) => `
         padding-left: ${theme.spacing(1)};
         padding-right: ${theme.spacing(1)};
 `
 );
 
 const MenuUserBox = styled(Box)(
-  ({ theme }) => `
+    ({ theme }) => `
         background: ${theme.colors.alpha.black[5]};
         padding: ${theme.spacing(2)};
 `
 );
 
 const UserBoxText = styled(Box)(
-  ({ theme }) => `
+    ({ theme }) => `
         text-align: left;
         padding-left: ${theme.spacing(1)};
 `
 );
 
 const UserBoxLabel = styled(Typography)(
-  ({ theme }) => `
+    ({ theme }) => `
         font-weight: ${theme.typography.fontWeightBold};
         color: ${theme.palette.secondary.main};
         display: block;
@@ -60,100 +60,125 @@ const UserBoxLabel = styled(Typography)(
 );
 
 const UserBoxDescription = styled(Typography)(
-  ({ theme }) => `
+    ({ theme }) => `
         color: ${lighten(theme.palette.secondary.main, 0.5)}
 `
 );
 
 function HeaderUserbox() {
-  let navigate = useNavigate();
-  // let userData = getUserDetails();
-  // let userName = getUserName();
+    let navigate = useNavigate();
+    // let userData = getUserDetails();
+    // let userName = getUserName();
 
-  const ref = useRef<any>(null);
-  const [isOpen, setOpen] = useState<boolean>(false);
+    const ref = useRef<any>(null);
+    const [isOpen, setOpen] = useState<boolean>(false);
 
-  const handleOpen = (): void => {
-    setOpen(true);
-  };
+    const handleOpen = (): void => {
+        setOpen(true);
+    };
 
-  const handleClose = (): void => {
-    setOpen(false);
-  };
+    const handleClose = (): void => {
+        setOpen(false);
+    };
 
-  const logOut = () => {
-    setTimeout(() => {
-      navigate("/");
-    }, 200);
-  };
+    const logOut = () => {
+        setTimeout(() => {
+            navigate("/");
+        }, 200);
+    };
 
-  return (
-    <>
-      <UserBoxButton color="secondary" ref={ref} onClick={handleOpen}>
-        <Tooltip arrow title="Company Logo">
-          <Avatar
-            variant="rounded"
-            alt="IIT"
-            // src={`${SYSTEM_CONFIG.baseUrl}/company-logos/${user.companyLogo}`}
-          />
-        </Tooltip>
-        <Hidden mdDown>
-          <UserBoxText>
-            <UserBoxLabel variant="body1">Admin</UserBoxLabel>
-            <UserBoxDescription variant="body2">CEO</UserBoxDescription>
-          </UserBoxText>
-        </Hidden>
-        <Hidden smDown>
-          <ExpandMoreTwoToneIcon sx={{ ml: 1 }} />
-        </Hidden>
-      </UserBoxButton>
-      <Popover
-        anchorEl={ref.current}
-        onClose={handleClose}
-        open={isOpen}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-      >
-        <MenuUserBox sx={{ minWidth: 210 }} display="flex">
-          <Avatar
-            sx={{ bgcolor: red[500], width: 40, height: 40 }}
-            aria-label="recipe"
-            src={""}
-          />
-          <UserBoxText>
-            <UserBoxLabel variant="body1">Lorem</UserBoxLabel>
-            <UserBoxDescription variant="body2">IIT</UserBoxDescription>
-          </UserBoxText>
-        </MenuUserBox>
-        <Divider sx={{ mb: 0 }} />
-        <List sx={{ p: 1 }} component="nav">
-          <ListItem button to="/allocation/profile" component={NavLink}>
-            <AccountBoxTwoToneIcon fontSize="small" />
-            <ListItemText primary="My Profile" />
-          </ListItem>
+    const goDashBoard = (): void => {
+        navigate("/master");
+    };
 
-          <ListItem button to="/management/emailpoints" component={NavLink}>
-            <MailOutlineIcon fontSize="small" />
-            <ListItemText primary="Email Configuration" />
-          </ListItem>
+    return (
+        <>
+            <Button onClick={goDashBoard}>Home</Button>
+            <UserBoxButton color="secondary" ref={ref} onClick={handleOpen}>
+                <Tooltip arrow title="Company Logo">
+                    <Avatar
+                        variant="rounded"
+                        alt="IIT"
+                        // src={`${SYSTEM_CONFIG.baseUrl}/company-logos/${user.companyLogo}`}
+                    />
+                </Tooltip>
+                <Hidden mdDown>
+                    <UserBoxText>
+                        <UserBoxLabel variant="body1">Admin</UserBoxLabel>
+                        <UserBoxDescription variant="body2">
+                            CEO
+                        </UserBoxDescription>
+                    </UserBoxText>
+                </Hidden>
+                <Hidden smDown>
+                    <ExpandMoreTwoToneIcon sx={{ ml: 1 }} />
+                </Hidden>
+            </UserBoxButton>
+            <Popover
+                anchorEl={ref.current}
+                onClose={handleClose}
+                open={isOpen}
+                anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                }}
+                transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                }}
+            >
+                <MenuUserBox sx={{ minWidth: 210 }} display="flex">
+                    <Avatar
+                        sx={{ bgcolor: red[500], width: 40, height: 40 }}
+                        aria-label="recipe"
+                        src={""}
+                    />
+                    <UserBoxText>
+                        <UserBoxLabel variant="body1">Lorem</UserBoxLabel>
+                        <UserBoxDescription variant="body2">
+                            IIT
+                        </UserBoxDescription>
+                    </UserBoxText>
+                </MenuUserBox>
+                <Divider sx={{ mb: 0 }} />
+                <List sx={{ p: 1 }} component="nav">
+                    <ListItem
+                        button
+                        to="/profile/profile"
+                        component={NavLink}
+                    >
+                        <AccountBoxTwoToneIcon fontSize="small" />
+                        <ListItemText primary="Change Password" />
+                    </ListItem>
 
-          <ListItem button to="/dashboard/notification" component={NavLink}>
-            <InboxTwoToneIcon fontSize="small" />
-            <ListItemText primary="Notification" />
-          </ListItem>
+                    <ListItem
+                        button
+                        to="/management/emailpoints"
+                        component={NavLink}
+                    >
+                        <MailOutlineIcon fontSize="small" />
+                        <ListItemText primary="Email Configuration" />
+                    </ListItem>
 
-          <ListItem button to="/management/configuration" component={NavLink}>
-            <SettingsApplicationsIcon fontSize="small" />
-            <ListItemText primary="System Configuration" />
-          </ListItem>
+                    <ListItem
+                        button
+                        to="/dashboard/notification"
+                        component={NavLink}
+                    >
+                        <InboxTwoToneIcon fontSize="small" />
+                        <ListItemText primary="Notification" />
+                    </ListItem>
 
-          {/* <ListItem
+                    <ListItem
+                        button
+                        to="/management/configuration"
+                        component={NavLink}
+                    >
+                        <SettingsApplicationsIcon fontSize="small" />
+                        <ListItemText primary="System Configuration" />
+                    </ListItem>
+
+                    {/* <ListItem
             button
             to="/management/profile/settings"
             component={NavLink}
@@ -161,17 +186,17 @@ function HeaderUserbox() {
             <AccountTreeTwoToneIcon fontSize="small" />
             <ListItemText primary="Account Settings" />
           </ListItem> */}
-        </List>
-        <Divider />
-        <Box sx={{ m: 1 }}>
-          <Button color="primary" fullWidth onClick={logOut}>
-            <LockOpenTwoToneIcon sx={{ mr: 1 }} />
-            Sign out
-          </Button>
-        </Box>
-      </Popover>
-    </>
-  );
+                </List>
+                <Divider />
+                <Box sx={{ m: 1 }}>
+                    <Button color="primary" fullWidth onClick={logOut}>
+                        <LockOpenTwoToneIcon sx={{ mr: 1 }} />
+                        Sign out
+                    </Button>
+                </Box>
+            </Popover>
+        </>
+    );
 }
 
 export default HeaderUserbox;

@@ -102,7 +102,7 @@ const LogoText = styled(Box)(
 
 function Logo() {
   return (
-    <LogoWrapper to="/dashboard">
+    <LogoWrapper to="/master">
       {/* <LogoSignWrapper> */}
       {/* {/* <LogoSign>
           <LogoSignInner />
@@ -113,7 +113,7 @@ function Logo() {
           {/* <Tooltip title="Version 1.1.0" arrow placement="right">
             <VersionBadge>1.1</VersionBadge>
           </Tooltip> */}
-          <LogoText>LMS</LogoText>
+          <LogoText color= "#1a8cff">LEAVE MANAGEMENT SYSTEM</LogoText>
         </LogoTextWrapper>
       </Hidden>
     </LogoWrapper>
