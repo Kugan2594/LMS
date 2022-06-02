@@ -48,6 +48,10 @@ export default function Dashboard() {
         });
     };
 
+    const reload = () => {
+        getAllEmployeeLeaveTypeData();
+    };
+
     const [openLeave, setOpenLeave] = useState(false);
     const [openLieu, setOpenLieu] = useState(false);
 
@@ -83,8 +87,8 @@ export default function Dashboard() {
                                 indicatorColor="primary"
                                 aria-label="secondary tabs example"
                             >
-                                <Tab label="Employee" value="1" />
-                                <Tab label="Approver" value="2" />
+                                <Tab label="My Leaves" value="1" onClick={reload} />
+                                <Tab label="My Tasks" value="2" onClick={reload} />
                             </Tabs>
                         </Box>
                         <TabPanel value="1">
