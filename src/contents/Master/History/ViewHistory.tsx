@@ -28,7 +28,7 @@ export default function ViewHistory(props) {
 
   const [dataSource, setdataSource] = useState([]);
 
-  const steps = dataSource.sort((a,b) => a.id - b.id);
+  const steps = dataSource;
 
   const [leaveRequestId, setleaveRequestId] = useState("");
 
@@ -42,8 +42,10 @@ export default function ViewHistory(props) {
 
   const getLeaveApproverStatusData = (leaveRequestId) => {
     getLeaveApproverStatus(details.leaveRequestId).then((res: any) => {
-      const value: {status:String,id:Number,approverName:String,date:String}[] = createData(res.results.ApproverStatus);
-        setdataSource(value);
+      const value: {status:String,id:number,approverName:String,date:String}[] = createData(res.results.ApproverStatus);
+        setdataSource(value.sort((a,b) => a.id - b.id));
+
+        console.log("Value...." , value);
 
     const approvalStatusOriginal:String[] = value.filter((requestStatus) =>requestStatus.status != "PENDING" && requestStatus.status != "NEW")
     .map((approverStatus) => approverStatus.status);
@@ -56,7 +58,6 @@ export default function ViewHistory(props) {
     });
 };
 
-console.log("NNNNNNNNNN" + rejected);
 
 
   const handleNext = () => {
@@ -73,7 +74,7 @@ console.log("NNNNNNNNNN" + rejected);
       id: dataSource[approved.length].id,
       statusId: 2,
     };
-    console.log("STEPS" + dataSource[approved.length].id);
+    console.log("STEPS...." + dataSource[approved.length].id);
     
     updateApproverStatus(data).then(
       (res: any) => {
@@ -118,7 +119,7 @@ console.log("NNNNNNNNNN" + rejected);
       id: dataSource[approved.length].id,
       statusId: 3,
     };
-    console.log("STEPS" + dataSource[approved.length].id);
+    console.log("STEPS...." + dataSource[approved.length].id);
     
     updateApproverStatus(data).then(
       (res: any) => {
@@ -144,10 +145,10 @@ console.log("NNNNNNNNNN" + rejected);
     );
   }
 
-  const [value, setValue] = React.useState("");
+  const [comment, setComment] = React.useState("");
 
   const handleChange = (event) => {
-    setValue(event.target.value);
+    setComment(event.target.value);
   };
 
   useEffect(() => {
@@ -155,9 +156,13 @@ console.log("NNNNNNNNNN" + rejected);
     console.log("setleaveTYpeId",setleaveTYpeId);
   }, []);
 
-  console.log("8888888888",dataSource);
+  console.log("DataSource...." , dataSource);
+  console.log("Steps...." , steps);
   console.log("Approved.... " , approved);
   console.log("Rejected.... " , rejected);
+  
+  
+
 
   return (
     <Box sx={{ width: "600px" }}>
@@ -323,7 +328,7 @@ console.log("NNNNNNNNNN" + rejected);
               label="Comment"
               multiline
               maxRows={2}
-              value={value}
+              value={comment}
               onChange={handleChange}
             />
           </Box>
@@ -337,13 +342,7 @@ console.log("NNNNNNNNNN" + rejected);
             </Button>
             {props.isResponseButtons && (
               <div>
-                { !rejected.includes("REJECTED") ? <Button
-                  variant="outlined"
-                  sx={{ margin: 0.5 }}
-                  onClick={handleReject}
-                >
-                  Reject
-                </Button> :
+                { (rejected.includes("REJECTED") || rejected.length == steps.length) ? 
                 <Button
                 variant="outlined"
                 sx={{ margin: 0.5 }}
@@ -351,15 +350,16 @@ console.log("NNNNNNNNNN" + rejected);
                 disabled
               >
                 Reject
-              </Button>}
+              </Button> :
+              <Button
+              variant="outlined"
+              sx={{ margin: 0.5 }}
+              onClick={handleReject}
+            >
+              Reject
+            </Button>}
                 
-                { !rejected.includes("REJECTED") ? <Button
-                  variant="contained"
-                  sx={{ margin: 0.5 }}
-                  onClick={handleApprove}
-                >
-                  Approve
-                </Button> :
+                { (rejected.includes("REJECTED") || rejected.length == steps.length)  ? 
                 <Button
                 variant="contained"
                 sx={{ margin: 0.5 }}
@@ -367,7 +367,14 @@ console.log("NNNNNNNNNN" + rejected);
                 disabled
               >
                 Approve
-              </Button>}
+              </Button> : 
+              <Button
+              variant="contained"
+              sx={{ margin: 0.5 }}
+              onClick={handleApprove}
+            >
+              Approve
+            </Button>}
               </div>
             )}
           </Box>
