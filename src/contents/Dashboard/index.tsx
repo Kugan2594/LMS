@@ -23,6 +23,7 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import EHistory from "../Master/E-History/EHistory";
+import ManageNotification from "../Master/Notification/ManageNotification";
 function createData(data) {
     let convertData = data.map((post, index) => {
         return {
@@ -45,6 +46,10 @@ export default function Dashboard() {
             let data: [] = createData(res);
             setdataSource(data);
         });
+    };
+
+    const reload = () => {
+        getAllEmployeeLeaveTypeData();
     };
 
     const [openLeave, setOpenLeave] = useState(false);
@@ -82,8 +87,8 @@ export default function Dashboard() {
                                 indicatorColor="primary"
                                 aria-label="secondary tabs example"
                             >
-                                <Tab label="Employee" value="1" />
-                                <Tab label="Approver" value="2" />
+                                <Tab label="My Leaves" value="1" onClick={reload} />
+                                <Tab label="My Tasks" value="2" onClick={reload} />
                             </Tabs>
                         </Box>
                         <TabPanel value="1">
