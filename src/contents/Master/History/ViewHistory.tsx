@@ -56,6 +56,9 @@ export default function ViewHistory(props) {
     });
 };
 
+console.log("NNNNNNNNNN" + rejected);
+
+
   const handleNext = () => {
     const newActiveStep = approved.length;
     setActiveStep(newActiveStep);
@@ -63,9 +66,8 @@ export default function ViewHistory(props) {
 
   const handleApprove = () => {
     const newApproved = approved;
-    newApproved[activeStep] = "APPROVED";
-    setApproved(newApproved);
     console.log({details})
+    // setApproved([...approved, "APPROVED"]);
     handleNext();
     let data: object = {
       id: dataSource[approved.length].id,
@@ -106,10 +108,11 @@ export default function ViewHistory(props) {
 
   const reloadTable = (res) => {
     setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
+    getLeaveApproverStatusData(leaveRequestId);
   };
 
-  const handleReject = (steps) => {
-    setRejected([...approved, "REJECTED"]);
+  const handleReject = () => {
+    // setRejected([...approved, "REJECTED"]);
 
     let data: object = {
       id: dataSource[approved.length].id,
@@ -186,21 +189,6 @@ export default function ViewHistory(props) {
         <Grid container>
           <Grid item xs={4}></Grid>
           <Box>
-            {props.isEmployeeDetail && (
-              <div>
-                <Typography variant="h6" color="textSecondary" display="inline">
-                  Employee ID
-                </Typography>
-                <Typography
-                  variant="h6"
-                  color="black"
-                  display="inline"
-                  marginLeft="35px"
-                >
-                  {details.employeeId}
-                </Typography>
-              </div>
-            )}
             {props.isEmployeeDetail && (
               <div>
                 <Typography variant="h6" color="textSecondary" display="inline">
@@ -349,28 +337,47 @@ export default function ViewHistory(props) {
             </Button>
             {props.isResponseButtons && (
               <div>
-                <Button
+                { !rejected.includes("REJECTED") ? <Button
                   variant="outlined"
                   sx={{ margin: 0.5 }}
-                  onClick={() => handleReject(steps)}
+                  onClick={handleReject}
                 >
                   Reject
-                </Button>
-                {alert.type.length > 0 ? (
+                </Button> :
+                <Button
+                variant="outlined"
+                sx={{ margin: 0.5 }}
+                onClick={handleReject}
+                disabled
+              >
+                Reject
+              </Button>}
+                
+                { !rejected.includes("REJECTED") ? <Button
+                  variant="contained"
+                  sx={{ margin: 0.5 }}
+                  onClick={handleApprove}
+                >
+                  Approve
+                </Button> :
+                <Button
+                variant="contained"
+                sx={{ margin: 0.5 }}
+                onClick={handleApprove}
+                disabled
+              >
+                Approve
+              </Button>}
+              </div>
+            )}
+          </Box>
+          {alert.type.length > 0 ? (
               <CustomizedNotification
               severity={alert.type}
               message={alert.mesg}
               handleAlertClose={handleAlertClose}
             />
             ) : null}
-                
-                <Button
-                  variant="contained"
-                  sx={{ margin: 0.5 }}
-                  onClick={handleApprove}
-                >
-                  Approve
-                </Button>
             {alert.type.length > 0 ? (
               <CustomizedNotification
               severity={alert.type}
@@ -378,11 +385,6 @@ export default function ViewHistory(props) {
               handleAlertClose={handleAlertClose}
             />
             ) : null}
-              </div>
-
-              
-            )}
-          </Box>
         </React.Fragment>
       </div>
     </Box>
