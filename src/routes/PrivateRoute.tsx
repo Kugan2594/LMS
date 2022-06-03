@@ -27,6 +27,7 @@ import { element } from "prop-types";
 
 import ManageLieuRequest from "src/contents/Master/LieuRequest/ManageLieuRequest";
 import ManageNotification from "src/contents/Master/Notification/ManageNotification";
+import UserVerification from "src/contents/login/UserVerification";
 const Loader = (Component: any) => (props: any) =>
     (
         <Suspense fallback={<SuspenseLoader />}>
@@ -47,7 +48,12 @@ const PrivateRoute: PartialRouteObject[] = [
                 path: "/profile",
                 element: <Profile />,
             },
+            
         ]
+    },
+    {
+        path: "/verification",
+        element: <UserVerification />,
     },
     {
         path: "master",
