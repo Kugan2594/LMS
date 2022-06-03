@@ -8,8 +8,11 @@ import CustomizedNotification from "src/util/CustomizedNotification";
 import { passwordRegex } from "src/util/ValidationMeassage";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
+import { useNavigate } from "react-router-dom";
+
 
 function ProfileScreen() {
+  let navigate = useNavigate();
   const handleError = (res) => {
     setalert({
       type: NOTIFICATION_TYPE.error,
@@ -26,6 +29,14 @@ function ProfileScreen() {
     mesg: "",
   });
   const [open, setOpen] = useState(false);
+  const logOut = () => {
+    setTimeout(() => {
+        navigate("/");
+    }, 200);
+};
+const goDashBoard = (): void => {
+  navigate("/master");
+};
 
   const onFinish = (values) => {
     let data = {
@@ -150,7 +161,7 @@ function ProfileScreen() {
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" onClick={logOut}>
               Update
             </Button>
           </Form.Item>
