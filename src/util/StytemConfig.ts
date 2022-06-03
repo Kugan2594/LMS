@@ -1,13 +1,14 @@
 const BASE_URL: string = "localhost";
 const LM_WEB_PORT: number = 1309;
 const WEB_SOCKET_PORT: number = 2109;
+const OAUTH_PORT: number = 2803
 
 const LM_WEB_BASE_URL = `http://${BASE_URL}:${LM_WEB_PORT}/leave-management/api/v1`;
-const LM_LOGIN_BASE_URL = `http://${BASE_URL}:${LM_WEB_PORT}`;
+const LM_LOGIN_BASE_URL = `http://${BASE_URL}:${OAUTH_PORT}/leave-management`;
 const EMAIL_VERIFICATION_LINK = `${window.location.origin}`;
 const WEB_SOCKET_URL = `http://${BASE_URL}:${WEB_SOCKET_PORT}/ws`;
 const oauthClient = {
-    username: "client",
+    username: "client1",
     password: "123",
 };
 
