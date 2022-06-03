@@ -20,6 +20,7 @@ import ManageBusinessUnit from "src/contents/Master/BusinessUnit/ManageBusinessU
 import ManageCompanyLocation from "src/contents/Master/CompanyLocation/ManageCompanyLocation";
 import ManageEmployementType from "src/contents/Master/EmployementType/ManageEmployementType";
 import UserPrivilege from "src/contents/Master/PrivilegeComponent/UserPrivilege";
+import Profile from "src/contents/profile/Profile";
 
 import { element } from "prop-types";
 
@@ -47,6 +48,16 @@ const PrivateRoute: PartialRouteObject[] = [
     {
         path: "/reset-password",
         element: <ResetPassword />,
+    },
+    {
+        path: "profile",
+        element: <SidebarLayout />,
+        children: [
+            {
+                path: "/profile",
+                element: <Profile />,
+            },
+        ],
     },
     {
         path: "master",
@@ -121,6 +132,7 @@ const PrivateRoute: PartialRouteObject[] = [
                 path: "/notifications",
                 element: <ManageNotification />,
             },
+
             { path: "/userPrivilege", element: <UserPrivilege /> },
         ],
     },
