@@ -57,7 +57,7 @@ let initialFValues: IEmployee = {
   designationId: 0,
   employmentTypeId: "",
   businessUnitId: "",
-  roleId:0,
+  roleId: 0,
 };
 const genderType = [
   {
@@ -68,7 +68,6 @@ const genderType = [
     id: "MALE",
     title: "MALE",
   },
-
 ];
 const nationalityType = [
   {
@@ -172,7 +171,6 @@ function AddEmployee(props) {
   const [employementTypeData, setemployementTypeData] = useState([]);
   const [businessUnitData, setbusinessUnitData] = useState([]);
   const [roleData, setroleData] = useState([]);
-
 
   const validate = (fieldValues = values) => {
     let temp: IEmployee = { ...errors };
@@ -303,7 +301,6 @@ function AddEmployee(props) {
       return Object.values(temp).every((x) => x === "");
   };
 
-
   const {
     values,
     setValues,
@@ -342,7 +339,7 @@ function AddEmployee(props) {
           designationId: values.designationId,
           employmentTypeId: values.employmentTypeId,
           businessUnitId: values.businessUnitId,
-          roleId:values.roleId,
+          roleId: values.roleId,
         };
         console.log(data);
         createEmployee(data).then(
@@ -387,8 +384,7 @@ function AddEmployee(props) {
           businessUnitId: values.businessUnitId,
           dateOfPermanency: values.dateOfPermanency,
           approverStatus: values.approverStatus,
-          roleId:values.roleId,
-
+          roleId: values.roleId,
         };
 
         updateEmployee(data).then(
@@ -520,7 +516,11 @@ function AddEmployee(props) {
   return (
     <div>
       <Box sx={{ width: "100%", justifyContent: "center" }}>
-        <Stepper sx={{background:"none",padding:0}} activeStep={activeStep - 1} alternativeLabel>
+        <Stepper
+          sx={{ background: "none", padding: 0 }}
+          activeStep={activeStep - 1}
+          alternativeLabel
+        >
           {steps.map((label, index) => {
             const stepProps: { completed?: boolean } = {};
             const labelProps: {
@@ -681,7 +681,14 @@ function AddEmployee(props) {
                   </Grid>
                 </Grid>
 
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 ,paddingTop:0}}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    pt: 2,
+                    paddingTop: 0,
+                  }}
+                >
                   <Box sx={{ flex: "auto 1 1 1" }} />
                   <Button
                     size="small"
@@ -737,7 +744,6 @@ function AddEmployee(props) {
                       error={errors.dateOfPermanency}
                     />
                   </Grid>
-
                   <Grid item xs={4}>
                     <AutocompleteSelect
                       name="designationId"
@@ -787,15 +793,14 @@ function AddEmployee(props) {
                     <AutocompleteSelect
                       name="roleId"
                       label="Role*"
-                      value={
-                        values.roleId ? values.roleId : ""
-                      }
+                      value={values.roleId ? values.businessUnitId : ""}
                       onChange={handleInputChange}
                       onValueChange={onValueChange}
                       options={roleData}
                       error={errors.roleId}
                     />
-                  </Grid>                  <Grid item xs={4}></Grid>
+                  </Grid>{" "}
+                  <Grid item xs={4}></Grid>
                   <Grid item xs={4}>
                     <Checkbox
                       name="approverStatus"
