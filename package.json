@@ -16,12 +16,14 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.1",
     "@types/lodash": "^4.14.182",
-    "@types/node": "^16.11.35",
     "@types/nprogress": "^0.2.0",
     "@types/react-custom-scrollbars": "^4.0.10",
     "@types/react-router-dom": "5.3.0",
+    "antd": "^4.20.7",
     "axios": "^0.27.2",
+    "buffer": "^6.0.3",
     "date-fns": "^2.28.0",
+    "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.3",
     "nprogress": "^0.2.0",
@@ -62,6 +64,7 @@
     ]
   },
   "devDependencies": {
+    "@types/node": "^17.0.38",
     "sass": "^1.52.1"
   }
 }

@@ -35,7 +35,9 @@ function createData(data) {
             leaveDays: post.leaveRequest.leaveDays,
             fromDate: moment(post.leaveRequest.fromDate).format("YYYY-MM-DD"),
             toDate: moment(post.leaveRequest.toDate).format("YYYY-MM-DD"),
-            requestedDate: moment(post.leaveRequest.requestedDate).format("YYYY-MM-DD"),
+            requestedDate: moment(post.leaveRequest.requestedDate).format(
+                "YYYY-MM-DD"
+            ),
             status: post.status.status,
             leaveType: post.leaveRequest.employeeLeaveType.leaveType.type,
             reason: post.leaveRequest.reason,
@@ -87,13 +89,14 @@ function EHistory(props) {
     ) => {
         getAllEmployeeLeaveHistory(pageNumber, pageSize, employeeId).then(
             (res: any) => {
-                let data: [] = createData(res.results.leaveHistory);
+                let data: {id:Number,status:String,approverName:String,date:String,reason:String,fromDate:String,toDate:String,leaveDays:Number,
+                    requestedDate:String,leaveType:String,lastName:String,firstName:String,leaveRequestId:Number}[] = createData(res.results.leaveHistory);
                 setpagination({
                     pageNumber: res.pagination.pageNumber,
                     pageSize: res.pagination.pageSize,
                     total: res.pagination.totalRecords,
                 });
-                setdataSource(data);
+                setdataSource(data.filter((request) => request.status == "APPROVED" || request.status == "REJECTED").map((filtered) => filtered));
             }
         );
     };
@@ -168,10 +171,15 @@ function EHistory(props) {
             id: "status",
             label: "Status",
             minWidth: 0,
-            render: (value: any) => (
-               value.status == "APPROVED" ? <Chip label="APPROVED" color="success" size="small" /> : value.status == "REJECTED" ? <Chip label="REJECTED" color="error" size="small" /> : <Chip label="PENDING" color="warning" size="small" />
-            )
-          },
+            render: (value: any) =>
+                value.status == "APPROVED" ? (
+                    <Chip label="APPROVED" color="success" size="small" />
+                ) : value.status == "REJECTED" ? (
+                    <Chip label="REJECTED" color="error" size="small" />
+                ) : (
+                    <Chip label="PENDING" color="warning" size="small" />
+                ),
+        },
         {
             id: "details",
             label: "",
@@ -194,35 +202,43 @@ function EHistory(props) {
 
     return (
         <div>
-            { props.isTitle && <div><PageTitleWrapper>
-                <PageTitle
-                    heading="History"
-                    name=""
-                    subHeading="Master/History"
-                    isButton={false}
-                />
-            </PageTitleWrapper>
-            <Divider /></div>}
+            {props.isTitle && (
+                <div>
+                    <PageTitleWrapper>
+                        <PageTitle
+                            heading="History"
+                            name=""
+                            subHeading="Master/History"
+                            isButton={false}
+                        />
+                    </PageTitleWrapper>
+                    <Divider />
+                </div>
+            )}
             <br />
 
             <Container maxWidth="lg">
                 <Card>
-                <Typography variant="h6" margin="10px 0 0 20px" color="#1a8cff">
-            My Approvals
-          </Typography>
-                <CardContent>
-                    <Grid container>
-                    <Grid item xs={4}>
-                        <AutocompleteSelect
-                            name="employee"
-                            label="Employee Name"
-                            value={employeeId}
-                            onValueChange={onValueChange}
-                            options={employee}
-                        />
-                    </Grid>
-                    </Grid>
-                    
+                    <Typography
+                        variant="h6"
+                        margin="10px 0 0 20px"
+                        color="#1a8cff"
+                    >
+                        Leave History
+                    </Typography>
+                    <CardContent>
+                        <Grid container>
+                            <Grid item xs={4}>
+                                <AutocompleteSelect
+                                    name="employee"
+                                    label="Employee Name"
+                                    value={employeeId}
+                                    onValueChange={onValueChange}
+                                    options={employee}
+                                />
+                            </Grid>
+                        </Grid>
+
                         <Tables
                             columns={columns}
                             tableData={dataSource}

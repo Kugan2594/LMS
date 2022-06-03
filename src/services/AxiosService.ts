@@ -1,5 +1,4 @@
-// import { getToken } from 'src/content/Login/LoginAuthentication';
-// import { SYSTEM_CONFIG } from 'src/utils/StytemConfig';
+import { getToken } from 'src/contents/login/LoginAuthentication';
 
 import { SYSTEM_CONFIG } from "../util/StytemConfig";
 
@@ -21,7 +20,7 @@ const getHeaders = (token: string, adHeaders: object) => {
                 "Access-Control-Allow-Origin": "*",
                 Accept: "application/json",
                 "Content-Type": "application/json",
-                // Authorization: `Bearer ${getToken()}`,
+                Authorization: `Bearer ${getToken()}`,
                 ...adHeaders,
             },
         };

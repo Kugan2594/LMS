@@ -28,7 +28,7 @@ export default function ViewHistory(props) {
 
   const [dataSource, setdataSource] = useState([]);
 
-  const steps = dataSource.sort((a,b) => a.id - b.id);
+  const steps = dataSource;
 
   const [leaveRequestId, setleaveRequestId] = useState("");
 
@@ -42,8 +42,10 @@ export default function ViewHistory(props) {
 
   const getLeaveApproverStatusData = (leaveRequestId) => {
     getLeaveApproverStatus(details.leaveRequestId).then((res: any) => {
-      const value: {status:String,id:Number,approverName:String,date:String}[] = createData(res.results.ApproverStatus);
-        setdataSource(value);
+      const value: {status:String,id:number,approverName:String,date:String}[] = createData(res.results.ApproverStatus);
+        setdataSource(value.sort((a,b) => a.id - b.id));
+
+        console.log("Value...." , value);
 
     const approvalStatusOriginal:String[] = value.filter((requestStatus) =>requestStatus.status != "PENDING" && requestStatus.status != "NEW")
     .map((approverStatus) => approverStatus.status);
@@ -56,6 +58,8 @@ export default function ViewHistory(props) {
     });
 };
 
+
+
   const handleNext = () => {
     const newActiveStep = approved.length;
     setActiveStep(newActiveStep);
@@ -63,15 +67,14 @@ export default function ViewHistory(props) {
 
   const handleApprove = () => {
     const newApproved = approved;
-    newApproved[activeStep] = "APPROVED";
-    setApproved(newApproved);
     console.log({details})
+    // setApproved([...approved, "APPROVED"]);
     handleNext();
     let data: object = {
       id: dataSource[approved.length].id,
       statusId: 2,
     };
-    console.log("STEPS" + dataSource[approved.length].id);
+    console.log("STEPS...." + dataSource[approved.length].id);
     
     updateApproverStatus(data).then(
       (res: any) => {
@@ -106,16 +109,17 @@ export default function ViewHistory(props) {
 
   const reloadTable = (res) => {
     setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
+    getLeaveApproverStatusData(leaveRequestId);
   };
 
-  const handleReject = (steps) => {
-    setRejected([...approved, "REJECTED"]);
+  const handleReject = () => {
+    // setRejected([...approved, "REJECTED"]);
 
     let data: object = {
       id: dataSource[approved.length].id,
       statusId: 3,
     };
-    console.log("STEPS" + dataSource[approved.length].id);
+    console.log("STEPS...." + dataSource[approved.length].id);
     
     updateApproverStatus(data).then(
       (res: any) => {
@@ -141,10 +145,10 @@ export default function ViewHistory(props) {
     );
   }
 
-  const [value, setValue] = React.useState("");
+  const [comment, setComment] = React.useState("");
 
   const handleChange = (event) => {
-    setValue(event.target.value);
+    setComment(event.target.value);
   };
 
   useEffect(() => {
@@ -152,9 +156,13 @@ export default function ViewHistory(props) {
     console.log("setleaveTYpeId",setleaveTYpeId);
   }, []);
 
-  console.log("8888888888",dataSource);
+  console.log("DataSource...." , dataSource);
+  console.log("Steps...." , steps);
   console.log("Approved.... " , approved);
   console.log("Rejected.... " , rejected);
+  
+  
+
 
   return (
     <Box sx={{ width: "600px" }}>
@@ -186,21 +194,6 @@ export default function ViewHistory(props) {
         <Grid container>
           <Grid item xs={4}></Grid>
           <Box>
-            {props.isEmployeeDetail && (
-              <div>
-                <Typography variant="h6" color="textSecondary" display="inline">
-                  Employee ID
-                </Typography>
-                <Typography
-                  variant="h6"
-                  color="black"
-                  display="inline"
-                  marginLeft="35px"
-                >
-                  {details.employeeId}
-                </Typography>
-              </div>
-            )}
             {props.isEmployeeDetail && (
               <div>
                 <Typography variant="h6" color="textSecondary" display="inline">
@@ -335,7 +328,7 @@ export default function ViewHistory(props) {
               label="Comment"
               multiline
               maxRows={2}
-              value={value}
+              value={comment}
               onChange={handleChange}
             />
           </Box>
@@ -349,28 +342,49 @@ export default function ViewHistory(props) {
             </Button>
             {props.isResponseButtons && (
               <div>
+                { (rejected.includes("REJECTED") || rejected.length == steps.length) ? 
                 <Button
-                  variant="outlined"
-                  sx={{ margin: 0.5 }}
-                  onClick={() => handleReject(steps)}
-                >
-                  Reject
-                </Button>
-                {alert.type.length > 0 ? (
+                variant="outlined"
+                sx={{ margin: 0.5 }}
+                onClick={handleReject}
+                disabled
+              >
+                Reject
+              </Button> :
+              <Button
+              variant="outlined"
+              sx={{ margin: 0.5 }}
+              onClick={handleReject}
+            >
+              Reject
+            </Button>}
+                
+                { (rejected.includes("REJECTED") || rejected.length == steps.length)  ? 
+                <Button
+                variant="contained"
+                sx={{ margin: 0.5 }}
+                onClick={handleApprove}
+                disabled
+              >
+                Approve
+              </Button> : 
+              <Button
+              variant="contained"
+              sx={{ margin: 0.5 }}
+              onClick={handleApprove}
+            >
+              Approve
+            </Button>}
+              </div>
+            )}
+          </Box>
+          {alert.type.length > 0 ? (
               <CustomizedNotification
               severity={alert.type}
               message={alert.mesg}
               handleAlertClose={handleAlertClose}
             />
             ) : null}
-                
-                <Button
-                  variant="contained"
-                  sx={{ margin: 0.5 }}
-                  onClick={handleApprove}
-                >
-                  Approve
-                </Button>
             {alert.type.length > 0 ? (
               <CustomizedNotification
               severity={alert.type}
@@ -378,11 +392,6 @@ export default function ViewHistory(props) {
               handleAlertClose={handleAlertClose}
             />
             ) : null}
-              </div>
-
-              
-            )}
-          </Box>
         </React.Fragment>
       </div>
     </Box>

@@ -108,6 +108,7 @@ function Task(props) {
   const handleClose = () => {
     setOpen(false);
     setOpenDetails(false);
+    reloadTable();
   };
 
   const onChangePage = (pageNumber, pageSize) => { };
@@ -137,12 +138,15 @@ function Task(props) {
 
   const getAllLeaveRequestHistoryData = () => {
     getLeaveApproverStatusHistory().then((res: any) => {
-      let value: [] = createData(res.results.leaveHistory);
-      setdataSource(value);
-
-
+      let value: {id:Number,status:String,approverName:String,date:String,reason:String,fromDate:String,toDate:String,leaveDays:Number,
+        requestedDate:String,leaveType:String,lastName:String,firstName:String,leaveRequestId:Number}[] = createData(res.results.leaveHistory);
+      setdataSource(value.filter((request) => request.status == "PENDING" || request.status == "NEW").map((filtered) => filtered));
     });
   };
+
+  const reloadTable = () => {
+    getAllLeaveRequestHistoryData();
+  }
 
 
   const columns: Column[] = [
