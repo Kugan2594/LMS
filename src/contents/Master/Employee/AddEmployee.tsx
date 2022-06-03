@@ -66,10 +66,7 @@ const genderType = [
     id: "MALE",
     title: "MALE",
   },
-  {
-    id: "OTHER",
-    title: "OTHER",
-  },
+
 ];
 const nationalityType = [
   {
