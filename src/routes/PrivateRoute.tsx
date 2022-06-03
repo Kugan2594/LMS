@@ -26,6 +26,7 @@ import { element } from "prop-types";
 
 import ManageLieuRequest from "src/contents/Master/LieuRequest/ManageLieuRequest";
 import ManageNotification from "src/contents/Master/Notification/ManageNotification";
+import UserVerification from "src/contents/login/UserVerification";
 import ManageRoles from "src/contents/Master/Roles/ManageRoles";
 const Loader = (Component: any) => (props: any) =>
   (
@@ -48,6 +49,10 @@ const PrivateRoute: PartialRouteObject[] = [
         element: <Profile />,
       },
     ],
+  },
+  {
+    path: "/verification",
+    element: <UserVerification />,
   },
   {
     path: "master",
@@ -122,9 +127,9 @@ const PrivateRoute: PartialRouteObject[] = [
         path: "/notifications",
         element: <ManageNotification />,
       },
-      {
-        path: "/userPrivilege",
-        element: <UserPrivilege />,
+      { 
+        path: "/userPrivilege", 
+        element: <UserPrivilege /> 
       },
       {
         path: "/roles",
