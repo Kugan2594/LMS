@@ -10,6 +10,7 @@ import { TableAction } from "src/components/atoms/Tables/TableAction";
 import { deleteEmployee, getAllEmployee } from "./ServiceEmployee";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from "src/util/CustomizedNotification";
+import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
 function createData(data) {
   let convertData = data.map((post, index) => {
     return {
@@ -63,6 +64,16 @@ function ManageEmployee() {
   const [dataSource, setdataSource] = useState([]);
   const [action, setaction] = useState("add");
   const [editData, seteditData] = useState({});
+
+  const Employee = getPermissionStatus("Designation");
+    console.log("Employee", Employee);
+    const SubEmployee = getSubordinatePrivileges(Employee, "Employee");
+    // console.log(" Designation ", Designation )
+    // console.log("Data", Designation.subordinatePrivileges)
+    //    console.log("  Designation 123", SubDesignation)
+    console.log("Employee.status", sampleFuc(SubEmployee));
+    // console.log("ADD Designation status", sampleFuc(SubEmployee).EMCR);
+
   const handleClickOpen = () => {
     setaction("add");
     setOpen(true);

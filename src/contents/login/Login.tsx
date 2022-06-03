@@ -34,6 +34,7 @@ import {
     setUserRolePermission
 } from './LoginAuthentication';
 import "./loginPage.scss";
+import PermissionComponent from "src/components/PermissionComponent";
 
 const theme = createTheme();
 
@@ -272,6 +273,8 @@ export default function Login() {
                                             {passwordError}
                                         </div>
                                     )}
+
+                                    <PermissionComponent permission='CRUS'>
                                     <LoadingButton
                                         type="submit"
                                         fullWidth
@@ -282,6 +285,7 @@ export default function Login() {
                                     >
                                         Sign In
                                     </LoadingButton>
+                                    </PermissionComponent>
                                     <Grid container>
                                         <Grid item xs>
                                             <Link href="#" variant="body2">
