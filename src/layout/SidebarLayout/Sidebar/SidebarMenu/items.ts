@@ -72,6 +72,11 @@ const masterMenuItems: MenuItem[] = [
         link: "/master/companyLocation",
         items: [
             {
+                name: "Roles",
+                icon: BusinessCenterRoundedIcon,
+                link: "/master/roles",
+            },
+            {
                 name: "Designations",
                 icon: BusinessCenterRoundedIcon,
                 link: "/master/designations",
