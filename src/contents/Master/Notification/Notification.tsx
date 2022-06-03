@@ -5,9 +5,13 @@ import { PageTitleWrapper } from "src/components/organism";
 import INotification from "./InterfaceNotification";
 
 function Notification(props) {
+    const onClickHandler = () => {
+        props.onClickHandler(() => {});
+    };
     return (
         <div>
             <Card
+                onClick={props.onClickHandler}
                 sx={{
                     width: 400,
                     margin: 0.5,
