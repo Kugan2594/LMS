@@ -23,6 +23,7 @@ interface IEmployee {
   designationId?: string | number;
   employmentTypeId?: string | number;
   businessUnitId?: string | number;
+  roleId?: string | number;
 }
 
 export type { IEmployee };

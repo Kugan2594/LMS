@@ -9,12 +9,20 @@ const Loader = (Component: any) => (props: any) =>
       <Component {...props} />
     </Suspense>
   );
+  const UserVerification = Loader(
+    lazy(() => import('src/contents/login/UserVerification'))
+  );
 
 const PublicRoute: PartialRouteObject[] = [
   {
     path: "/",
     element: <Login />,
   },
+  {
+    path: `user-verification/:token`,
+    element: <UserVerification />
+  }
+
 ];
 
 export default PublicRoute;

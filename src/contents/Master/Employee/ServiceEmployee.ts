@@ -133,5 +133,25 @@ const getAllEmployementTypeForDropDown = () => {
     });
 };
 
+const getAllRoleForDropDown = () => {
+    return new Promise((resolve, reject) => {
+        api(
+            "get",
+            "lm-web",
+            null,
+            `/role`,
+            "",
+            "",
+            ""
+        )
+            .then((response: any) => {
+                resolve(response.data);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
 
-export { deleteEmployee, getAllEmployee, createEmployee, updateEmployee, getAllDesignationForDropDown, getAllCompanyLocationForDropDown, getAllBusinessUnitForDropDown, getAllEmployementTypeForDropDown };
+
+export { deleteEmployee, getAllEmployee, createEmployee, updateEmployee, getAllDesignationForDropDown, getAllCompanyLocationForDropDown, getAllBusinessUnitForDropDown, getAllEmployementTypeForDropDown,getAllRoleForDropDown };

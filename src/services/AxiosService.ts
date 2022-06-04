@@ -52,7 +52,7 @@ export default function api(
             ? SYSTEM_CONFIG.oauthUrl
             : SYSTEM_CONFIG.loginBaseUrl;
     let customURL = addParamsToURL(baseURL + endPoint, params);
-    let headers = getHeaders("", header === null ? {} : header);
+    let headers = getHeaders(token, header === null ? {} : header);
 
     return new Promise((resolve, reject) => {
         axios({

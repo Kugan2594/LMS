@@ -36,14 +36,16 @@ function ManageNotification(props: INotification) {
     return (
         <div>
             {" "}
-            <PageTitleWrapper>
-                <PageTitle
-                    heading="Notifications"
-                    subHeading="Master/LeaveRequest"
-                    isButton={false}
-                />
-            </PageTitleWrapper>
-            <Divider />
+            {props.isTitle && (
+                <PageTitleWrapper>
+                    <PageTitle
+                        heading="Notifications"
+                        subHeading="Master/notifications"
+                        isButton={false}
+                    />
+                </PageTitleWrapper>
+            )}
+            {props.isDivider && <Divider />}
             <Grid container>
                 <Grid item xs={1}></Grid>
                 <Grid item xs={10}>

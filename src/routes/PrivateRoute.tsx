@@ -29,6 +29,8 @@ import ManageNotification from "src/contents/Master/Notification/ManageNotificat
 import ForgotPassword from "src/contents/login/ForgotPassword";
 import ResetPassword from "src/contents/login/ResetPassword";
 
+import UserVerification from "src/contents/login/UserVerification";
+import ManageRoles from "src/contents/Master/Roles/ManageRoles";
 const Loader = (Component: any) => (props: any) =>
     (
         <Suspense fallback={<SuspenseLoader />}>
@@ -42,14 +44,6 @@ const PrivateRoute: PartialRouteObject[] = [
         element: <Login />,
     },
     {
-        path: "/forgot-password",
-        element: <ForgotPassword />,
-    },
-    {
-        path: "/reset-password",
-        element: <ResetPassword />,
-    },
-    {
         path: "profile",
         element: <SidebarLayout />,
         children: [
@@ -60,80 +54,119 @@ const PrivateRoute: PartialRouteObject[] = [
         ],
     },
     {
+        path: "/verification",
+        element: <UserVerification />,
+    },
+    {
         path: "master",
         element: <SidebarLayout />,
         children: [
             {
                 path: "/",
-                element: <Dashboard />,
+                element: <Login />,
             },
             {
-                path: "/employee",
-                element: <ManageEmployee />,
+                path: "/forgot-password",
+                element: <ForgotPassword />,
             },
+            {
+                path: "/reset-password",
+                element: <ResetPassword />,
+            },
+            {
+                path: "profile",
+                element: <SidebarLayout />,
+                children: [
+                    {
+                        path: "/profile",
+                        element: <Profile />,
+                    },
+                ],
+            },
+            {
+                path: "master",
+                element: <SidebarLayout />,
+                children: [
+                    {
+                        path: "/",
+                        element: <Dashboard />,
+                    },
+                    {
+                        path: "/employee",
+                        element: <ManageEmployee />,
+                    },
 
-            {
-                path: "/leaveRequest",
-                element: <LeaveRequest />,
-            },
-            {
-                path: "/In-Progress",
-                element: <InProgress />,
-            },
-            {
-                path: "/leavetype",
-                element: <ManageLeaveType />,
-            },
-            {
-                path: "/e-history",
-                element: <EHistory />,
-            },
-            {
-                path: "/history",
-                element: <ManageHistory />,
-            },
-            {
-                path: "/allocateday",
-                element: <ManageAllocateDay />,
-            },
-            {
-                path: "/companyLocation",
-                element: <ManageCompanyLocation />,
-            },
-            {
-                path: "/tasks",
-                element: <Task />,
-            },
-            {
-                path: "/designations",
-                element: <ManageDesignations />,
-            },
-            {
-                path: "/approver",
-                element: <ManageEmployeeApprover />,
-            },
-            {
-                path: "/lieurequest",
-                element: <ManageLieuRequest />,
-            },
-            {
-                path: "/businessUnit",
-                element: <ManageBusinessUnit />,
-            },
-            {
-                path: "/holidays",
-                element: <ManageHolidays />,
-            },
-            {
-                path: "/employementType",
-                element: <ManageEmployementType />,
-            },
-            {
-                path: "/notifications",
-                element: <ManageNotification />,
-            },
+                    {
+                        path: "/leaveRequest",
+                        element: <LeaveRequest />,
+                    },
+                    {
+                        path: "/In-Progress",
+                        element: <InProgress />,
+                    },
+                    {
+                        path: "/leavetype",
+                        element: <ManageLeaveType />,
+                    },
+                    {
+                        path: "/e-history",
+                        element: <EHistory />,
+                    },
+                    {
+                        path: "/history",
+                        element: <ManageHistory />,
+                    },
+                    {
+                        path: "/allocateday",
+                        element: <ManageAllocateDay />,
+                    },
+                    {
+                        path: "/companyLocation",
+                        element: <ManageCompanyLocation />,
+                    },
+                    {
+                        path: "/tasks",
+                        element: <Task />,
+                    },
+                    {
+                        path: "/designations",
+                        element: <ManageDesignations />,
+                    },
+                    {
+                        path: "/approver",
+                        element: <ManageEmployeeApprover />,
+                    },
+                    {
+                        path: "/lieurequest",
+                        element: <ManageLieuRequest />,
+                    },
+                    {
+                        path: "/businessUnit",
+                        element: <ManageBusinessUnit />,
+                    },
+                    {
+                        path: "/holidays",
+                        element: <ManageHolidays />,
+                    },
+                    {
+                        path: "/employementType",
+                        element: <ManageEmployementType />,
+                    },
+                    {
+                        path: "/notifications",
+                        element: <ManageNotification />,
+                    },
 
-            { path: "/userPrivilege", element: <UserPrivilege /> },
+                    {
+                        path: "/userPrivilege",
+                        element: <UserPrivilege />,
+                    },
+                    {
+                        path: "/roles",
+                        element: <ManageRoles />,
+                    },
+                ],
+            },
         ],
     },
 ];

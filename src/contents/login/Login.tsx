@@ -84,7 +84,7 @@ export default function Login() {
                     setTimeout(() => {
                         setloading(false);
                         navigate("master");
-                        window.location.reload();
+                        // window.location.reload();
                     }, 300);
                 }
             );
