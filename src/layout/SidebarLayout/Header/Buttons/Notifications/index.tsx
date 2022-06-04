@@ -22,10 +22,12 @@ export default function HeaderNotifications() {
     vertical: 'top',
     horizontal: 'center'
   });
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(0);
   const [notifications, setNotifications] = useState([]);
   useEffect(() => {
-    getNotifications(getUserDetails().user_id);
+    getNotifications(page,rowsPerPage);
     WebSocketClient(`/user/${getUserDetails().user_name}/queue/message`);
   }, []);
 
@@ -42,8 +44,8 @@ export default function HeaderNotifications() {
       }
     }
   };
-  const getNotifications = (noti) => {
-    getAllNotification(noti).then((res: any) => {
+  const getNotifications = (page, rowsPerPage) => {
+    getAllNotification(page, rowsPerPage).then((res: any) => {
       let respones = res.result.notification;
       let cou = [];
       let convertdata = respones.map((post, index) => {
