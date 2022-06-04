@@ -11,6 +11,7 @@ import { getAllLeaveType, deleteLeaveType, getGeneralSettingByLeaveType, getAllG
 import { TableAction } from "src/components/atoms/Tables/TableAction";
 import AddLeaveType from "./AddLeaveType";
 import CustomizedNotification from 'src/util/CustomizedNotification';
+import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
 
 function createData(data) {
 
@@ -100,6 +101,13 @@ function ManageLeaveType() {
     mesg: "",
   });
 
+  const LeaveType = getPermissionStatus("LeaveType");
+  console.log("LeaveType", LeaveType);
+  const SubLeaveType = getSubordinatePrivileges(LeaveType, "LeaveType");
+  console.log("LeaveType.status", sampleFuc(SubLeaveType));
+  console.log("ADD LeaveType status", sampleFuc(SubLeaveType).CRLT);
+
+
   const onChangePage = (pageNumber, pageSize) => {
     if (pagination.pageSize !== pageSize) {
       getAllLeaveTypeData(0, pageSize);
@@ -176,22 +184,24 @@ function ManageLeaveType() {
       minWidth: 100,
       fixed: "right",
       align: "center",
-      render: (value: any) => (
-        <TableAction rowData={value} deleteOnclick={deleteOnclick} editOnclick={editOnclick} />
-      ),
+      render: (value: any) => sampleFuc(SubLeaveType).UPLT &&
+                              sampleFuc(SubLeaveType).DELT &&
+        <TableAction rowData={value} 
+        deleteOnclick={deleteOnclick} 
+        editOnclick={editOnclick} />
     },
   ];
 
   return (
     <div>
+      sampleFuc(SubLeaveType).CRLT &&
       <PageTitleWrapper>
-        <PageTitle
+        <PageTitle 
           heading="Leave Type"
           subHeading="Master/LeaveType"
           name="Add LeaveType"
           isButton={true}
           onclickButton={handleClickOpen}
-
         />
       </PageTitleWrapper>
       <Divider />

@@ -11,6 +11,7 @@ import { getAllHoliday, deleteHoliday } from "./ServiceHolidays";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from "src/util/CustomizedNotification";
 import moment from "moment";
+import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
 
 function createData(data) {
   let convertData = data.map((post, index) => {
@@ -42,6 +43,13 @@ function ManageHolidays() {
     type: "",
     mesg: "",
   });
+
+  const Holiday = getPermissionStatus("Holidays");
+  console.log("Holidays", Holiday);
+  const SubHolidays = getSubordinatePrivileges(Holiday, "Holiday");
+  console.log(" Holidays .status", sampleFuc(SubHolidays));
+  console.log("ADD Holidays status", sampleFuc(SubHolidays).CRHL);
+
   const onTableSearch = (values, sortField) => {};
 
   useEffect(() => {
@@ -135,18 +143,21 @@ function ManageHolidays() {
       fixed: "right",
       minWidth: 0,
       align: "center",
-      render: (value: any) => (
+      render: (value: any) => 
+          sampleFuc(SubHolidays).UPHL &&
+          sampleFuc(SubHolidays).DEHL &&
         <TableAction
           rowData={value}
           deleteOnclick={deleteOnclick}
           editOnclick={editOnclick}
         />
-      ),
+
     },
   ];
   return (
     <div>
       <PageTitleWrapper>
+      sampleFuc(SubHolidays).CRHL &&
         <PageTitle
           heading="Manage Holidays"
           subHeading="Master/ Holidays"
@@ -154,6 +165,7 @@ function ManageHolidays() {
           name="Add Holiday"
           onclickButton={handleClickOpen}
         />
+    
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Card>

@@ -19,6 +19,7 @@ import Tables from "src/components/atoms/Tables";
 import { Column } from "src/components/atoms/Tables/TableInterface";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
+import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
 import { getLeaveApproverStatus, getLeaveApproverStatusHistory } from "../History/serviceHistory";
 import ViewHistory from "../History/ViewHistory";
 import InProgress from "../LeaveRequest/InProgress";
@@ -84,6 +85,14 @@ function Task(props) {
     sortField: "id",
     direction: "DESC",
   });
+
+  const ManageTask = getPermissionStatus("ManageTask");
+  console.log("ManageTask", ManageTask);
+  const SubManageTask = getSubordinatePrivileges(ManageTask, "ManageTask");
+  console.log(" ManageTask .status", sampleFuc(SubManageTask));
+  console.log("ADD ManageTask status", sampleFuc(SubManageTask).CRMT);
+
+
   const [update, setUpdate] = useState(false);
   const handleUpdate = (value) => {
     setUpdate(true);
@@ -203,6 +212,8 @@ function Task(props) {
       label: "",
       minWidth: 40,
       render: (value: any) => (
+          sampleFuc(SubManageTask).UPMT &&
+          sampleFuc(SubManageTask).DEMT &&
         <Button
           variant="text"
           size="small"

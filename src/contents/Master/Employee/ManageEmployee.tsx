@@ -67,14 +67,11 @@ function ManageEmployee() {
   const [action, setaction] = useState("add");
   const [editData, seteditData] = useState({});
 
-  const Employee = getPermissionStatus("Designation");
+  const Employee = getPermissionStatus("Employee");
     console.log("Employee", Employee);
     const SubEmployee = getSubordinatePrivileges(Employee, "Employee");
-    // console.log(" Designation ", Designation )
-    // console.log("Data", Designation.subordinatePrivileges)
-    //    console.log("  Designation 123", SubDesignation)
     console.log("Employee.status", sampleFuc(SubEmployee));
-    // console.log("ADD Designation status", sampleFuc(SubEmployee).EMCR);
+    console.log("ADD Employee status", sampleFuc(SubEmployee).CREM);
 
   const handleClickOpen = () => {
     setaction("add");
@@ -190,13 +187,13 @@ function ManageEmployee() {
       minWidth: 100,
       fixed: "right",
       align: "center",
-      render: (value: any) => (
+      render: (value: any) => 
+      sampleFuc(SubEmployee).UPEM && sampleFuc(SubEmployee).DEEM &&
         <TableAction
           rowData={value}
           deleteOnclick={deleteOnclick}
           editOnclick={editOnclick}
         />
-      ),
     },
   ];
 

@@ -14,6 +14,7 @@ import {
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from 'src/util/CustomizedNotification';
 import moment from "moment";
+import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
 function createData(data) {
     let convertData = data.map((post, index) => {
         return {
@@ -47,6 +48,13 @@ function ManageCompanyLocation() {
     mesg: "",
   });
   const onTableSearch = (values, sortField) => {};
+
+  const Location = getPermissionStatus("CompanyLocation");
+  console.log("CompanyLocation", Location);
+  const SubCompanyLocation = getSubordinatePrivileges(Location, "CompanyLocation");
+  console.log("CompanyLocation.status", sampleFuc(SubCompanyLocation));
+  console.log("ADD CompanyLocation status", sampleFuc(SubCompanyLocation).CRCL);
+
 
   useEffect(() => {
     getAllCompanyLocationData(pagination.pageNumber, pagination.pageSize);
@@ -94,13 +102,15 @@ function ManageCompanyLocation() {
       minWidth: 0,
       fixed: "right",
       align: "center",
-      render: (value: any) => (
+      render: (value: any) => 
+      sampleFuc(SubCompanyLocation).UPCL &&
+      sampleFuc(SubCompanyLocation).DECL &&
         <TableAction
           rowData={value}
           deleteOnclick={deleteOnclick}
           editOnclick={editOnclick}
         />
-      ),
+
     },
   ];
 
@@ -169,6 +179,7 @@ function ManageCompanyLocation() {
 
   return (
     <div>
+      sampleFuc(SubCompanyLocation).CRCL &&
       <PageTitleWrapper>
         <PageTitle
           heading="Company Location"

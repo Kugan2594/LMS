@@ -274,7 +274,6 @@ export default function Login() {
                                         </div>
                                     )}
 
-                                    <PermissionComponent permission='CRUS'>
                                     <LoadingButton
                                         type="submit"
                                         fullWidth
@@ -285,7 +284,7 @@ export default function Login() {
                                     >
                                         Sign In
                                     </LoadingButton>
-                                    </PermissionComponent>
+                
                                     <Grid container>
                                         <Grid item xs>
                                             <Link href="#" variant="body2">
