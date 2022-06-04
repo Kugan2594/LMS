@@ -26,7 +26,7 @@ export default function HeaderNotifications() {
   const [notifications, setNotifications] = useState([]);
   useEffect(() => {
     getNotifications(getUserDetails().user_id);
-    WebSocketClient(`/user/${getUserDetails().user_id}/queue/message`);
+    WebSocketClient(`/user/${getUserDetails().user_name}/queue/message`);
   }, []);
 
   const convertName = (name) => {
