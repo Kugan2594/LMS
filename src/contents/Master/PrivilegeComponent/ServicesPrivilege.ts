@@ -1,7 +1,8 @@
-import api from "../../services/AxiosService";
-export const addItemApi = (data) => {
+import api from "../../../services/AxiosService";
+
+export const getAllPrivilages = () => {
     return new Promise((resolve, reject) => {
-        api("POST", "oauth-web", null, `/email/${data}`, "token", "", "")
+        api("GET", "lm-web", null, "/rolePermission/sign-in", "", "", "")
             .then((response: any) => {
                 resolve(response.data);
             })
@@ -11,9 +12,9 @@ export const addItemApi = (data) => {
     });
 };
 
-export const resetPasswordApi = (data) => {
+export const addPrivilages = (data) => {
     return new Promise((resolve, reject) => {
-        api("PUT", "oauth-web", null, "/userpasswordReset", "token", data, "")
+        api("POST", "lm-web", null, "/role-permission", "", data, "")
             .then((response: any) => {
                 resolve(response.data);
             })

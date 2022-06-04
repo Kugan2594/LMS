@@ -18,6 +18,8 @@ import { IconButton, InputAdornment } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Animi } from "src/assets/login-main-bg.svg";
 import "./loginPage.scss";
+import { resetPasswordApi } from "./ServiceForgotPassword";
+import { useForm } from "src/components/atoms/Forms/useForm";
 
 const theme = createTheme();
 
@@ -46,17 +48,26 @@ export default function ResetPassword() {
         setPasswordError("");
     };
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const data = new FormData(e.currentTarget);
+        let token = data.get("token").toString();
+        let password = data.get("password").toString();
+        let value = {
+            token: token,
+            password: password,
+        };
+
         console.log({
-            password: data.get("password"),
+            token,
+            password,
         });
-        if (data.get("password") === "admin") {
-            setloading(true);
-            navigate("master");
+        if (data.get("password") === "") {
+            setPasswordError("Password can't be null!");
         } else {
-            setPasswordError("Wrong Password!");
+            resetPasswordApi(value);
+            setloading(true);
+            navigate("/");
         }
     };
 

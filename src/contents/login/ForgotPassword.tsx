@@ -46,10 +46,6 @@ export default function ForgotPassword() {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         let emailId = data.get("email").toString();
-        console.log({
-            email: data.get("email"),
-            password: data.get("password"),
-        });
         if (data.get("email") === "") {
             setEmailError("Email is required");
         } else if (
