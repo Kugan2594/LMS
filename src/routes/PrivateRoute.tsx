@@ -44,6 +44,14 @@ const PrivateRoute: PartialRouteObject[] = [
         element: <Login />,
     },
     {
+        path: "/forgot-password",
+        element: <ForgotPassword />,
+    },
+    {
+        path: "/reset-password",
+        element: <ResetPassword />,
+    },
+    {
         path: "profile",
         element: <SidebarLayout />,
         children: [
@@ -63,109 +71,81 @@ const PrivateRoute: PartialRouteObject[] = [
         children: [
             {
                 path: "/",
-                element: <Login />,
+                element: <Dashboard />,
             },
             {
-                path: "/forgot-password",
-                element: <ForgotPassword />,
+                path: "/employee",
+                element: <ManageEmployee />,
             },
-            {
-                path: "/reset-password",
-                element: <ResetPassword />,
-            },
-            {
-                path: "profile",
-                element: <SidebarLayout />,
-                children: [
-                    {
-                        path: "/profile",
-                        element: <Profile />,
-                    },
-                ],
-            },
-            {
-                path: "master",
-                element: <SidebarLayout />,
-                children: [
-                    {
-                        path: "/",
-                        element: <Dashboard />,
-                    },
-                    {
-                        path: "/employee",
-                        element: <ManageEmployee />,
-                    },
 
-                    {
-                        path: "/leaveRequest",
-                        element: <LeaveRequest />,
-                    },
-                    {
-                        path: "/In-Progress",
-                        element: <InProgress />,
-                    },
-                    {
-                        path: "/leavetype",
-                        element: <ManageLeaveType />,
-                    },
-                    {
-                        path: "/e-history",
-                        element: <EHistory />,
-                    },
-                    {
-                        path: "/history",
-                        element: <ManageHistory />,
-                    },
-                    {
-                        path: "/allocateday",
-                        element: <ManageAllocateDay />,
-                    },
-                    {
-                        path: "/companyLocation",
-                        element: <ManageCompanyLocation />,
-                    },
-                    {
-                        path: "/tasks",
-                        element: <Task />,
-                    },
-                    {
-                        path: "/designations",
-                        element: <ManageDesignations />,
-                    },
-                    {
-                        path: "/approver",
-                        element: <ManageEmployeeApprover />,
-                    },
-                    {
-                        path: "/lieurequest",
-                        element: <ManageLieuRequest />,
-                    },
-                    {
-                        path: "/businessUnit",
-                        element: <ManageBusinessUnit />,
-                    },
-                    {
-                        path: "/holidays",
-                        element: <ManageHolidays />,
-                    },
-                    {
-                        path: "/employementType",
-                        element: <ManageEmployementType />,
-                    },
-                    {
-                        path: "/notifications",
-                        element: <ManageNotification />,
-                    },
+            {
+                path: "/leaveRequest",
+                element: <LeaveRequest />,
+            },
+            {
+                path: "/In-Progress",
+                element: <InProgress />,
+            },
+            {
+                path: "/leavetype",
+                element: <ManageLeaveType />,
+            },
+            {
+                path: "/e-history",
+                element: <EHistory />,
+            },
+            {
+                path: "/history",
+                element: <ManageHistory />,
+            },
+            {
+                path: "/allocateday",
+                element: <ManageAllocateDay />,
+            },
+            {
+                path: "/companyLocation",
+                element: <ManageCompanyLocation />,
+            },
+            {
+                path: "/tasks",
+                element: <Task />,
+            },
+            {
+                path: "/designations",
+                element: <ManageDesignations />,
+            },
+            {
+                path: "/approver",
+                element: <ManageEmployeeApprover />,
+            },
+            {
+                path: "/lieurequest",
+                element: <ManageLieuRequest />,
+            },
+            {
+                path: "/businessUnit",
+                element: <ManageBusinessUnit />,
+            },
+            {
+                path: "/holidays",
+                element: <ManageHolidays />,
+            },
+            {
+                path: "/employementType",
+                element: <ManageEmployementType />,
+            },
+            {
+                path: "/notifications",
+                element: <ManageNotification />,
+            },
 
-                    {
-                        path: "/userPrivilege",
-                        element: <UserPrivilege />,
-                    },
-                    {
-                        path: "/roles",
-                        element: <ManageRoles />,
-                    },
-                ],
+            {
+                path: "/userPrivilege",
+                element: <UserPrivilege />,
+            },
+            {
+                path: "/roles",
+                element: <ManageRoles />,
             },
         ],
     },
