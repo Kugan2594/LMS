@@ -41,11 +41,11 @@ function ManageEmployeeApprover() {
     mesg: "",
 });
 
-  const EmployeeApprover = getPermissionStatus("EmployeeApprover");
-  console.log("EmployeeApprover", EmployeeApprover);
-  const SubEmployeeApprover = getSubordinatePrivileges(EmployeeApprover, "EmployeeApprover");
-  console.log("EmployeeApprover.status", sampleFuc(SubEmployeeApprover));
-  console.log("ADD EmployeeApprover status", sampleFuc(SubEmployeeApprover).CREA);
+  const Approvers = getPermissionStatus("Approvers");
+  console.log("Approvers", Approvers);
+  const SubApprovers = getSubordinatePrivileges(Approvers, "Approvers");
+  console.log("Approvers.status", sampleFuc(SubApprovers));
+  console.log("ADD Approvers status", sampleFuc(SubApprovers).CREA);
 
 
 
@@ -127,7 +127,7 @@ function ManageEmployeeApprover() {
   return (
     <div>
       <PageTitleWrapper>
-      sampleFuc(SubEmployeeApprover).CREA &&
+      {/* sampleFuc(SubEmployeeApprover).CREA && */}
         <PageTitle
           heading="Employee Approvers"
           name="Add Employee Approver"

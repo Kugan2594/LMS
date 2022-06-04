@@ -67,10 +67,10 @@ function ManageEmployee() {
   const [action, setaction] = useState("add");
   const [editData, seteditData] = useState({});
 
-  const Employee = getPermissionStatus("Employee");
-    console.log("Employee", Employee);
-    const SubEmployee = getSubordinatePrivileges(Employee, "Employee");
-    console.log("Employee.status", sampleFuc(SubEmployee));
+  const Employees = getPermissionStatus("Employees");
+    console.log("Employees", Employees);
+    const SubEmployee = getSubordinatePrivileges(Employees, "Employees");
+    console.log("Employees.status", sampleFuc(SubEmployee));
     console.log("ADD Employee status", sampleFuc(SubEmployee).CREM);
 
   const handleClickOpen = () => {
@@ -200,6 +200,7 @@ function ManageEmployee() {
   return (
     <div>
       <PageTitleWrapper>
+      {/* sampleFuc(SubCompanyLocation).CRCL && */}
         <PageTitle
           heading="Employee"
           name="Add Employee"

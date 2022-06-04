@@ -101,11 +101,11 @@ function ManageLeaveType() {
     mesg: "",
   });
 
-  const LeaveType = getPermissionStatus("LeaveType");
-  console.log("LeaveType", LeaveType);
-  const SubLeaveType = getSubordinatePrivileges(LeaveType, "LeaveType");
-  console.log("LeaveType.status", sampleFuc(SubLeaveType));
-  console.log("ADD LeaveType status", sampleFuc(SubLeaveType).CRLT);
+  const LeaveTypes = getPermissionStatus("LeaveTypes");
+  console.log("Leave Types", LeaveTypes);
+  const SubLeaveTypes = getSubordinatePrivileges(LeaveTypes, "LeaveTypes");
+  console.log("LeaveTypes.status", sampleFuc(SubLeaveTypes));
+  console.log("ADD LeaveTypes status", sampleFuc(SubLeaveTypes).CRLT);
 
 
   const onChangePage = (pageNumber, pageSize) => {
@@ -184,8 +184,8 @@ function ManageLeaveType() {
       minWidth: 100,
       fixed: "right",
       align: "center",
-      render: (value: any) => sampleFuc(SubLeaveType).UPLT &&
-                              sampleFuc(SubLeaveType).DELT &&
+      render: (value: any) => sampleFuc(SubLeaveTypes).UPLT &&
+                              sampleFuc(SubLeaveTypes).DELT &&
         <TableAction rowData={value} 
         deleteOnclick={deleteOnclick} 
         editOnclick={editOnclick} />
@@ -194,7 +194,7 @@ function ManageLeaveType() {
 
   return (
     <div>
-      sampleFuc(SubLeaveType).CRLT &&
+      {/* sampleFuc(SubLeaveType).CRLT && */}
       <PageTitleWrapper>
         <PageTitle 
           heading="Leave Type"

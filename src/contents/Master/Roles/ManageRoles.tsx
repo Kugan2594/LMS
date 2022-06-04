@@ -45,11 +45,12 @@ function ManageRoles() {
     mesg: "",
   });
 
-  const Roles = getPermissionStatus("Roles");
-    console.log("Roles", Roles);
-    const SubRoles = getSubordinatePrivileges(Roles, "Roles");
-    console.log(" Roles .status", sampleFuc(SubRoles));
-    // console.log("ADD Roles status", sampleFuc(SubRoles).CRRO);
+  const Settings = getPermissionStatus("Settings");
+  console.log("Settings", Settings);
+  const SubRoles = getSubordinatePrivileges(Settings, "Role");
+  console.log("Settings .status", sampleFuc(SubRoles));
+  console.log("ADD Settings status", sampleFuc(SubRoles).CRHL);
+
 
   const onTableSearch = (values, sortField) => {};
   const [action, setaction] = useState("add");
@@ -144,8 +145,8 @@ function ManageRoles() {
       minWidth: 0,
       align: "center",
       render: (value: any) => (
-        // sampleFuc(SubRoles).UPRO &&
-        //   sampleFuc(SubRoles).DERO &&
+        sampleFuc(SubRoles).UPRO &&
+          sampleFuc(SubRoles).DERO &&
         <TableAction
           rowData={value}
           deleteOnclick={deleteOnclick}
@@ -158,7 +159,7 @@ function ManageRoles() {
   return (
     <div>
       <PageTitleWrapper>
-      sampleFuc(SubRoles).CRRO && 
+      {/* sampleFuc(SubRoles).CRRO &&  */}
         <PageTitle
           heading="Role"
           subHeading="Master/Role"

@@ -58,11 +58,11 @@ function ManageDesignations() {
         mesg: "",
     });
 
-    const Designation = getPermissionStatus("Designation");
-    console.log("Designation", Designation);
-    const SubDesignation = getSubordinatePrivileges(Designation, "Designation");
-    console.log(" Designation .status", sampleFuc(SubDesignation));
-    console.log("ADD Designation status", sampleFuc(SubDesignation).CRDN);
+    const Settings = getPermissionStatus("Settings");
+    console.log("Settings", Settings);
+    const SubDesignations = getSubordinatePrivileges(Settings, "Designations");
+    console.log(" Settings .status", sampleFuc(SubDesignations));
+    console.log("ADD Settings status", sampleFuc(SubDesignations).CRHL);
 
     const onTableSearch = (values, sortField) => { };
 
@@ -113,8 +113,8 @@ function ManageDesignations() {
             minWidth: 0,
             align: "center",
             render: (value: any) => 
-                sampleFuc(SubDesignation).UPDN &&
-                sampleFuc(SubDesignation).DEDN &&
+                sampleFuc(SubDesignations).UPDN &&
+                sampleFuc(SubDesignations).DEDN &&
                 <TableAction
                     rowData={value}
                     deleteOnclick={deleteOnclick}

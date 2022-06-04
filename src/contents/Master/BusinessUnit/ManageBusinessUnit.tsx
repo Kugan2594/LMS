@@ -59,12 +59,11 @@ function ManageBusinessUnit() {
     });
     const onTableSearch = (values, sortField) => { };
 
-    const BussinessUnit = getPermissionStatus("BussinessUnit");
-    console.log("BussinessUnit", BussinessUnit);
-    const SubBussinessUnit = getSubordinatePrivileges(BussinessUnit, "BussinessUnit");
-    console.log(" BussinessUnit .status", sampleFuc(SubBussinessUnit));
-    console.log("ADD BussinessUnit status", sampleFuc(SubBussinessUnit).CRBU);
-
+    const Settings = getPermissionStatus("Settings");
+    console.log("Settings", Settings);    
+    const SubBussinessUnit = getSubordinatePrivileges(Settings, "Unit");
+    console.log("Settings .status", sampleFuc(SubBussinessUnit));
+    console.log("ADD Settings status", sampleFuc(SubBussinessUnit).CRBU);
 
     useEffect(() => {
         getAllBusinessUnitData(pagination.pageNumber, pagination.pageSize);

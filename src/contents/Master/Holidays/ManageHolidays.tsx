@@ -44,11 +44,11 @@ function ManageHolidays() {
     mesg: "",
   });
 
-  const Holiday = getPermissionStatus("Holidays");
-  console.log("Holidays", Holiday);
+  const Holiday = getPermissionStatus("Holiday");
+  console.log("Holiday", Holiday);
   const SubHolidays = getSubordinatePrivileges(Holiday, "Holiday");
-  console.log(" Holidays .status", sampleFuc(SubHolidays));
-  console.log("ADD Holidays status", sampleFuc(SubHolidays).CRHL);
+  console.log(" Holiday .status", sampleFuc(SubHolidays));
+  console.log("ADD Holiday status", sampleFuc(SubHolidays).CRHL);
 
   const onTableSearch = (values, sortField) => {};
 
@@ -157,7 +157,7 @@ function ManageHolidays() {
   return (
     <div>
       <PageTitleWrapper>
-      sampleFuc(SubHolidays).CRHL &&
+      {/* sampleFuc(SubHolidays).CRHL && */}
         <PageTitle
           heading="Manage Holidays"
           subHeading="Master/ Holidays"

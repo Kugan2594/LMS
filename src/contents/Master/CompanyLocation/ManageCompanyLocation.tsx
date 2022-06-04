@@ -49,11 +49,11 @@ function ManageCompanyLocation() {
   });
   const onTableSearch = (values, sortField) => {};
 
-  const Location = getPermissionStatus("CompanyLocation");
-  console.log("CompanyLocation", Location);
-  const SubCompanyLocation = getSubordinatePrivileges(Location, "CompanyLocation");
-  console.log("CompanyLocation.status", sampleFuc(SubCompanyLocation));
-  console.log("ADD CompanyLocation status", sampleFuc(SubCompanyLocation).CRCL);
+  const Settings = getPermissionStatus("Settings");
+  console.log("Settings", Settings);
+  const SubCompanyLocation = getSubordinatePrivileges(Settings, "Location");
+  console.log(" Settings .status", sampleFuc(SubCompanyLocation));
+  console.log("ADD Settings status", sampleFuc(SubCompanyLocation).CRHL);
 
 
   useEffect(() => {
@@ -179,7 +179,7 @@ function ManageCompanyLocation() {
 
   return (
     <div>
-      sampleFuc(SubCompanyLocation).CRCL &&
+      {/* sampleFuc(SubCompanyLocation).CRCL && */}
       <PageTitleWrapper>
         <PageTitle
           heading="Company Location"
