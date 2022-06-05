@@ -46,7 +46,7 @@ export default function HeaderNotifications() {
   };
   const getNotifications = (page, rowsPerPage) => {
     getAllNotification(page, rowsPerPage).then((res: any) => {
-      let respones = res.result.notification;
+      let respones = res.results.NotificationByUserEmail;
       let cou = [];
       let convertdata = respones.map((post, index) => {
         return {
@@ -105,7 +105,7 @@ export default function HeaderNotifications() {
         notificationCount = newNotifications.length;
       });
 
-      stompClient.subscribe(  `/user/${getUserDetails().user_id}/queue/leaverequest`, (data) => {
+      stompClient.subscribe(  `/user/1/queue/leaverequest`, (data) => {
         let dataH = JSON.parse(data.body);
 
         setIsWebSocket(true);
