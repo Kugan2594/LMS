@@ -22,6 +22,7 @@ import {
   getAllDesignationForDropDown,
   getAllBusinessUnitForDropDown,
   getAllEmployementTypeForDropDown,
+  getAllRoleForDropDown,
 } from "./ServiceEmployee";
 import AutocompleteSelect from "src/components/atoms/controlls/AutocompleteSelect";
 import Box from "@mui/material/Box";
@@ -56,6 +57,7 @@ let initialFValues: IEmployee = {
   designationId: 0,
   employmentTypeId: "",
   businessUnitId: "",
+  roleId: 0,
 };
 const genderType = [
   {
@@ -66,7 +68,6 @@ const genderType = [
     id: "MALE",
     title: "MALE",
   },
-
 ];
 const nationalityType = [
   {
@@ -169,6 +170,7 @@ function AddEmployee(props) {
   const [designationData, setdesignationData] = useState([]);
   const [employementTypeData, setemployementTypeData] = useState([]);
   const [businessUnitData, setbusinessUnitData] = useState([]);
+  const [roleData, setroleData] = useState([]);
 
   const validate = (fieldValues = values) => {
     let temp: IEmployee = { ...errors };
@@ -299,7 +301,6 @@ function AddEmployee(props) {
       return Object.values(temp).every((x) => x === "");
   };
 
-
   const {
     values,
     setValues,
@@ -338,6 +339,7 @@ function AddEmployee(props) {
           designationId: values.designationId,
           employmentTypeId: values.employmentTypeId,
           businessUnitId: values.businessUnitId,
+          roleId: values.roleId,
         };
         console.log(data);
         createEmployee(data).then(
@@ -382,6 +384,7 @@ function AddEmployee(props) {
           businessUnitId: values.businessUnitId,
           dateOfPermanency: values.dateOfPermanency,
           approverStatus: values.approverStatus,
+          roleId: values.roleId,
         };
 
         updateEmployee(data).then(
@@ -405,6 +408,8 @@ function AddEmployee(props) {
     getDesignationSelectData();
     getEmployementTypeSelectData();
     getBusinessUnitSelectData();
+    getRoleSelectData();
+
     if (action === "edit") {
       console.log({ editData });
 
@@ -454,6 +459,16 @@ function AddEmployee(props) {
       setbusinessUnitData(data);
     });
   };
+  const getRoleSelectData = () => {
+    let data: any = [];
+    getAllRoleForDropDown().then((res: []) => {
+      res.map((post: any) => {
+        data.push({ id: post.id, title: post.name });
+        return null;
+      });
+      setroleData(data);
+    });
+  };
   const onChangeFormValue = () => {
     setupdateStatus(false);
   };
@@ -501,7 +516,11 @@ function AddEmployee(props) {
   return (
     <div>
       <Box sx={{ width: "100%", justifyContent: "center" }}>
-        <Stepper sx={{background:"none",padding:0}} activeStep={activeStep - 1} alternativeLabel>
+        <Stepper
+          sx={{ background: "none", padding: 0 }}
+          activeStep={activeStep - 1}
+          alternativeLabel
+        >
           {steps.map((label, index) => {
             const stepProps: { completed?: boolean } = {};
             const labelProps: {
@@ -662,7 +681,14 @@ function AddEmployee(props) {
                   </Grid>
                 </Grid>
 
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 ,paddingTop:0}}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    pt: 2,
+                    paddingTop: 0,
+                  }}
+                >
                   <Box sx={{ flex: "auto 1 1 1" }} />
                   <Button
                     size="small"
@@ -718,7 +744,6 @@ function AddEmployee(props) {
                       error={errors.dateOfPermanency}
                     />
                   </Grid>
-
                   <Grid item xs={4}>
                     <AutocompleteSelect
                       name="designationId"
@@ -764,7 +789,17 @@ function AddEmployee(props) {
                       error={errors.businessUnitId}
                     />
                   </Grid>
-                  <Grid item xs={4}></Grid>
+                  <Grid item xs={4}>
+                    <AutocompleteSelect
+                      name="roleId"
+                      label="Role*"
+                      value={values.roleId ? values.businessUnitId : ""}
+                      onChange={handleInputChange}
+                      onValueChange={onValueChange}
+                      options={roleData}
+                      error={errors.roleId}
+                    />
+                  </Grid>{" "}
                   <Grid item xs={4}></Grid>
                   <Grid item xs={4}>
                     <Checkbox

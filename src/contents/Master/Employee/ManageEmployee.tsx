@@ -49,6 +49,8 @@ function createData(data) {
       passportNo: post.passportNo,
       designationId: post.designation.id,
       companyLocationId: post.companyLocation.id,
+      roleId: post.role.id,
+
     };
   });
   return convertData;

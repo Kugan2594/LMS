@@ -5,5 +5,7 @@ interface INotification {
     employeeNmae?: string;
     date?: string;
     key?: string;
+    isTitle?: boolean;
+    isDivider?: boolean;
 }
 export default INotification;
