@@ -32,13 +32,14 @@ const getLeaveApproverStatus = (id:number) => {
     });
   };
 
-  const getLeaveApproverStatusHistory = () => {
+  const getLeaveApproverStatusHistory = (pageNumber: number,
+    pageSize: number) => {
     return new Promise((resolve, reject) => {
         api(
           "get",
           "lm-web",
           null,
-          `/leaveHistory`,
+          `/leaveHistory?page=${pageNumber}&size=${pageSize}`,
           "",
           "",
           ""
