@@ -105,7 +105,7 @@ export default function HeaderNotifications() {
         notificationCount = newNotifications.length;
       });
 
-      stompClient.subscribe(  `/user/1/queue/leaverequest`, (data) => {
+      stompClient.subscribe( `/user/${getUserDetails().user_name}/queue/leaverequest`, (data) => {
         let dataH = JSON.parse(data.body);
 
         setIsWebSocket(true);
@@ -134,7 +134,7 @@ export default function HeaderNotifications() {
         notificationCount = newNotifications.length;
       });
 
-      stompClient.subscribe(`/user/${getUserDetails().user_id}/queue/leaverequest`, (data) => {
+      stompClient.subscribe(`/user/${getUserDetails().user_name}/queue/leaverequest`, (data) => {
         let dataH = JSON.parse(data.body);
 
         setIsWebSocket(true);
@@ -163,7 +163,7 @@ export default function HeaderNotifications() {
         notificationCount = newNotifications.length;
       });
 
-      stompClient.subscribe(`/user/${getUserDetails().user_id}/queue/statusChange`, (data) => {
+      stompClient.subscribe(`/user/${getUserDetails().user_name}/queue/statusChange`, (data) => {
         let dataH = JSON.parse(data.body);
 
         setIsWebSocket(true);
