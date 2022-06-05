@@ -30,24 +30,48 @@ import { TableAction } from "src/components/atoms/Tables/TableAction";
 import CustomizedNotification from "src/util/CustomizedNotification";
 import UpdateLeaveRequest from "./UpdateLeaveRequest";
 import moment from "moment";
+import { getLeaveApproverStatusHistory } from "../History/serviceHistory";
+
+// function createData(data) {
+//   let convertData = data.map((post, index) => {
+//     return {
+//       leaveRequestId: post.id,
+//       reason: post.reason,
+//       fromDate: moment(post.fromDate).format("DD-MM-yyyy"),
+//       toDate: moment(post.toDate).format("DD-MM-yyyy"),
+//       leaveDays: post.leaveDays,
+//       requestedDate: moment(post.requestedDate).format("DD-MM-yyyy"),
+//       leaveType: post.employeeLeaveType.leaveType.type,
+//       firstName: post.employee.firstName,
+//       lastName: post.employee.lastName,
+//       leaveTypeId: post.employeeLeaveType.leaveType.id,
+//       employeeId: post.employee.id,
+//     };
+//   });
+//   return convertData;
+// }
+
 function createData(data) {
   let convertData = data.map((post, index) => {
     return {
-      leaveRequestId: post.id,
+      id: post.id,
+      status: post.status,
+      approverName: post.employeeApproverName,
+      date: moment(post.date).format("DD-MM-yyyy"),
       reason: post.reason,
       fromDate: moment(post.fromDate).format("DD-MM-yyyy"),
       toDate: moment(post.toDate).format("DD-MM-yyyy"),
       leaveDays: post.leaveDays,
       requestedDate: moment(post.requestedDate).format("DD-MM-yyyy"),
-      leaveType: post.employeeLeaveType.leaveType.type,
-      firstName: post.employee.firstName,
-      lastName: post.employee.lastName,
-      leaveTypeId: post.employeeLeaveType.leaveType.id,
-      employeeId: post.employee.id,
+      leaveType: post.type,
+      lastName: post.lastName,
+      firstName: post.firstName,
+      leaveRequestId: post.leaveRequestId,
     };
   });
   return convertData;
 }
+
 function InProgress(props) {
   const [pagination, setpagination] = useState({
     pageNumber: 0,
@@ -117,14 +141,17 @@ function InProgress(props) {
     getAllLeaveRequestData(pagination.pageNumber, pagination.pageSize);
   }, [pagination.pageNumber, pagination.pageSize]);
   const getAllLeaveRequestData = (pageNumber, pageSize) => {
-    getAllLeaveRequest(pageNumber, pageSize).then((res: any) => {
-      let data: [] = createData(res.results.LeaveRequest);
+    getLeaveApproverStatusHistory(pageNumber, pageSize).then((res: any) => {
+      // let data: [] = createData(res.results.leaveHistory);
       setpagination({
         pageNumber: res.pagination.pageNumber,
         pageSize: res.pagination.pageSize,
         total: res.pagination.totalRecords,
       });
-      setdataSource(data);
+      let value: {id:Number,status:String,approverName:String,date:String,reason:String,fromDate:String,toDate:String,leaveDays:Number,
+        requestedDate:String,leaveType:String,lastName:String,firstName:String,leaveRequestId:Number}[] = createData(res.results.leaveHistory);
+      setdataSource(value.filter((request) => request.status == "PENDING" || request.status == "NEW").map((filtered) => filtered));
+      // setdataSource(data);
     });
   };
   const reloadTable = (res) => {

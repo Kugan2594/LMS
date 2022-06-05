@@ -132,12 +132,12 @@ function Task(props) {
   // };
 
   useEffect(() => {
-    getAllLeaveRequestHistoryData();
+    getAllLeaveRequestHistoryData(pagination.pageNumber, pagination.pageSize);
 
-  }, []);
+  }, [pagination.pageNumber, pagination.pageSize]);
 
-  const getAllLeaveRequestHistoryData = () => {
-    getLeaveApproverStatusHistory().then((res: any) => {
+  const getAllLeaveRequestHistoryData = (pageNumber, pageSize) => {
+    getLeaveApproverStatusHistory(pageNumber, pageSize).then((res: any) => {
       let value: {id:Number,status:String,approverName:String,date:String,reason:String,fromDate:String,toDate:String,leaveDays:Number,
         requestedDate:String,leaveType:String,lastName:String,firstName:String,leaveRequestId:Number}[] = createData(res.results.leaveHistory);
       setdataSource(value.filter((request) => request.status == "PENDING" || request.status == "NEW").map((filtered) => filtered));
@@ -145,7 +145,7 @@ function Task(props) {
   };
 
   const reloadTable = () => {
-    getAllLeaveRequestHistoryData();
+    getAllLeaveRequestHistoryData(pagination.pageNumber, pagination.pageSize);
   }
 
 
