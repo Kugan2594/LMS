@@ -262,15 +262,7 @@ function ManageEmployee() {
           isButton={true}
           onclickButton={handleClickOpen}
         />
-         
-      </PageTitleWrapper>
-      <Divider />
-      <br />
-
-      <Container maxWidth="lg">
-        <Card>
-          <CardContent>
-          <div style={{ display: "flex" }}><Upload {...uploadProps}>
+              <div style={{ display: "flex" }} ><Upload {...uploadProps}>
           <Button icon={<DownloadOutlined />} />
         </Upload>
        
@@ -279,6 +271,14 @@ function ManageEmployee() {
         >
           <UploadOutlined />
         </Button></div>
+      </PageTitleWrapper>
+      <Divider />
+      <br />
+
+      <Container maxWidth="lg">
+        <Card>
+          <CardContent>
+     
             <Tables
               columns={columns}
               tableData={dataSource}
