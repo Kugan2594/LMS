@@ -139,7 +139,6 @@ function Header() {
 
     const handleClose = () => {
         setAnchorEl(null);
-        setOpenDetails(false);
     };
 
     const open = Boolean(anchorEl);
@@ -162,6 +161,10 @@ function Header() {
         setOpenDetails(true);
         setLeaveDetails(data);
       };
+
+      const handleCloseLeaveDetails = () => {
+        setOpenDetails(false);
+      }
 
       const [count, setCount] = useState(mockData.filter((notification) => notification.status == false));
     
@@ -258,7 +261,7 @@ function Header() {
             </HeaderWrapper>
             <Dialog
             open={openDetails}
-            onClose={handleClose}
+            onClose={handleCloseLeaveDetails}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
             maxWidth="md"
@@ -270,7 +273,7 @@ function Header() {
                   details={leaveDetails}
                   isEmployeeDetail={true}
                   isResponseButtons={false}
-                  cancel={handleClose}
+                  cancel={handleCloseLeaveDetails}
                 />
               </DialogContentText>
             </DialogContent>
