@@ -21,9 +21,13 @@ import Notification from "src/contents/Master/Notification/Notification";
 import Modals from "src/components/atoms/Modals";
 import ManageNotification from "src/contents/Master/Notification/ManageNotification";
 // import Logo from 'src/components/atomic/Logo';
-import * as React from "react";
+// import * as React from "react";
+import React, {useEffect } from "react";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
+import { SYSTEM_CONFIG } from "src/util/StytemConfig";
+import {Stomp}  from '@stomp/stompjs';
+import SockJS from "sockjs-client";
 
 const HeaderWrapper = styled(Box)(
     ({ theme }) => `
@@ -122,6 +126,28 @@ function Header() {
 
     const open = Boolean(anchorEl);
     const id = open ? "simple-popover" : undefined;
+
+    useEffect(() => {
+        WebSocketClient();
+    }, []);
+
+    const WebSocketClient= () => {
+        var sock=new SockJS(SYSTEM_CONFIG.webSocketUrl);
+        let stompClient=Stomp.over(sock);
+        sock.onopen=function (){};
+        return new Promise((resolve,reject)=>{
+           stompClient.connect({},(frame)=>{
+               stompClient.subscribe( 
+                   "/queue/leaverequest",
+                   (data)=>{
+                   resolve(data);
+                   let dataH=JSON.parse(data.body);
+                   console.log("conneted",dataH);
+               },);
+           }) ;
+           stompClient.activate()
+        })
+    }
     return (
         <div>
             <HeaderWrapper display="flex" alignItems="center">
