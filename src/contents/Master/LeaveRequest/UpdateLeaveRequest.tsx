@@ -83,8 +83,7 @@ function UpdateLeaveRequest(props) {
     if ("toDate" in fieldValues)
       temp.toDate = fieldValues.toDate ? "" : "This field is required.";
 
-    if ("employeeId" in fieldValues)
-      temp.employeeId = fieldValues.employeeId ? "" : "This field is required.";
+
 
     if ("leaveTypeId" in fieldValues)
       temp.leaveTypeId = fieldValues.leaveTypeId

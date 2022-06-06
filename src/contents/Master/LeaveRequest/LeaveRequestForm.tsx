@@ -4,7 +4,6 @@ import { FORM_VALIDATION, spaceValidation } from "src/util/ValidationMeassage";
 import { Form, useForm } from "src/components/atoms/Forms/useForm";
 import Input from "src/components/atoms/controlls/Input";
 import { Divider, Grid } from "@mui/material";
-
 import Button from "src/components/atoms/controlls/Button";
 import DatePicker from "src/components/atoms/controlls/DatePicker";
 import Select from "src/components/atoms/controlls/Select";
@@ -17,12 +16,16 @@ import {
   applyLeave,
   getAllEmployeesForDropDown,
   getAllLeaveTypeForDropDown,
+  getUserByEmail
 } from "./ServiceLeaveRequest";
 import moment from "moment";
 import PropTypes from "prop-types";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from "src/util/CustomizedNotification";
 import { Box } from "@mui/system";
+import {
+  getUserDetails,
+} from "../../login/LoginAuthentication";
 
 let initialFValues: ILeaveRequest = {
   fromDate: "",
@@ -62,8 +65,12 @@ const employee = [
 
 function LeaveRequestForm(props: ILeaveRequest) {
   const [leaveTypeData, setleaveTypeData] = useState([]);
+  const [email, setEmail] = useState();
   const [employeeData, setemployeeData] = useState([]);
   const { isButton, isButtonTwo, isButtonThree, action, editData } = props;
+  const [firstname, setFirstName] = useState("");
+  const [employeeid, setEmployeeId] = useState();
+
   const validate = (fieldValues = values) => {
     let temp: ILeaveRequest = { ...errors };
 
@@ -80,12 +87,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
           ? ""
           : `toDate ${FORM_VALIDATION.space}`
         : FORM_VALIDATION.required;
-    if ("employeeId" in fieldValues)
-      temp.employeeId = fieldValues.employeeId
-        ? spaceValidation.test(fieldValues.employeeId)
-          ? ""
-          : `employeeId ${FORM_VALIDATION.space}`
-        : FORM_VALIDATION.required;
+
     if ("reason" in fieldValues)
       temp.reason = fieldValues.reason
         ? spaceValidation.test(fieldValues.reason)
@@ -123,9 +125,15 @@ function LeaveRequestForm(props: ILeaveRequest) {
     resetForm,
   }: any = useForm(initialFValues, true, validate);
 
+
+
   useEffect(() => {
     getLeaveTypeSelectData();
+    let userData = getUserDetails();
+    console.log({ userData });
+    setEmail(userData.user_name);
     getEmployeeSelectData();
+    getUserByUserMail(userData.user_name);
   }, [setValues]);
 
   const getLeaveTypeSelectData = () => {
@@ -138,7 +146,13 @@ function LeaveRequestForm(props: ILeaveRequest) {
       setleaveTypeData(data);
     });
   };
-
+  const getUserByUserMail = (emailnew) => {
+    getUserByEmail(emailnew).then((res: any) => {
+      console.log("res.firstname", res.employee.firstName);
+      setEmployeeId(res.employee.id);
+      setFirstName(res.employee.firstName)
+    });
+  };
   const getEmployeeSelectData = () => {
     let data: any = [];
     getAllEmployeesForDropDown().then((res: []) => {
@@ -154,7 +168,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
     e.preventDefault();
     let data: object = {
       leaveTypeId: values.leaveTypeId,
-      employeeId: values.employeeId,
+      employeeId: employeeid,
       leaveDays: values.leaveDays,
       reason: values.reason,
       toDate: values.toDate,
@@ -162,7 +176,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
     };
     const formData = new FormData();
     formData.append("leaveTypeId", values.leaveTypeId);
-    formData.append("employeeId", values.employeeId);
+    formData.append("employeeId", employeeid);
     formData.append("leaveDays", values.leaveDays);
     formData.append("reason", values.reason);
     formData.append(
@@ -192,11 +206,11 @@ function LeaveRequestForm(props: ILeaveRequest) {
     );
   };
 
-  const onChangeFormValue = () => {};
+  const onChangeFormValue = () => { };
   const onReset = () => {
     resetForm();
   };
-  const handleClickOpen = () => {};
+  const handleClickOpen = () => { };
 
   const handleAlertClose = () => {
     setalert({
@@ -223,107 +237,101 @@ function LeaveRequestForm(props: ILeaveRequest) {
 
   return (
     <div>
-      
-        <div>
-            <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
-            <Box>
-              <Grid container spacing={1}>
-                <Grid item xs={6}>
-                  <Select
-                    name="employeeId"
-                    label="Employee *"
-                    value={values.employeeId}
-                    onChange={handleInputChange}
-                    error={errors.employeeId}
-                    options={employeeData}
-                  />
-                  <DatePicker
-                    name="fromDate"
-                    label="From Date *"
-                    value={values.fromDate}
-                    onChange={handleInputChange}
-                    error={errors.fromDate}
-                  />
-                  <Box sx={{ marginTop: 2.5 }}>
-                    <Input
-                      name="reason"
-                      label="Reason *"
-                      value={values.reason}
-                      onChange={handleInputChange}
-                      error={errors.reason}
-                    />
-                  </Box>
-                </Grid>
 
-                <Grid item xs={6}>
-                  <Select
-                    name="leaveTypeId"
-                    label="Leave Type *"
-                    value={values.leaveTypeId}
+      <div>
+        <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
+          <Box>
+            <Grid container spacing={1}>
+              <Grid item xs={6}>
+          
+                <DatePicker
+                  name="fromDate"
+                  label="From Date *"
+                  value={values.fromDate}
+                  onChange={handleInputChange}
+                  error={errors.fromDate}
+                />
+                <Box sx={{ marginTop: 2.5 }}>
+                  <Input
+                    name="reason"
+                    label="Reason *"
+                    value={values.reason}
                     onChange={handleInputChange}
-                    error={errors.leaveTypeId}
-                    options={leaveTypeData}
+                    error={errors.reason}
                   />
-
-                  <DatePicker
-                    name="toDate"
-                    label="To Date *"
-                    value={values.toDate}
-                    onChange={handleInputChange}
-                    error={errors.toDate}
-                  />
-                  <Box sx={{ marginTop: 2.5 }}>
-                    <Input
-                      name="leaveDays"
-                      label="DAYS *"
-                      value={values.leaveDays}
-                      onChange={handleInputChange}
-                      error={errors.leaveDays}
-                      type="number"
-                    />
-                  </Box>
-                </Grid>
+                </Box>
               </Grid>
-              </Box>
-              
 
-                  <div>
-                  <Box textAlign="right" marginBottom={2}>
-                    {isButton && (
-                      <Button
-                        size="small"
-                        text="Reset"
-                        variant="outlined"
-                        onClick={onReset}
-                      />
-                    )}
-                    
-                    {isButtonTwo && (
-                      <Button
-                        onClick={() => {
-                          console.log("clicked");
-                        }}
-                        size="small"
-                        type="submit"
-                        text="Apply"
-                      />
-                    )}
-                    {isButtonThree && (
-                      <Button
-                        onClick={() => {
-                          console.log("clicked");
-                        }}
-                        size="small"
-                        type="submit"
-                        text="Update"
-                      />
-                    )}
-                    </Box>
-                  </div>
-                  
-                
-            </Form>
-        </div>
+              <Grid item xs={6}>
+                <Select
+                  name="leaveTypeId"
+                  label="Leave Type *"
+                  value={values.leaveTypeId}
+                  onChange={handleInputChange}
+                  error={errors.leaveTypeId}
+                  options={leaveTypeData}
+                />
+
+                <DatePicker
+                  name="toDate"
+                  label="To Date *"
+                  value={values.toDate}
+                  onChange={handleInputChange}
+                  error={errors.toDate}
+                /></Grid>
+                  <Grid item xs={6}>
+                <Box sx={{ marginTop: 0.5 }}>
+                  <Input
+                    name="leaveDays"
+                    label="DAYS *"
+                    value={values.leaveDays}
+                    onChange={handleInputChange}
+                    error={errors.leaveDays}
+                    type="number"
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
+
+
+          <div>
+            <Box textAlign="right" marginBottom={2}>
+              {isButton && (
+                <Button
+                  size="small"
+                  text="Reset"
+                  variant="outlined"
+                  onClick={onReset}
+                />
+              )}
+
+              {isButtonTwo && (
+                <Button
+                  onClick={() => {
+                    console.log("clicked");
+                  }}
+                  size="small"
+                  type="submit"
+                  text="Apply"
+                />
+              )}
+              {isButtonThree && (
+                <Button
+                  onClick={() => {
+                    console.log("clicked");
+                  }}
+                  size="small"
+                  type="submit"
+                  text="Update"
+                />
+              )}
+            </Box>
+          </div>
+
+
+        </Form>
+      </div>
       {alert.type.length > 0 ? (
         <CustomizedNotification
           severity={alert.type}
@@ -331,7 +339,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
           handleAlertClose={handleAlertClose}
         />
       ) : null}
-      
+
     </div>
   );
 }
