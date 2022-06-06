@@ -99,7 +99,7 @@ function UserPrivilage() {
                                     children: subPost.permissionDtos.map(
                                         (finalPost: any) => {
                                             return {
-                                                title: finalPost.name,
+                                                title: finalPost.description,
                                                 key: `${post.id}-${subPost.id}-${finalPost.id}`,
                                             };
                                         }
@@ -130,7 +130,7 @@ function UserPrivilage() {
                                     children: subPost.permissionDtos.map(
                                         (finalPost: any) => {
                                             return {
-                                                title: finalPost.name,
+                                                title: finalPost.description,
                                                 key: `${post.id}-${subPost.id}-${finalPost.id}`,
                                             };
                                         }
