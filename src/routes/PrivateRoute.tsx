@@ -22,11 +22,15 @@ import ManageEmployementType from "src/contents/Master/EmployementType/ManageEmp
 import UserPrivilege from "src/contents/Master/PrivilegeComponent/UserPrivilege";
 import Profile from "src/contents/profile/Profile";
 
-
 import { element } from "prop-types";
 
 import ManageLieuRequest from "src/contents/Master/LieuRequest/ManageLieuRequest";
 import ManageNotification from "src/contents/Master/Notification/ManageNotification";
+import ForgotPassword from "src/contents/login/ForgotPassword";
+import ResetPassword from "src/contents/login/ResetPassword";
+
+import UserVerification from "src/contents/login/UserVerification";
+import ManageRoles from "src/contents/Master/Roles/ManageRoles";
 const Loader = (Component: any) => (props: any) =>
     (
         <Suspense fallback={<SuspenseLoader />}>
@@ -40,6 +44,14 @@ const PrivateRoute: PartialRouteObject[] = [
         element: <Login />,
     },
     {
+        path: "/forgot-password",
+        element: <ForgotPassword />,
+    },
+    {
+        path: "/reset-password",
+        element: <ResetPassword />,
+    },
+    {
         path: "profile",
         element: <SidebarLayout />,
         children: [
@@ -47,7 +59,11 @@ const PrivateRoute: PartialRouteObject[] = [
                 path: "/profile",
                 element: <Profile />,
             },
-        ]
+        ],
+    },
+    {
+        path: "/verification",
+        element: <UserVerification />,
     },
     {
         path: "master",
@@ -122,8 +138,15 @@ const PrivateRoute: PartialRouteObject[] = [
                 path: "/notifications",
                 element: <ManageNotification />,
             },
-            
-            { path: "/userPrivilege", element: <UserPrivilege /> },
+
+            {
+                path: "/userPrivilege",
+                element: <UserPrivilege />,
+            },
+            {
+                path: "/roles",
+                element: <ManageRoles />,
+            },
         ],
     },
 ];

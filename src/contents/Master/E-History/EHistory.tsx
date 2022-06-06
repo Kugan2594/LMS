@@ -18,7 +18,7 @@ import PageTitle from "src/components/organism/PageTitle";
 import Tables from "src/components/atoms/Tables";
 import { Column } from "src/components/atoms/Tables/TableInterface";
 import { minWidth } from "@mui/system";
-import { getAllEmployeeLeaveHistory } from "./ServiceEmployeeHistory";
+import { getAllEmployeeLeaveHistory, getAllEmployeeLeaveHistoryByEmployee } from "./ServiceEmployeeHistory";
 import ViewHistory from "../History/ViewHistory";
 import moment from "moment";
 import AutocompleteSelect from "src/components/atoms/controlls/AutocompleteSelect";
@@ -27,25 +27,46 @@ import {
     getEmployeeleavetypeByEmployeeId,
 } from "../AllocationDays/ServiceAllocationDays";
 
+// function createData(data) {
+//     let convertData = data.map((post, index) => {
+//         return {
+//             id: post.id,
+//             type: post.leaveRequest.employeeLeaveType.leaveType.type,
+//             leaveDays: post.leaveRequest.leaveDays,
+//             fromDate: moment(post.leaveRequest.fromDate).format("YYYY-MM-DD"),
+//             toDate: moment(post.leaveRequest.toDate).format("YYYY-MM-DD"),
+//             requestedDate: moment(post.leaveRequest.requestedDate).format(
+//                 "YYYY-MM-DD"
+//             ),
+//             status: post.status.status,
+//             leaveType: post.leaveRequest.employeeLeaveType.leaveType.type,
+//             reason: post.leaveRequest.reason,
+//             leaveRequestId: post.leaveRequest.id,
+//         };
+//     });
+//     return convertData;
+// }
+
 function createData(data) {
     let convertData = data.map((post, index) => {
-        return {
-            id: post.id,
-            type: post.leaveRequest.employeeLeaveType.leaveType.type,
-            leaveDays: post.leaveRequest.leaveDays,
-            fromDate: moment(post.leaveRequest.fromDate).format("YYYY-MM-DD"),
-            toDate: moment(post.leaveRequest.toDate).format("YYYY-MM-DD"),
-            requestedDate: moment(post.leaveRequest.requestedDate).format(
-                "YYYY-MM-DD"
-            ),
-            status: post.status.status,
-            leaveType: post.leaveRequest.employeeLeaveType.leaveType.type,
-            reason: post.leaveRequest.reason,
-            leaveRequestId: post.leaveRequest.id,
-        };
+      return {
+        id: post.id,
+        status: post.status,
+        approverName: post.employeeApproverName,
+        date: moment(post.date).format("DD-MM-yyyy"),
+        reason: post.reason,
+        fromDate: moment(post.fromDate).format("DD-MM-yyyy"),
+        toDate: moment(post.toDate).format("DD-MM-yyyy"),
+        leaveDays: post.leaveDays,
+        requestedDate: moment(post.requestedDate).format("DD-MM-yyyy"),
+        leaveType: post.type,
+        lastName: post.lastName,
+        firstName: post.firstName,
+        leaveRequestId: post.leaveRequestId,
+      };
     });
     return convertData;
-}
+  }
 
 function EHistory(props) {
     const [pagination, setpagination] = useState({
@@ -72,8 +93,37 @@ function EHistory(props) {
 
     const [dataSource, setdataSource] = useState([]);
 
+    // useEffect(() => {
+    //     getAllEmployeeLeaveHistoryData(
+    //         pagination.pageNumber,
+    //         pagination.pageSize,
+    //         employeeId
+    //     );
+    //     getEmployeeNameSelectData(employeeId);
+    //     getAllEmployeeData();
+    // }, [pagination.pageNumber, pagination.pageSize, employeeId]);
+
+    // const getAllEmployeeLeaveHistoryData = (
+    //     pageNumber,
+    //     pageSize,
+    //     employeeId
+    // ) => {
+    //     getAllEmployeeLeaveHistory(pageNumber, pageSize, employeeId).then(
+    //         (res: any) => {
+    //             let data: {id:Number,status:String,approverName:String,date:String,reason:String,fromDate:String,toDate:String,leaveDays:Number,
+    //                 requestedDate:String,leaveType:String,lastName:String,firstName:String,leaveRequestId:Number}[] = createData(res.results.leaveHistory);
+    //             setpagination({
+    //                 pageNumber: res.pagination.pageNumber,
+    //                 pageSize: res.pagination.pageSize,
+    //                 total: res.pagination.totalRecords,
+    //             });
+    //             setdataSource(data.filter((request) => request.status == "APPROVED" || request.status == "REJECTED").map((filtered) => filtered));
+    //         }
+    //     );
+    // };
+
     useEffect(() => {
-        getAllEmployeeLeaveHistoryData(
+        getAllLeaveRequestHistoryData(
             pagination.pageNumber,
             pagination.pageSize,
             employeeId
@@ -81,25 +131,25 @@ function EHistory(props) {
         getEmployeeNameSelectData(employeeId);
         getAllEmployeeData();
     }, [pagination.pageNumber, pagination.pageSize, employeeId]);
-
-    const getAllEmployeeLeaveHistoryData = (
-        pageNumber,
-        pageSize,
-        employeeId
-    ) => {
-        getAllEmployeeLeaveHistory(pageNumber, pageSize, employeeId).then(
+    
+      const getAllLeaveRequestHistoryData = (
+          pageNumber, 
+          pageSize, 
+          employeeId
+          ) => {
+        getAllEmployeeLeaveHistoryByEmployee(pageNumber, pageSize, employeeId).then(
             (res: any) => {
-                let data: {id:Number,status:String,approverName:String,date:String,reason:String,fromDate:String,toDate:String,leaveDays:Number,
-                    requestedDate:String,leaveType:String,lastName:String,firstName:String,leaveRequestId:Number}[] = createData(res.results.leaveHistory);
-                setpagination({
-                    pageNumber: res.pagination.pageNumber,
-                    pageSize: res.pagination.pageSize,
-                    total: res.pagination.totalRecords,
+            let data: {id:Number,status:String,approverName:String,date:String,reason:String,fromDate:String,toDate:String,leaveDays:Number,
+                requestedDate:String,leaveType:String,lastName:String,firstName:String,leaveRequestId:Number}[] = createData(res.results.leaveHistoryByEmployee);
+            setpagination({
+                pageNumber: res.pagination.pageNumber,
+                pageSize: res.pagination.pageSize,
+                total: res.pagination.totalRecords,
                 });
                 setdataSource(data.filter((request) => request.status == "APPROVED" || request.status == "REJECTED").map((filtered) => filtered));
             }
         );
-    };
+      };
 
     const getEmployeeNameSelectData = (employeeId) => {
         let data: any = [];
@@ -143,7 +193,7 @@ function EHistory(props) {
 
     const columns: Column[] = [
         {
-            id: "type",
+            id: "leaveType",
             label: "Leave type",
             minWidth: 0,
         },

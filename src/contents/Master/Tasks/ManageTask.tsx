@@ -19,6 +19,7 @@ import Tables from "src/components/atoms/Tables";
 import { Column } from "src/components/atoms/Tables/TableInterface";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
+import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
 import { getLeaveApproverStatus, getLeaveApproverStatusHistory } from "../History/serviceHistory";
 import ViewHistory from "../History/ViewHistory";
 import InProgress from "../LeaveRequest/InProgress";
@@ -84,6 +85,14 @@ function Task(props) {
     sortField: "id",
     direction: "DESC",
   });
+
+  const ManageTask = getPermissionStatus("DashBoard");
+  console.log("ManageTask", ManageTask);
+  const SubManageTask = getSubordinatePrivileges(ManageTask, "DashBoard");
+  console.log(" ManageTask .status", sampleFuc(SubManageTask));
+  console.log("ADD ManageTask status", sampleFuc(SubManageTask).CRMT);
+
+
   const [update, setUpdate] = useState(false);
   const handleUpdate = (value) => {
     setUpdate(true);
@@ -132,12 +141,12 @@ function Task(props) {
   // };
 
   useEffect(() => {
-    getAllLeaveRequestHistoryData();
+    getAllLeaveRequestHistoryData(pagination.pageNumber, pagination.pageSize);
 
-  }, []);
+  }, [pagination.pageNumber, pagination.pageSize]);
 
-  const getAllLeaveRequestHistoryData = () => {
-    getLeaveApproverStatusHistory().then((res: any) => {
+  const getAllLeaveRequestHistoryData = (pageNumber, pageSize) => {
+    getLeaveApproverStatusHistory(pageNumber, pageSize).then((res: any) => {
       let value: {id:Number,status:String,approverName:String,date:String,reason:String,fromDate:String,toDate:String,leaveDays:Number,
         requestedDate:String,leaveType:String,lastName:String,firstName:String,leaveRequestId:Number}[] = createData(res.results.leaveHistory);
       setdataSource(value.filter((request) => request.status == "PENDING" || request.status == "NEW").map((filtered) => filtered));
@@ -145,7 +154,7 @@ function Task(props) {
   };
 
   const reloadTable = () => {
-    getAllLeaveRequestHistoryData();
+    getAllLeaveRequestHistoryData(pagination.pageNumber, pagination.pageSize);
   }
 
 
@@ -203,6 +212,8 @@ function Task(props) {
       label: "",
       minWidth: 40,
       render: (value: any) => (
+          sampleFuc(SubManageTask).UPAS &&
+          sampleFuc(SubManageTask).VIAS &&
         <Button
           variant="text"
           size="small"

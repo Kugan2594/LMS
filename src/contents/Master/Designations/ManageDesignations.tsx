@@ -26,6 +26,7 @@ import { getAllDesignation, deleteDesignation } from './ServiceDesignation';
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from 'src/util/CustomizedNotification';
 import moment from "moment";
+import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
 function createData(data) {
     let convertData = data.map((post, index) => {
         return {
@@ -56,6 +57,13 @@ function ManageDesignations() {
         type: "",
         mesg: "",
     });
+
+    const Settings = getPermissionStatus("Settings");
+    console.log("Settings", Settings);
+    const SubDesignations = getSubordinatePrivileges(Settings, "Designations");
+    console.log(" Settings .status", sampleFuc(SubDesignations));
+    console.log("ADD Settings status", sampleFuc(SubDesignations).CRHL);
+
     const onTableSearch = (values, sortField) => { };
 
 
@@ -104,13 +112,14 @@ function ManageDesignations() {
             width: 90,
             minWidth: 0,
             align: "center",
-            render: (value: any) => (
+            render: (value: any) => 
+                sampleFuc(SubDesignations).UPDN &&
+                sampleFuc(SubDesignations).DEDN &&
                 <TableAction
                     rowData={value}
                     deleteOnclick={deleteOnclick}
                     editOnclick={editOnclick}
                 />
-            ),
         },
     ];
     const [action, setaction] = useState('add');
@@ -178,6 +187,7 @@ function ManageDesignations() {
     return (
         <div>
             <PageTitleWrapper>
+            {/* sampleFuc(SubDesignation).CRDN && */}
                 <PageTitle
                     heading="Designation"
                     subHeading="Master/Designation"

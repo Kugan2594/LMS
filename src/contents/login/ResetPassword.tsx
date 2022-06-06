@@ -17,24 +17,9 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { IconButton, InputAdornment } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Animi } from "src/assets/login-main-bg.svg";
-import { NOTIFICATION_TYPE } from "src/util/Notification";
-import jwt_decode from "jwt-decode";
-import CustomizedNotification from "src/util/CustomizedNotification";
-import { signIn } from "./ServiceLogin";
-import {
-    getAllPermissionByRoleIdInLogin,
-    getRoleIdByRoleName,
-} from "../Permission/ServiceRolePermission";
-import {
-    getUserDetails,
-    setAuthentication,
-    setToken,
-    setUserDetails,
-    setUserName,
-    setUserRolePermission,
-} from "./LoginAuthentication";
 import "./loginPage.scss";
-import PermissionComponent from "src/components/PermissionComponent";
+import { resetPasswordApi } from "./ServiceForgotPassword";
+import { useForm } from "src/components/atoms/Forms/useForm";
 
 const theme = createTheme();
 
@@ -45,10 +30,9 @@ let errStyle = {
     marginTop: "-8px",
 };
 
-export default function Login() {
+export default function ResetPassword() {
     let navigate = useNavigate();
     const [showPassword, setshowPassword] = React.useState(false);
-    const [emailError, setEmailError] = React.useState("");
     const [passwordError, setPasswordError] = React.useState("");
     const [loading, setloading] = React.useState(false);
 
@@ -56,120 +40,34 @@ export default function Login() {
         setshowPassword(!showPassword);
     };
 
-    const [alert, setalert] = React.useState({
-        type: "",
-        mesg: "",
-    });
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
-    const handleAlertClose = () => {
-        setalert({
-            type: "",
-            mesg: "",
-        });
-    };
-
-    const getAllPermission = (roleId) => {
-        getRoleIdByRoleName(roleId).then((res: any) => {
-            console.log("res.results.role.id", res.results.role.id);
-            getAllPermissionByRoleIdInLogin(res.results.role.id).then(
-                (res: any) => {
-                    let permission = res.results.Role_permission;
-                    console.log(
-                        "res.results.role.id",
-                        res.results.Role_permission
-                    );
-                    let permissionData = res.results.Role_permission;
-                    setUserRolePermission(permissionData);
-                    setTimeout(() => {
-                        setloading(false);
-                        navigate("master");
-                        // window.location.reload();
-                    }, 300);
-                }
-            );
-        });
-    };
 
     const onChangeTextField = (e) => {
-        setEmailError("");
+        setPasswordError("");
     };
-    const handleError = (res) => {
-        console.log("msg------->", res);
-        setalert({
-            type: NOTIFICATION_TYPE.error,
-            mesg:
-                res.error_description === "User is disabled"
-                    ? "Your account has been temporarily deactivated"
-                    : res.error === "access_denied"
-                    ? "User don't have permisson for web"
-                    : "Incorrect username or password",
-        });
-    };
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
 
-        let emailId = data.get("email").toString();
-        let body = {
-            userName: data.get("email"),
-            password: data.get("password"),
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const data = new FormData(e.currentTarget);
+        let token = data.get("token").toString();
+        let password = data.get("password").toString();
+        let value = {
+            token: token,
+            password: password,
         };
-        console.log(body);
 
         console.log({
-            email: data.get("email"),
-            password: data.get("password"),
+            token,
+            password,
         });
-        if (data.get("email") === "") {
-            setEmailError("Email is required");
-        } else if (
-            data.get("email") !== "" &&
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(emailId)
-        ) {
-            setEmailError("Email is not valid");
+        if (data.get("password") === "") {
+            setPasswordError("Password can't be null!");
         } else {
-            console.log({ body });
+            resetPasswordApi(value);
             setloading(true);
-            signIn(body).then(
-                (res: any) => {
-                    let response = res.data;
-                    console.log({ response });
-                    var decoded_token: any = jwt_decode(response.access_token);
-                    setalert({
-                        type: NOTIFICATION_TYPE.success,
-                        mesg: "Successfully logged in",
-                    });
-                    navigate("master");
-                    if (response.access_token) {
-                        setAuthentication("true");
-                        setToken(response.access_token);
-                        console.log("decoded_token", decoded_token);
-                        let userdata = {
-                            user_name: decoded_token.user_name,
-                            user_id: decoded_token.userId,
-                            firstName: decoded_token.firstName,
-                            roleId: decoded_token.roleId,
-                            roleName:
-                                decoded_token.authorities &&
-                                decoded_token.authorities[0],
-                        };
-                        getAllPermission(decoded_token.authorities[0]);
-                        setUserName(userdata.firstName);
-                        setUserDetails(JSON.stringify(userdata));
-                    }
-                    // console.log(getUserDetails());
-                    console.log(res);
-                },
-                (error) => {
-                    console.log(error.data);
-
-                    handleError(error.data);
-                    setloading(false);
-                    setAuthentication("false");
-                }
-            );
+            navigate("/");
         }
     };
 
@@ -192,8 +90,6 @@ export default function Login() {
                                     display: "flex",
                                     flexDirection: "column",
                                     alignItems: "center",
-                                    // boxShadow: 5,
-                                    // borderRadius: 5,
                                     paddingBottom: 5,
                                 }}
                             >
@@ -203,7 +99,7 @@ export default function Login() {
                                     <LockOutlinedIcon />
                                 </Avatar>
                                 <Typography component="h1" variant="h5">
-                                    Sign in
+                                    Reset Password
                                 </Typography>
                                 <Box
                                     component="form"
@@ -216,16 +112,12 @@ export default function Login() {
                                         required
                                         fullWidth
                                         id="email"
-                                        label="Email Address"
-                                        name="email"
-                                        autoComplete="email"
+                                        label="Token"
+                                        name="token"
+                                        autoComplete="token"
                                         onChange={onChangeTextField}
                                         autoFocus
-                                        error={emailError ? true : false}
                                     />
-                                    {emailError && (
-                                        <div style={errStyle}>{emailError}</div>
-                                    )}
                                     <TextField
                                         margin="normal"
                                         required
@@ -276,7 +168,6 @@ export default function Login() {
                                             {passwordError}
                                         </div>
                                     )}
-
                                     <LoadingButton
                                         type="submit"
                                         fullWidth
@@ -285,28 +176,10 @@ export default function Login() {
                                         color="primary"
                                         loading={loading}
                                     >
-                                        Sign In
+                                        Reset
                                     </LoadingButton>
-                
-                                    <Grid container>
-                                        <Grid item xs>
-                                            <Link
-                                                href="/forgot-password"
-                                                variant="body2"
-                                            >
-                                                Forgot password?
-                                            </Link>
-                                        </Grid>
-                                    </Grid>
                                 </Box>
                             </Box>
-                            {alert.type.length > 0 ? (
-                                <CustomizedNotification
-                                    severity={alert.type}
-                                    message={alert.mesg}
-                                    handleAlertClose={handleAlertClose}
-                                />
-                            ) : null}
                         </Container>
                     </ThemeProvider>
                 </Grid>

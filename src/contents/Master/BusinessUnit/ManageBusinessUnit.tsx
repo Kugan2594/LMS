@@ -26,6 +26,7 @@ import { getAllBusinessUnit, deleteBusinessUnit } from './ServiceBusinessUnit';
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from 'src/util/CustomizedNotification';
 import moment from "moment";
+import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
 function createData(data) {
     let convertData = data.map((post, index) => {
         return {
@@ -58,6 +59,11 @@ function ManageBusinessUnit() {
     });
     const onTableSearch = (values, sortField) => { };
 
+    const Settings = getPermissionStatus("Settings");
+    console.log("Settings", Settings);    
+    const SubBussinessUnit = getSubordinatePrivileges(Settings, "Unit");
+    console.log("Settings .status", sampleFuc(SubBussinessUnit));
+    console.log("ADD Settings status", sampleFuc(SubBussinessUnit).CRBU);
 
     useEffect(() => {
         getAllBusinessUnitData(pagination.pageNumber, pagination.pageSize);
@@ -103,13 +109,15 @@ function ManageBusinessUnit() {
             width: 90,
             minWidth: 0,
             align: "center",
-            render: (value: any) => (
+            render: (value: any) => 
+                sampleFuc(SubBussinessUnit).UPBU &&
+                sampleFuc(SubBussinessUnit).DEBU &&
                 <TableAction
                     rowData={value}
                     deleteOnclick={deleteOnclick}
                     editOnclick={editOnclick}
                 />
-            ),
+            
         },
     ];
     const [action, setaction] = useState('add');
@@ -177,6 +185,7 @@ function ManageBusinessUnit() {
     return (
         <div>
             <PageTitleWrapper>
+             {/* sampleFuc(SubBussinessUnit).CRBU && */}
                 <PageTitle
                     heading="Business Unit"
                     subHeading="Master/Business Unit"

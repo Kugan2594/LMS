@@ -1,4 +1,5 @@
 import { Card, CardContent, Container } from "@mui/material";
+import moment from "moment";
 import React, { useState, useEffect } from "react";
 import Modals from "src/components/atoms/Modals";
 import Tables from "src/components/atoms/Tables";
@@ -6,25 +7,25 @@ import { TableAction } from "src/components/atoms/Tables/TableAction";
 import { Column } from "src/components/atoms/Tables/TableInterface";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
-import AddHolidays from "./AddHolidays";
-import { getAllHoliday, deleteHoliday } from "./ServiceHolidays";
-import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from "src/util/CustomizedNotification";
-import moment from "moment";
+import { NOTIFICATION_TYPE } from "src/util/Notification";
 import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
+import AddRoles from "./AddRoles";
+import { deleteRole, getAllRole } from "./ServiceRoles";
 
 function createData(data) {
   let convertData = data.map((post, index) => {
     return {
       id: post.id,
-      date: moment(post.date).format("YYYY-MM-DD"),
-      type: post.type,
-      fullDay: (post.fullDay ? "true" : "false"),
+      name: post.name,
+      createdAt: moment(post.createdAt).format("YYYY-MM-DD"),
+      updatedAt: moment(post.updatedAt).format("YYYY-MM-DD"),
     };
   });
   return convertData;
 }
-function ManageHolidays() {
+
+function ManageRoles() {
   const [pagination, setpagination] = useState({
     pageNumber: 0,
     pageSize: 10,
@@ -44,50 +45,26 @@ function ManageHolidays() {
     mesg: "",
   });
 
-  const Holiday = getPermissionStatus("Holiday");
-  console.log("Holiday", Holiday);
-  const SubHolidays = getSubordinatePrivileges(Holiday, "Holiday");
-  console.log(" Holiday .status", sampleFuc(SubHolidays));
-  console.log("ADD Holiday status", sampleFuc(SubHolidays).CRHL);
+  const Settings = getPermissionStatus("Settings");
+  console.log("Settings", Settings);
+  const SubRoles = getSubordinatePrivileges(Settings, "Role");
+  console.log("Settings .status", sampleFuc(SubRoles));
+  console.log("ADD Settings status", sampleFuc(SubRoles).CRHL);
+
 
   const onTableSearch = (values, sortField) => {};
-
-  useEffect(() => {
-    getAllHolidayData(pagination.pageNumber, pagination.pageSize);
-  }, [pagination.pageNumber, pagination.pageSize]);
-  const getAllHolidayData = (pageNumber, pageSize) => {
-    getAllHoliday(pageNumber, pageSize).then((res: any) => {
-      let data: [] = createData(res.results.Holidays);
-      setpagination({
-        pageNumber: res.pagination.pageNumber,
-        pageSize: res.pagination.pageSize,
-        total: res.pagination.totalRecords,
-      });
-      setdataSource(data);
-    });
-  };
-
-  const reloadTable = (res) => {
-    console.log("ppppppppppppppppp", res);
-    setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
-    setOpen(false);
-    getAllHolidayData(pagination.pageNumber, pagination.pageSize);
-  };
-
   const [action, setaction] = useState("add");
   const handleClickOpen = (value) => {
     setaction("add");
     setOpen(true);
   };
-
-  const [Holidays, setHolidays] = useState("");
+  const [role, setRole] = useState("");
   const [error, setError] = useState(false);
   const [update, setUpdate] = useState(false);
-  const onChangeHandler = (businessUnitValue) => {
-    setHolidays(businessUnitValue);
-    console.log(Holidays);
+  const onChangeHandler = (roleValue) => {
+    setRole(roleValue);
+    console.log(role);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -104,7 +81,7 @@ function ManageHolidays() {
     setOpen(true);
   };
   const deleteOnclick = (row) => {
-    deleteHoliday(row.id).then(
+    deleteRole(row.id).then(
       (res: any) => {
         reloadTable(res);
       },
@@ -120,52 +97,76 @@ function ManageHolidays() {
       mesg: res.data.validationFailures[0].message,
     });
   };
+
+  useEffect(() => {
+    getAllRoleData(pagination.pageNumber, pagination.pageSize);
+  }, [pagination.pageNumber, pagination.pageSize]);
+  const getAllRoleData = (pageNumber, pageSize) => {
+    getAllRole(pageNumber, pageSize).then((res: any) => {
+      let data: [] = createData(res.results.Role_Pagination);
+      setpagination({
+        pageNumber: res.pagination.pageNumber,
+        pageSize: res.pagination.pageSize,
+        total: res.pagination.totalRecords,
+      });
+      setdataSource(data);
+    });
+  };
+
+  const reloadTable = (res) => {
+    console.log("ppppppppppppppppp", res);
+    setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
+    setOpen(false);
+    getAllRoleData(pagination.pageNumber, pagination.pageSize);
+  };
+
   const columns: Column[] = [
     {
-      id: "type",
-      label: "Holidays Name",
+      id: "name",
+      label: "Role Name",
       minWidth: 0,
     },
+
     {
-      id: "date",
-      label: "DATE",
-      minWidth: 0,
+      id: "createdAt",
+      label: "Create Date",
+      minWidth: 120,
     },
     {
-      id: "fullDay",
-      label: "Half Day",
-      minWidth: 0,
-      
+      id: "updatedAt",
+      label: "Update Date",
+      minWidth: 120,
     },
     {
       id: "action",
       label: "Action",
       fixed: "right",
+      width: 90,
       minWidth: 0,
       align: "center",
-      render: (value: any) => 
-          sampleFuc(SubHolidays).UPHL &&
-          sampleFuc(SubHolidays).DEHL &&
+      render: (value: any) => (
+        sampleFuc(SubRoles).UPRO &&
+          sampleFuc(SubRoles).DERO &&
         <TableAction
           rowData={value}
           deleteOnclick={deleteOnclick}
           editOnclick={editOnclick}
         />
-
+      ),
     },
   ];
+
   return (
     <div>
       <PageTitleWrapper>
-      {/* sampleFuc(SubHolidays).CRHL && */}
+      {/* sampleFuc(SubRoles).CRRO &&  */}
         <PageTitle
-          heading="Manage Holidays"
-          subHeading="Master/ Holidays"
+          heading="Role"
+          subHeading="Master/Role"
           isButton={true}
-          name="Add Holiday"
+          name="Add Role"
           onclickButton={handleClickOpen}
         />
-    
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Card>
@@ -183,12 +184,14 @@ function ManageHolidays() {
           </CardContent>
         </Card>
         <Modals
-          modalTitle={action === "edit" ? "Edit Holidays" : "Add Holidays"}
+          modalTitle={
+            action === "edit" ? "Edit Role" : "Add Role"
+          }
           modalWidth="25%"
           open={open}
           // onClose={handleClose}
           modalBody={
-            <AddHolidays
+            <AddRoles
               reloadTable={reloadTable}
               action={action}
               editData={editData}
@@ -209,4 +212,4 @@ function ManageHolidays() {
   );
 }
 
-export default ManageHolidays;
+export default ManageRoles;
