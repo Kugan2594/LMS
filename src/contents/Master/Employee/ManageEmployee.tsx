@@ -11,6 +11,16 @@ import { deleteEmployee, getAllEmployee } from "./ServiceEmployee";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from "src/util/CustomizedNotification";
 import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
+import FileSaver from "file-saver";
+import axios from "axios";
+import {
+  Upload, Button
+} from "antd";
+
+import {
+  UploadOutlined,
+  DownloadOutlined
+} from "@ant-design/icons";
 function createData(data) {
   let convertData = data.map((post, index) => {
     return {
@@ -142,7 +152,62 @@ function ManageEmployee() {
       mesg: "",
     });
   };
-  const onTableSearch = (values, sortField) => {};
+  const onChange = (page) => {
+    console.log(page);
+    setpagination({
+      pageNumber: page.pageNumber - 1,
+      pageSize: page.pageSize,
+      total: pagination.total
+    });
+    setTimeout(() => {
+      getAllEmployeeData(page.current - 1, page.pageSize);
+    }, 200);
+  };
+  
+  const importEmp = () => {
+    console.log("exp");
+    axios({
+        url:"http://localhost:1309/leave-management/api/v1/csvDownload",
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+        },
+
+        method: "GET",
+        responseType: "arraybuffer",
+
+    }).then((response) => {
+        var blob = new Blob([response.data], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        });
+
+        FileSaver.saveAs(blob, "employees.csv");
+    });
+  };
+  const uploadProps = {
+    name: "file",
+    action: "http://localhost:1309/leave-management/api/v1/csvUpload",
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+  },
+
+    onChange(info) {
+      console.log({ info })
+      if (info.file.status !== "uploading") {
+      }
+
+      if (info.file.status === "done") {
+        console.log(info.file);
+        const { pageSize, pageNumber } = pagination;
+
+        getAllEmployeeData(pageNumber, pageSize);
+
+      }
+
+    },
+  };
+  const onTableSearch = (values, sortField) => { };
   const columns: Column[] = [
     {
       id: "empId",
@@ -208,6 +273,15 @@ function ManageEmployee() {
           isButton={true}
           onclickButton={handleClickOpen}
         />
+              <div style={{ display: "flex" }} ><Upload {...uploadProps}>
+          <Button icon={<DownloadOutlined />} />
+        </Upload>
+       
+        <Button
+          onClick={importEmp}
+        >
+          <UploadOutlined />
+        </Button></div>
       </PageTitleWrapper>
       <Divider />
       <br />
@@ -215,6 +289,7 @@ function ManageEmployee() {
       <Container maxWidth="lg">
         <Card>
           <CardContent>
+     
             <Tables
               columns={columns}
               tableData={dataSource}
@@ -227,6 +302,10 @@ function ManageEmployee() {
             />
           </CardContent>
         </Card>
+
+     
+
+
         <Modals
           modalTitle={action === "edit" ? "Edit Employee" : "Add Employee"}
           modalWidth="60%"
