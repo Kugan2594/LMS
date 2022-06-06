@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MenuTwoToneIcon from "@mui/icons-material/MenuTwoTone";
-
+import { getUserDetails } from 'src/contents/login/LoginAuthentication';
 import CloseTwoToneIcon from "@mui/icons-material/CloseTwoTone";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import HeaderButtons from "./Buttons";
@@ -166,17 +166,17 @@ function Header() {
       const [count, setCount] = useState(mockData.filter((notification) => notification.status == false));
     
     useEffect(() => {
-        WebSocketClient();
+        WebSocketClient(`/user/${getUserDetails().user_name}/queue/leaverequest`);
     }, []);
 
-    const WebSocketClient= () => {
+    const WebSocketClient= (url) => {
         var sock=new SockJS(SYSTEM_CONFIG.webSocketUrl);
         let stompClient=Stomp.over(sock);
         sock.onopen=function (){};
         return new Promise((resolve,reject)=>{
            stompClient.connect({},(frame)=>{
                stompClient.subscribe( 
-                   "/queue/leaverequest",
+                  url,
                    (data)=>{
                    resolve(data);
                    let dataH=JSON.parse(data.body);
