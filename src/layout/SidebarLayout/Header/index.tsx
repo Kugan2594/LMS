@@ -89,24 +89,29 @@ function Header() {
             // employeeName: "vagh",
             shortmsg: "4 You have recieved a Leave Request",
             date: new Date("Mar 25 2015"),
-            id: "4",
+            id: "5",
             status: true,
         },
     ];
     const [mockDetail, setMockDetail] = useState(mockData);
 
     const ClickHandler = (index) => {
+        let pId = mockDetail.findIndex((m) => {
+            return m.id === index;
+        });
         console.log("clicked");
-        let detail = mockDetail[index];
+        let detail = mockDetail[pId];
         detail.status = true;
         const mockData1 = [...mockDetail];
-        mockData1[index] = detail;
+        mockData1[pId] = detail;
         setMockDetail(mockData1);
-        console.log("......." + mockData1);
+        console.log(
+            "......." +
+                mockDetail.map((m) => {
+                    return m.status;
+                })
+        );
     };
-    let item = mockDetail.filter((f) => {
-        f.status = false;
-    });
 
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
         null
@@ -133,51 +138,41 @@ function Header() {
                 <Box display="flex" alignItems="center">
                     {/* <HeaderButtons /> */}
                     <Box>
-                        <Badge badgeContent={item.length} color="primary">
-                            <IconButton onClick={handleNotificationOpen}>
-                                <div>
-                                    <IconButton onClick={handleClick}>
-                                        <NotificationsRoundedIcon />
-                                    </IconButton>
-                                    <Popover
-                                        sx={{ alignItems: "left" }}
-                                        id={id}
-                                        open={open}
-                                        anchorEl={anchorEl}
-                                        onClose={handleClose}
-                                        anchorOrigin={{
-                                            vertical: "bottom",
-                                            horizontal: "left",
-                                        }}
-                                    >
-                                        <div>
-                                            {mockDetail
-                                                .filter(
-                                                    (x) => x.status == false
-                                                )
-                                                .map((data, index) => {
-                                                    return (
-                                                        <Notification
-                                                            date={data.date.toLocaleString()}
-                                                            // employeeName={data.employeeName}
-                                                            shortmsg={
-                                                                data.shortmsg
-                                                            }
-                                                            key={data.id}
-                                                            onClickHandler={() =>
-                                                                ClickHandler(
-                                                                    index
-                                                                )
-                                                            }
-                                                            id={data.id}
-                                                        />
-                                                    );
-                                                })}
-                                        </div>
-                                    </Popover>
-                                </div>
+                        <Badge badgeContent={4} color="primary">
+                            <IconButton onClick={handleClick}>
+                                <NotificationsRoundedIcon />
                             </IconButton>
                         </Badge>
+                        <Popover
+                            sx={{ alignItems: "left" }}
+                            id={id}
+                            open={open}
+                            anchorEl={anchorEl}
+                            onClose={handleClose}
+                            anchorOrigin={{
+                                vertical: "bottom",
+                                horizontal: "left",
+                            }}
+                        >
+                            <div>
+                                {mockDetail
+                                    .filter((x) => x.status == false)
+                                    .map((data, index) => {
+                                        return (
+                                            <Notification
+                                                date={data.date.toLocaleString()}
+                                                // employeeName={data.employeeName}
+                                                shortmsg={data.shortmsg}
+                                                key={data.id}
+                                                onClickHandler={() =>
+                                                    ClickHandler(data.id)
+                                                }
+                                                id={data.id}
+                                            />
+                                        );
+                                    })}
+                            </div>
+                        </Popover>
                     </Box>
                     <HeaderUserbox />
                     <Hidden lgUp>
