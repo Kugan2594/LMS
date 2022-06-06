@@ -4,6 +4,10 @@ import {
     Badge,
     Box,
     Button,
+    Dialog,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
     Hidden,
     IconButton,
     Modal,
@@ -24,6 +28,8 @@ import ManageNotification from "src/contents/Master/Notification/ManageNotificat
 import * as React from "react";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
+import ViewHistory from "src/contents/Master/History/ViewHistory";
+import { useNavigate } from "react-router";
 
 const HeaderWrapper = styled(Box)(
     ({ theme }) => `
@@ -45,6 +51,7 @@ const HeaderWrapper = styled(Box)(
 );
 
 function Header() {
+    let navigate = useNavigate();
     const [notifi, setNotifi] = useState(false);
     const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
 
@@ -59,38 +66,43 @@ function Header() {
     const mockData = [
         {
             //employeeName: "kuru",
-            shortmsg: " 1 you have recieved a Leave Request",
+            shortmsg: "You have received leave request",
             date: new Date("Mar 25 2015"),
             id: "1",
             status: false,
+            leaveRequestId: 9,
         },
         {
             //employeeName: "sam",
-            shortmsg: "2 you have recieved a Leave Request",
+            shortmsg: "You have received leave request from  Kuruparan",
             date: new Date("Mar 25 2015"),
             id: "2",
             status: false,
+            leaveRequestId: 6,
         },
         {
             //employeeName: "mike",
-            shortmsg: "3 you have recieved a Leave Request",
+            shortmsg: "Your leave request is Approved by dfxdf",
             date: new Date("Mar 25 2015"),
             id: "3",
             status: true,
+            leaveRequestId: 6,
         },
         {
             // employeeName: "vagh",
-            shortmsg: "4 You have recieved a Leave Request",
+            shortmsg: "Your leave request is Approved by dfxdf",
             date: new Date("Mar 25 2015"),
             id: "4",
             status: true,
+            leaveRequestId: 6,
         },
         {
             // employeeName: "vagh",
-            shortmsg: "4 You have recieved a Leave Request",
+            shortmsg: "5 You have recieved a Leave Request",
             date: new Date("Mar 25 2015"),
             id: "5",
-            status: true,
+            status: false,
+            leaveRequestId: 6,
         },
     ];
     const [mockDetail, setMockDetail] = useState(mockData);
@@ -123,10 +135,32 @@ function Header() {
 
     const handleClose = () => {
         setAnchorEl(null);
+        setOpenDetails(false);
     };
 
     const open = Boolean(anchorEl);
     const id = open ? "simple-popover" : undefined;
+
+    const viewAllNotification = () => {
+            navigate("/master/notifications");
+            setAnchorEl(null);
+    }
+
+    const isNewNotification = (index) => {
+        return mockDetail[index].status === false;
+      };
+
+      const [leaveDetails, setLeaveDetails] = useState({});
+      const [openDetails, setOpenDetails] = useState(false);
+
+      const handleOpenLeaveDetails = (data) => {
+        console.log("NNNNNNNN.... ",data)
+        setOpenDetails(true);
+        setLeaveDetails(data);
+      };
+
+      const [count, setCount] = useState(mockData.filter((notification) => notification.status == false));
+    
     return (
         <div>
             <HeaderWrapper display="flex" alignItems="center">
@@ -138,13 +172,13 @@ function Header() {
                 <Box display="flex" alignItems="center">
                     {/* <HeaderButtons /> */}
                     <Box>
-                        <Badge badgeContent={4} color="primary">
+                        <Badge badgeContent={count.length} color="primary" sx={{width: "30px", height: "30px"}}>
                             <IconButton onClick={handleClick}>
                                 <NotificationsRoundedIcon />
                             </IconButton>
                         </Badge>
                         <Popover
-                            sx={{ alignItems: "left" }}
+                            sx={{ alignItems: "left", marginTop: "11px" }}
                             id={id}
                             open={open}
                             anchorEl={anchorEl}
@@ -154,18 +188,25 @@ function Header() {
                                 horizontal: "left",
                             }}
                         >
+                            <Typography variant="h6" color="primary" sx={{textDecoration: "underline", cursor: "pointer"}} textAlign="right" margin="10px 30px 10px 10px" onClick={viewAllNotification}>View All</Typography>
                             <div>
-                                {mockDetail
-                                    .filter((x) => x.status == false)
-                                    .map((data, index) => {
+                                {mockDetail.map((data, index) => {
+                                        const cardProps: {
+                                            background?: string;
+                                          } = {};
+                                          if (isNewNotification(index)) {
+                                            cardProps.background = "rgba(26, 140, 255, 0.25)";
+                                          }
+                                
                                         return (
                                             <Notification
+                                                isNew={cardProps}
                                                 date={data.date.toLocaleString()}
                                                 // employeeName={data.employeeName}
                                                 shortmsg={data.shortmsg}
                                                 key={data.id}
                                                 onClickHandler={() =>
-                                                    ClickHandler(data.id)
+                                                    handleOpenLeaveDetails(data)
                                                 }
                                                 id={data.id}
                                             />
@@ -174,7 +215,9 @@ function Header() {
                             </div>
                         </Popover>
                     </Box>
+                    <Box marginLeft={2}>
                     <HeaderUserbox />
+                    </Box>
                     <Hidden lgUp>
                         <Tooltip arrow title="Toggle Menu">
                             <IconButton color="primary" onClick={toggleSidebar}>
@@ -188,6 +231,25 @@ function Header() {
                     </Hidden>
                 </Box>
             </HeaderWrapper>
+            <Dialog
+            open={openDetails}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            maxWidth="md"
+          >
+            <DialogTitle id="alert-dialog-title">{""}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                <ViewHistory
+                  details={leaveDetails}
+                  isEmployeeDetail={true}
+                  isResponseButtons={false}
+                  cancel={handleClose}
+                />
+              </DialogContentText>
+            </DialogContent>
+          </Dialog>
         </div>
     );
 }
