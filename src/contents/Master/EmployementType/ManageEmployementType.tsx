@@ -45,9 +45,9 @@ function ManageEmployementType() {
     const [action, setaction] = useState('add');
     const [editData, seteditData] = useState({});
 
-  const EmployementType = getPermissionStatus("EmployementType");
-  console.log("EmployementType", EmployementType);
-  const SubEmployementType = getSubordinatePrivileges(EmployementType, "EmployementType");
+  const Settings = getPermissionStatus("Settings");
+  console.log("EmployementType", Settings);
+  const SubEmployementType = getSubordinatePrivileges(Settings, "EmploymentType");
   console.log("EmployementType.status", sampleFuc(SubEmployementType));
   console.log("ADD EmployementType status", sampleFuc(SubEmployementType).CRET);
 
@@ -146,7 +146,7 @@ function ManageEmployementType() {
     return (
         <div>
             <PageTitleWrapper>
-                sampleFuc(SubEmployementType).CRET && 
+                {/* sampleFuc(SubEmployementType).CRET &&  */}
                 <PageTitle
                     heading="Employement Type"
                     name="Add Employement Type"

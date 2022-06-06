@@ -26,7 +26,7 @@ const getAllEmployeesForDropDown = () => {
 
 const applyLeave = (data: object) => {
   return new Promise((resolve, reject) => {
-    api("post", "lm-web", null, `/leaveApply`, null, data, "")
+    api("post", "lm-web", null, `/leaveApply`,   'token', data, "")
       .then((response: any) => {
         resolve(response);
       })
@@ -43,7 +43,7 @@ const getAllLeaveRequest = (pageNumber: number, pageSize: number) => {
       "lm-web",
       null,
       `/leaveApplyPagination?page=${pageNumber}&size=${pageSize}`,
-      "",
+      'token',
       "",
       ""
     )
@@ -57,7 +57,7 @@ const getAllLeaveRequest = (pageNumber: number, pageSize: number) => {
 };
 const updateLeaveRequest = (data: object) => {
   return new Promise((resolve, reject) => {
-    api("put", "lm-web", null, `/leaveApply`, "", data, "")
+    api("put", "lm-web", null, `/leaveApply`,   'token', data, "")
       .then((response: any) => {
         resolve(response);
       })

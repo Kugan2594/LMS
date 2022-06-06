@@ -187,7 +187,7 @@ function ManageDesignations() {
     return (
         <div>
             <PageTitleWrapper>
-            sampleFuc(SubDesignation).CRDN &&
+            {/* sampleFuc(SubDesignation).CRDN && */}
                 <PageTitle
                     heading="Designation"
                     subHeading="Master/Designation"

@@ -22,11 +22,13 @@ export default function HeaderNotifications() {
     vertical: 'top',
     horizontal: 'center'
   });
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [count, setCount] = useState(0);
   const [notifications, setNotifications] = useState([]);
   useEffect(() => {
-    getNotifications(getUserDetails().user_id);
-    WebSocketClient(`/user/${getUserDetails().user_id}/queue/message`);
+    getNotifications(page,rowsPerPage);
+    WebSocketClient(`/user/${getUserDetails().user_name}/queue/message`);
   }, []);
 
   const convertName = (name) => {
@@ -42,9 +44,9 @@ export default function HeaderNotifications() {
       }
     }
   };
-  const getNotifications = (noti) => {
-    getAllNotification(noti).then((res: any) => {
-      let respones = res.result.notification;
+  const getNotifications = (page, rowsPerPage) => {
+    getAllNotification(page, rowsPerPage).then((res: any) => {
+      let respones = res.results.NotificationByUserEmail;
       let cou = [];
       let convertdata = respones.map((post, index) => {
         return {
@@ -59,8 +61,6 @@ export default function HeaderNotifications() {
         };
       });
 
-   
-      let newNotifications = filter(convertdata, (res) => res.read);
       setNotifications(convertdata);
 
       if (status) {
@@ -86,24 +86,35 @@ export default function HeaderNotifications() {
         let convertdata = dataH.map((post, index) => {
           return {
             id: post.id,
-            name: post.type,
-            meassage: post.message,
-            time: convertName(
-              moment(post.createdAt, 'YYYY-MM-DD HH:mm:ss').fromNow()
-            ),
-            read: post.view,
-            date: moment(post.createdAt).format('YYYY-MM-DD')
+            shortmsg: post.shortmsg,
+            detailsmsg: post.detailsmsg,
           };
         });
-  
-        let newNotifications = filter(convertdata, (res) => !res.read);
-        setNotifications(newNotifications);
-        setCount(newNotifications.length);
-
-        notificationCount = newNotifications.length;
+        
+      setNotifications(convertdata);
       });
+      
 
-      stompClient.subscribe(  `/user/${getUserDetails().user_id}/queue/leaverequest`, (data) => {
+      stompClient.subscribe( `/user/${getUserDetails().user_name}/queue/lieurequest`, (data) => {
+        let dataH = JSON.parse(data.body);
+
+        setIsWebSocket(true);
+        setPossion({
+          open: true,
+          vertical: 'top',
+          horizontal: 'center'
+        });
+        let convertdata = dataH.map((post, index) => {
+          return {
+            id: post.id,
+            shortmsg: post.shortmsg,
+            detailsmsg: post.detailsmsg,
+          };
+        });
+        
+      setNotifications(convertdata);
+      });
+      stompClient.subscribe(`/user/${getUserDetails().user_name}/queue/statusChange`, (data) => {
         let dataH = JSON.parse(data.body);
 
         setIsWebSocket(true);
@@ -117,77 +128,10 @@ export default function HeaderNotifications() {
             id: post.id,
             name: post.type,
             meassage: post.message,
-            time: convertName(
-              moment(post.createdAt, 'YYYY-MM-DD HH:mm:ss').fromNow()
-            ),
-            read: post.view,
-            date: moment(post.createdAt).format('YYYY-MM-DD')
           };
         });
   
-        let newNotifications = filter(convertdata, (res) => !res.read);
-        setNotifications(newNotifications);
-        setCount(newNotifications.length);
-
-        notificationCount = newNotifications.length;
-      });
-
-      stompClient.subscribe(`/user/${getUserDetails().user_id}/queue/leaverequest`, (data) => {
-        let dataH = JSON.parse(data.body);
-
-        setIsWebSocket(true);
-        setPossion({
-          open: true,
-          vertical: 'top',
-          horizontal: 'center'
-        });
-        let convertdata = dataH.map((post, index) => {
-          return {
-            id: post.id,
-            name: post.type,
-            meassage: post.message,
-            time: convertName(
-              moment(post.createdAt, 'YYYY-MM-DD HH:mm:ss').fromNow()
-            ),
-            read: post.view,
-            date: moment(post.createdAt).format('YYYY-MM-DD')
-          };
-        });
-  
-        let newNotifications = filter(convertdata, (res) => !res.read);
-        setNotifications(newNotifications);
-        setCount(newNotifications.length);
-
-        notificationCount = newNotifications.length;
-      });
-
-      stompClient.subscribe(`/user/${getUserDetails().user_id}/queue/statusChange`, (data) => {
-        let dataH = JSON.parse(data.body);
-
-        setIsWebSocket(true);
-        setPossion({
-          open: true,
-          vertical: 'top',
-          horizontal: 'center'
-        });
-        let convertdata = dataH.map((post, index) => {
-          return {
-            id: post.id,
-            name: post.type,
-            meassage: post.message,
-            time: convertName(
-              moment(post.createdAt, 'YYYY-MM-DD HH:mm:ss').fromNow()
-            ),
-            read: post.view,
-            date: moment(post.createdAt).format('YYYY-MM-DD')
-          };
-        });
-  
-        let newNotifications = filter(convertdata, (res) => !res.read);
-        setNotifications(newNotifications);
-        setCount(newNotifications.length);
-
-        notificationCount = newNotifications.length;
+        setNotifications(convertdata);
       });
     });
     stompClient.activate();

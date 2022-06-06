@@ -16,7 +16,7 @@ function createData(data) {
           employeeName: post.employee.lastName,
           approverOrder: post.approverOrder,
           approverName:post.approver.employee.lastName,
-          employeeId: post.employee.id
+          employeeId: post.employee.empId
       };
   });
   return convertData;
