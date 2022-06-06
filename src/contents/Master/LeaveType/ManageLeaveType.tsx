@@ -102,7 +102,7 @@ function ManageLeaveType() {
   });
 
   const LeaveTypes = getPermissionStatus("LeaveTypes");
-  console.log("Leave Types", LeaveTypes);
+  console.log("LeaveTypes", LeaveTypes);
   const SubLeaveTypes = getSubordinatePrivileges(LeaveTypes, "LeaveTypes");
   console.log("LeaveTypes.status", sampleFuc(SubLeaveTypes));
   console.log("ADD LeaveTypes status", sampleFuc(SubLeaveTypes).CRLT);
