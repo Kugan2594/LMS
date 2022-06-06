@@ -1,6 +1,6 @@
 interface ILeaveRequest {
     id?: number;
-    employeeId?: string | number;
+    employeeId?:  number;
     leaveTypeId?: string | number;
     fromDate?: string;
     toDate?: string;
