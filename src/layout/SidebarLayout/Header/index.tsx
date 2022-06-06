@@ -178,7 +178,7 @@ function Header() {
                             </IconButton>
                         </Badge>
                         <Popover
-                            sx={{ alignItems: "left", marginTop: "11px" }}
+                            sx={{ alignItems: "left", marginTop: "16px" }}
                             id={id}
                             open={open}
                             anchorEl={anchorEl}
