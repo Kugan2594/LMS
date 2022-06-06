@@ -20,6 +20,18 @@ const getAllRole = (pageNumber: number, pageSize: number) => {
     });
 };
 
+const getAllRoles = () => {
+    return new Promise((resolve, reject) => {
+        api("GET", "lm-web", null, "/role", "", "", "")
+            .then((response: any) => {
+                resolve(response.data);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
+
 const createRole = (data: object) => {
     return new Promise((resolve, reject) => {
         api("post", "lm-web", null, `/role`, "", data, "")
@@ -56,4 +68,4 @@ const updateRole = (data: object) => {
     });
 };
 
-export { getAllRole, updateRole, deleteRole, createRole }
+export { getAllRole, getAllRoles, updateRole, deleteRole, createRole };
