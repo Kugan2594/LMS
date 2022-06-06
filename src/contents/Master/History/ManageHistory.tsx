@@ -5,6 +5,7 @@ import PageTitle from "src/components/organism/PageTitle";
 import Tables from "src/components/atoms/Tables";
 import { Column } from "src/components/atoms/Tables/TableInterface";
 import ViewHistory from "./ViewHistory";
+import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
 
 
 let sampleData: any = [
@@ -88,6 +89,13 @@ function ManageHistory() {
 
   const [leaveDetails, setLeaveDetails] = useState({});
 
+  const History = getPermissionStatus("History");
+  console.log("History", History);
+  const SubHistory = getSubordinatePrivileges(History, "History");
+  console.log(" History .status", sampleFuc(SubHistory));
+  // console.log("ADD History status", sampleFuc(SubHistory).CRHR);
+
+
   const handleClickOpen = (value) => {
     setOpen(true);
     setLeaveDetails(value);
@@ -145,6 +153,8 @@ function ManageHistory() {
       label: "",
       minWidth: 40,
       render: (value) => (
+        // sampleFuc(SubHistory).UPH &&
+        // sampleFuc(SubHistory).DEH &&
         <Button variant="text" onClick={()=>handleClickOpen(value)}>Detail</Button>
         ),
     }
@@ -161,6 +171,7 @@ function ManageHistory() {
   return (
     <div>
       <PageTitleWrapper>
+         {/* sampleFuc(SubDesignation).CRH && ( */}
         <PageTitle
           heading="History"
           subHeading="Master/History"

@@ -34,6 +34,7 @@ import {
     setUserRolePermission,
 } from "./LoginAuthentication";
 import "./loginPage.scss";
+import PermissionComponent from "src/components/PermissionComponent";
 
 const theme = createTheme();
 
@@ -275,6 +276,7 @@ export default function Login() {
                                             {passwordError}
                                         </div>
                                     )}
+
                                     <LoadingButton
                                         type="submit"
                                         fullWidth
@@ -285,6 +287,7 @@ export default function Login() {
                                     >
                                         Sign In
                                     </LoadingButton>
+                
                                     <Grid container>
                                         <Grid item xs>
                                             <Link

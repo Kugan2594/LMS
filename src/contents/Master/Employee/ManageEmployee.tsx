@@ -10,6 +10,7 @@ import { TableAction } from "src/components/atoms/Tables/TableAction";
 import { deleteEmployee, getAllEmployee } from "./ServiceEmployee";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from "src/util/CustomizedNotification";
+import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
 function createData(data) {
   let convertData = data.map((post, index) => {
     return {
@@ -65,6 +66,13 @@ function ManageEmployee() {
   const [dataSource, setdataSource] = useState([]);
   const [action, setaction] = useState("add");
   const [editData, seteditData] = useState({});
+
+  const Employees = getPermissionStatus("Employees");
+    console.log("Employees", Employees);
+    const SubEmployee = getSubordinatePrivileges(Employees, "Employees");
+    console.log("Employees.status", sampleFuc(SubEmployee));
+    console.log("ADD Employee status", sampleFuc(SubEmployee).CREM);
+
   const handleClickOpen = () => {
     setaction("add");
     setOpen(true);
@@ -179,19 +187,20 @@ function ManageEmployee() {
       minWidth: 100,
       fixed: "right",
       align: "center",
-      render: (value: any) => (
+      render: (value: any) => 
+      sampleFuc(SubEmployee).UPEM && sampleFuc(SubEmployee).DEEM &&
         <TableAction
           rowData={value}
           deleteOnclick={deleteOnclick}
           editOnclick={editOnclick}
         />
-      ),
     },
   ];
 
   return (
     <div>
       <PageTitleWrapper>
+      {/* sampleFuc(SubCompanyLocation).CRCL && */}
         <PageTitle
           heading="Employee"
           name="Add Employee"
