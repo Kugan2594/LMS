@@ -1,13 +1,15 @@
 import { Box, Dialog, DialogContent, DialogContentText, DialogTitle, Divider, Grid } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import ViewHistory from "../History/ViewHistory";
 import INotification from "./InterfaceNotification";
 import Notification from "./Notification";
+import { getUserDetails } from 'src/contents/login/LoginAuthentication';
 
+import {getAllNotification,getNotification} from './NotificationService'
 function ManageNotification(props: INotification) {
-
+    const [notifications, setNotifications] = useState([]);
     const mockData = [
         {
             //employeeName: "kuru",
@@ -90,14 +92,37 @@ function ManageNotification(props: INotification) {
             leaveRequestId: 9
         },
     ];
+    useEffect(() => {
+        getAllNotificationByEmail(page, rowsPerPage,getUserDetails().user_name);
+    }, []);
 
+    const  getAllNotificationByEmail=(page, rowsPerPage,email)=>{
+        let count = 0;
+            let data = [];
+            getNotification(page, rowsPerPage, email).then((res: any) => {
+            res.results.NotificationByUserEmail.map((post,index)=>{
+             data.push({
+                 id:post.id,
+                 shortmsg:post.shortmsg,
+                 detailsmsg:post.detailsmsg,
+                 read:post.read
+             })  
+         
+            })
+            console.log("99999999999999999",data);
+        })
+        setNotifications(data);  
+      }
     const isNewNotification = (index) => {
         return mockData[index].status === false;
       };
 
       const [leaveDetails, setLeaveDetails] = useState({});
       const [openDetails, setOpenDetails] = useState(false);
-
+   
+      const [page, setPage] = useState(0);
+      const [rowsPerPage, setRowsPerPage] = useState(20);
+      const [total, setTotal] = useState(0);
       const handleOpenLeaveDetails = (data) => {
         console.log("NNNNNNNN.... ",data)
         setOpenDetails(true);
@@ -107,6 +132,7 @@ function ManageNotification(props: INotification) {
       const handleClose = () => {
         setOpenDetails(false);
     };
+    
 
     return (
         <div>
@@ -127,7 +153,8 @@ function ManageNotification(props: INotification) {
                     <Grid item xs={3}></Grid>
                     <Grid item xs={5}>
                     <div>
-                    {mockData.map((data, index) => {
+                    {notifications.map((data, index) => {
+                        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",data);
                         const cardProps: {
                             background?: string;
                           } = {};
