@@ -73,14 +73,14 @@ export default function Login() {
     const getAllPermission = (roleId) => {
         getRoleIdByRoleName(roleId).then((res: any) => {
             console.log("res.results.role.id", res.results.role.id);
-            getAllPermissionByRoleIdInLogin(res.results.role.id).then(
+            getAllPermissionByRoleIdInLogin().then(
                 (res: any) => {
-                    let permission = res.results.Role_permission;
+                    let permission = res.results.Permissions;
                     console.log(
                         "res.results.role.id",
-                        res.results.Role_permission
+                        res.results.Permission
                     );
-                    let permissionData = res.results.Role_permission;
+                    let permissionData = res.results.Permissions;
                     setUserRolePermission(permissionData);
                     setTimeout(() => {
                         setloading(false);
