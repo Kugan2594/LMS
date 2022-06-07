@@ -103,11 +103,10 @@ function UserPrivilage() {
                                                 title: finalPost.description,
                                                 key: `${post.id}-${subPost.id}-${finalPost.id}`,
                                                 disableCheckbox:
-                                                finalPost.id === 59
-                                                        ? keyStatus
-                                                        : finalPost.id === 60
-                                                        ? true
-                                                        : false
+                                                    finalPost.id===59
+                                                    ? true
+                                                    : false
+                                                    
 
                                                 
                                             };
@@ -200,11 +199,6 @@ function UserPrivilage() {
                                 }}
                                 onChange={(value) => {
                                     setRoleId(value);
-                                    if (value === 1) {
-                                        setKeyStatus(true);
-                                    } else {
-                                        setKeyStatus(false);
-                                    }
                                 }}
                                 onSelect={(value) =>
                                     getRolePermissionDataByRoleId(value)
