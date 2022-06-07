@@ -31,6 +31,7 @@ import ResetPassword from "src/contents/login/ResetPassword";
 
 import UserVerification from "src/contents/login/UserVerification";
 import ManageRoles from "src/contents/Master/Roles/ManageRoles";
+import { modulePermission, PERMISSION_NAME } from "src/util/constants";
 const Loader = (Component: any) => (props: any) =>
     (
         <Suspense fallback={<SuspenseLoader />}>
@@ -69,6 +70,7 @@ const PrivateRoute: PartialRouteObject[] = [
         path: "master",
         element: <SidebarLayout />,
         children: [
+
             {
                 path: "/",
                 element: <Dashboard />,
