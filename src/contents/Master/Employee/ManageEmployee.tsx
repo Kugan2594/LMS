@@ -132,11 +132,12 @@ function ManageEmployee() {
   };
 
   const reloadTable = (res) => {
+    getAllEmployeeData(pagination.pageNumber, pagination.pageSize);
     setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
     console.log("//////////////////////////", res);
 
     setOpen(false);
-    getAllEmployeeData(pagination.pageNumber, pagination.pageSize);
+ 
   };
 
   const editOnclick = (row) => {
@@ -252,6 +253,8 @@ function ManageEmployee() {
 
       UploadService(formData).then(
         (res: any) => {
+          reloadTable(res);
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",res);
           setFile(null);
           let errorData =
             res.data && res.data.result && res.data.result.errorPassengerCsv;
@@ -314,7 +317,7 @@ function ManageEmployee() {
             setOpenImport(false);
           }
 
-          // setOpenImport(false);
+          //  setOpenImport(false);
         },
         (error) => {
           console.log(error);
