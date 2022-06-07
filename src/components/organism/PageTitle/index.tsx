@@ -37,11 +37,11 @@ const PageTitle: FC<PageTitleProps> = ({
   docs = "",
   name = "",
   nameBtnTwo = "",
-  onclickButton = () => {},
-  onChangeImport = () => {},
-  onChangeExport = () => {},
-  onChange = () => {},
-  onclickButtonTwo = () => {},
+  onclickButton = () => { },
+  onChangeImport = () => { },
+  onChangeExport = () => { },
+  onChange = () => { },
+  onclickButtonTwo = () => { },
   isButton = true,
   isButtonTwo = false,
   importCSV = false,
@@ -93,30 +93,23 @@ const PageTitle: FC<PageTitleProps> = ({
         </Grid>
         <Grid item>
           {exportCSV && (
-            <label htmlFor="contained-button-file">
-              <Input
-                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                id="contained-button-file"
-                type="file"
-              />
 
-              <Button
-                onClick={() => onChangeExport()}
-                onChange={()=>onChange()}
-                variant="contained"
-                component="span"
-                startIcon={
-                  <BsCloudDownload
-                    style={{
-                      fontWeight: "600",
-                    }}
-                    size={18}
-                  />
-                }
-              >
-                Export
-              </Button>
-            </label>
+
+            <Button
+              onClick={() => onChangeExport()}
+              variant="contained"
+              component="span"
+              startIcon={
+                <BsCloudDownload
+                  style={{
+                    fontWeight: "600",
+                  }}
+                  size={18}
+                />
+              }
+            >
+              Export
+            </Button>
           )}
         </Grid>
         <Grid item>
