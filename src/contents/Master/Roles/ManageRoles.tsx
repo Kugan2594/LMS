@@ -1,4 +1,4 @@
-import { Card, CardContent, Container } from "@mui/material";
+import { Card, CardContent, Container, Divider } from "@mui/material";
 import moment from "moment";
 import React, { useState, useEffect } from "react";
 import Modals from "src/components/atoms/Modals";
@@ -145,8 +145,8 @@ function ManageRoles() {
       minWidth: 0,
       align: "center",
       render: (value: any) => (
-        sampleFuc(SubRoles).UPRO &&
-          sampleFuc(SubRoles).DERO &&
+        sampleFuc(SubRoles).UPR &&
+          sampleFuc(SubRoles).DLR &&
         <TableAction
           rowData={value}
           deleteOnclick={deleteOnclick}
@@ -159,7 +159,7 @@ function ManageRoles() {
   return (
     <div>
       <PageTitleWrapper>
-      {/* sampleFuc(SubRoles).CRRO &&  */}
+      {/* sampleFuc(SubRoles).CRR &&  */}
         <PageTitle
           heading="Role"
           subHeading="Master/Role"
@@ -168,6 +168,8 @@ function ManageRoles() {
           onclickButton={handleClickOpen}
         />
       </PageTitleWrapper>
+      <Divider />
+            <br />
       <Container maxWidth="lg">
         <Card>
           <CardContent>
