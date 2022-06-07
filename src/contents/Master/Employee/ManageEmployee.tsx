@@ -126,15 +126,7 @@ function ManageEmployee() {
 
   const handleUPload = (e) => { 
 
-    UploadService().then(
-      (res: any) => {
-        reloadTable(res);
-      },
-      (error) => {
-        console.log(error);
-        handleError(error);
-      }
-    );
+    
   };
 
   const reloadTable = (res) => {
