@@ -160,7 +160,7 @@ function ManageHolidays() {
         <PageTitle
           heading="Manage Holidays"
           subHeading="Master/ Holidays"
-          isButton={sampleFuc(SubHolidays).CRHD ? false : true}
+          isButton={sampleFuc(SubHolidays).CRHD ? true : false}
           name="Add Holiday"
           onclickButton={handleClickOpen}
         />

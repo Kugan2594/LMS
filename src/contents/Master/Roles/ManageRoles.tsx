@@ -162,7 +162,7 @@ function ManageRoles() {
         <PageTitle
           heading="Role"
           subHeading="Master/Role"
-          isButton={sampleFuc(SubRoles).CRR ? false : true}
+          isButton={sampleFuc(SubRoles).CRR ? true : false}
           name="Add Role"
           onclickButton={handleClickOpen}
         />

@@ -199,7 +199,7 @@ function ManageLeaveType() {
           heading="Leave Type"
           subHeading="Master/LeaveType"
           name="Add LeaveType"
-          isButton={sampleFuc(SubLeaveTypes).CRLT ? false : true}
+          isButton={sampleFuc(SubLeaveTypes).CRLT ? true : false}
           onclickButton={handleClickOpen}
         />
       </PageTitleWrapper>

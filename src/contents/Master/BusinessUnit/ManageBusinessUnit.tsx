@@ -189,7 +189,7 @@ function ManageBusinessUnit() {
                 <PageTitle
                     heading="Business Unit"
                     subHeading="Master/Business Unit"
-                    isButton={sampleFuc(SubBussinessUnit).CRBU ? false : true}
+                    isButton={sampleFuc(SubBussinessUnit).CRBU ? true : false}
                     name="Add Business Unit"
                     onclickButton={handleClickOpen}
                 />
