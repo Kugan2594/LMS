@@ -20,7 +20,7 @@ import GroupWorkRoundedIcon from "@mui/icons-material/GroupWorkRounded";
 import DonutLargeRoundedIcon from "@mui/icons-material/DonutLargeRounded";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
-
+import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
 import { remove } from "lodash";
 import { getPermissionStatus, getSubordinatePrivileges, getUserRolePermission, sampleFuc } from "src/util/permissionUtils";
 
@@ -168,6 +168,25 @@ const masterMenuItems: MenuItem[] = [
         ],
     },
 ];
+console.log("mmmmmmmmmmmmmmmmmmmmmmmmmmmm",getPermissionStatus("LeaveTypes").status)
+if (!getPermissionStatus("LeaveTypes").status) {
+    remove(masterMenuItems, (item) => item.name === "Leave Types");
+  }
+  if (!getPermissionStatus("Employees").status) {
+    remove(masterMenuItems, (item) => item.name === "Employees");
+  }
+  if (!getPermissionStatus("Approvers").status) {
+    remove(masterMenuItems, (item) => item.name === "Approvers");
+  }
+  if (!getPermissionStatus("AllocateLeaves").status) {
+    remove(masterMenuItems, (item) => item.name === "Allocate Leaves");
+  }
+  if (!getPermissionStatus("History").status) {
+    remove(masterMenuItems, (item) => item.name === "History");
+  }
+  if (!getPermissionStatus("Holiday").status) {
+    remove(masterMenuItems, (item) => item.name === "Holidays");
+  }
 
 if (!sampleFuc(SubApprovers)) {
     remove(masterMenuItems, (item) => item.name === 'Approvers');

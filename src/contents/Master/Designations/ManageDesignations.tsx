@@ -191,7 +191,7 @@ function ManageDesignations() {
                 <PageTitle
                     heading="Designation"
                     subHeading="Master/Designation"
-                    isButton={sampleFuc(SubDesignations).CRDN ? false : true}
+                    isButton={sampleFuc(SubDesignations).CRDN ? true : false}
                     name="Add Designation"
                     onclickButton={handleClickOpen}
                 />
