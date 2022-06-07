@@ -153,15 +153,15 @@ const getAllRoleForDropDown = () => {
     });
 };
 
-const UploadService = () => {
+const UploadService = (data: object) => {
     return new Promise((resolve, reject) => {
         api(
-            "get",
+            "post",
             "lm-web",
             null,
             `/csvUpload`,
             "",
-            "",
+            data,
             ""
         )
             .then((response: any) => {
