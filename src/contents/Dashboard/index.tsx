@@ -24,6 +24,11 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import EHistory from "../Master/E-History/EHistory";
 import ManageNotification from "../Master/Notification/ManageNotification";
+import {getEmployeeIdByEmail,getApprovalStatusById} from './ServiceEmployeeLeaveRequestHistory';
+import {
+    getUserDetails,
+  
+} from "../login/LoginAuthentication";
 function createData(data) {
     let convertData = data.map((post, index) => {
         return {
@@ -37,9 +42,28 @@ function createData(data) {
 
 export default function Dashboard() {
     const [dataSource, setdataSource] = useState([]);
+    const [employeeId,setEmployeeId]=useState(0);
+    const [approvalstatus,setApprovalStatus]=useState();
     useEffect(() => {
         getAllEmployeeLeaveTypeData();
+        getEmployeeByEmail(getUserDetails().user_name);
+     
     }, []);
+    const getEmployeeByEmail = (email) => {
+        getEmployeeIdByEmail(email).then((res: any) => {
+            console.log("res",res);
+            setEmployeeId(res.employee.id);
+            getApprovalStatusById(res.employee.id).then((res: any) => {
+                console.log("res",res);
+    
+                console.log("res.approverStatus",res.results.Employee.approverStatus);
+                setApprovalStatus(res.results.Employee.approverStatus);
+            });
+        });
+        
+    };
+
+    
 
     const getAllEmployeeLeaveTypeData = () => {
         getAllEmployeeLeaveType().then((res: any) => {
@@ -88,7 +112,7 @@ export default function Dashboard() {
                                 aria-label="secondary tabs example"
                             >
                                 <Tab label="My Leaves" value="1" onClick={reload} />
-                                <Tab label="My Tasks" value="2" onClick={reload} />
+                             { approvalstatus &&          <Tab label="My Tasks" value="2" onClick={reload} />}
                             </Tabs>
                         </Box>
                         <TabPanel value="1">
