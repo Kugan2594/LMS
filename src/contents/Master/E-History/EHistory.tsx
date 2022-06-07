@@ -213,6 +213,11 @@ function EHistory(props) {
             minWidth: 0,
         },
         {
+            id: "reason",
+            label: "Reason",
+            minWidth: 0,
+        },
+        {
             id: "requestedDate",
             label: "Requested date",
             minWidth: 0,
