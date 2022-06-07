@@ -144,8 +144,8 @@ function ManageHolidays() {
       minWidth: 0,
       align: "center",
       render: (value: any) => 
-          sampleFuc(SubHolidays).UPHL &&
-          sampleFuc(SubHolidays).DEHL &&
+          sampleFuc(SubHolidays).UPHD &&
+          sampleFuc(SubHolidays).DEHD &&
         <TableAction
           rowData={value}
           deleteOnclick={deleteOnclick}
@@ -157,11 +157,10 @@ function ManageHolidays() {
   return (
     <div>
       <PageTitleWrapper>
-      {/* sampleFuc(SubHolidays).CRHL && */}
         <PageTitle
           heading="Manage Holidays"
           subHeading="Master/ Holidays"
-          isButton={true}
+          isButton={sampleFuc(SubHolidays).CRHD ? false : true}
           name="Add Holiday"
           onclickButton={handleClickOpen}
         />

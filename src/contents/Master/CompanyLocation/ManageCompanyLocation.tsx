@@ -185,7 +185,7 @@ function ManageCompanyLocation() {
           heading="Company Location"
           name="Add Company Location"
           subHeading="Master/Company Location"
-          isButton={true}
+          isButton={sampleFuc(SubCompanyLocation).CRCL ? false : true}
           onclickButton={handleClickOpen}
         />
       </PageTitleWrapper>

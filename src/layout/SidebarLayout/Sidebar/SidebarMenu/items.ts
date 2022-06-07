@@ -22,6 +22,7 @@ import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRou
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 
 import { remove } from "lodash";
+import { modulePermission, PERMISSION_NAME } from "src/util/constants";
 
 export interface MenuItem {
     id?: string;
@@ -100,10 +101,6 @@ const masterMenuItems: MenuItem[] = [
         ],
     },
 ];
-
-// if (!modulePermission(PERMISSION_NAME.role_permission).view) {
-//   remove(permissionMenuItems, (item) => item.name === 'Role Permission');
-// }
 
 const menuItems: MenuItems[] = [
     {

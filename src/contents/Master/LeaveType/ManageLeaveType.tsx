@@ -194,13 +194,12 @@ function ManageLeaveType() {
 
   return (
     <div>
-      {/* sampleFuc(SubLeaveType).CRLT && */}
       <PageTitleWrapper>
         <PageTitle 
           heading="Leave Type"
           subHeading="Master/LeaveType"
           name="Add LeaveType"
-          isButton={true}
+          isButton={sampleFuc(SubLeaveTypes).CRLT ? false : true}
           onclickButton={handleClickOpen}
         />
       </PageTitleWrapper>

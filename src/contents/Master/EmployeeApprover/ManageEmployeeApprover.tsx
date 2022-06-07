@@ -132,7 +132,7 @@ function ManageEmployeeApprover() {
           heading="Employee Approvers"
           name="Add Employee Approver"
           subHeading="Master/Approvers"
-          isButton={true}
+          isButton={sampleFuc(SubApprovers).CREA ? false : true}
           onclickButton={handleClickOpen}
         />
       </PageTitleWrapper>
