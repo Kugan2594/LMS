@@ -7,19 +7,17 @@ import PageTitle from "src/components/organism/PageTitle";
 import { Column } from "../../../components/atoms/Tables/TableInterface";
 import AddEmployee from "./AddEmployee";
 import { TableAction } from "src/components/atoms/Tables/TableAction";
-import { deleteEmployee, getAllEmployee } from "./ServiceEmployee";
+import { deleteEmployee, getAllEmployee, UploadService } from "./ServiceEmployee";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from "src/util/CustomizedNotification";
 import FileSaver from "file-saver";
 import axios from "axios";
-import {
-  Upload, Button
-} from "antd";
+import { Upload, Button } from "antd";
+import Button1 from "src/components/atoms/controlls/Button";
 
-import {
-  UploadOutlined,
-  DownloadOutlined
-} from "@ant-design/icons";
+
+import { UploadOutlined, DownloadOutlined } from "@ant-design/icons";
+import Input from "src/components/atoms/controlls/Input";
 function createData(data) {
   let convertData = data.map((post, index) => {
     return {
@@ -50,7 +48,7 @@ function createData(data) {
       designationId: post.designation.id,
       companyLocationId: post.companyLocation.id,
       roleId: post.role.id,
-
+      roleName: post.role.name,
     };
   });
   return convertData;
@@ -117,6 +115,20 @@ function ManageEmployee() {
     );
   };
 
+
+  const handleUPload = (e) => { 
+
+    UploadService().then(
+      (res: any) => {
+        reloadTable(res);
+      },
+      (error) => {
+        console.log(error);
+        handleError(error);
+      }
+    );
+  };
+
   const reloadTable = (res) => {
     setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
     console.log("//////////////////////////", res);
@@ -149,31 +161,30 @@ function ManageEmployee() {
     setpagination({
       pageNumber: page.pageNumber - 1,
       pageSize: page.pageSize,
-      total: pagination.total
+      total: pagination.total,
     });
     setTimeout(() => {
       getAllEmployeeData(page.current - 1, page.pageSize);
     }, 200);
   };
-  
+
   const importEmp = () => {
     console.log("exp");
     axios({
-        url:"http://localhost:1309/leave-management/api/v1/csvDownload",
-        headers: {
-            "Access-Control-Allow-Origin": "*",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-        },
+      url: "http://localhost:1309/leave-management/api/v1/csvDownload",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
 
-        method: "GET",
-        responseType: "arraybuffer",
-
+      method: "GET",
+      responseType: "arraybuffer",
     }).then((response) => {
-        var blob = new Blob([response.data], {
-            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        });
+      var blob = new Blob([response.data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
 
-        FileSaver.saveAs(blob, "employees.csv");
+      FileSaver.saveAs(blob, "employees.csv");
     });
   };
   const uploadProps = {
@@ -181,11 +192,11 @@ function ManageEmployee() {
     action: "http://localhost:1309/leave-management/api/v1/csvUpload",
     headers: {
       "Access-Control-Allow-Origin": "*",
-      Authorization: `Bearer ${localStorage.getItem("token")}`
-  },
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
 
     onChange(info) {
-      console.log({ info })
+      console.log({ info });
       if (info.file.status !== "uploading") {
       }
 
@@ -194,12 +205,10 @@ function ManageEmployee() {
         const { pageSize, pageNumber } = pagination;
 
         getAllEmployeeData(pageNumber, pageSize);
-
       }
-
     },
   };
-  const onTableSearch = (values, sortField) => { };
+  const onTableSearch = (values, sortField) => {};
   const columns: Column[] = [
     {
       id: "empId",
@@ -212,8 +221,8 @@ function ManageEmployee() {
       minWidth: 120,
     },
     {
-      id: "lastName",
-      label: "LastName",
+      id: "roleName",
+      label: "Role",
       minWidth: 120,
     },
     {
@@ -262,25 +271,26 @@ function ManageEmployee() {
           name="Add Employee"
           subHeading="Master/Employee"
           isButton={true}
+          importCSV={true}
+          exportCSV={true}
+          onChangeImport={importEmp}
+          onChangeExport={handleUPload}
           onclickButton={handleClickOpen}
         />
-              <div style={{ display: "flex" }} ><Upload {...uploadProps}>
-          <Button icon={<DownloadOutlined />} />
-        </Upload>
-       
-        <Button
-          onClick={importEmp}
-        >
-          <UploadOutlined />
-        </Button></div>
       </PageTitleWrapper>
       <Divider />
+      <div style={{ display: "flex" }}>
+        
+        <Upload {...uploadProps}>
+          <Button icon={<DownloadOutlined />} />
+        </Upload>
+      </div>
       <br />
+      <Divider />
 
       <Container maxWidth="lg">
         <Card>
           <CardContent>
-     
             <Tables
               columns={columns}
               tableData={dataSource}
@@ -294,13 +304,9 @@ function ManageEmployee() {
           </CardContent>
         </Card>
 
-     
-
-
         <Modals
           modalTitle={action === "edit" ? "Edit Employee" : "Add Employee"}
           modalWidth="60%"
-
           open={open}
           // onClose={handleClose}
           modalBody={

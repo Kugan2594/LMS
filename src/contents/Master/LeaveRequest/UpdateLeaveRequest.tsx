@@ -151,6 +151,7 @@ function UpdateLeaveRequest(props) {
         (error) => {
           console.log(error);
           handleError(error);
+          reloadTable(error);
         }
       );
     }
