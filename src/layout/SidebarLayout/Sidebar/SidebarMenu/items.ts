@@ -38,6 +38,15 @@ export interface MenuItems {
     heading: string;
 }
 
+// const settings = getPermissionStatus("Settings");
+// const subordinatePrivilegessettings = settings.subordinatePrivileges
+// console.log("llllllllllllllllllllllll6666", settings.subordinatePrivileges);
+
+// console.log("llllllllllllllllllllllll", settings);
+// const subsettings = getSubordinatePrivileges(settings, "Designations");
+// console.log("llllllllllllllllllllllll333", subsettings);
+
+
 const masterMenuItems: MenuItem[] = [
     { name: "Employees", icon: PersonRoundedIcon, link: "/master/employee" },
     {
@@ -62,7 +71,7 @@ const masterMenuItems: MenuItem[] = [
     // { name: "In Progress", icon: TaskAltRoundedIcon, link: "/master/In-Progress" },
     // { name: "Leave Requests", icon: LocalPostOfficeRoundedIcon, link: "/master/In-Progress",},
     // { name: "Lieu Request", icon: AddCircleOutlineRoundedIcon, link: "/master/lieurequest" },
-     {name: "Notifications", icon: NotificationsRoundedIcon, link: "/master/notifications",},
+    { name: "Notifications", icon: NotificationsRoundedIcon, link: "/master/notifications", },
     {
         name: "Settings",
         icon: SettingsIcon,
@@ -101,25 +110,43 @@ const masterMenuItems: MenuItem[] = [
         ],
     },
 ];
-console.log("mmmmmmmmmmmmmmmmmmmmmmmmmmmm",getPermissionStatus("LeaveTypes").status)
+console.log("mmmmmmmmmmmmmmmmmmmmmmmmmmmm", getPermissionStatus("Settings"))
 if (!getPermissionStatus("LeaveTypes").status) {
     remove(masterMenuItems, (item) => item.name === "Leave Types");
-  }
-  if (!getPermissionStatus("Employees").status) {
+}
+if (!getPermissionStatus("Employees").status) {
     remove(masterMenuItems, (item) => item.name === "Employees");
-  }
-  if (!getPermissionStatus("Approvers").status) {
+}
+if (!getPermissionStatus("Approvers").status) {
     remove(masterMenuItems, (item) => item.name === "Approvers");
-  }
-  if (!getPermissionStatus("AllocateLeaves").status) {
+}
+if (!getPermissionStatus("AllocateLeaves").status) {
     remove(masterMenuItems, (item) => item.name === "Allocate Leaves");
-  }
-  if (!getPermissionStatus("History").status) {
+}
+if (!getPermissionStatus("History").status) {
     remove(masterMenuItems, (item) => item.name === "History");
-  }
-  if (!getPermissionStatus("Holiday").status) {
+}
+if (!getPermissionStatus("Holiday").status) {
     remove(masterMenuItems, (item) => item.name === "Holidays");
-  }
+}
+// if (!getPermissionStatus("Settings").status) {
+//     remove(masterMenuItems, (item) => item.name === "Settings");
+// }
+// for (let i = 0; i < subordinatePrivilegessettings.length; i++) {
+//     if (subordinatePrivilegessettings[i].name === "Role" &&!subordinatePrivilegessettings[i].status ) {
+//         remove(masterMenuItems, (item) => item.items[0].name  === "Roles");}
+    //     else if (subordinatePrivilegessettings[i].name === "Designations"&&!subordinatePrivilegessettings[i].status) {
+    //     remove(masterMenuItems, (item) => item.items[1].name  === "Designations");
+    // }else if (subordinatePrivilegessettings[i].name === "EmploymentType"&&!subordinatePrivilegessettings[i].status) {
+    //     remove(masterMenuItems, (item) => item.items[2].name  === "Type");
+    // }else if (subordinatePrivilegessettings[i].name === "Location"&&!subordinatePrivilegessettings[i].status) {
+    //     remove(masterMenuItems, (item) => item.items[3].name  === "Location");
+    // }else if (subordinatePrivilegessettings[i].name === "Unit"&&!subordinatePrivilegessettings[i].status) {
+    //     remove(masterMenuItems, (item) => item.items[4].name  === "Unit");
+    // }else if (subordinatePrivilegessettings[i].name === "UserPrivilege"&&!subordinatePrivilegessettings[i].status) {
+    //     remove(masterMenuItems, (item) => item.items[5].name === "UserPrivilage");
+   // }
+// }
 
 const menuItems: MenuItems[] = [
     {
