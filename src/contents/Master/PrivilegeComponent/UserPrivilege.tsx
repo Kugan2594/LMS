@@ -12,6 +12,7 @@ import CustomizedNotification from "src/util/CustomizedNotification";
 
 function UserPrivilage() {
     const [form] = Form.useForm();
+    const [keyStatus, setKeyStatus] = useState(false);
     const [expandedKeys, setExpandedKeys] = useState([]);
     const [checkedKeys, setCheckedKeys]: any = useState([]);
     const [selectedKeys, setSelectedKeys] = useState([]);
@@ -101,6 +102,14 @@ function UserPrivilage() {
                                             return {
                                                 title: finalPost.description,
                                                 key: `${post.id}-${subPost.id}-${finalPost.id}`,
+                                                disableCheckbox:
+                                                finalPost.id === 59
+                                                        ? keyStatus
+                                                        : finalPost.id === 60
+                                                        ? true
+                                                        : false
+
+                                                
                                             };
                                         }
                                     ),
@@ -191,6 +200,11 @@ function UserPrivilage() {
                                 }}
                                 onChange={(value) => {
                                     setRoleId(value);
+                                    if (value === 1) {
+                                        setKeyStatus(true);
+                                    } else {
+                                        setKeyStatus(false);
+                                    }
                                 }}
                                 onSelect={(value) =>
                                     getRolePermissionDataByRoleId(value)

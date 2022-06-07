@@ -86,9 +86,9 @@ function Task(props) {
     direction: "DESC",
   });
 
-  const ManageTask = getPermissionStatus("DashBoard");
+  const ManageTask = getPermissionStatus("History");
   console.log("ManageTask", ManageTask);
-  const SubManageTask = getSubordinatePrivileges(ManageTask, "DashBoard");
+  const SubManageTask = getSubordinatePrivileges(ManageTask, "History");
   console.log(" ManageTask .status", sampleFuc(SubManageTask));
   console.log("ADD ManageTask status", sampleFuc(SubManageTask).CRMT);
 
