@@ -19,6 +19,7 @@ interface PageTitleProps {
   onclickButtonTwo?: Function;
   onChangeImport?: Function;
   onChangeExport?: Function;
+  onChange?: Function;
   isButton?: boolean;
   isButtonTwo?: boolean;
   importCSV?: boolean;
@@ -39,6 +40,7 @@ const PageTitle: FC<PageTitleProps> = ({
   onclickButton = () => {},
   onChangeImport = () => {},
   onChangeExport = () => {},
+  onChange = () => {},
   onclickButtonTwo = () => {},
   isButton = true,
   isButtonTwo = false,
@@ -95,12 +97,12 @@ const PageTitle: FC<PageTitleProps> = ({
               <Input
                 accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                 id="contained-button-file"
-                multiple
                 type="file"
               />
 
               <Button
                 onClick={() => onChangeExport()}
+                onChange={()=>onChange()}
                 variant="contained"
                 component="span"
                 startIcon={
