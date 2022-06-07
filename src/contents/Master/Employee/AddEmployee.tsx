@@ -57,7 +57,7 @@ let initialFValues: IEmployee = {
   designationId: 0,
   employmentTypeId: "",
   businessUnitId: "",
-  roleId: 0,
+  roleId: "",
 };
 const genderType = [
   {
@@ -733,6 +733,8 @@ function AddEmployee(props) {
                       value={values.joinDate}
                       onChange={handleInputChange}
                       error={errors.joinDate}
+                      onValueChange={onValueChange}
+
                     />
                   </Grid>
                   <Grid item xs={4}>
@@ -742,6 +744,8 @@ function AddEmployee(props) {
                       value={values.dateOfPermanency}
                       onChange={handleInputChange}
                       error={errors.dateOfPermanency}
+                      onValueChange={onValueChange}
+
                     />
                   </Grid>
                   <Grid item xs={4}>
@@ -750,9 +754,10 @@ function AddEmployee(props) {
                       label="Designation*"
                       value={values.designationId}
                       onChange={handleInputChange}
-                      onValueChange={onValueChange}
                       options={designationData}
                       error={errors.designationId}
+                      onValueChange={onValueChange}
+
                     />
                   </Grid>
                   <Grid item xs={4}>
@@ -763,43 +768,46 @@ function AddEmployee(props) {
                       onChange={handleInputChange}
                       options={companyLocationData}
                       error={errors.companyLocation}
+                      onValueChange={onValueChange}
+
                     />
                   </Grid>
                   <Grid item xs={4}>
                     <AutocompleteSelect
                       name="employmentTypeId"
                       label="Employment Type*"
-                      value={
-                        values.employmentTypeId ? values.employmentTypeId : ""
-                      }
+                      value={values.employmentTypeId}
                       onChange={handleInputChange}
-                      onValueChange={onValueChange}
                       options={employementTypeData}
                       error={errors.employmentTypeId}
+                      onValueChange={onValueChange}
+
                     />
                   </Grid>
                   <Grid item xs={4}>
                     <AutocompleteSelect
                       name="businessUnitId"
                       label="Business Unit*"
-                      value={values.businessUnitId ? values.businessUnitId : ""}
+                      value={values.businessUnitId}
                       onChange={handleInputChange}
-                      onValueChange={onValueChange}
                       options={businessUnitData}
                       error={errors.businessUnitId}
+                      onValueChange={onValueChange}
+
                     />
                   </Grid>
                   <Grid item xs={4}>
                     <AutocompleteSelect
                       name="roleId"
                       label="Role*"
-                      value={values.roleId ? values.businessUnitId : ""}
+                      value={values.roleId}
                       onChange={handleInputChange}
-                      onValueChange={onValueChange}
                       options={roleData}
                       error={errors.roleId}
+                      onValueChange={onValueChange}
+
                     />
-                  </Grid>{" "}
+                  </Grid>
                   <Grid item xs={4}></Grid>
                   <Grid item xs={4}>
                     <Checkbox
