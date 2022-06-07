@@ -78,10 +78,7 @@ function ManageEmployee() {
   const [editData, seteditData] = useState({});
 
   const Employees = getPermissionStatus("Employees");
-  console.log("Employees", Employees);
   const SubEmployee = getSubordinatePrivileges(Employees, "Employees");
-  console.log("Employees.status", sampleFuc(SubEmployee));
-  console.log("ADD Employee status", sampleFuc(SubEmployee).CREM);
 
   const handleClickOpen = () => {
     setaction("add");
@@ -134,14 +131,18 @@ function ManageEmployee() {
   const reloadTable = (res) => {
     getAllEmployeeData(pagination.pageNumber, pagination.pageSize);
     setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
-    console.log("//////////////////////////", res);
-
     setOpen(false);
  
   };
 
+  const reloadTable1 = (res) => {
+    getAllEmployeeData(pagination.pageNumber, pagination.pageSize);
+    setalert({ type: NOTIFICATION_TYPE.success, mesg: res.status });
+    setOpenImport(false);
+ 
+  };
+
   const editOnclick = (row) => {
-    console.log(row);
     setaction("edit");
     seteditData(row);
     setOpen(true);
@@ -253,18 +254,18 @@ function ManageEmployee() {
 
       UploadService(formData).then(
         (res: any) => {
-          reloadTable(res);
+          
           console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",res);
           setFile(null);
-          let errorData =
+          let errorData =res.status &&
             res.data && res.data.result && res.data.result.errorPassengerCsv;
-          if (res.data.status === 'warning') {
+          if (res.status === 'warning') {
             setalert({
               type: NOTIFICATION_TYPE.warning,
               mesg: res.data.message
             });
           } else {
-            reloadTable(res);
+            reloadTable1(res);
             handleClose();
           }
           if (errorData.length > 0) {
@@ -317,7 +318,7 @@ function ManageEmployee() {
             setOpenImport(false);
           }
 
-          //  setOpenImport(false);
+            setOpenImport(false);
         },
         (error) => {
           console.log(error);
