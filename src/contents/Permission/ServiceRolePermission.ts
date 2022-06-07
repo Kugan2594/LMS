@@ -21,16 +21,16 @@ const getRoleIdByRoleName=(roleId)=>{
 
 
 
-const getAllPermissionByRoleIdInLogin = (roleId) => {
+const getAllPermissionByRoleIdInLogin = () => {
     return new Promise((resolve, reject) => {
         api(
             'get',
             'lm-web',
             null,
-            `/rolePermission`,
+            `/rolePermission/sign-in`,
             'token',
             '',
-            roleId
+            ''
         )
             .then((response: any) => {
                 resolve(response.data);

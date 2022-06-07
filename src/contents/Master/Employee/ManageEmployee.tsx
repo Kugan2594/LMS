@@ -266,12 +266,11 @@ function ManageEmployee() {
   return (
     <div>
       <PageTitleWrapper>
-      {/* sampleFuc(SubCompanyLocation).CRCL && */}
         <PageTitle
           heading="Employee"
           name="Add Employee"
           subHeading="Master/Employee"
-          isButton={true}
+          isButton={sampleFuc(SubEmployee).CREM ? false : true}
           importCSV={true}
           exportCSV={true}
           onChangeImport={importEmp}

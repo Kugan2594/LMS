@@ -159,11 +159,10 @@ function ManageRoles() {
   return (
     <div>
       <PageTitleWrapper>
-      {/* sampleFuc(SubRoles).CRR &&  */}
         <PageTitle
           heading="Role"
           subHeading="Master/Role"
-          isButton={true}
+          isButton={sampleFuc(SubRoles).CRR ? false : true}
           name="Add Role"
           onclickButton={handleClickOpen}
         />
