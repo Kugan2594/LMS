@@ -61,7 +61,7 @@ const masterMenuItems: MenuItem[] = [
     // { name: "In Progress", icon: TaskAltRoundedIcon, link: "/master/In-Progress" },
     // { name: "Leave Requests", icon: LocalPostOfficeRoundedIcon, link: "/master/In-Progress",},
     // { name: "Lieu Request", icon: AddCircleOutlineRoundedIcon, link: "/master/lieurequest" },
-    // {name: "Notifications", icon: NotificationsRoundedIcon, link: "/master/notifications",},
+     {name: "Notifications", icon: NotificationsRoundedIcon, link: "/master/notifications",},
     {
         name: "Settings",
         icon: SettingsIcon,

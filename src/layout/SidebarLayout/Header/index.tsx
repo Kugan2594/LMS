@@ -34,7 +34,8 @@ import { useNavigate } from "react-router";
 import { SYSTEM_CONFIG } from "src/util/StytemConfig";
 import {Stomp}  from '@stomp/stompjs';
 import SockJS from "sockjs-client";
-
+import {getUserByEmail} from 'src/contents/Master/LeaveRequest/ServiceLeaveRequest';
+import {getAllNotification} from './NotificationService'
 const HeaderWrapper = styled(Box)(
     ({ theme }) => `
         height: ${theme.header.height};
@@ -58,10 +59,10 @@ function Header() {
     let navigate = useNavigate();
     const [notifi, setNotifi] = useState(false);
     const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
-
+    const [notifications, setNotifications] = useState([]);
     const handleNotificationOpen = () => {
         setNotifi(true);
-        console.log(mockData);
+        console.log(notifications);
     };
     const handlClose = () => {
         setNotifi(false);
@@ -109,7 +110,8 @@ function Header() {
             leaveRequestId: 6,
         },
     ];
-    const [mockDetail, setMockDetail] = useState(mockData);
+
+    const [mockDetail, setMockDetail] = useState(notifications);
 
     const ClickHandler = (index) => {
         let pId = mockDetail.findIndex((m) => {
@@ -142,6 +144,7 @@ function Header() {
         setOpenDetails(false);
     };
 
+
     const open = Boolean(anchorEl);
     const id = open ? "simple-popover" : undefined;
 
@@ -156,19 +159,38 @@ function Header() {
 
       const [leaveDetails, setLeaveDetails] = useState({});
       const [openDetails, setOpenDetails] = useState(false);
-
+      const [page, setPage] = useState(0);
+      const [rowsPerPage, setRowsPerPage] = useState(20);
+      const [total, setTotal] = useState(0);
       const handleOpenLeaveDetails = (data) => {
         console.log("NNNNNNNN.... ",data)
         setOpenDetails(true);
         setLeaveDetails(data);
       };
 
-      const [count, setCount] = useState(mockData.filter((notification) => notification.status == false));
+      const [count, setCount] = useState(notifications.filter((notification) => notification.status == false));
     
     useEffect(() => {
         WebSocketClient(`/user/${getUserDetails().user_name}/queue/leaverequest`);
+        getAllNotificationByEmail(page, rowsPerPage,getUserDetails().user_name);
     }, []);
-
+  const  getAllNotificationByEmail=(page, rowsPerPage,email)=>{
+    let count = 0;
+        let data = [];
+    getAllNotification(page, rowsPerPage, email).then((res: any) => {
+        res.results.NotificationByUserEmail.map((post,index)=>{
+         data.push({
+             id:post.id,
+             shortmsg:post.shortmsg,
+             detailsmsg:post.detailsmsg,
+             view:post.view
+         })  
+     
+        })
+        console.log("99999999999999999",res);
+    })
+    setNotifications(data);  
+  }
     const WebSocketClient= (url) => {
         var sock=new SockJS(SYSTEM_CONFIG.webSocketUrl);
         let stompClient=Stomp.over(sock);
