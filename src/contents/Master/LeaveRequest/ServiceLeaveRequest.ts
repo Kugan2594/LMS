@@ -78,7 +78,25 @@ const cancelLeaveRequest = (id: number) => {
       });
   });
 };
-
+const getUserByEmail= (email:string) => {
+  return new Promise((resolve, reject) => {
+    api(
+      "get",
+      "oauth-web",
+      null,
+      `/userbyemail`,
+      'token',
+      "",
+      email
+    )
+      .then((response: any) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
 export {
   getAllLeaveTypeForDropDown,
   getAllEmployeesForDropDown,
@@ -86,4 +104,5 @@ export {
   getAllLeaveRequest,
   updateLeaveRequest,
   cancelLeaveRequest,
+  getUserByEmail
 };

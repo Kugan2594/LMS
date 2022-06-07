@@ -196,6 +196,8 @@ function ManageDesignations() {
                     onclickButton={handleClickOpen}
                 />
             </PageTitleWrapper>
+            <Divider />
+            <br />
             <Container maxWidth="lg">
                 <Card>
                     <CardContent>

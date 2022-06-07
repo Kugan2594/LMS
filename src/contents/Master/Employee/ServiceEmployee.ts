@@ -153,5 +153,25 @@ const getAllRoleForDropDown = () => {
     });
 };
 
+const UploadService = () => {
+    return new Promise((resolve, reject) => {
+        api(
+            "get",
+            "lm-web",
+            null,
+            `/csvUpload`,
+            "",
+            "",
+            ""
+        )
+            .then((response: any) => {
+                resolve(response.data);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
 
-export { deleteEmployee, getAllEmployee, createEmployee, updateEmployee, getAllDesignationForDropDown, getAllCompanyLocationForDropDown, getAllBusinessUnitForDropDown, getAllEmployementTypeForDropDown,getAllRoleForDropDown };
+
+export { deleteEmployee, getAllEmployee, createEmployee, updateEmployee, getAllDesignationForDropDown, getAllCompanyLocationForDropDown, getAllBusinessUnitForDropDown, getAllEmployementTypeForDropDown,getAllRoleForDropDown,UploadService };
