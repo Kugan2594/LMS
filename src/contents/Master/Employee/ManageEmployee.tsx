@@ -341,9 +341,9 @@ function ManageEmployee() {
           heading="Employee"
           name="Add Employee"
           subHeading="Master/Employee"
-          isButton={sampleFuc(SubEmployee).CREM ? false : true}
-          importCSV={true}
-          exportCSV={true}
+          isButton={sampleFuc(SubEmployee).CREM ? true : false}
+          importCSV={sampleFuc(SubEmployee).IEWC ? true : false}
+          exportCSV={sampleFuc(SubEmployee).EETC ? true : false}
           onChangeExport={exportEmp}
           onChangeImport={onChangeImport}
           onclickButton={handleClickOpen}
