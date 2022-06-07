@@ -11,6 +11,7 @@ import CustomizedNotification from 'src/util/CustomizedNotification';
 import { deleteEmployementType, getAllEmployementType } from "./ServiceEmployementType";
 import AddEmployementType from "./AddEmployementType";
 import moment from "moment";
+import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
 
 
 function createData(data) {
@@ -43,6 +44,13 @@ function ManageEmployementType() {
     const [dataSource, setdataSource] = useState([]);
     const [action, setaction] = useState('add');
     const [editData, seteditData] = useState({});
+
+  const Settings = getPermissionStatus("Settings");
+  console.log("EmployementType", Settings);
+  const SubEmployementType = getSubordinatePrivileges(Settings, "EmploymentType");
+  console.log("EmployementType.status", sampleFuc(SubEmployementType));
+  console.log("ADD EmployementType status", sampleFuc(SubEmployementType).CRET);
+
 
     const handleClickOpen = () => {
         setaction('add');
@@ -127,15 +135,18 @@ function ManageEmployementType() {
             minWidth: 100,
             fixed: "right",
             align: "center",
-            render: (value: any) => (
-                <TableAction rowData={value} deleteOnclick={deleteOnclick} editOnclick={editOnclick} />
-            ),
+            render: (value: any) => 
+                sampleFuc(SubEmployementType).UPET &&
+                sampleFuc(SubEmployementType).DEET &&
+                <TableAction rowData={value} deleteOnclick={deleteOnclick} editOnclick={editOnclick} 
+            />
         },
     ];
 
     return (
         <div>
             <PageTitleWrapper>
+                {/* sampleFuc(SubEmployementType).CRET &&  */}
                 <PageTitle
                     heading="Employement Type"
                     name="Add Employement Type"

@@ -9,6 +9,7 @@ import { Column } from "../../../components/atoms/Tables/TableInterface";
 import AddEmployeeApprover from "./AddEmployeeApprover";
 import { getAllEmployeeApprover } from "./serviceEmployeeApprover";
 import CustomizedNotification from 'src/util/CustomizedNotification';
+import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
 function createData(data) {
   let convertData = data.map((post, index) => {
       return {
@@ -39,6 +40,15 @@ function ManageEmployeeApprover() {
     type: "",
     mesg: "",
 });
+
+  const Approvers = getPermissionStatus("Approvers");
+  console.log("Approvers", Approvers);
+  const SubApprovers = getSubordinatePrivileges(Approvers, "Approvers");
+  console.log("Approvers.status", sampleFuc(SubApprovers));
+  console.log("ADD Approvers status", sampleFuc(SubApprovers).CREA);
+
+
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -117,6 +127,7 @@ function ManageEmployeeApprover() {
   return (
     <div>
       <PageTitleWrapper>
+      {/* sampleFuc(SubEmployeeApprover).CREA && */}
         <PageTitle
           heading="Employee Approvers"
           name="Add Employee Approver"

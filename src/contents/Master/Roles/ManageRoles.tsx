@@ -1,4 +1,4 @@
-import { Card, CardContent, Container } from "@mui/material";
+import { Card, CardContent, Container, Divider } from "@mui/material";
 import moment from "moment";
 import React, { useState, useEffect } from "react";
 import Modals from "src/components/atoms/Modals";
@@ -9,6 +9,7 @@ import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import CustomizedNotification from "src/util/CustomizedNotification";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
+import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
 import AddRoles from "./AddRoles";
 import { deleteRole, getAllRole } from "./ServiceRoles";
 
@@ -43,6 +44,14 @@ function ManageRoles() {
     type: "",
     mesg: "",
   });
+
+  const Settings = getPermissionStatus("Settings");
+  console.log("Settings", Settings);
+  const SubRoles = getSubordinatePrivileges(Settings, "Role");
+  console.log("Settings .status", sampleFuc(SubRoles));
+  console.log("ADD Settings status", sampleFuc(SubRoles).CRHL);
+
+
   const onTableSearch = (values, sortField) => {};
   const [action, setaction] = useState("add");
   const handleClickOpen = (value) => {
@@ -136,6 +145,8 @@ function ManageRoles() {
       minWidth: 0,
       align: "center",
       render: (value: any) => (
+        sampleFuc(SubRoles).UPR &&
+          sampleFuc(SubRoles).DLR &&
         <TableAction
           rowData={value}
           deleteOnclick={deleteOnclick}
@@ -148,6 +159,7 @@ function ManageRoles() {
   return (
     <div>
       <PageTitleWrapper>
+      {/* sampleFuc(SubRoles).CRR &&  */}
         <PageTitle
           heading="Role"
           subHeading="Master/Role"
@@ -156,6 +168,8 @@ function ManageRoles() {
           onclickButton={handleClickOpen}
         />
       </PageTitleWrapper>
+      <Divider />
+            <br />
       <Container maxWidth="lg">
         <Card>
           <CardContent>
