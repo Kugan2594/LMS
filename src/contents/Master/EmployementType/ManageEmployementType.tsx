@@ -151,7 +151,7 @@ function ManageEmployementType() {
                     heading="Employement Type"
                     name="Add Employement Type"
                     subHeading="Master/Employement Type"
-                    isButton={true}
+                    isButton={sampleFuc(SubEmployementType).CRET ? false : true}
                     onclickButton={handleClickOpen}
                 />
             </PageTitleWrapper>
