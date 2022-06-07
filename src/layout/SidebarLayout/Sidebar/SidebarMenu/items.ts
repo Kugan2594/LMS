@@ -22,7 +22,74 @@ import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRou
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 
 import { remove } from "lodash";
-import { modulePermission, PERMISSION_NAME } from "src/util/constants";
+import { getPermissionStatus, getSubordinatePrivileges, getUserRolePermission, sampleFuc } from "src/util/permissionUtils";
+
+
+const Employees = getPermissionStatus("Employees");
+console.log("Employees", Employees);
+const SubEmployee = getSubordinatePrivileges(Employees, "Employees");
+console.log("Employees.status", sampleFuc(SubEmployee));
+console.log("ADD Employee status", sampleFuc(SubEmployee).CREM);
+
+const Approvers = getPermissionStatus("Approvers");
+  console.log("Approvers", Approvers);
+  const SubApprovers = getSubordinatePrivileges(Approvers, "Approvers");
+  console.log("Approvers.status", sampleFuc(SubApprovers));
+  console.log("ADD Approvers status", sampleFuc(SubApprovers).CREA);
+
+  const LeaveTypes = getPermissionStatus("LeaveTypes");
+  console.log("LeaveTypes", LeaveTypes);
+  const SubLeaveTypes = getSubordinatePrivileges(LeaveTypes, "LeaveTypes");
+  console.log("LeaveTypes.status", sampleFuc(SubLeaveTypes));
+  console.log("ADD LeaveTypes status", sampleFuc(SubLeaveTypes).CRLT);
+
+  const History = getPermissionStatus("History");
+  console.log("History", History);
+  const SubHistory = getSubordinatePrivileges(History, "History");
+  console.log(" History .status", sampleFuc(SubHistory));
+
+  const Holiday = getPermissionStatus("Holiday");
+  console.log("Holiday", Holiday);
+  const SubHolidays = getSubordinatePrivileges(Holiday, "Holiday");
+  console.log(" Holiday .status", sampleFuc(SubHolidays));
+  console.log("ADD Holiday status", sampleFuc(SubHolidays).CRHL);
+
+  // SETTINGS
+  const Settings = getPermissionStatus("Settings");
+  console.log("Settings", Settings);
+  // SETTINGS-DESIGNATION
+  const SubDesignations = getSubordinatePrivileges(Settings, "Designations");
+  console.log(" Settings .status", sampleFuc(SubDesignations));
+  console.log("ADD Settings status", sampleFuc(SubDesignations).CRHL);
+
+  // SETTINGS-Role
+  const SubRoles = getSubordinatePrivileges(Settings, "Role");
+  console.log("Settings .status", sampleFuc(SubRoles));
+  console.log("ADD Settings status", sampleFuc(SubRoles).CRHL);
+
+  // SETTINGS-EmploymentType
+  const SubEmployementType = getSubordinatePrivileges(Settings, "EmploymentType");
+  console.log("EmployementType.status", sampleFuc(SubEmployementType));
+  console.log("ADD EmployementType status", sampleFuc(SubEmployementType).CRET);
+
+   // SETTINGS-LOCATION
+  const SubCompanyLocation = getSubordinatePrivileges(Settings, "Location");
+  console.log(" Settings .status", sampleFuc(SubCompanyLocation));
+  console.log("ADD Settings status", sampleFuc(SubCompanyLocation).CRHL);
+
+    // SETTINGS-UNIT
+    const SubBussinessUnit = getSubordinatePrivileges(Settings, "Unit");
+    console.log("Settings .status", sampleFuc(SubBussinessUnit));
+    console.log("ADD Settings status", sampleFuc(SubBussinessUnit).CRBU);
+
+     // SETTINGS-USER PRIVILEGE
+
+     //allocate leaves
+     const AllocateLeaves = getPermissionStatus("AllocateLeaves");
+     console.log("AllocateLeaves", AllocateLeaves);
+     const SubAllocateLeaves = getSubordinatePrivileges(AllocateLeaves, "AllocateLeaves");
+
+
 
 export interface MenuItem {
     id?: string;
@@ -102,11 +169,41 @@ const masterMenuItems: MenuItem[] = [
     },
 ];
 
+if (!sampleFuc(SubApprovers)) {
+    remove(masterMenuItems, (item) => item.name === 'Approvers');
+}
+
+if (!sampleFuc(SubEmployee)) {
+    remove(masterMenuItems, (item) => item.name === 'Employees');
+}
+
+if (!sampleFuc(SubLeaveTypes)) {
+    remove(masterMenuItems, (item) => item.name === 'Leave Types');
+}
+
+if (!sampleFuc(SubAllocateLeaves)) {
+    remove(masterMenuItems, (item) => item.name === '"Allocate Leaves');
+}
+
+if (!sampleFuc(SubHistory)) {
+    remove(masterMenuItems, (item) => item.name === 'History');
+}
+
+if (!sampleFuc(SubHolidays)) {
+    remove(masterMenuItems, (item) => item.name === 'Holidays');
+}
+console.log(!sampleFuc(SubHolidays));
+
+if (!sampleFuc(SubDesignations)) {
+    remove(masterMenuItems, (item) => item.name === 'Settings');
+}
+
 const menuItems: MenuItems[] = [
     {
         heading: "Master",
         items: masterMenuItems,
     },
 ];
+
 
 export default menuItems;
