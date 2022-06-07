@@ -1,9 +1,13 @@
-import { FC } from "react";
+import { BlockquoteHTMLAttributes, FC } from "react";
 import PropTypes from "prop-types";
 import AddTwoToneIcon from "@mui/icons-material/AddTwoTone";
 import { Typography, Grid, Button } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { BsCloudUpload } from "react-icons/bs";
+import { BsCloudDownload, BsCloudUpload } from "react-icons/bs";
+// import Input from "src/components/atoms/controlls/Input";
+import { styled } from "@mui/material/styles";
+
+import { display } from "@mui/system";
 
 interface PageTitleProps {
   heading?: string;
@@ -14,12 +18,17 @@ interface PageTitleProps {
   onclickButton?: Function;
   onclickButtonTwo?: Function;
   onChangeImport?: Function;
+  onChangeExport?: Function;
   isButton?: boolean;
   isButtonTwo?: boolean;
   importCSV?: boolean;
+  exportCSV?: boolean;
   children?: any;
   isBack?: boolean;
 }
+const Input = styled("input")({
+  display: "none",
+});
 
 const PageTitle: FC<PageTitleProps> = ({
   heading = "",
@@ -29,10 +38,12 @@ const PageTitle: FC<PageTitleProps> = ({
   nameBtnTwo = "",
   onclickButton = () => {},
   onChangeImport = () => {},
+  onChangeExport = () => {},
   onclickButtonTwo = () => {},
   isButton = true,
   isButtonTwo = false,
   importCSV = false,
+  exportCSV = false,
   children,
   isBack = false,
   ...rest
@@ -62,7 +73,7 @@ const PageTitle: FC<PageTitleProps> = ({
         <Grid item>
           {importCSV && (
             <Button
-              onClick={(e) => onChangeImport(e)}
+              onClick={() => onChangeImport()}
               variant="contained"
               component="label"
               startIcon={
@@ -76,6 +87,34 @@ const PageTitle: FC<PageTitleProps> = ({
             >
               Import
             </Button>
+          )}
+        </Grid>
+        <Grid item>
+          {exportCSV && (
+            <label htmlFor="contained-button-file">
+              <Input
+                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                id="contained-button-file"
+                multiple
+                type="file"
+              />
+
+              <Button
+                onClick={() => onChangeExport()}
+                variant="contained"
+                component="span"
+                startIcon={
+                  <BsCloudDownload
+                    style={{
+                      fontWeight: "600",
+                    }}
+                    size={18}
+                  />
+                }
+              >
+                Export
+              </Button>
+            </label>
           )}
         </Grid>
         <Grid item>

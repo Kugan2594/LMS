@@ -141,7 +141,6 @@ function Header() {
 
     const handleClose = () => {
         setAnchorEl(null);
-        setOpenDetails(false);
     };
 
 
@@ -168,7 +167,11 @@ function Header() {
         setLeaveDetails(data);
       };
 
-      const [count, setCount] = useState(notifications.filter((notification) => notification.status == false));
+      const handleCloseLeaveDetails = () => {
+        setOpenDetails(false);
+      }
+
+      const [count, setCount] = useState(mockData.filter((notification) => notification.status == false));
     
     useEffect(() => {
         WebSocketClient(`/user/${getUserDetails().user_name}/queue/leaverequest`);
@@ -280,7 +283,7 @@ function Header() {
             </HeaderWrapper>
             <Dialog
             open={openDetails}
-            onClose={handleClose}
+            onClose={handleCloseLeaveDetails}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
             maxWidth="md"
@@ -292,7 +295,7 @@ function Header() {
                   details={leaveDetails}
                   isEmployeeDetail={true}
                   isResponseButtons={false}
-                  cancel={handleClose}
+                  cancel={handleCloseLeaveDetails}
                 />
               </DialogContentText>
             </DialogContent>
