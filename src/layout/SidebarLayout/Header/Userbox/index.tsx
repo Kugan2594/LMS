@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-
+import React, { useState, useEffect, useRef } from "react";
+import { getEmployeeIdByEmail, getApprovalStatusById } from './../../../../contents/Dashboard/ServiceEmployeeLeaveRequestHistory';
 import { NavLink } from "react-router-dom";
 
 import {
@@ -25,6 +25,9 @@ import LockOpenTwoToneIcon from "@mui/icons-material/LockOpenTwoTone";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import AccountTreeTwoToneIcon from "@mui/icons-material/AccountTreeTwoTone";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
+import {
+    getUserDetails,
+} from './../../../../contents/login/LoginAuthentication';
 // import { MaleImage, User } from "./../../../../assets/images";
 
 import { red } from "@mui/material/colors";
@@ -69,9 +72,29 @@ function HeaderUserbox() {
     let navigate = useNavigate();
     // let userData = getUserDetails();
     // let userName = getUserName();
-
+    const [employeeId, setEmployeeId] = useState(0);
+    const [employeefirstname, setemployeefirstname] = useState();
     const ref = useRef<any>(null);
     const [isOpen, setOpen] = useState<boolean>(false);
+    useEffect(() => {
+
+        getEmployeeByEmail(getUserDetails().user_name);
+
+    }, []);
+
+    const getEmployeeByEmail = (email) => {
+        getEmployeeIdByEmail(email).then((res: any) => {
+            console.log("res", res);
+            setEmployeeId(res.employee.id);
+            getApprovalStatusById(res.employee.id).then((res: any) => {
+                console.log("res", res);
+
+                console.log("res.approverStatus", res.results.Employee.firstName);
+                setemployeefirstname(res.results.Employee.firstName);
+            });
+        });
+
+    };
 
     const handleOpen = (): void => {
         setOpen(true);
@@ -99,12 +122,12 @@ function HeaderUserbox() {
                     <Avatar
                         variant="rounded"
                         alt="IIT"
-                        // src={`${SYSTEM_CONFIG.baseUrl}/company-logos/${user.companyLogo}`}
+                    // src={`${SYSTEM_CONFIG.baseUrl}/company-logos/${user.companyLogo}`}
                     />
                 </Tooltip>
                 <Hidden mdDown>
                     <UserBoxText>
-                        <UserBoxLabel variant="body1">Admin</UserBoxLabel>
+                        <UserBoxLabel variant="body1">{employeefirstname}</UserBoxLabel>
                         <UserBoxDescription variant="body2">
                             CEO
                         </UserBoxDescription>
