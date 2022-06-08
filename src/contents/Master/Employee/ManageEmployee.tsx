@@ -123,11 +123,6 @@ function ManageEmployee() {
   };
 
 
-  const handleUPload = (e) => {
-
-
-  };
-
   const reloadTable = (res) => {
     getAllEmployeeData(pagination.pageNumber, pagination.pageSize);
     setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
@@ -376,7 +371,6 @@ function ManageEmployee() {
           modalTitle={action === "edit" ? "Edit Employee" : "Add Employee"}
           modalWidth="60%"
           open={open}
-          // onClose={handleClose}
           modalBody={
             <AddEmployee
               reloadTable={reloadTable}
@@ -389,8 +383,8 @@ function ManageEmployee() {
         />
         <Modals
           modalTitle="Bulk Import"
-          modalWidth="85%"
-          modalHeigth="95%"
+          modalWidth="50%"
+          // modalHeigth="95%"
           open={openImport}
           onClose={handleCloseImport}
           modalBody={

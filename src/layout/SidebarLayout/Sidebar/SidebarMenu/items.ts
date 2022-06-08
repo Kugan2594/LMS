@@ -21,7 +21,8 @@ import DonutLargeRoundedIcon from "@mui/icons-material/DonutLargeRounded";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import { remove } from "lodash";
-import { getPermissionStatus, getPermissionStatusMain, getSubordinatePrivileges, getUserRolePermission, sampleFuc } from "src/util/permissionUtils";
+import { modulePermission, PERMISSION_NAME } from "src/util/constants";
+import { getPermissionStatus } from "src/util/permissionUtils";
 
 export interface MenuItem {
     id?: string;
@@ -129,9 +130,11 @@ if (!getPermissionStatus("History").status) {
 if (!getPermissionStatus("Holiday").status) {
     remove(masterMenuItems, (item) => item.name === "Holidays");
 }
-// if (!getPermissionStatus("Settings").status) {
-//     remove(masterMenuItems, (item) => item.name === "Settings");
-// }
+if (!getPermissionStatus("Settings").status) {
+    remove(masterMenuItems, (item) => item.name === "Settings");
+}
+
+
 // for (let i = 0; i < subordinatePrivilegessettings.length; i++) {
 //     if (subordinatePrivilegessettings[i].name === "Role" &&!subordinatePrivilegessettings[i].status ) {
 //         remove(masterMenuItems, (item) => item.items[0].name  === "Roles");}
@@ -148,55 +151,13 @@ if (!getPermissionStatus("Holiday").status) {
    // }
 // }
 
-
-
-// if (Approvers.status===false) {
-//     remove(masterMenuItems, (item) => item.name === 'Approvers');
-// }
-
-
-// //  console.log(!sampleFuc(SubEmployee));
-
-// //  ProjectAllocation.status &&
-// //                     sampleFuc(SubProjectAllocation).VIPR &&
-// // if (false) {
-// //     remove(masterMenuItems, (item) => item.name === 'Employees');
-// // }
-
-
-// if (LeaveTypes.status===false) {
-//     remove(masterMenuItems, (item) => item.name === 'Leave Types');
-// }
-
-// if (AllocateLeaves.status===false) {
-//     remove(masterMenuItems, (item) => item.name === '"Allocate Leaves');
-// }
-
-// if (History.status===false) {
-//     remove(masterMenuItems, (item) => item.name === 'History');
-// }
-
-// if (Holiday.status===false) {
-//     remove(masterMenuItems, (item) => item.name === 'Holidays');
-// }
-
-// if (Settings.status===false) {
-//     remove(masterMenuItems, (item) => item.name === 'Settings');
-// }
-
-// if (Holiday.status===false) {
-//     remove(masterMenuItems, (item) => item.name === 'Holidays');
-// }
-
-// if (AllocateLeaves.status===false) {
-//     remove(masterMenuItems, (item) => item.name === 'Allocate Leaves');
-// }
-
 const menuItems: MenuItems[] = [
     {
         heading: "Master",
         items: masterMenuItems,
     },
 ];
+
+
 
 export default menuItems;
