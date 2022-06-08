@@ -11,16 +11,14 @@ import {
   applyLeave,
   getAllEmployeesForDropDown,
   getAllLeaveTypeForDropDown,
-  getUserByEmail
+  getUserByEmail,
 } from "./ServiceLeaveRequest";
 import moment from "moment";
 import PropTypes from "prop-types";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from "src/util/CustomizedNotification";
 import { Box } from "@mui/system";
-import {
-  getUserDetails,
-} from "../../login/LoginAuthentication";
+import { getUserDetails } from "../../login/LoginAuthentication";
 
 let initialFValues: ILeaveRequest = {
   fromDate: "",
@@ -120,8 +118,6 @@ function LeaveRequestForm(props: ILeaveRequest) {
     resetForm,
   }: any = useForm(initialFValues, true, validate);
 
-
-
   useEffect(() => {
     getLeaveTypeSelectData();
     let userData = getUserDetails();
@@ -145,7 +141,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
     getUserByEmail(emailnew).then((res: any) => {
       console.log("res.firstname", res.employee.firstName);
       setEmployeeId(res.employee.id);
-      setFirstName(res.employee.firstName)
+      setFirstName(res.employee.firstName);
     });
   };
   const getEmployeeSelectData = () => {
@@ -201,11 +197,11 @@ function LeaveRequestForm(props: ILeaveRequest) {
     );
   };
 
-  const onChangeFormValue = () => { };
+  const onChangeFormValue = () => {};
   const onReset = () => {
     resetForm();
   };
-  const handleClickOpen = () => { };
+  const handleClickOpen = () => {};
 
   const handleAlertClose = () => {
     setalert({
@@ -232,31 +228,10 @@ function LeaveRequestForm(props: ILeaveRequest) {
 
   return (
     <div>
-
       <div>
         <Form onSubmit={handleSubmit} onChangeFormValue={onChangeFormValue}>
           <Box>
             <Grid container spacing={1}>
-              <Grid item xs={6}>
-          
-                <DatePicker
-                  name="fromDate"
-                  label="From Date *"
-                  value={values.fromDate}
-                  onChange={handleInputChange}
-                  error={errors.fromDate}
-                />
-                <Box sx={{ marginTop: 2.5 }}>
-                  <Input
-                    name="reason"
-                    label="Reason *"
-                    value={values.reason}
-                    onChange={handleInputChange}
-                    error={errors.reason}
-                  />
-                </Box>
-              </Grid>
-
               <Grid item xs={6}>
                 <Select
                   name="leaveTypeId"
@@ -266,15 +241,36 @@ function LeaveRequestForm(props: ILeaveRequest) {
                   error={errors.leaveTypeId}
                   options={leaveTypeData}
                 />
+              </Grid>
+              <Grid item xs={6}>
+                <Input
+                  name="reason"
+                  label="Reason *"
+                  value={values.reason}
+                  onChange={handleInputChange}
+                  error={errors.reason}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DatePicker
+                  name="fromDate"
+                  label="From Date *"
+                  value={values.fromDate}
+                  onChange={handleInputChange}
+                  error={errors.fromDate}
+                />
+              </Grid>
 
+              <Grid item xs={6}>
                 <DatePicker
                   name="toDate"
                   label="To Date *"
                   value={values.toDate}
                   onChange={handleInputChange}
                   error={errors.toDate}
-                /></Grid>
-                  <Grid item xs={6}>
+                />
+              </Grid>
+              <Grid item xs={6}>
                 <Box sx={{ marginTop: 0.5 }}>
                   <Input
                     name="leaveDays"
@@ -288,7 +284,6 @@ function LeaveRequestForm(props: ILeaveRequest) {
               </Grid>
             </Grid>
           </Box>
-
 
           <div>
             <Box textAlign="right" marginBottom={2}>
@@ -323,8 +318,6 @@ function LeaveRequestForm(props: ILeaveRequest) {
               )}
             </Box>
           </div>
-
-
         </Form>
       </div>
       {alert.type.length > 0 ? (
@@ -334,7 +327,6 @@ function LeaveRequestForm(props: ILeaveRequest) {
           handleAlertClose={handleAlertClose}
         />
       ) : null}
-
     </div>
   );
 }
