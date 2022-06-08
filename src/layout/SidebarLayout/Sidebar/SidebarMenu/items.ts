@@ -129,9 +129,11 @@ if (!getPermissionStatus("History").status) {
 if (!getPermissionStatus("Holiday").status) {
     remove(masterMenuItems, (item) => item.name === "Holidays");
 }
-// if (!getPermissionStatus("Settings").status) {
-//     remove(masterMenuItems, (item) => item.name === "Settings");
-// }
+if (!getPermissionStatus("Settings").status) {
+    remove(masterMenuItems, (item) => item.name === "Settings");
+}
+
+
 // for (let i = 0; i < subordinatePrivilegessettings.length; i++) {
 //     if (subordinatePrivilegessettings[i].name === "Role" &&!subordinatePrivilegessettings[i].status ) {
 //         remove(masterMenuItems, (item) => item.items[0].name  === "Roles");}
@@ -154,5 +156,7 @@ const menuItems: MenuItems[] = [
         items: masterMenuItems,
     },
 ];
+
+
 
 export default menuItems;
