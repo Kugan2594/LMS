@@ -212,8 +212,8 @@ function Task(props) {
       label: "",
       minWidth: 40,
       render: (value: any) => (
-          sampleFuc(SubManageTask).UPAS &&
-          sampleFuc(SubManageTask).VIAS &&
+          // sampleFuc(SubManageTask).UPAS &&
+          // sampleFuc(SubManageTask).VIAS &&
         <Button
           variant="text"
           size="small"
