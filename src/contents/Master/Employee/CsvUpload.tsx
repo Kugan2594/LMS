@@ -79,14 +79,9 @@ const CsvUpload = (props) => {
     setFile,
     onSaveFile,
     setErr,
-    setCompanyBranchId,
-    companyBranchId,
-    branchErr,
-    setbranchErr,
     mockData,
     responseStatus,
-    passengerType,
-    setpassengerType
+    setOpenImport
   } = props;
 
   const ref = useRef(null);
@@ -218,7 +213,7 @@ const CsvUpload = (props) => {
 
 
         <Button
-          disabled={passengerType === ''}
+        
           startIcon={
             <BsCloudUpload
               style={{
