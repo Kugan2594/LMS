@@ -23,7 +23,7 @@ import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from "src/util/CustomizedNotification";
 import { EditOutlined } from "@mui/icons-material";
 import Button from "src/components/atoms/controlls/Button";
-import { getPermissionStatus, getSubordinatePrivileges } from "src/util/permissionUtils";
+import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
 
 function createData(data) {
   let convertData = data.map((post, index) => {
@@ -149,7 +149,7 @@ function ManageAllocateDay() {
           heading="Allocate Leaves"
           subHeading="Master/Allocate Leaves"
           name="Allocate Leaves"
-          isButton={true}
+          isButton={sampleFuc(SubAllocateLeaves).CRAL ? true : false}
           onclickButton={handleClickOpen}
         />
       </PageTitleWrapper>
