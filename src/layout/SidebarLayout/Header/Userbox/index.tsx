@@ -129,7 +129,7 @@ function HeaderUserbox() {
                     <UserBoxText>
                         <UserBoxLabel variant="body1">{employeefirstname}</UserBoxLabel>
                         <UserBoxDescription variant="body2">
-                            CEO
+                           
                         </UserBoxDescription>
                     </UserBoxText>
                 </Hidden>
