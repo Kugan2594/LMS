@@ -1,4 +1,4 @@
-import { Card, CardContent, Container } from "@mui/material";
+import { Card, CardContent, Container, Divider } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Modals from "src/components/atoms/Modals";
 import Tables from "src/components/atoms/Tables";
@@ -164,8 +164,9 @@ function ManageHolidays() {
           name="Add Holiday"
           onclickButton={handleClickOpen}
         />
-    
       </PageTitleWrapper>
+      <Divider />
+      <br />
       <Container maxWidth="lg">
         <Card>
           <CardContent>
