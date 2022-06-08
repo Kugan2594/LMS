@@ -24,6 +24,9 @@ interface IEmployee {
   employmentTypeId?: string | number;
   businessUnitId?: string | number;
   roleId?: string | number;
+
+  file?: string;
+
 }
 
 export type { IEmployee };
