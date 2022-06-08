@@ -23,6 +23,7 @@ import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from "src/util/CustomizedNotification";
 import { EditOutlined } from "@mui/icons-material";
 import Button from "src/components/atoms/controlls/Button";
+import { getPermissionStatus, getSubordinatePrivileges } from "src/util/permissionUtils";
 
 function createData(data) {
   let convertData = data.map((post, index) => {
@@ -50,6 +51,10 @@ function ManageAllocateDay() {
     type: "",
     mesg: "",
   });
+
+  const AllocateLeaves = getPermissionStatus("AllocateLeaves");
+  console.log("AllocateLeaves", AllocateLeaves);
+  const SubAllocateLeaves = getSubordinatePrivileges(AllocateLeaves, "AllocateLeaves");
 
   const handleAlertClose = () => {
     setalert({
