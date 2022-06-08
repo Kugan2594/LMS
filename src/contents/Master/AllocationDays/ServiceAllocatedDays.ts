@@ -1,8 +1,8 @@
 import api from "src/services/AxiosService";
 
-const getAllEmployeeLeaveType = () => {
+const getAllEmployeeLeaveType = (id:number) => {
     return new Promise((resolve, reject) => {
-        api("get", "lm-web", null, "/employeeleavetype", "", "", "")
+        api("get", "lm-web", null, "/employeeleavetype/employee", "", "", id)
             .then((response: any) => {
                 resolve(response.data);
             })
