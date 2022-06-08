@@ -73,7 +73,7 @@ function HeaderUserbox() {
     // let userData = getUserDetails();
     // let userName = getUserName();
     const [employeeId, setEmployeeId] = useState(0);
-    const [employeefirstname, setemployeefirstname] = useState();
+    const [employeefirstname, setemployeefirstname] = useState("ADMIN");
     const ref = useRef<any>(null);
     const [isOpen, setOpen] = useState<boolean>(false);
     useEffect(() => {
