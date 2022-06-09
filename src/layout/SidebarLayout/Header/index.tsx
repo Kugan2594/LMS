@@ -222,7 +222,7 @@ function Header() {
                 <Box display="flex" alignItems="center">
                     {/* <HeaderButtons /> */}
                     <Box>
-                        <Badge badgeContent={count.length} color="primary" sx={{width: "30px", height: "30px"}}>
+                        <Badge badgeContent={0} color="primary" sx={{width: "30px", height: "30px"}}>
                             <IconButton onClick={handleClick}>
                                 <NotificationsRoundedIcon />
                             </IconButton>
