@@ -13,9 +13,9 @@ import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/ut
 function createData(data) {
   let convertData = data.map((post, index) => {
       return {
-          employeeName: post.employee.lastName,
+          employeeName: post.employee.firstName + " " + post.employee.lastName,
           approverOrder: post.approverOrder,
-          approverName:post.approver.employee.lastName,
+          approverName: post.approver.employee.lastName + " " + post.approver.employee.firstName,
           employeeId: post.employee.empId
       };
   });

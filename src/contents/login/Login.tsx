@@ -86,7 +86,7 @@ export default function Login() {
                         setloading(false);
                         navigate("master");
                         window.location.reload();
-                    }, 400);
+                    }, 500);
                 }
             );
         });

@@ -110,7 +110,7 @@ function AddEmployeeApprover(props: any) {
       (res: []) => {
         res.map((post: any) => {
           console.log("////////////////////////",res);
-          data.push({ id: post.id, title: post.lastName });
+          data.push({ id: post.id, title: post.lastName + " " + post.firstName });
           return null;
         });
         setEmployeeData(data);
@@ -149,7 +149,8 @@ function AddEmployeeApprover(props: any) {
         let datas= res.map((post:any)=>{
           return{
             id:post.id,
-            name:post.employee.lastName
+            firstName: post.employee.firstName,
+            lastName: post.employee.lastName
           }
         })
 
@@ -197,7 +198,8 @@ console.log("hi");
     rightChecked.map((post: any) => {
       name.push({
         id: post.id,
-        name: post.employee.lastName
+        firstName: post.employee.firstName,
+        lastName: post.employee.lastName
       });
     });
 
@@ -376,7 +378,7 @@ console.log("hi");
                   />
                 </ListItemIcon>
                 <div>
-                  <ListItemText id={labelId} primary={`${value.name}`} />
+                  <ListItemText id={labelId} primary={`${value.lastName} ${value.firstName} `} />
                 </div>
               </ListItem>
             );
