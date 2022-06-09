@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import AddTwoToneIcon from "@mui/icons-material/AddTwoTone";
 import { Typography, Grid, Button } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { BsCloudDownload, BsCloudUpload } from "react-icons/bs";
+import { BsCloudDownload, BsCloudUpload, BsBoxArrowInDown, BsBoxArrowUp } from "react-icons/bs";
 // import Input from "src/components/atoms/controlls/Input";
 import { styled } from "@mui/material/styles";
 
@@ -79,7 +79,7 @@ const PageTitle: FC<PageTitleProps> = ({
               variant="contained"
               component="label"
               startIcon={
-                <BsCloudUpload
+                <BsBoxArrowInDown
                   style={{
                     fontWeight: "600",
                   }}
@@ -100,7 +100,7 @@ const PageTitle: FC<PageTitleProps> = ({
               variant="contained"
               component="span"
               startIcon={
-                <BsCloudDownload
+                <BsBoxArrowUp
                   style={{
                     fontWeight: "600",
                   }}

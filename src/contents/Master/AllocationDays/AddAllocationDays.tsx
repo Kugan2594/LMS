@@ -162,7 +162,7 @@ function AddAllocationDays(props) {
     let data: any = [];
     getAllEmployee().then((res: []) => {
       res.map((post: any) => {
-        data.push({ id: post.id, title: post.lastName });
+        data.push({ id: post.id, title: post.lastName + " " + post.firstName });
         return null;
       });
       setemployeeData(data);
@@ -203,7 +203,7 @@ function AddAllocationDays(props) {
                 <Grid item xs={12} md={6} lg={6}>
                   <AutocompleteSelect
                     name="leavetypeId"
-                    label="leave Type *"
+                    label="Leave Type *"
                     value={values.leavetypeId}
                     onChange={handleInputChange}
                     onValueChange={onValueChange}
