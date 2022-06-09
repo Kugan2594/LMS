@@ -23,7 +23,7 @@ const getAllLeaveType = (pageNumber: number, pageSize: number) => {
 
 const deleteLeaveType = (id: number) => {
     return new Promise((resolve, reject) => {
-        api("delete", "lm-web", null, "/leaveType", "", "", "")
+        api("delete", "lm-web", null, "/leaveType", "", "", id)
             .then((response: any) => {
                 resolve(response);
             })
