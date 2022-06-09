@@ -274,7 +274,7 @@ function LeaveRequestForm(props: ILeaveRequest) {
                 <Box sx={{ marginTop: 0.5 }}>
                   <Input
                     name="leaveDays"
-                    label="DAYS *"
+                    label="Days *"
                     value={values.leaveDays}
                     onChange={handleInputChange}
                     error={errors.leaveDays}

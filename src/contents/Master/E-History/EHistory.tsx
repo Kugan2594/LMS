@@ -170,7 +170,7 @@ function EHistory(props) {
         getAllEmployee().then(
             (res: []) => {
                 res.map((post: any) => {
-                    data.push({ id: post.id, title: post.lastName });
+                    data.push({ id: post.id, title: post.lastName + " " + post.firstName });
                     return null;
                 });
                 setemployee(data);
