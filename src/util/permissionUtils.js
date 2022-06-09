@@ -9,7 +9,9 @@ export const getUserRolePermission = () => {
     return JSON.parse(userPermission);
 };
 
-var userPermissionData = getUserRolePermission();
+var userPermissionData =[];
+
+userPermissionData = getUserRolePermission();
 
 export const getPermissionStatus = (moduleName) => {
     console.log("permision", userPermissionData);
