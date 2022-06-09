@@ -20,9 +20,9 @@ import GroupWorkRoundedIcon from "@mui/icons-material/GroupWorkRounded";
 import DonutLargeRoundedIcon from "@mui/icons-material/DonutLargeRounded";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
-import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
 import { remove } from "lodash";
 import { modulePermission, PERMISSION_NAME } from "src/util/constants";
+import { getPermissionStatus } from "src/util/permissionUtils";
 
 export interface MenuItem {
     id?: string;
@@ -48,6 +48,7 @@ export interface MenuItems {
 
 
 const masterMenuItems: MenuItem[] = [
+
     { name: "Employees", icon: PersonRoundedIcon, link: "/master/employee" },
     {
         name: "Approvers",
