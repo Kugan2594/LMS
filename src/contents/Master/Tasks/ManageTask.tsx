@@ -59,7 +59,7 @@ function createData(data) {
       requestedDate: moment(post.requestedDate).format("DD-MM-yyyy"),
       leaveType: post.type,
       lastName: post.lastName,
-      firstName: post.firstName,
+      firstName: post.lastName + " " + post.firstName,
       leaveRequestId: post.leaveRequestId,
     };
   });
@@ -165,7 +165,7 @@ function Task(props) {
     //   minWidth: 0,
     // },
     {
-      id: "lastName",
+      id: "firstName",
       label: "Employee Name",
       minWidth: 0,
     },

@@ -196,18 +196,23 @@ function ManageEmployee() {
   const columns: Column[] = [
     {
       id: "empId",
-      label: "Employee Id",
-      minWidth: 120,
+      label: "ID",
+      minWidth: 0,
     },
     {
       id: "firstName",
-      label: "FirstName",
-      minWidth: 120,
+      label: "First Name",
+      minWidth: 0,
+    },
+    {
+      id: "lastName",
+      label: "Last Name",
+      minWidth: 0,
     },
     {
       id: "roleName",
       label: "Role",
-      minWidth: 120,
+      minWidth: 0,
     },
     {
       id: "email",
