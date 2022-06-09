@@ -125,9 +125,29 @@ const addEmployeeApprover = (data: object) => {
   });
 };
 
+const getEmployeeApproverByEmployeeId = (employeeId: number) => {
+  return new Promise((resolve, reject) => {
+    api(
+      "get",
+      "lm-web",
+      null,
+      `/employeeApprover/${employeeId}`,
+      "",
+      "",
+      ""
+    )
+      .then((response: any) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 export {
 
-  getApprovers, allocateApprover, DeallocateApprover,getAllEmployeeApprover,getAllEmployeesForDropDown,addEmployeeApprover,getAllEmployee
+  getApprovers, allocateApprover, DeallocateApprover,getAllEmployeeApprover,getAllEmployeesForDropDown,addEmployeeApprover,getAllEmployee,getEmployeeApproverByEmployeeId
 
 
 };
