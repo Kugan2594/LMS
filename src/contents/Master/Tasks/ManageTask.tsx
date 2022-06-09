@@ -150,11 +150,13 @@ function Task(props) {
     getEmployeeIdByEmail(email).then((res: any) => {
       console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", res.employee.id)
       getLeaveApproverStatusHistoryByEmployee(pageNumber, pageSize, res.employee.id).then((res: any) => {
+        console.log({res})
         let value: {
           id: Number, status: String, approverName: String, date: String, reason: String, fromDate: String, toDate: String, leaveDays: Number,
           requestedDate: String, leaveType: String, lastName: String, firstName: String, leaveRequestId: Number
         }[] = createData(res.results.leaveHistoryByEmployee);
-        setdataSource(value.filter((request) => request.status == "PENDING" || request.status == "NEW").map((filtered) => filtered));
+        console.log({value});
+        setdataSource(value.filter((request) => request.status == "PENDING" ).map((filtered) => filtered));
       });
     });
 
