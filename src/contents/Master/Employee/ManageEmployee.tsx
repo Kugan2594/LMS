@@ -8,10 +8,18 @@ import { Column } from "../../../components/atoms/Tables/TableInterface";
 import AddEmployee from "./AddEmployee";
 import CsvUpload from "./CsvUpload";
 import { TableAction } from "src/components/atoms/Tables/TableAction";
-import { deleteEmployee, getAllEmployee, UploadService } from "./ServiceEmployee";
+import {
+  deleteEmployee,
+  getAllEmployee,
+  UploadService,
+} from "./ServiceEmployee";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import CustomizedNotification from "src/util/CustomizedNotification";
-import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
+import {
+  getPermissionStatus,
+  getSubordinatePrivileges,
+  sampleFuc,
+} from "src/util/permissionUtils";
 import FileSaver from "file-saver";
 import axios from "axios";
 
@@ -60,10 +68,10 @@ function ManageEmployee() {
   const [responseStatus, setresponseStatus] = useState(false);
   const [openImport, setOpenImport] = useState(false);
   const [file, setFile] = useState<any>();
-  const [mockData, setmockData] = useState<any>('');
+  const [mockData, setmockData] = useState<any>("");
   const [open, setOpen] = useState(false);
   const [searchFields, setsearchFields] = useState({ name: "" });
-  const [csvErr, setcsvErr] = useState('');
+  const [csvErr, setcsvErr] = useState("");
 
   const [sortField, setsortField] = React.useState({
     sortField: "id",
@@ -122,24 +130,16 @@ function ManageEmployee() {
     );
   };
 
-
-  const handleUPload = (e) => {
-
-
-  };
-
   const reloadTable = (res) => {
     getAllEmployeeData(pagination.pageNumber, pagination.pageSize);
     setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
     setOpen(false);
- 
   };
 
   const reloadTable1 = (res) => {
     getAllEmployeeData(pagination.pageNumber, pagination.pageSize);
     setalert({ type: NOTIFICATION_TYPE.success, mesg: res.status });
     setOpenImport(false);
- 
   };
 
   const editOnclick = (row) => {
@@ -192,7 +192,7 @@ function ManageEmployee() {
     });
   };
 
-  const onTableSearch = (values, sortField) => { };
+  const onTableSearch = (values, sortField) => {};
   const columns: Column[] = [
     {
       id: "empId",
@@ -238,31 +238,34 @@ function ManageEmployee() {
       fixed: "right",
       align: "center",
       render: (value: any) =>
-        sampleFuc(SubEmployee).UPEM && sampleFuc(SubEmployee).DEEM &&
-        <TableAction
-          rowData={value}
-          deleteOnclick={deleteOnclick}
-          editOnclick={editOnclick}
-        />
+        sampleFuc(SubEmployee).UPEM &&
+        sampleFuc(SubEmployee).DEEM && (
+          <TableAction
+            rowData={value}
+            deleteOnclick={deleteOnclick}
+            editOnclick={editOnclick}
+          />
+        ),
     },
   ];
   const onSaveFile = () => {
-    if (file && csvErr === '') {
+    if (file && csvErr === "") {
       const formData = new FormData();
-      file && formData.append('file', file);
-
+      file && formData.append("file", file);
 
       UploadService(formData).then(
         (res: any) => {
-          
-          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",res);
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", res);
           setFile(null);
-          let errorData =res.status &&
-            res.data && res.data.result && res.data.result.errorPassengerCsv;
-          if (res.status === 'warning') {
+          let errorData =
+            res.status &&
+            res.data &&
+            res.data.result &&
+            res.data.result.errorPassengerCsv;
+          if (res.status === "warning") {
             setalert({
               type: NOTIFICATION_TYPE.warning,
-              mesg: res.data.message
+              mesg: res.data.message,
             });
           } else {
             reloadTable1(res);
@@ -271,20 +274,20 @@ function ManageEmployee() {
           if (errorData.length > 0) {
             const csvString = [
               [
-                'empId',
-                'first name',
-                'last name',
-                'email',
-                'contact no',
-                'gender',
-                'designation name',
-                'nic',
-                'address',
-                'company location',
-                'employment Type',
-                'business Unit',
-                'role',
-                'Error'
+                "empId",
+                "first name",
+                "last name",
+                "email",
+                "contact no",
+                "gender",
+                "designation name",
+                "nic",
+                "address",
+                "company location",
+                "employment Type",
+                "business Unit",
+                "role",
+                "Error",
               ],
               ...errorData.map((item) => [
                 item.empId,
@@ -299,44 +302,40 @@ function ManageEmployee() {
                 item.CompanyLocation,
                 item.employmentType,
                 item.businessUnit,
-                item.errors
-
-              ])
+                item.errors,
+              ]),
             ]
-              .map((e) => e.join(','))
-              .join('\n');
+              .map((e) => e.join(","))
+              .join("\n");
 
-            console.log('csvString', csvString);
+            console.log("csvString", csvString);
 
             res.data.result && setresponseStatus(true);
             setTimeout(() => {
               setmockData(csvString);
             }, 200);
             setOpenImport(false);
-
           } else {
             setOpenImport(false);
           }
 
-            setOpenImport(false);
+          setOpenImport(false);
         },
         (error) => {
           console.log(error);
           handleError(error);
         }
       );
-
     }
   };
   const handleCloseImport = (value) => {
     setOpenImport(false);
     setFile(null);
-
   };
   const onChangeImport = (e) => {
     setOpenImport(true);
     setresponseStatus(false);
-    setmockData('');
+    setmockData("");
   };
   return (
     <div>
@@ -354,7 +353,7 @@ function ManageEmployee() {
         />
       </PageTitleWrapper>
       <Divider />
-
+      <br />
 
       <Container maxWidth="lg">
         <Card>
@@ -376,7 +375,6 @@ function ManageEmployee() {
           modalTitle={action === "edit" ? "Edit Employee" : "Add Employee"}
           modalWidth="60%"
           open={open}
-          // onClose={handleClose}
           modalBody={
             <AddEmployee
               reloadTable={reloadTable}
@@ -389,8 +387,8 @@ function ManageEmployee() {
         />
         <Modals
           modalTitle="Bulk Import"
-          modalWidth="85%"
-          modalHeigth="95%"
+          modalWidth="50%"
+          // modalHeigth="95%"
           open={openImport}
           onClose={handleCloseImport}
           modalBody={
