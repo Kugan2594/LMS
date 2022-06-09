@@ -7,189 +7,215 @@ import PageTitle from "src/components/organism/PageTitle";
 import { Column } from "../../../components/atoms/Tables/TableInterface";
 import { TableAction } from "src/components/atoms/Tables/TableAction";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
-import CustomizedNotification from 'src/util/CustomizedNotification';
-import { deleteEmployementType, getAllEmployementType } from "./ServiceEmployementType";
+import CustomizedNotification from "src/util/CustomizedNotification";
+import {
+  deleteEmployementType,
+  getAllEmployementType,
+} from "./ServiceEmployementType";
 import AddEmployementType from "./AddEmployementType";
 import moment from "moment";
-import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
-
+import {
+  getPermissionStatus,
+  getSubordinatePrivileges,
+  sampleFuc,
+} from "src/util/permissionUtils";
 
 function createData(data) {
-    let convertData = data.map((post, index) => {
-        return {
-            id: post.id,
-            type: post.type,
-            createdAt:moment(post.createdAt).format("YYYY-MM-DD"),
-            updatedAt:moment(post.updatedAt).format("YYYY-MM-DD")
-            
-
-        };
-    });
-    return convertData;
+  let convertData = data.map((post, index) => {
+    return {
+      id: post.id,
+      type: post.type,
+      createdAt: moment(post.createdAt).format("YYYY-MM-DD"),
+      updatedAt: moment(post.updatedAt).format("YYYY-MM-DD"),
+    };
+  });
+  return convertData;
 }
 
-
 function ManageEmployementType() {
-    
-    const [open, setOpen] = useState(false);
-    const [searchFields, setsearchFields] = useState({ name: "" });
-    const [sortField, setsortField] = React.useState({
-        sortField: "id",
-        direction: "DESC",
-    });
-    const [alert, setalert] = useState({
-        type: "",
-        mesg: "",
-    });
-    const [dataSource, setdataSource] = useState([]);
-    const [action, setaction] = useState('add');
-    const [editData, seteditData] = useState({});
+  const [pagination, setpagination] = useState({
+    pageNumber: 0,
+    pageSize: 10,
+    total: 0,
+  });
+  const [open, setOpen] = useState(false);
+  const onChangePage = (pageNumber, pageSize) => { };
+  const [searchFields, setsearchFields] = useState({ name: "" });
+  const [sortField, setsortField] = React.useState({
+    sortField: "id",
+    direction: "DESC",
+  });
+  const [alert, setalert] = useState({
+    type: "",
+    mesg: "",
+  });
+  const [dataSource, setdataSource] = useState([]);
+  const [action, setaction] = useState("add");
+  const [editData, seteditData] = useState({});
 
   const Settings = getPermissionStatus("Settings");
   console.log("EmployementType", Settings);
-  const SubEmployementType = getSubordinatePrivileges(Settings, "EmploymentType");
+  const SubEmployementType = getSubordinatePrivileges(
+    Settings,
+    "EmploymentType"
+  );
   console.log("EmployementType.status", sampleFuc(SubEmployementType));
   console.log("ADD EmployementType status", sampleFuc(SubEmployementType).CRET);
 
+  const handleClickOpen = () => {
+    setaction("add");
+    setOpen(true);
+  };
 
-    const handleClickOpen = () => {
-        setaction('add');
-        setOpen(true);
-    };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+  useEffect(() => {
+    getAllEmployementTypeData(pagination.pageNumber, pagination.pageSize);
+  }, [pagination.pageNumber, pagination.pageSize]);
+  const getAllEmployementTypeData = (pageNumber, pageSize) => {
+    getAllEmployementType(pageNumber, pageSize).then((res: any) => {
+      let data: [] = createData(res.results.Employement_type);
+      setpagination({
+        pageNumber: res.pagination.pageNumber,
+        pageSize: res.pagination.pageSize,
+        total: res.pagination.totalRecords,
+      });
+      setdataSource(data);
+    });
+  };
 
-    useEffect(() => {
-        getAllEmployementTypeData();
-    },[]);
-    const getAllEmployementTypeData = () => {
-        getAllEmployementType().then((res: any) => {
-            let data: [] = createData(res);
-           
-            setdataSource(data);
-        });
-    };
-    
-    const deleteOnclick = (row) => {
-        deleteEmployementType(row.id).then(
-            (res: any) => {
-                reloadTable(res);
-            },
-            (error) => {
-                console.log(error);
-                handleError(error);
-            }
-        );
-    };
-
-    const reloadTable = (res) => {
-        setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
-        console.log("//////////////////////////", res);
-        setOpen(false);
-        getAllEmployementTypeData();
-    };
-
-    const editOnclick = (row) => {
-        console.log(row);
-        setaction('edit');
-        seteditData(row);
-        setOpen(true);
-    };
-
-    const handleError = (res) => {
-        setalert({
-            type: NOTIFICATION_TYPE.error,
-            mesg: res.data.validationFailures[0].message,
-        });
-    };
-    const handleAlertClose = () => {
-        setalert({
-            type: '',
-            mesg: ''
-        });
-    };
-    const onTableSearch = (values, sortField) => { };
-    const columns: Column[] = [
-        {
-            id: "type",
-            label: "Employement Type",
-            minWidth: 120,
-        },
-        {
-            id: "createdAt",
-            label: "Create Date",
-            minWidth: 120,
-        },
-        {
-            id: "updatedAt",
-            label: "Update Date",
-            minWidth: 120,
-        },
-
-        
-        {
-            id: "action",
-            label: "Action",
-            minWidth: 100,
-            fixed: "right",
-            align: "center",
-            render: (value: any) => 
-                sampleFuc(SubEmployementType).UPET &&
-                sampleFuc(SubEmployementType).DEET &&
-                <TableAction rowData={value} deleteOnclick={deleteOnclick} editOnclick={editOnclick} 
-            />
-        },
-    ];
-
-    return (
-        <div>
-            <PageTitleWrapper>
-                {/* sampleFuc(SubEmployementType).CRET &&  */}
-                <PageTitle
-                    heading="Employement Type"
-                    name="Add Employement Type"
-                    subHeading="Master/Employement Type"
-                    isButton={sampleFuc(SubEmployementType).CRET ? true : false}
-                    onclickButton={handleClickOpen}
-                />
-            </PageTitleWrapper>
-            <Divider />
-            <br />
-
-            <Container maxWidth="lg">
-                <Card>
-                    <CardContent>
-                        <Tables
-                            columns={columns}
-                            tableData={dataSource}
-                            searchFields={{}}
-                            onTableSearch={onTableSearch}
-                        />
-                    </CardContent>
-                </Card>
-                <Modals
-                    modalTitle={action === 'edit' ? 'Edit EmployementType' : 'Add EmployementType'}
-                    modalWidth="25%"
-                    open={open}
-                    // onClose={handleClose}
-                    modalBody={<AddEmployementType reloadTable={reloadTable}
-                        action={action}
-                        editData={editData}
-                        handleError={handleError}
-                        handleClose={handleClose} />}
-                />
-            </Container>
-            {alert.type.length > 0 ? (
-                <CustomizedNotification
-                    severity={alert.type}
-                    message={alert.mesg}
-                    handleAlertClose={handleAlertClose}
-                />
-            ) : null}
-        </div>
+  const deleteOnclick = (row) => {
+    deleteEmployementType(row.id).then(
+      (res: any) => {
+        reloadTable(res);
+      },
+      (error) => {
+        console.log(error);
+        handleError(error);
+      }
     );
+  };
+
+  const reloadTable = (res) => {
+    setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
+    console.log("//////////////////////////", res);
+    setOpen(false);
+    getAllEmployementTypeData(pagination.pageNumber, pagination.pageSize);
+  };
+
+  const editOnclick = (row) => {
+    console.log(row);
+    setaction("edit");
+    seteditData(row);
+    setOpen(true);
+  };
+
+  const handleError = (res) => {
+    setalert({
+      type: NOTIFICATION_TYPE.error,
+      mesg: res.data.validationFailures[0].message,
+    });
+  };
+  const handleAlertClose = () => {
+    setalert({
+      type: "",
+      mesg: "",
+    });
+  };
+  const onTableSearch = (values, sortField) => {};
+  const columns: Column[] = [
+    {
+      id: "type",
+      label: "Employement Type",
+      minWidth: 120,
+    },
+    {
+      id: "createdAt",
+      label: "Create Date",
+      minWidth: 120,
+    },
+    {
+      id: "updatedAt",
+      label: "Update Date",
+      minWidth: 120,
+    },
+
+    {
+      id: "action",
+      label: "Action",
+      minWidth: 100,
+      fixed: "right",
+      align: "center",
+      render: (value: any) =>
+        sampleFuc(SubEmployementType).UPET &&
+        sampleFuc(SubEmployementType).DEET && 
+          <TableAction
+            rowData={value}
+            deleteOnclick={deleteOnclick}
+            editOnclick={editOnclick}
+          />
+    },
+  ];
+
+  return (
+    <div>
+      <PageTitleWrapper>
+        {/* sampleFuc(SubEmployementType).CRET &&  */}
+        <PageTitle
+          heading="Employement Type"
+          name="Add Employement Type"
+          subHeading="Master/Employement Type"
+          isButton={sampleFuc(SubEmployementType).CRET ? true : false}
+          onclickButton={handleClickOpen}
+        />
+      </PageTitleWrapper>
+      <Divider />
+      <br />
+
+      <Container maxWidth="lg">
+        <Card>
+          <CardContent>
+            <Tables
+              columns={columns}
+              tableData={dataSource}
+              searchFields={{}}
+              onTableSearch={onTableSearch}
+              onChangePage={onChangePage}
+              pageNumber={pagination.pageNumber}
+              total={pagination.total}
+              pageSize={pagination.pageSize}
+            />
+          </CardContent>
+        </Card>
+        <Modals
+          modalTitle={
+            action === "edit" ? "Edit EmployementType" : "Add EmployementType"
+          }
+          modalWidth="25%"
+          open={open}
+          // onClose={handleClose}
+          modalBody={
+            <AddEmployementType
+              reloadTable={reloadTable}
+              action={action}
+              editData={editData}
+              handleError={handleError}
+              handleClose={handleClose}
+            />
+          }
+        />
+      </Container>
+      {alert.type.length > 0 ? (
+        <CustomizedNotification
+          severity={alert.type}
+          message={alert.mesg}
+          handleAlertClose={handleAlertClose}
+        />
+      ) : null}
+    </div>
+  );
 }
 
 export default ManageEmployementType;
