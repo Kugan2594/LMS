@@ -22,6 +22,7 @@ import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRou
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import { remove } from "lodash";
 import { modulePermission, PERMISSION_NAME } from "src/util/constants";
+import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility';
 import { getPermissionStatus } from "src/util/permissionUtils";
 
 export interface MenuItem {
@@ -74,15 +75,27 @@ const masterMenuItems: MenuItem[] = [
     // { name: "Lieu Request", icon: AddCircleOutlineRoundedIcon, link: "/master/lieurequest" },
     { name: "Notifications", icon: NotificationsRoundedIcon, link: "/master/notifications", },
     {
-        name: "Settings",
-        icon: SettingsIcon,
-        link: "/master/companyLocation",
+        name: "Privilage",
+        icon: SettingsAccessibilityIcon,
+        link: "/master/userPrivilege",
         items: [
             {
                 name: "Roles",
                 icon: BusinessCenterRoundedIcon,
                 link: "/master/roles",
             },
+            {
+                name: "UserPrivilage",
+                icon: GroupWorkRoundedIcon,
+                link: "/master/userPrivilege",
+            },
+        ],
+    },
+    {
+        name: "General Setting",
+        icon: SettingsIcon,
+        link: "/master/designations",
+        items: [
             {
                 name: "Designations",
                 icon: BusinessCenterRoundedIcon,
@@ -103,15 +116,11 @@ const masterMenuItems: MenuItem[] = [
                 icon: GroupWorkRoundedIcon,
                 link: "/master/businessUnit",
             },
-            {
-                name: "UserPrivilage",
-                icon: GroupWorkRoundedIcon,
-                link: "/master/userPrivilege",
-            },
         ],
     },
 ];
 console.log("mmmmmmmmmmmmmmmmmmmmmmmmmmmm", getPermissionStatus("Settings"))
+console.log("mmmmmmmmmmmmmmmmmmmmmmmmmmmm", getPermissionStatus("Privilege"))
 if (!getPermissionStatus("LeaveTypes").status) {
     remove(masterMenuItems, (item) => item.name === "Leave Types");
 }
@@ -131,8 +140,12 @@ if (!getPermissionStatus("Holiday").status) {
     remove(masterMenuItems, (item) => item.name === "Holidays");
 }
 if (!getPermissionStatus("Settings").status) {
-    remove(masterMenuItems, (item) => item.name === "Settings");
+    remove(masterMenuItems, (item) => item.name === "General Setting");
 }
+if (!getPermissionStatus("Privilege").status) {
+    remove(masterMenuItems, (item) => item.name === "Privilage");
+}
+
 
 
 // for (let i = 0; i < subordinatePrivilegessettings.length; i++) {
