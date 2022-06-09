@@ -157,9 +157,9 @@ function HeaderUserbox() {
                         src={""}
                     />
                     <UserBoxText>
-                        <UserBoxLabel variant="body1">Lorem</UserBoxLabel>
+                        <UserBoxLabel variant="body1">{employeefirstname}</UserBoxLabel>
                         <UserBoxDescription variant="body2">
-                            IIT
+                            Invicta Innovations
                         </UserBoxDescription>
                     </UserBoxText>
                 </MenuUserBox>
