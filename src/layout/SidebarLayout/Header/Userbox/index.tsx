@@ -73,7 +73,7 @@ function HeaderUserbox() {
     // let userData = getUserDetails();
     // let userName = getUserName();
     const [employeeId, setEmployeeId] = useState(0);
-    const [employeefirstname, setemployeefirstname] = useState("ADMIN");
+    const [employeefirstname, setemployeefirstname] = useState("Admin");
     const ref = useRef<any>(null);
     const [isOpen, setOpen] = useState<boolean>(false);
     useEffect(() => {
@@ -129,7 +129,7 @@ function HeaderUserbox() {
                     <UserBoxText>
                         <UserBoxLabel variant="body1">{employeefirstname}</UserBoxLabel>
                         <UserBoxDescription variant="body2">
-                            CEO
+                           
                         </UserBoxDescription>
                     </UserBoxText>
                 </Hidden>

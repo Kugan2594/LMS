@@ -45,18 +45,15 @@ export default function Dashboard() {
     const [employeeId,setEmployeeId]=useState(0);
     const [approvalstatus,setApprovalStatus]=useState();
     useEffect(() => {
-        getAllEmployeeLeaveTypeData();
+       
         getEmployeeByEmail(getUserDetails().user_name);
-     
+        getAllEmployeeLeaveTypeData(getUserDetails().user_name);
     }, []);
     const getEmployeeByEmail = (email) => {
         getEmployeeIdByEmail(email).then((res: any) => {
-            console.log("res",res);
+    
             setEmployeeId(res.employee.id);
             getApprovalStatusById(res.employee.id).then((res: any) => {
-                console.log("res",res);
-    
-                console.log("res.approverStatus",res.results.Employee.approverStatus);
                 setApprovalStatus(res.results.Employee.approverStatus);
             });
         });
@@ -65,15 +62,23 @@ export default function Dashboard() {
 
     
 
-    const getAllEmployeeLeaveTypeData = () => {
-        getAllEmployeeLeaveType().then((res: any) => {
-            let data: [] = createData(res);
-            setdataSource(data);
+    const getAllEmployeeLeaveTypeData = (email) => {
+       
+        getEmployeeIdByEmail(email).then((res: any) => {
+            console.log("res",res);
+            console.log("tttttttttttttttttttt",res.employee.id);
+       
+            getAllEmployeeLeaveType(res.employee.id).then((res: any) => {
+                let data: [] = createData(res.results.getEmployeeleavetypeByEmployeeId);
+                console.log("3333333333333333333333333",data)
+                setdataSource(data);
+            });
         });
+       
     };
 
     const reload = () => {
-        getAllEmployeeLeaveTypeData();
+        getAllEmployeeLeaveTypeData(getUserDetails().user_name);
     };
 
     const [openLeave, setOpenLeave] = useState(false);
