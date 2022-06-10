@@ -20,12 +20,12 @@ import { Column } from "src/components/atoms/Tables/TableInterface";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import { getPermissionStatus, getSubordinatePrivileges, sampleFuc } from "src/util/permissionUtils";
-import { getLeaveApproverStatus, getLeaveApproverStatusHistory } from "../History/serviceHistory";
+import { getLeaveApproverStatus, getLeaveApproverStatusHistory, getLeaveApproverStatusHistoryByEmployee, getEmployeeIdByEmail } from "../History/serviceHistory";
 import ViewHistory from "../History/ViewHistory";
 import InProgress from "../LeaveRequest/InProgress";
 import LeaveRequestForm from "../LeaveRequest/LeaveRequestForm";
 import { getAllLeaveRequest } from "../LeaveRequest/ServiceLeaveRequest";
-
+import { getUserDetails } from 'src/contents/login/LoginAuthentication';
 // function createData(data) {
 //     let convertData = data.map((post, index) => {
 //         return {
@@ -81,6 +81,7 @@ function Task(props) {
   const [openDetails, setOpenDetails] = useState(false);
   const [searchFields, setsearchFields] = useState({ name: "" });
   const [leaveTd, setLeaveId] = useState(0);
+  const [employeeId, setEmployeeId] = useState(0);
   const [sortField, setsortField] = React.useState({
     sortField: "id",
     direction: "DESC",
@@ -141,20 +142,28 @@ function Task(props) {
   // };
 
   useEffect(() => {
-    getAllLeaveRequestHistoryData(pagination.pageNumber, pagination.pageSize);
+    getAllLeaveRequestHistoryData(pagination.pageNumber, pagination.pageSize, getUserDetails().user_name);
 
   }, [pagination.pageNumber, pagination.pageSize]);
 
-  const getAllLeaveRequestHistoryData = (pageNumber, pageSize) => {
-    getLeaveApproverStatusHistory(pageNumber, pageSize).then((res: any) => {
-      let value: {id:Number,status:String,approverName:String,date:String,reason:String,fromDate:String,toDate:String,leaveDays:Number,
-        requestedDate:String,leaveType:String,lastName:String,firstName:String,leaveRequestId:Number}[] = createData(res.results.leaveHistory);
-      setdataSource(value.filter((request) => request.status == "PENDING" || request.status == "NEW").map((filtered) => filtered));
+  const getAllLeaveRequestHistoryData = (pageNumber, pageSize, email) => {
+    getEmployeeIdByEmail(email).then((res: any) => {
+      console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", res.employee.id)
+      getLeaveApproverStatusHistoryByEmployee(pageNumber, pageSize, res.employee.id).then((res: any) => {
+        console.log({res})
+        let value: {
+          id: Number, status: String, approverName: String, date: String, reason: String, fromDate: String, toDate: String, leaveDays: Number,
+          requestedDate: String, leaveType: String, lastName: String, firstName: String, leaveRequestId: Number
+        }[] = createData(res.results.leaveHistoryByEmployee);
+        console.log({value});
+        setdataSource(value.filter((request) => request.status == "PENDING" ).map((filtered) => filtered));
+      });
     });
+
   };
 
   const reloadTable = () => {
-    getAllLeaveRequestHistoryData(pagination.pageNumber, pagination.pageSize);
+    getAllLeaveRequestHistoryData(pagination.pageNumber, pagination.pageSize, getUserDetails().user_name);
   }
 
 
@@ -198,13 +207,13 @@ function Task(props) {
       id: "requestedDate",
       label: "Requested date",
       minWidth: 0,
-  },
+    },
     {
       id: "status",
       label: "Status",
       minWidth: 0,
       render: (value: any) => (
-         value.status == "APPROVED" ? <Chip label="APPROVED" color="success" size="small" /> : value.status == "REJECTED" ? <Chip label="REJECTED" color="error" size="small" /> : <Chip label="PENDING" color="warning" size="small" />
+        value.status == "APPROVED" ? <Chip label="APPROVED" color="success" size="small" /> : value.status == "REJECTED" ? <Chip label="REJECTED" color="error" size="small" /> : <Chip label="PENDING" color="warning" size="small" />
       )
     },
     {
@@ -212,8 +221,8 @@ function Task(props) {
       label: "",
       minWidth: 40,
       render: (value: any) => (
-          // sampleFuc(SubManageTask).UPAS &&
-          // sampleFuc(SubManageTask).VIAS &&
+        // sampleFuc(SubManageTask).UPAS &&
+        // sampleFuc(SubManageTask).VIAS &&
         <Button
           variant="text"
           size="small"

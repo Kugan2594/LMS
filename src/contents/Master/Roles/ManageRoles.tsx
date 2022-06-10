@@ -45,11 +45,11 @@ function ManageRoles() {
     mesg: "",
   });
 
-  const Settings = getPermissionStatus("Settings");
-  console.log("Settings", Settings);
-  const SubRoles = getSubordinatePrivileges(Settings, "Role");
-  console.log("Settings .status", sampleFuc(SubRoles));
-  console.log("ADD Settings status", sampleFuc(SubRoles).CRHL);
+  const Privilege = getPermissionStatus("Privilege");
+  console.log("Privilege", Privilege);
+  const SubRoles = getSubordinatePrivileges(Privilege, "Role");
+  console.log("Privilege .status", sampleFuc(SubRoles));
+  console.log("ADD Privilege status", sampleFuc(SubRoles).CRHL);
 
 
   const onTableSearch = (values, sortField) => {};
