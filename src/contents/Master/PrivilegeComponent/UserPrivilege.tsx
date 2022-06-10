@@ -100,6 +100,10 @@ function UserPrivilage() {
                   return {
                     title: finalPost.description,
                     key: `${post.id}-${subPost.id}-${finalPost.id}`,
+                    disableCheckbox:
+                        finalPost.id===59
+                        ? true
+                        : false
                   };
                 }),
               };
