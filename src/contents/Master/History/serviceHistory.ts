@@ -99,5 +99,27 @@ const getEmployeeIdByEmail = (
   });
 };
 
+const getLeaveEmployeeStatusPendingHistory = (pageNumber: number,
+  pageSize: number, id: number) => {
+  return new Promise((resolve, reject) => {
+    api(
+      "get",
+      "lm-web",
+      null,
+      `/employeeIdPending/${id}?page=${pageNumber}&size=${pageSize}`,
+      "",
+      "",
+      ""
+    )
 
-export { getEmployeeIdByEmail, updateApproverStatus, getLeaveApproverStatus, getLeaveApproverStatusHistory, getLeaveApproverStatusHistoryByEmployee };
+      .then((response: any) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+
+export { getEmployeeIdByEmail, updateApproverStatus, getLeaveApproverStatus, getLeaveEmployeeStatusPendingHistory, getLeaveApproverStatusHistory, getLeaveApproverStatusHistoryByEmployee };
