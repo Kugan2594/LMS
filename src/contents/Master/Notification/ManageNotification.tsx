@@ -1,138 +1,71 @@
-import { Box, Dialog, DialogContent, DialogContentText, DialogTitle, Divider, Grid } from "@mui/material";
-import React, { useState,useEffect } from "react";
+import {
+    Box,
+    Card,
+    CardContent,
+    Dialog,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Divider,
+    Grid,
+    Typography,
+} from "@mui/material";
+import React, { useState, useEffect } from "react";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import ViewHistory from "../History/ViewHistory";
 import INotification from "./InterfaceNotification";
-import Notification from "./Notification";
-import { getUserDetails } from 'src/contents/login/LoginAuthentication';
+import { getUserDetails } from "src/contents/login/LoginAuthentication";
+import { getNotification } from "./NotificationService";
 
-import {getAllNotification,getNotification} from './NotificationService'
 function ManageNotification(props: INotification) {
-    const [notifications, setNotifications] = useState([]);
-    const mockData = [
-        {
-            //employeeName: "kuru",
-            shortmsg: " 1 you have recieved a Leave Request jkhjhg",
-            date: new Date("Mar 25 2015"),
-            id: "1",
-            status: false,
-            leaveRequestId: 9
-        },
-        {
-            //employeeName: "sam",
-            shortmsg: "2 you have recieved a Leave Request",
-            date: new Date("Mar 25 2015"),
-            id: "2",
-            status: false,
-            leaveRequestId: 9
-        },
-        {
-            //employeeName: "mike",
-            shortmsg: "3 you have recieved a Leave Request",
-            date: new Date("Mar 25 2015"),
-            id: "3",
-            status: true,
-            leaveRequestId: 9
-        },
-        {
-            // employeeName: "vagh",
-            shortmsg: "4 You have recieved a Leave Request",
-            date: new Date("Mar 25 2015"),
-            id: "4",
-            status: false,
-            leaveRequestId: 9
-        },
-        {
-            // employeeName: "vagh",
-            shortmsg: "5 You have recieved a Leave Request",
-            date: new Date("Mar 25 2015"),
-            id: "5",
-            status: true,
-            leaveRequestId: 9
-        },
-        {
-            //employeeName: "kuru",
-            shortmsg: " 1 you have recieved a Leave Request jkhjhg",
-            date: new Date("Mar 25 2015"),
-            id: "1",
-            status: false,
-            leaveRequestId: 9
-        },
-        {
-            //employeeName: "sam",
-            shortmsg: "2 you have recieved a Leave Request",
-            date: new Date("Mar 25 2015"),
-            id: "2",
-            status: false,
-            leaveRequestId: 9
-        },
-        {
-            //employeeName: "mike",
-            shortmsg: "3 you have recieved a Leave Request",
-            date: new Date("Mar 25 2015"),
-            id: "3",
-            status: true,
-            leaveRequestId: 9
-        },
-        {
-            // employeeName: "vagh",
-            shortmsg: "4 You have recieved a Leave Request",
-            date: new Date("Mar 25 2015"),
-            id: "4",
-            status: false,
-            leaveRequestId: 9
-        },
-        {
-            // employeeName: "vagh",
-            shortmsg: "5 You have recieved a Leave Request",
-            date: new Date("Mar 25 2015"),
-            id: "5",
-            status: true,
-            leaveRequestId: 9
-        },
-    ];
+    const [leaveDetails, setLeaveDetails] = useState({});
+    const [openDetails, setOpenDetails] = useState(false);
+    const [pagination, setpagination] = useState({
+        pageNumber: 0,
+        pageSize: 20,
+        total: 0,
+    });
+    const [notifications, setNotifications]: any = useState([]);
+
+    var userName = getUserDetails().user_name;
+
     useEffect(() => {
-        getAllNotificationByEmail(page, rowsPerPage,getUserDetails().user_name);
+        getAllNotificationByEmail(
+            pagination.pageNumber,
+            pagination.pageSize,
+            userName
+        );
     }, []);
 
-    const  getAllNotificationByEmail=(page, rowsPerPage,email)=>{
-        let count = 0;
-            let data = [];
-            getNotification(page, rowsPerPage, email).then((res: any) => {
-            res.results.NotificationByUserEmail.map((post,index)=>{
-             data.push({
-                 id:post.id,
-                 shortmsg:post.shortmsg,
-                 detailsmsg:post.detailsmsg,
-                 read:post.read
-             })  
-         
-            })
-            console.log("99999999999999999",data);
-        })
-        setNotifications(data);  
-      }
-    const isNewNotification = (index) => {
-        return mockData[index].status === false;
-      };
+    const getAllNotificationByEmail = (page, rowsPerPage, email) => {
+        let notificData = [];
+        getNotification(page, rowsPerPage, email).then((res: any) => {
+            res.results.NotificationByUserEmail.map((post: any) => {
+                notificData.push({
+                    id: post.id,
+                    shortmsg: post.shortmsg,
+                    detailsmsg: post.detailsmsg,
+                    read: post.read,
+                });
+            });
+            setpagination({
+                pageNumber: res.pagination.pageNumber,
+                pageSize: res.pagination.pageSize,
+                total: res.pagination.totalRecords,
+            });
+            setNotifications(notificData);
+        });
+    };
 
-      const [leaveDetails, setLeaveDetails] = useState({});
-      const [openDetails, setOpenDetails] = useState(false);
-   
-      const [page, setPage] = useState(0);
-      const [rowsPerPage, setRowsPerPage] = useState(20);
-      const [total, setTotal] = useState(0);
-      const handleOpenLeaveDetails = (data) => {
-        console.log("NNNNNNNN.... ",data)
+    const handleOpenLeaveDetails = (data) => {
         setOpenDetails(true);
         setLeaveDetails(data);
-      };
+    };
 
-      const handleClose = () => {
+    const handleClose = () => {
         setOpenDetails(false);
     };
-    
 
     return (
         <div>
@@ -145,58 +78,85 @@ function ManageNotification(props: INotification) {
                     />
                 </PageTitleWrapper>
             )}
-            
+
             {props.isDivider && <Divider />}
 
-            <Box marginTop={2} >
+            <Box marginTop={2}>
                 <Grid container>
                     <Grid item xs={3}></Grid>
                     <Grid item xs={5}>
-                    <div>
-                    {notifications.map((data, index) => {
-                        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",data);
-                        const cardProps: {
-                            background?: string;
-                          } = {};
-                          if (isNewNotification(index)) {
-                            cardProps.background = "rgba(26, 140, 255, 0.25)";
-                          }
-                        return (
-                            <Notification
-                            isNew={cardProps}
-                                date={data.date.toLocaleString()}
-                                // employeeName={data.employeeName}
-                                shortmsg={data.shortmsg}
-                                key={data.id}
-                                onClickHandler={() =>
-                                    handleOpenLeaveDetails(data)
-                                }
-                            />
-                        );
-                    })}
-                    </div>
+                        {notifications.map((post, index) => {
+                            return (
+                                <div>
+                                    <Card
+                                        onClick={() => {
+                                            handleOpenLeaveDetails(post);
+                                        }}
+                                        sx={{
+                                            margin: 1,
+                                            height: 80,
+                                            cursor: "pointer",
+                                            backgroundColor:
+                                                post.read &&
+                                                "rgba(26, 140, 255, 0.25)",
+                                            "&:hover": {
+                                                border: "1px solid #1a8cff",
+                                            },
+                                        }}
+                                    >
+                                        <CardContent>
+                                            <Typography
+                                                sx={{ minWidth: 0 }}
+                                                variant={"h6"}
+                                                color={"textSecondary"}
+                                                paddingLeft={0.5}
+                                            >
+                                                {post.shortmsg}
+                                            </Typography>
+                                            <Box
+                                                textAlign={"right"}
+                                                marginTop={1.5}
+                                            >
+                                                <Typography
+                                                    sx={{
+                                                        minWidth: 0,
+                                                        fontSize: 11,
+                                                        opacity: 0.7,
+                                                    }}
+                                                    color={"textPrimary"}
+                                                >
+                                                    {post.read
+                                                        ? "Read"
+                                                        : "Unread"}
+                                                </Typography>
+                                            </Box>
+                                        </CardContent>
+                                    </Card>
+                                </div>
+                            );
+                        })}
                     </Grid>
-                    </Grid>
-                    </Box>
-                    <Dialog
-            open={openDetails}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            maxWidth="md"
-          >
-            <DialogTitle id="alert-dialog-title">{""}</DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                <ViewHistory
-                  details={leaveDetails}
-                  isEmployeeDetail={true}
-                  isResponseButtons={false}
-                  cancel={handleClose}
-                />
-              </DialogContentText>
-            </DialogContent>
-          </Dialog>
+                </Grid>
+            </Box>
+            <Dialog
+                open={openDetails}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                maxWidth="md"
+            >
+                <DialogTitle id="alert-dialog-title">{""}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        <ViewHistory
+                            details={leaveDetails}
+                            isEmployeeDetail={true}
+                            isResponseButtons={false}
+                            cancel={handleClose}
+                        />
+                    </DialogContentText>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }
