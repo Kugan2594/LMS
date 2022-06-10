@@ -103,8 +103,8 @@ function ManageCompanyLocation() {
       fixed: "right",
       align: "center",
       render: (value: any) => 
-      sampleFuc(SubCompanyLocation).UPCL &&
-      sampleFuc(SubCompanyLocation).DECL &&
+      // sampleFuc(SubCompanyLocation).UPCL &&
+      // sampleFuc(SubCompanyLocation).DECL &&
         <TableAction
           rowData={value}
           deleteOnclick={deleteOnclick}

@@ -149,7 +149,8 @@ function ManageAllocateDay() {
           heading="Allocate Leaves"
           subHeading="Master/Allocate Leaves"
           name="Allocate Leaves"
-          isButton={sampleFuc(SubAllocateLeaves).CRAL ? true : false}
+          // isButton={sampleFuc(SubAllocateLeaves).CRAL ? true : false}
+          isButton={true}
           onclickButton={handleClickOpen}
         />
       </PageTitleWrapper>

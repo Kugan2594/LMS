@@ -24,14 +24,15 @@ import {
   getAllLeaveRequest,
   cancelLeaveRequest,
   updateLeaveRequest,
+
 } from "./ServiceLeaveRequest";
 import { NOTIFICATION_TYPE } from "src/util/Notification";
 import { TableAction } from "src/components/atoms/Tables/TableAction";
 import CustomizedNotification from "src/util/CustomizedNotification";
 import UpdateLeaveRequest from "./UpdateLeaveRequest";
 import moment from "moment";
-import { getLeaveApproverStatusHistory } from "../History/serviceHistory";
-
+import { getLeaveApproverStatusHistory, getLeaveEmployeeStatusPendingHistory, getEmployeeIdByEmail } from "../History/serviceHistory";
+import { getUserDetails } from 'src/contents/login/LoginAuthentication';
 // function createData(data) {
 //   let convertData = data.map((post, index) => {
 //     return {
@@ -132,33 +133,38 @@ function InProgress(props) {
   };
   const onChangePage = (pageNumber, pageSize) => {
     if (pagination.pageSize !== pageSize) {
-      getAllLeaveRequestData(0, pageSize);
+      getAllLeaveRequestData(0, pageSize, getUserDetails().user_name);
     } else {
-      getAllLeaveRequestData(pageNumber, pageSize);
+      getAllLeaveRequestData(pageNumber, pageSize, getUserDetails().user_name);
     }
   };
   useEffect(() => {
-    getAllLeaveRequestData(pagination.pageNumber, pagination.pageSize);
+    getAllLeaveRequestData(pagination.pageNumber, pagination.pageSize, getUserDetails().user_name);
   }, [pagination.pageNumber, pagination.pageSize]);
-  const getAllLeaveRequestData = (pageNumber, pageSize) => {
-    getLeaveApproverStatusHistory(pageNumber, pageSize).then((res: any) => {
-      // let data: [] = createData(res.results.leaveHistory);
-      setpagination({
-        pageNumber: res.pagination.pageNumber,
-        pageSize: res.pagination.pageSize,
-        total: res.pagination.totalRecords,
+  const getAllLeaveRequestData = (pageNumber, pageSize, email) => {
+    getEmployeeIdByEmail(email).then((res: any) => {
+      getLeaveEmployeeStatusPendingHistory(pageNumber, pageSize, res.employee.id).then((res: any) => {
+        // let data: [] = createData(res.results.leaveHistory);
+        setpagination({
+          pageNumber: res.pagination.pageNumber,
+          pageSize: res.pagination.pageSize,
+          total: res.pagination.totalRecords,
+        });
+        let value: {
+          id: Number, status: String, approverName: String, date: String, reason: String, fromDate: String, toDate: String, leaveDays: Number,
+          requestedDate: String, leaveType: String, lastName: String, firstName: String, leaveRequestId: Number
+        }[] = createData(res.results.leaveHistoryByEmployee);
+        setdataSource(value.filter((request) => request.status == "PENDING").map((filtered) => filtered));
+        // setdataSource(data);
       });
-      let value: {id:Number,status:String,approverName:String,date:String,reason:String,fromDate:String,toDate:String,leaveDays:Number,
-        requestedDate:String,leaveType:String,lastName:String,firstName:String,leaveRequestId:Number}[] = createData(res.results.leaveHistory);
-      setdataSource(value.filter((request) => request.status == "PENDING" || request.status == "NEW").map((filtered) => filtered));
-      // setdataSource(data);
-    });
+    })
+
   };
   const reloadTable = (res) => {
     setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
     console.log("//////////////////////////", res);
     setOpen(false);
-    getAllLeaveRequestData(pagination.pageNumber, pagination.pageSize);
+    getAllLeaveRequestData(pagination.pageNumber, pagination.pageSize, getUserDetails().user_name);
   };
   const deleteOnclick = (row) => {
     cancelLeaveRequest(row.id).then(
@@ -171,7 +177,7 @@ function InProgress(props) {
       }
     );
   };
-  const onTableSearch = (values, sortField) => {};
+  const onTableSearch = (values, sortField) => { };
   const columns: Column[] = [
     {
       id: "leaveType",
@@ -202,13 +208,13 @@ function InProgress(props) {
       id: "requestedDate",
       label: "Requested date",
       minWidth: 0,
-  },
+    },
     {
       id: "status",
       label: "Status",
       minWidth: 0,
       render: (value: any) => (
-         value.status == "APPROVED" ? <Chip label="APPROVED" color="success" size="small" /> : value.status == "REJECTED" ? <Chip label="REJECTED" color="error" size="small" /> : <Chip label="PENDING" color="warning" size="small" />
+        value.status == "APPROVED" ? <Chip label="APPROVED" color="success" size="small" /> : value.status == "REJECTED" ? <Chip label="REJECTED" color="error" size="small" /> : <Chip label="PENDING" color="warning" size="small" />
       )
     },
     {
@@ -225,20 +231,20 @@ function InProgress(props) {
         </Button>
       ),
     },
-    {
-      id: "action",
-      label: "Action",
-      minWidth: 0,
-      fixed: "right",
-      align: "center",
-      render: (value: any) => (
-        <TableAction
-          rowData={value}
-          deleteOnclick={deleteOnclick}
-          editOnclick={editOnclick}
-        />
-      ),
-    },
+    // {
+    //   id: "action",
+    //   label: "Action",
+    //   minWidth: 0,
+    //   fixed: "right",
+    //   align: "center",
+    //   render: (value: any) => (
+    //     <TableAction
+    //       rowData={value}
+    //       deleteOnclick={deleteOnclick}
+    //       editOnclick={editOnclick}
+    //     />
+    //   ),
+    // },
   ];
   return (
     <div>
@@ -276,21 +282,21 @@ function InProgress(props) {
           </CardContent>
         </Card>
         <Dialog
-        open={openDetails}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        maxWidth="md"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {""}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-          <ViewHistory details={leaveDetails} isEmployeeDetail={false} isResponseButtons={false} cancel={handleClose} />
-          </DialogContentText>
-        </DialogContent>
-      </Dialog>
+          open={openDetails}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          maxWidth="md"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {""}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              <ViewHistory details={leaveDetails} isEmployeeDetail={false} isResponseButtons={false} cancel={handleClose} />
+            </DialogContentText>
+          </DialogContent>
+        </Dialog>
 
         <Modals
           modalTitle="edit"
