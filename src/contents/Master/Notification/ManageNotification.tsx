@@ -47,6 +47,7 @@ function ManageNotification(props: INotification) {
                     shortmsg: post.shortmsg,
                     detailsmsg: post.detailsmsg,
                     read: post.read,
+                    leaveRequestId: post.leaveRequestId
                 });
             });
             setpagination({
@@ -54,7 +55,7 @@ function ManageNotification(props: INotification) {
                 pageSize: res.pagination.pageSize,
                 total: res.pagination.totalRecords,
             });
-            setNotifications(notificData);
+            setNotifications(notificData.sort((a,b) => b.id - a.id));
         });
     };
 

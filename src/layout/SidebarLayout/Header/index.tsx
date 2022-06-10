@@ -79,48 +79,6 @@ function Header() {
         setNotifi(false);
     };
 
-    const mockData = [
-        {
-            //employeeName: "kuru",
-            shortmsg: "You have received leave request",
-            date: new Date("Mar 25 2015"),
-            id: "1",
-            status: false,
-            leaveRequestId: 9,
-        },
-        {
-            //employeeName: "sam",
-            shortmsg: "You have received leave request from  Kuruparan",
-            date: new Date("Mar 25 2015"),
-            id: "2",
-            status: false,
-            leaveRequestId: 6,
-        },
-        {
-            //employeeName: "mike",
-            shortmsg: "Your leave request is Approved by dfxdf",
-            date: new Date("Mar 25 2015"),
-            id: "3",
-            status: true,
-            leaveRequestId: 6,
-        },
-        {
-            // employeeName: "vagh",
-            shortmsg: "Your leave request is Approved by dfxdf",
-            date: new Date("Mar 25 2015"),
-            id: "4",
-            status: true,
-            leaveRequestId: 6,
-        },
-        {
-            // employeeName: "vagh",
-            shortmsg: "5 You have recieved a Leave Request",
-            date: new Date("Mar 25 2015"),
-            id: "5",
-            status: false,
-            leaveRequestId: 6,
-        },
-    ];
 
     const [mockDetail, setMockDetail] = useState(notifications);
 
@@ -192,6 +150,7 @@ function Header() {
                     shortmsg: post.shortmsg,
                     detailsmsg: post.detailsmsg,
                     read: post.read,
+                    leaveRequestId: post.leaveRequestId
                 });
                 count++;
             });
@@ -200,7 +159,7 @@ function Header() {
                 pageSize: res.pagination.pageSize,
                 total: res.pagination.totalRecords,
             });
-            setNotifications(data);
+            setNotifications(data.sort((a,b) => b.id - a.id));
             setCount(count);
         });
     };
