@@ -273,11 +273,6 @@ function AddEmployee(props) {
     if ("joinDate" in fieldValues)
       temp.joinDate = fieldValues.joinDate ? "" : "This field is required.";
 
-    if ("companyLocationId" in fieldValues)
-      temp.companyLocationId = fieldValues.companyLocationId
-        ? ""
-        : "This field is required.";
-
     if ("empId" in fieldValues)
       temp.empId = fieldValues.empId
         ? spaceValidation.test(fieldValues.empId)
@@ -288,10 +283,34 @@ function AddEmployee(props) {
       temp.designationId = fieldValues.designationId
         ? ""
         : "This field is required.";
-    if ("dateOfPermanency" in fieldValues)
-      temp.dateOfPermanency = fieldValues.dateOfPermanency
-        ? ""
-        : "This field is required. ";
+
+    if ("roleId" in fieldValues)
+      temp.roleId = fieldValues.roleId
+        ? spaceValidation.test(fieldValues.roleId)
+          ? ""
+          : `roleId ${FORM_VALIDATION.space}`
+        : FORM_VALIDATION.required;
+
+    if ("companyLocationId" in fieldValues)
+      temp.roleId = fieldValues.companyLocationId
+        ? spaceValidation.test(fieldValues.companyLocationId)
+          ? ""
+          : `companyLocationId ${FORM_VALIDATION.space}`
+        : FORM_VALIDATION.required;
+
+    if ("employmentTypeId" in fieldValues)
+      temp.employmentTypeId = fieldValues.employmentTypeId
+        ? spaceValidation.test(fieldValues.employmentTypeId)
+          ? ""
+          : `employmentTypeId ${FORM_VALIDATION.space}`
+        : FORM_VALIDATION.required;
+
+        if ("businessUnitId" in fieldValues)
+        temp.businessUnitId = fieldValues.businessUnitId
+          ? spaceValidation.test(fieldValues.businessUnitId)
+            ? ""
+            : `businessUnitId ${FORM_VALIDATION.space}`
+          : FORM_VALIDATION.required;
 
     setErrors({
       ...temp,
@@ -547,7 +566,7 @@ function AddEmployee(props) {
                     <Input
                       name="firstName"
                       label="First Name *"
-                      value={values.firstName}
+                      value={values.firstName ? values.firstName : ""}
                       onChange={handleInputChange}
                       error={errors.firstName}
                     />
@@ -629,39 +648,10 @@ function AddEmployee(props) {
                     />
                   </Grid>
                   <Grid item xs={4}>
-                    <Input
-                      name="passportNo"
-                      label="Passport No"
-                      value={values.passportNo}
-                      onChange={handleInputChange}
-                      error={errors.passportNo}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Input
-                      name="drivingLicenceNo"
-                      label="Driving Licence No"
-                      value={values.drivingLicenceNo}
-                      onChange={handleInputChange}
-                      error={errors.drivingLicenceNo}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <AutocompleteSelect
-                      name="bloodGroup"
-                      label="Blood Group"
-                      value={values.bloodGroup}
-                      onChange={handleInputChange}
-                      onValueChange={onValueChange}
-                      options={bloodGroup}
-                      error={errors.bloodGroup}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
                     <AutocompleteSelect
                       name="gender"
                       label="Gender*"
-                      value={values.gender ? values.gender : ""}
+                      value={values.gender}
                       onChange={handleInputChange}
                       onValueChange={onValueChange}
                       options={genderType}
@@ -677,6 +667,35 @@ function AddEmployee(props) {
                       onValueChange={onValueChange}
                       options={nationalityType}
                       error={errors.nationality}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <AutocompleteSelect
+                      name="bloodGroup"
+                      label="Blood Group"
+                      value={values.bloodGroup}
+                      onChange={handleInputChange}
+                      onValueChange={onValueChange}
+                      options={bloodGroup}
+                      error={errors.bloodGroup}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Input
+                      name="passportNo"
+                      label="Passport No"
+                      value={values.passportNo}
+                      onChange={handleInputChange}
+                      error={errors.passportNo}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Input
+                      name="drivingLicenceNo"
+                      label="Driving Licence No"
+                      value={values.drivingLicenceNo}
+                      onChange={handleInputChange}
+                      error={errors.drivingLicenceNo}
                     />
                   </Grid>
                 </Grid>
@@ -720,7 +739,7 @@ function AddEmployee(props) {
                   <Grid item xs={4}>
                     <Input
                       name="empId"
-                      label="Employee Id"
+                      label="Employee Id *"
                       value={values.empId}
                       onChange={handleInputChange}
                       error={errors.empId}
@@ -734,78 +753,71 @@ function AddEmployee(props) {
                       onChange={handleInputChange}
                       error={errors.joinDate}
                       onValueChange={onValueChange}
-
                     />
                   </Grid>
                   <Grid item xs={4}>
                     <DatePicker
                       name="dateOfPermanency"
-                      label="Date of Permanency *"
+                      label="Date of Permanency"
                       value={values.dateOfPermanency}
                       onChange={handleInputChange}
                       error={errors.dateOfPermanency}
                       onValueChange={onValueChange}
-
                     />
                   </Grid>
                   <Grid item xs={4}>
                     <AutocompleteSelect
                       name="designationId"
-                      label="Designation*"
+                      label="Designation *"
                       value={values.designationId}
                       onChange={handleInputChange}
                       options={designationData}
                       error={errors.designationId}
                       onValueChange={onValueChange}
-
                     />
                   </Grid>
                   <Grid item xs={4}>
                     <AutocompleteSelect
                       name="companyLocationId"
-                      label="Office Location*"
+                      label="Office Location *"
                       value={values.companyLocationId}
                       onChange={handleInputChange}
                       options={companyLocationData}
                       error={errors.companyLocation}
                       onValueChange={onValueChange}
-
                     />
                   </Grid>
                   <Grid item xs={4}>
                     <AutocompleteSelect
                       name="employmentTypeId"
-                      label="Employment Type*"
+                      label="Employment Type *"
                       value={values.employmentTypeId}
                       onChange={handleInputChange}
                       options={employementTypeData}
                       error={errors.employmentTypeId}
                       onValueChange={onValueChange}
-
                     />
                   </Grid>
                   <Grid item xs={4}>
                     <AutocompleteSelect
                       name="businessUnitId"
-                      label="Business Unit*"
+                      label="Business Unit *"
                       value={values.businessUnitId}
                       onChange={handleInputChange}
                       options={businessUnitData}
                       error={errors.businessUnitId}
                       onValueChange={onValueChange}
-
                     />
                   </Grid>
                   <Grid item xs={4}>
                     <AutocompleteSelect
                       name="roleId"
-                      label="Role*"
-                      value={values.roleId}
+                      label="Role *"
+                      value={values.roleId ? values.roleId : ""}
                       onChange={handleInputChange}
                       options={roleData}
                       error={errors.roleId}
                       onValueChange={onValueChange}
-
                     />
                   </Grid>
                   <Grid item xs={4}></Grid>
@@ -852,7 +864,7 @@ function AddEmployee(props) {
                     size="small"
                     type="submit"
                     text={action === "edit" ? "Update" : "Submit"}
-                    disabled={action === "edit" ? updateStatus : false}
+                    // disabled={action === "edit" ? updateStatus : false}
                   />
                 </Box>
                 <br />
