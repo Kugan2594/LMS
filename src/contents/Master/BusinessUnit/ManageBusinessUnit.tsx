@@ -114,13 +114,14 @@ function ManageBusinessUnit() {
       minWidth: 0,
       align: "center",
       render: (value: any) =>
-        sampleFuc(SubBussinessUnit).UPBU &&
-        sampleFuc(SubBussinessUnit).DEBU && 
+        // sampleFuc(SubBussinessUnit).UPBU &&
+        // sampleFuc(SubBussinessUnit).DEBU && (
           <TableAction
             rowData={value}
             deleteOnclick={deleteOnclick}
             editOnclick={editOnclick}
           />
+        // ),
     },
   ];
   const [action, setaction] = useState("add");
