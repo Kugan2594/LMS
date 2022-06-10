@@ -25,7 +25,7 @@ function Notification(props) {
             >
                 <CardContent>
                     <Typography
-                        sx={{ minWidth: 0}}
+                        sx={{ minWidth: 0 }}
                         variant={"h6"}
                         color={"textSecondary"}
                         paddingLeft={0.5}
