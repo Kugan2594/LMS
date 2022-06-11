@@ -40,6 +40,8 @@ export default function ViewHistory(props) {
 
   const [activeStep, setActiveStep] = useState(approved.length);
 
+  const [open, setOpen] = useState(false);
+
   const getLeaveApproverStatusData = (leaveRequestId) => {
     getLeaveApproverStatus(details.leaveRequestId).then((res: any) => {
       const value: {status:String,id:number,approverName:String,date:String}[] = createData(res.results.ApproverStatus);
@@ -110,6 +112,7 @@ export default function ViewHistory(props) {
   const reloadTable = (res) => {
     setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
     getLeaveApproverStatusData(leaveRequestId);
+    setOpen(false);
   };
 
   const handleReject = () => {

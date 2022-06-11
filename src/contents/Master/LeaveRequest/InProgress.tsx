@@ -231,20 +231,20 @@ function InProgress(props) {
         </Button>
       ),
     },
-    {
-      id: "action",
-      label: "Action",
-      minWidth: 0,
-      fixed: "right",
-      align: "center",
-      render: (value: any) => (
-        <TableAction
-          rowData={value}
-          deleteOnclick={deleteOnclick}
-          editOnclick={editOnclick}
-        />
-      ),
-    },
+    // {
+    //   id: "action",
+    //   label: "Action",
+    //   minWidth: 0,
+    //   fixed: "right",
+    //   align: "center",
+    //   render: (value: any) => (
+    //     <TableAction
+    //       rowData={value}
+    //       deleteOnclick={deleteOnclick}
+    //       editOnclick={editOnclick}
+    //     />
+    //   ),
+    // },
   ];
   return (
     <div>

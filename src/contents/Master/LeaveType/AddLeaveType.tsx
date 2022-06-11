@@ -252,6 +252,12 @@ function AddLeaveType(props) {
         handleInputChange(e);
         console.log(option1);
     };
+    const onValueChange = (e) => {
+        setupdateStatus(false);
+        const { name, value } = e.target;
+    
+        console.log("hit", name, value);
+      };
 
     const handleCheckBox2 = (e) => {
         setOption1(!option1);
@@ -574,6 +580,8 @@ function AddLeaveType(props) {
                                                         }
                                                         error={errors.noOfDays}
                                                         type="number"
+                                                        onValueChange={onValueChange}
+
                                                     />
                                                 </Grid>
                                             )}
