@@ -29,6 +29,12 @@ import {
     getUserDetails,
 } from './../../../../contents/login/LoginAuthentication';
 // import { MaleImage, User } from "./../../../../assets/images";
+import {
+    setAuthentication,
+    setToken,
+    setUserDetails,
+    setUserRolePermission,
+  } from "../../../../contents/login/LoginAuthentication";
 
 import { red } from "@mui/material/colors";
 import { SYSTEM_CONFIG } from "../../../../util/StytemConfig";
@@ -105,6 +111,10 @@ function HeaderUserbox() {
     };
 
     const logOut = () => {
+        setAuthentication('false');
+        setUserRolePermission([]);
+        setToken(null);
+        setUserDetails(null);
         setTimeout(() => {
             navigate("/");
         }, 200);

@@ -350,7 +350,7 @@ function AddLeaveType(props) {
                                     <Grid item xs={6}>
                                         <Input
                                             name="reminderGap"
-                                            label="Reminder Gap"
+                                            label="Reminder Gap In Days"
                                             value={values.reminderGap}
                                             onChange={handleInputChange}
                                             error={errors.reminderGap}
@@ -525,7 +525,7 @@ function AddLeaveType(props) {
                                             marginBottom: 2,
                                             marginTop: 2,
                                             fontSize: 12,
-                                            color: "balck",
+                                            color: "black",
                                         }}
                                     >
                                         Leave allocation settings for newly
