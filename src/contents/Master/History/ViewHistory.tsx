@@ -302,8 +302,7 @@ export default function ViewHistory(props) {
                 display="inline"
                 marginLeft="79px"
               >
-                {steps.length == rejected.length ||
-                rejected.includes("REJECTED")
+                {rejected.length == 0 ? <Chip label="PENDING" color="warning" size="small" /> : steps.length == rejected.length || rejected.includes("REJECTED")
                   ? (rejected[rejected.length - 1] == "APPROVED" ? <Chip label="APPROVED" color="success" size="small" /> : <Chip label="REJECTED" color="error" size="small" />)
                   : <Chip label="PENDING" color="warning" size="small" />}
               </Typography>
