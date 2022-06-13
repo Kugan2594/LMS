@@ -149,7 +149,8 @@ function ManageAllocateDay() {
           heading="Allocate Leaves"
           subHeading="Master/Allocate Leaves"
           name="Allocate Leaves"
-          isButton={sampleFuc(SubAllocateLeaves).CRAL ? true : false}
+          // isButton={sampleFuc(SubAllocateLeaves).CRAL ? true : false}
+          isButton={true}
           onclickButton={handleClickOpen}
         />
       </PageTitleWrapper>
@@ -187,7 +188,7 @@ function ManageAllocateDay() {
                         <DoughnutChart
                           selectedValue={post.remainingDays}
                           maxValue={
-                            post.allocatedDays === 0 ? 100 : post.allocatedDays
+                            post.allocatedDays === 0||0.5 ? 100 : post.allocatedDays
                           }
                           radius={60}
                           strokeWidth={12}

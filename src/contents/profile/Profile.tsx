@@ -9,7 +9,12 @@ import { passwordRegex } from "src/util/ValidationMeassage";
 import { PageTitleWrapper } from "src/components/organism";
 import PageTitle from "src/components/organism/PageTitle";
 import { useNavigate } from "react-router-dom";
-
+import {
+  setAuthentication,
+  setToken,
+  setUserDetails,
+  setUserRolePermission,
+} from "../login/LoginAuthentication";
 
 function ProfileScreen() {
   let navigate = useNavigate();
@@ -23,20 +28,24 @@ function ProfileScreen() {
     console.log("ppppppppppppppppp", res);
     setalert({ type: NOTIFICATION_TYPE.success, mesg: res.data.message });
     setOpen(false);
-};
+  };
   const [alert, setalert] = useState({
     type: "",
     mesg: "",
   });
   const [open, setOpen] = useState(false);
   const logOut = () => {
+    setAuthentication('false');
+    setUserRolePermission([]);
+    setToken(null);
+    setUserDetails(null);
     setTimeout(() => {
-        navigate("/");
+      navigate("/");
     }, 200);
-};
-const goDashBoard = (): void => {
-  navigate("/master");
-};
+  };
+  const goDashBoard = (): void => {
+    navigate("/master");
+  };
 
   const onFinish = (values) => {
     let data = {
@@ -61,7 +70,7 @@ const goDashBoard = (): void => {
   };
 
   return (
-    
+
     <React.Fragment>
       <PageTitleWrapper>
         <PageTitle
@@ -77,10 +86,10 @@ const goDashBoard = (): void => {
           background: "#fff",
           boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
           transition: "all 0.3s cubic-bezier(.25,.8,.25,1)",
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-         
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+
         }}
       >
         <Form
@@ -89,7 +98,7 @@ const goDashBoard = (): void => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
-          // style={{ width: 600 }}
+        // style={{ width: 600 }}
         >
           <Form.Item
             label="Current Password"
@@ -108,7 +117,7 @@ const goDashBoard = (): void => {
           </Form.Item>
 
 
-          
+
           <br />
           <Form.Item
             label="New Password"
@@ -168,7 +177,7 @@ const goDashBoard = (): void => {
         </Form>
       </div>
     </React.Fragment>
-    
+
   );
 }
 

@@ -26,6 +26,12 @@ import {
     getAllEmployee,
     getEmployeeleavetypeByEmployeeId,
 } from "../AllocationDays/ServiceAllocationDays";
+import { getUserDetails } from "../../login/LoginAuthentication";
+import {
+    getEmployeeIdByEmail,
+    getApprovalStatusById,
+  } from "../../Dashboard/ServiceEmployeeLeaveRequestHistory";
+  import TextField from '@mui/material/TextField';
 
 // function createData(data) {
 //     let convertData = data.map((post, index) => {
@@ -80,7 +86,8 @@ function EHistory(props) {
     const [employeedata, setemployeedata] = useState([]);
     const [employee, setemployee] = useState([]);
     const [leaveDetails, setLeaveDetails] = useState({});
-
+    const [EmployeeId, setEmployeeId] = useState(0);
+    const [approvalstatus, setApprovalStatus] = useState();
     const handleClickOpen = (value) => {
         setOpen(true);
         setLeaveDetails(value);
@@ -130,6 +137,7 @@ function EHistory(props) {
         );
         getEmployeeNameSelectData(employeeId);
         getAllEmployeeData();
+        getEmployeeByEmail(getUserDetails().user_name);
     }, [pagination.pageNumber, pagination.pageSize, employeeId]);
     
       const getAllLeaveRequestHistoryData = (
@@ -149,6 +157,17 @@ function EHistory(props) {
                 setdataSource(data.filter((request) => request.status == "APPROVED" || request.status == "REJECTED").map((filtered) => filtered));
             }
         );
+      };
+
+      const getEmployeeByEmail = (email) => {
+        getEmployeeIdByEmail(email).then((res: any) => {
+     
+          getApprovalStatusById(res.employee.id).then((res: any) => {
+            console.log({res});
+            setApprovalStatus(res.results.Employee.approverStatus);
+            {!res.results.Employee.approverStatus && setemployeeId(res.results.Employee.id);}
+          });
+        });
       };
 
     const getEmployeeNameSelectData = (employeeId) => {
@@ -284,13 +303,24 @@ function EHistory(props) {
                     <CardContent>
                         <Grid container>
                             <Grid item xs={4}>
-                                <AutocompleteSelect
+                             {approvalstatus&& <AutocompleteSelect
                                     name="employee"
                                     label="Employee Name"
                                     value={employeeId}
                                     onValueChange={onValueChange}
                                     options={employee}
-                                />
+                                />}  
+
+                                {!approvalstatus && <TextField 
+                                    name="employee"
+                                    label="Employee Name"
+                                    value={employeeId}
+                                    InputProps={{
+                                        readOnly: true,
+                                      }}
+                                      hidden
+                                  
+                                />}
                             </Grid>
                         </Grid>
 

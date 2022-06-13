@@ -252,6 +252,12 @@ function AddLeaveType(props) {
         handleInputChange(e);
         console.log(option1);
     };
+    const onValueChange = (e) => {
+        setupdateStatus(false);
+        const { name, value } = e.target;
+    
+        console.log("hit", name, value);
+      };
 
     const handleCheckBox2 = (e) => {
         setOption1(!option1);
@@ -344,7 +350,7 @@ function AddLeaveType(props) {
                                     <Grid item xs={6}>
                                         <Input
                                             name="reminderGap"
-                                            label="Reminder Gap"
+                                            label="Reminder Gap In Days"
                                             value={values.reminderGap}
                                             onChange={handleInputChange}
                                             error={errors.reminderGap}
@@ -519,7 +525,7 @@ function AddLeaveType(props) {
                                             marginBottom: 2,
                                             marginTop: 2,
                                             fontSize: 12,
-                                            color: "balck",
+                                            color: "black",
                                         }}
                                     >
                                         Leave allocation settings for newly
@@ -574,6 +580,8 @@ function AddLeaveType(props) {
                                                         }
                                                         error={errors.noOfDays}
                                                         type="number"
+                                                        onValueChange={onValueChange}
+
                                                     />
                                                 </Grid>
                                             )}

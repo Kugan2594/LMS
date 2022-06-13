@@ -149,8 +149,8 @@ function ManageEmployementType() {
       fixed: "right",
       align: "center",
       render: (value: any) =>
-        sampleFuc(SubEmployementType).UPET &&
-        sampleFuc(SubEmployementType).DEET && 
+        // sampleFuc(SubEmployementType).UPET &&
+        // sampleFuc(SubEmployementType).DEET && 
           <TableAction
             rowData={value}
             deleteOnclick={deleteOnclick}
