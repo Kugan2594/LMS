@@ -311,13 +311,14 @@ function EHistory(props) {
                                     options={employee}
                                 />}  
 
-                                {!approvalstatus && <TextField
+                                {!approvalstatus && <TextField 
                                     name="employee"
                                     label="Employee Name"
                                     value={employeeId}
                                     InputProps={{
                                         readOnly: true,
                                       }}
+                                      hidden
                                   
                                 />}
                             </Grid>
