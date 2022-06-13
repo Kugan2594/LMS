@@ -88,6 +88,7 @@ export default function ViewHistory(props) {
         // reloadTable(res);
       }
     );
+    props.cancel();
   };
 
   const handleAlertClose = () => {
@@ -134,6 +135,7 @@ export default function ViewHistory(props) {
         // reloadTable(res);
       }
     );
+    props.cancel();
   };
 
   const isStepFailed = (step: number) => {
@@ -306,7 +308,7 @@ export default function ViewHistory(props) {
                   : <Chip label="PENDING" color="warning" size="small" />}
               </Typography>
             </div>
-            {rejected.includes("REJECTED") && (
+            {/* {rejected.includes("REJECTED") && (
               <div>
                 <Typography variant="h6" color="textSecondary" display="inline">
                   Comment
@@ -320,10 +322,10 @@ export default function ViewHistory(props) {
                   {details.comment}
                 </Typography>
               </div>
-            )}
+            )} */}
           </Box>
         </Grid>
-        {props.isResponseButtons && (
+        {/* {props.isResponseButtons && (
           <Box sx={{ textAlign: "Center", margin: "15px 0 5px 0" }}>
             <TextField
               sx={{ width: "250px" }}
@@ -335,7 +337,7 @@ export default function ViewHistory(props) {
               onChange={handleChange}
             />
           </Box>
-        )}
+        )} */}
 
         <React.Fragment>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
