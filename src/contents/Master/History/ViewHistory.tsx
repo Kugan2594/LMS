@@ -88,6 +88,7 @@ export default function ViewHistory(props) {
         // reloadTable(res);
       }
     );
+    props.cancel();
   };
 
   const handleAlertClose = () => {
@@ -134,6 +135,7 @@ export default function ViewHistory(props) {
         // reloadTable(res);
       }
     );
+    props.cancel();
   };
 
   const isStepFailed = (step: number) => {
@@ -300,13 +302,12 @@ export default function ViewHistory(props) {
                 display="inline"
                 marginLeft="79px"
               >
-                {steps.length == rejected.length ||
-                rejected.includes("REJECTED")
+                {rejected.length == 0 ? <Chip label="PENDING" color="warning" size="small" /> : steps.length == rejected.length || rejected.includes("REJECTED")
                   ? (rejected[rejected.length - 1] == "APPROVED" ? <Chip label="APPROVED" color="success" size="small" /> : <Chip label="REJECTED" color="error" size="small" />)
                   : <Chip label="PENDING" color="warning" size="small" />}
               </Typography>
             </div>
-            {rejected.includes("REJECTED") && (
+            {/* {rejected.includes("REJECTED") && (
               <div>
                 <Typography variant="h6" color="textSecondary" display="inline">
                   Comment
@@ -320,10 +321,10 @@ export default function ViewHistory(props) {
                   {details.comment}
                 </Typography>
               </div>
-            )}
+            )} */}
           </Box>
         </Grid>
-        {props.isResponseButtons && (
+        {/* {props.isResponseButtons && (
           <Box sx={{ textAlign: "Center", margin: "15px 0 5px 0" }}>
             <TextField
               sx={{ width: "250px" }}
@@ -335,7 +336,7 @@ export default function ViewHistory(props) {
               onChange={handleChange}
             />
           </Box>
-        )}
+        )} */}
 
         <React.Fragment>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
