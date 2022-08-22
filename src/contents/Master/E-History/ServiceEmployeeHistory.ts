@@ -40,7 +40,7 @@ const getAllEmployeeLeaveHistoryByEmployee = (
             ""
         )
             .then((response: any) => {
-                resolve(response.data);
+                resolve(response.any);
             })
             .catch((error) => {
                 reject(error);
@@ -48,4 +48,4 @@ const getAllEmployeeLeaveHistoryByEmployee = (
     });
 };
 
-export { getAllEmployeeLeaveHistory,getAllEmployeeLeaveHistoryByEmployee };
+export { getAllEmployeeLeaveHistory, getAllEmployeeLeaveHistoryByEmployee };

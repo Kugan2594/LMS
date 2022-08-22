@@ -1,4 +1,4 @@
-import { getToken } from 'src/contents/login/LoginAuthentication';
+import { getToken } from "src/contents/login/LoginAuthentication";
 
 import { SYSTEM_CONFIG } from "../util/StytemConfig";
 
